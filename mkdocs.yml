@@ -1,0 +1,7 @@
+site_name: Mosaic
+theme:
+  name: readthedocs
+  locale: en
+  include_sidebar: true
+  highlightjs: true
+  logo: img/favicon-96x96.png
