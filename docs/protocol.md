@@ -2,8 +2,7 @@
 
 <status>PAGE STATUS: incomplete</status>
 
-TBD: Server-Client feature negotation,
-    includes nonce.
+TBD: Server-Client feature negotation, includes nonce.
 
 TBD: signed messages from client, as well as unsigned ones, rather than AUTH.
 
@@ -62,8 +61,9 @@ Includes a query id that the record came in on.
 
 ### 0x81 - Query Complete
 
-This indicates that a query is complete.  This does not mean the query will close, as
-subsequently received records that match the query will be subsequently returned.
+This indicates that a query is complete.  This does not mean the query will
+close, as subsequently received records that match the query will be
+subsequently returned.
 
 Includes a query id that the record came in on.
 

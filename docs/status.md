@@ -1,6 +1,6 @@
 # Status and Development
 
-### Page statuses
+## Page statuses
 
 Page statuses move between these states
 
@@ -12,7 +12,10 @@ Page statuses move between these states
 - Implemented xN (N implementations are known to exist)
 - Superceded (some other page now supercedes this)
 
-### Versions and Attribution
+Note that developers are encouraged to comment on and discuss pages in any
+status, they don't have to wait for draft status.
+
+## Versions and Attribution
 
 Many people are expected to contribute to Mosaic and as a result there are
 various divergent viewpoints as to how Mosaic ought to be. As a result, we
@@ -21,7 +24,7 @@ bottom of every page. Other Mosaic contributors can fork this and maintain
 their own editions. The community will eventually settle on something
 because people want to be compatible.
 
-### Principles of Design
+## Principles of Design
 
 * The protocol must be *simple* enough for multiple implementations to
   be developed, but simplicity is not the only factor.
@@ -31,3 +34,9 @@ because people want to be compatible.
   that all developers implement, and the rest of the "ways" are optional.
   For example, we can have multiple transports (WebSockets, WebTransport,
   even REST) without all the developers needing to move beyond WebSockets.
+
+## Core Library
+
+This specification is being developed in parallel to a core library. The
+findings from development feed back into this specification. This is to
+be published on github shortly.

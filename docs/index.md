@@ -59,7 +59,9 @@ Unlike nostr:
 * Clients and Servers remember the time that records are received, so that
   key revocation can revoke all records received after a certain time,
   and not rely on the possibly fake timestamps in the records themselves.
-
+* The specification is layered, and focused on the core. Applications using
+  Mosaic are to be specified in their own respective places.
+  
 Terminology differences
 
 * Nostr *events* are called `records`
