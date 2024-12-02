@@ -29,7 +29,7 @@ buffer sizes.
 
 Note that records are laid out in a way to provide 64-bit alignment.
 
-```
+```text
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
@@ -57,13 +57,13 @@ Note that records are laid out in a way to provide 64-bit alignment.
     +-------------------------------+
     | Hash 4/4                      |
  96 +-------------------------------+
-    | Hash 1/4                      |
+    | Hash 5/5                      |
     +-------------------------------+
-    | Hash 2/4                      |
+    | Hash 6/6                      |
     +-------------------------------+
-    | Hash 3/4                      |
+    | Hash 7/7                      |
     +-------------------------------+
-    | Hash 4/4                      |
+    | Hash 8/8                      |
 128 +-------------------------------+
     | Signing public key, 1/4       |
     +-------------------------------+
@@ -234,26 +234,28 @@ Each tag has a 2 byte (16 bit) type and a value that is at most 253 bytes long.
 
 Tags are laid out as follows:
 
-```
+```text
 +-------+---------+---------+
 | type  | length  | value   |
 +-------+---------+---------+
 ```
 
-where the type is 2 bytes (16 bits) and the length is 1 byte (8 bits) and represents the
-length of the value, and the value is at most 253 bytes long.
+where the type is 2 bytes (16 bits) and the length is 1 byte (8 bits) and
+represents the length of the value, and the value is at most 253 bytes long.
+
+Tags only have one value.
 
 The tags section is padded out to 64-bit alignment.
 
 The maximum tags section length is 524288 bytes.
 
-Tag types are documented at [Core tags](tags.md)
+Tag types are documented at [Core tags](tag_types.md)
 
-RATIONALE:
+Rationale:
 
 * Tag values should not be too large as they need to be indexed by relays.
-* Constraining the value to 253 bytes allows an entire TLV (with 16-bit type and
-  8-bit length) to fit within 256 bytes, which may ease implementation in some cases.
+* Constraining the value to 253 bytes allows an entire TLV (with 16-bit
+  type and 8-bit length) to fit within 256 bytes.
 
 ### Payload
 

@@ -9,7 +9,8 @@ Page statuses move between these states
 - Early Draft
 - Draft (ready for others to review and comment on)
 - Approved xN (N people have approved)
-- Implemented xN (N implementations are known to exist)
+- Implemented in core
+- Implemented in core + xN (N implementations are known to exist)
 - Superceded (some other page now supercedes this)
 
 Note that developers are encouraged to comment on and discuss pages in any

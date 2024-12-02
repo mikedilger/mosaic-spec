@@ -2,64 +2,135 @@
 
 <status>PAGE STATUS: incomplete</status>
 
-TBD: Server-Client feature negotation, includes nonce.
+Protocol message are not separately digitally signed due to the TLS
+transport and certificate authentication.
 
-TBD: signed messages from client, as well as unsigned ones, rather than AUTH.
+## Feature Negotiation
+
+Protocol feature negotiation is done on a transport-by-transport level.
+For [WebSockets](websockets.md) transport (the default) this is done with
+the `X-Mosaic-Features` header.
+
+No features have been defined yet.
+
+## Messages
+
+Every message starts with a one-byte type, shown below in the header
+of each type. Following this is the data of the message.
 
 ## Client messages
 
-### 0x1 - Query
+### Query
 
-This is a query for records.
+> **0x1**
 
-Includes an query id for matching up server replies.
+This is a query for records in the following format:
 
-Includes a filter specifying which records are sought.
+```text
+                    1       2       3
+    0       8       6       4       2
+ 0  +-------------------------------+
+    |  0x1  |   QUERY_ID    | 0x0   |
+    +-------------------------------+
+    |  FILTER LEN   | 0x0           |
+    +-------------------------------+
+    |  FILTER ...                   |
+    |  ...                          |
+    +-------------------------------+
+```
 
-Servers are expected to reply with:
-    * 0x80 Record
-    * 0x81 Query Complete
-    * 0x82 Query Closed
+The `QUERY_ID` should be made up by the client. It can be any 16-bit
+number and is used for associating responses.
 
-### 0x2 - Close Query
+`FILTER_LEN` is a 16-bit little-endian integer indicating the length
+of the filter.
 
-This is a request to close a query.
+The `FILTER` is defined in [filter](filter.md).
 
-Includes an identifier for matching up server replies.
+This is a client initiated message. Servers are expected to reply with:
 
-Servers are expected to reply with:
-    * 0x82 Query Closed
+* a series of zero or more [`Record`](#record) messages representing all
+  the matching records on the server initially, followed by
+  a [`Query Complete`](#query-complete) message, potentially followed by zero or
+  more [`Record`](#record) messages that flow in to the server after
+  the initial response (so long as the query is still open), or
+* a [`Query Closed`](#query-closed) message if the query could not be served.
 
-### 0x3 - Submission
+### Close Query
 
-This is the submission of a record.
+> **0x2**
 
-Includes the record submitted.
+This is a client request to close a query in the following format:
 
-Servers are expected to reply with:
-    * 0x83 Submission Result
+```text
+                    1       2       3
+    0       8       6       4       2
+ 0  +-------------------------------+
+    |  0x2  |   QUERY_ID    | 0x0   |
+    +-------------------------------+
+```
 
-### 0x10 - Sync Init
+This is a client initiated message. Servers are expected to reply with:
+
+* [`Query Closed`](#query-closed)
+
+### Submission
+
+> **0x3**
+
+This is the submission of a record in the following format:
+
+```text
+                    1       2       3
+    0       8       6       4       2
+ 0  +-------------------------------+
+    |  0x3  |   LENGTH              |
+    +-------------------------------+
+    | RECORD ...                    |
+    | ...                           | 
+    +-------------------------------+
+```
+
+`LENGTH` is a 24-bit little-endian length, with a maximum value of the max length
+of a record (1024576 bytes) and representing the actual length of the subsequent
+record submitted.
+
+`RECORD` is the record.
+
+This is a client initiated message. Servers are expected to reply with:
+
+* [`Submission Result`](#submission-result) with a hash prefix matching the record.
+
+### Sync Init
+
+> **0x10**
 
 This is the initialization of a negentropy sync of records
 
-### 0x11 - Sync Data
+### Sync Data
+
+> **0x11**
 
 This is a data packet within a negentropy sync of records
 
-### 0x12 - Sync Close
+### Sync Close
+
+> **0x12**
 
 This is the closing of a negentropy sync of records
 
 ## Server messages
 
-### 0x80 - Record
+### Record
 
+> **0x80**
 This is a record.
 
 Includes a query id that the record came in on.
 
-### 0x81 - Query Complete
+### Query Complete
+
+> **0x81**
 
 This indicates that a query is complete.  This does not mean the query will
 close, as subsequently received records that match the query will be
@@ -67,20 +138,28 @@ subsequently returned.
 
 Includes a query id that the record came in on.
 
-### 0x82 - Query Closed
+### Query Closed
+
+> **0x82**
 
 This indicates that a query has been closed
 
 It must include a coded reason.
 
-### 0x83 - Submission Result
+### Submission Result
+
+> **0x83**
 
 This returns the result of a submission.
 
-### 0x91 - Sync Data
+### Sync Data
+
+> **0x91**
 
 This is a data packet within a negentropy sync of records
 
-### 0x93 - Sync Error
+### Sync Error
+
+> **0x93**
 
 This is an indication that negentropy sync has failed

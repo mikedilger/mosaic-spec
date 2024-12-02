@@ -20,7 +20,7 @@ nav:
     - Record Format:
       - Timestamps: timestamps.md
       - Record: record.md
-      - Tag Types: tags.md
+      - Tag Types: tag_types.md
       - Reference: reference.md
     - Record Kinds: kinds.md
     - Core Records:
@@ -28,6 +28,7 @@ nav:
       - Profile: profile.md
     - Core Protocol:
       - Protocol: protocol.md
+      - Filter: filter.md
   - Mosaic Transport:
     - WebSockets: websockets.md
     - WebTransport: webtransport.md
