@@ -67,13 +67,13 @@
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" href="#">Record</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tag_types/">Tag Types</a>
+                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../reference/">Reference</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../tags/">Tag Types</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../appids/">Application IDs</a>
-                </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../kinds/">Record Kinds</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Core Records</a>
     <ul>
@@ -87,6 +87,8 @@
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../protocol/">Protocol</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../filter/">Filter</a>
+                </li>
     </ul>
                   </li>
               </ul>
@@ -99,15 +101,24 @@
                   <li class="toctree-l1"><a class="reference internal" href="../rest/">REST</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Mosaic Social media</span></p>
+              <p class="caption"><span class="caption-text">Extensions</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../microblog/">Microblogging</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../sync_protocol_extension/">Sync Protocol Extension</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../blog/">Blog</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../chat/">Chat</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Applications</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Mosaic Social media</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../microblog/">Microblogging</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../blog/">Blog</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../chat/">Chat</a>
+                </li>
+    </ul>
                   </li>
               </ul>
       </div>
@@ -156,7 +167,7 @@ fixed number of bits and so that software can make reasonable decisions about
 buffer sizes.</p>
 <h2 id="layout">Layout</h2>
 <p>Note that records are laid out in a way to provide 64-bit alignment.</p>
-<pre><code>            1   2   3   4   4   5   6
+<pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
     | Signature 1/8                 |
@@ -183,13 +194,13 @@ buffer sizes.</p>
     +-------------------------------+
     | Hash 4/4                      |
  96 +-------------------------------+
-    | Hash 1/4                      |
+    | Hash 5/5                      |
     +-------------------------------+
-    | Hash 2/4                      |
+    | Hash 6/6                      |
     +-------------------------------+
-    | Hash 3/4                      |
+    | Hash 7/7                      |
     +-------------------------------+
-    | Hash 4/4                      |
+    | Hash 8/8                      |
 128 +-------------------------------+
     | Signing public key, 1/4       |
     +-------------------------------+
@@ -209,7 +220,7 @@ buffer sizes.</p>
 192 +-------------------------------+
     | Timestamp             | Nonce |
 200 +-------------------------------+
-    | ... Nonce     | Appl ID       |
+    | ... Nonce     | Kind          |
 208 +-------------------------------+
     | Len_t | Len_p |FLAGS |RESERVED|
 216 +-------------------------------+
@@ -266,10 +277,11 @@ EdDSA ed25519 keypair, which is represented in 32 bytes (256 bits).</p>
 they are copied from the prior record).</p>
 <p>The purpose of the nonce is to ensure that address-based references are unique.
 See <a href="../reference/">References</a>.</p>
-<h3 id="application-id">Application ID</h3>
+<h3 id="kind">Kind</h3>
 <p>4 bytes at <code>[204:208]</code></p>
-<p>This is the ID of the application this record services (like a nostr kind),
-represented in 4 bytes (32 bits) as an unsigned integer, little-endian.</p>
+<p>This is the <a href="../kinds/">kind</a> of the record which is application specific, and
+determines the nature of the payload, represented in 4 bytes (32 bits) as an
+unsigned integer, little-endian.</p>
 <h3 id="len_t">Len_t</h3>
 <p>2 bytes at <code>[208:210]</code> representing the length of the tags section divided by
 8, as an unsigned integer in litte-endian format.</p>
@@ -311,20 +323,21 @@ by 8, as an unsigned integer in little-endian format.</p>
 unsearchable tags, these can be defined within that application's payload.</p>
 <p>Each tag has a 2 byte (16 bit) type and a value that is at most 253 bytes long.</p>
 <p>Tags are laid out as follows:</p>
-<pre><code>+-------+---------+---------+
+<pre><code class="language-text">+-------+---------+---------+
 | type  | length  | value   |
 +-------+---------+---------+
 </code></pre>
-<p>where the type is 2 bytes (16 bits) and the length is 1 byte (8 bits) and represents the
-length of the value, and the value is at most 253 bytes long.</p>
+<p>where the type is 2 bytes (16 bits) and the length is 1 byte (8 bits) and
+represents the length of the value, and the value is at most 253 bytes long.</p>
+<p>Tags only have one value.</p>
 <p>The tags section is padded out to 64-bit alignment.</p>
 <p>The maximum tags section length is 524288 bytes.</p>
-<p>Tag types are documented at <a href="../tags/">Core tags</a></p>
-<p>RATIONALE:</p>
+<p>Tag types are documented at <a href="../tag_types/">Core tags</a></p>
+<p>Rationale:</p>
 <ul>
 <li>Tag values should not be too large as they need to be indexed by relays.</li>
-<li>Constraining the value to 253 bytes allows an entire TLV (with 16-bit type and
-  8-bit length) to fit within 256 bytes, which may ease implementation in some cases.</li>
+<li>Constraining the value to 253 bytes allows an entire TLV (with 16-bit
+  type and 8-bit length) to fit within 256 bytes.</li>
 </ul>
 <h3 id="payload">Payload</h3>
 <p>Varying bytes at <code>[216+Len_t:216+Len_t+Len_p].</code></p>
@@ -336,7 +349,7 @@ length of the value, and the value is at most 253 bytes long.</p>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../timestamps/" class="btn btn-neutral float-left" title="Timestamps"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../reference/" class="btn btn-neutral float-right" title="Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../tag_types/" class="btn btn-neutral float-right" title="Tag Types">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -364,7 +377,7 @@ length of the value, and the value is at most 253 bytes long.</p>
       <span><a href="../timestamps/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../reference/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../tag_types/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

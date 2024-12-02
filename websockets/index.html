@@ -67,13 +67,13 @@
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../record/">Record</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tag_types/">Tag Types</a>
+                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../reference/">Reference</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../tags/">Tag Types</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../appids/">Application IDs</a>
-                </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../kinds/">Record Kinds</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Core Records</a>
     <ul>
@@ -87,6 +87,8 @@
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../protocol/">Protocol</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../filter/">Filter</a>
+                </li>
     </ul>
                   </li>
               </ul>
@@ -99,15 +101,24 @@
                   <li class="toctree-l1"><a class="reference internal" href="../rest/">REST</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Mosaic Social media</span></p>
+              <p class="caption"><span class="caption-text">Extensions</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../microblog/">Microblogging</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../sync_protocol_extension/">Sync Protocol Extension</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../blog/">Blog</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../chat/">Chat</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Applications</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Mosaic Social media</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../microblog/">Microblogging</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../blog/">Blog</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../chat/">Chat</a>
+                </li>
+    </ul>
                   </li>
               </ul>
       </div>
@@ -135,43 +146,69 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="mosaic-over-websockets">Mosaic over Websockets</h1>
-<p><status>PAGE STATUS: Incomplete</status></p>
+<p><status>PAGE STATUS: Draft</status></p>
 <h2 id="tls">TLS</h2>
-<p>WebSockets transport require TLS version at least 1.2 or preferably
-<a href="https://datatracker.ietf.org/doc/html/rfc8446">TLS 1.3</a></p>
-<p>TLS server-side certificates must be either self-signed using the server's
-signing key, or preferably in RawPublicKey form.</p>
-<p>Servers SHOULD request client-side certificates if they wish to authenticate
-users (most do).</p>
-<p>Clients MAY provide such certificates either self-signed or in RawPublicKey
-form, presenting their signing key. If clients do not provide such, they
-should be considered anonymous.</p>
-<p>Servers MAY present different services depending on whether a user is
-authenticated or not.</p>
+<p>Over WebSockets, Mosaic must use TLS version at least 1.2, preferably
+<a href="https://datatracker.ietf.org/doc/html/rfc8446">TLS 1.3</a>.</p>
 <p>TLS should specify the EdDSA signature algorithm, using the ed25519 signing
 keys.</p>
+<p>TLS certificates shall be either RawPublicKey or self-signed, and use
+the ed25519 public key (either the server's master public key or the client's
+signing public key).</p>
+<p>Servers SHOULD request client-side certificates if they wish to authenticate
+users. If clients do not provide certificates, they should be considered
+anonymous. Servers MAY present different services depending on whether a user is
+authenticated or not.</p>
 <h2 id="websockets">WebSockets</h2>
 <p>Mosaic messages are transported over
 <a href="https://datatracker.ietf.org/doc/html/rfc6455">WebSockets</a></p>
+<h3 id="sec-websocket-protocol">Sec-WebSocket-Protocol</h3>
 <p>Clients must present the <code>Sec-WebSocket-Protocol</code> header field in the
 handshake with WebSocket with the value <code>mosaic2024</code>. If this is not
 presented, a server may either refuse service and close the connection,
 or presume the connection is nostr (if it is dual-stack). It should not
 presume the connection is Mosaic.</p>
-<p>Clients MAY present multiple additional protocol names (probably representing
-future versions of Mosaic), and servers should accept whichever one they wish.</p>
-<p>Servers MUST reply with the protocol they have accepted, at this point being
-only 'mosaic2024'.</p>
+<p>Servers MUST reply with the protocol they have accepted in the same
+header, at this point being only 'mosaic2024'.</p>
 <p>This subprotocol is not (as of this writing) registered with IANA, but does
 not conflict with registered subprotocols.</p>
+<h3 id="x-mosaic-extensions">X-Mosaic-Extensions</h3>
+<p>Clients MAY present an <code>X-Mosiac-Extensions</code> header to specify the extentions
+they support and may wish to use.</p>
+<p>The value of an <code>X-Mosiac-Extensions</code> header is a list of extension names
+separated by semicolons.</p>
+<p>Clients SHOULD NOT present an <code>X-Mosaic-Extensions</code> header in the handshake
+unless they are not requesting any extensions.</p>
+<p>The following extension names are defined:</p>
+<ul>
+<li><a href="../sync_protocol_extension/">SYNC</a></li>
+</ul>
+<p>Servers MUST check for an <code>X-Mosaic-Extensions</code> header. If one is specified,
+split it's contents on semicolons. Remove all extensions you are unable to
+service. Join these back together and return an <code>X-Mosaic-Extensions</code>
+header with this string. If that string was empty, use a <code>-</code> instead.</p>
+<p>Clients MUST check for an <code>X-Mosaic-Extensions</code> header during negotiation,
+and configure themselves to use only the extensions that the server returned
+to them, considering <code>-</code> as the empty set.</p>
+<h3 id="x-mosaic-service-url">X-Mosaic-Service-Url</h3>
+<p>Servers MAY present a service URL for a website which users can visit in
+order to manage their relationship with the server (e.g. sign up for an
+account, make payment, view logs, or anything else that is relevant to
+that relationship). These kinds of activities are not standardized here.</p>
 <h2 id="binary">Binary</h2>
-<p>All messages use websockets binary, and include the binary protocol message
-literally as specified in <a href="../protocol/">protocol</a></p>
+<p>All messages use websockets binary.</p>
+<p>Messages are formed as the binary message protocol specified in 
+<a href="../protocol/">protocol</a>. Each message starts with a single byte indicating
+the type, followed by the data that such type requires.</p>
+<p>Clients MUST only send client messages. If a server reads a server message
+from a client, it SHOULD disconnect.</p>
+<p>Servers MUST only send server messages. If a client reads a client message
+from a server, it SHOULD disconnect.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../protocol/" class="btn btn-neutral float-left" title="Protocol"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../filter/" class="btn btn-neutral float-left" title="Filter"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../webtransport/" class="btn btn-neutral float-right" title="WebTransport">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -197,7 +234,7 @@ literally as specified in <a href="../protocol/">protocol</a></p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../protocol/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../filter/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../webtransport/" style="color: #fcfcfc">Next &raquo;</a></span>

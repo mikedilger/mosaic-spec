@@ -67,13 +67,13 @@
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../record/">Record</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tag_types/">Tag Types</a>
+                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../reference/">Reference</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../tags/">Tag Types</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../appids/">Application IDs</a>
-                </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../kinds/">Record Kinds</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Core Records</a>
     <ul>
@@ -87,6 +87,8 @@
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../protocol/">Protocol</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../filter/">Filter</a>
+                </li>
     </ul>
                   </li>
               </ul>
@@ -99,15 +101,24 @@
                   <li class="toctree-l1"><a class="reference internal" href="../rest/">REST</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Mosaic Social media</span></p>
+              <p class="caption"><span class="caption-text">Extensions</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../microblog/">Microblogging</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../sync_protocol_extension/">Sync Protocol Extension</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../blog/">Blog</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../chat/">Chat</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Applications</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Mosaic Social media</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../microblog/">Microblogging</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../blog/">Blog</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../chat/">Chat</a>
+                </li>
+    </ul>
                   </li>
               </ul>
       </div>
@@ -142,7 +153,8 @@
 <li>Early Draft</li>
 <li>Draft (ready for others to review and comment on)</li>
 <li>Approved xN (N people have approved)</li>
-<li>Implemented xN (N implementations are known to exist)</li>
+<li>Implemented in core</li>
+<li>Implemented in core + xN (N implementations are known to exist)</li>
 <li>Superceded (some other page now supercedes this)</li>
 </ul>
 <p>Note that developers are encouraged to comment on and discuss pages in any
@@ -160,15 +172,20 @@ because people want to be compatible.</p>
   be developed, but simplicity is not the only factor.</li>
 <li>The protocol must be <em>functional</em> enough to support a wide range of
   applications beyond just social media ones.</li>
+<li>The protocol should not impede high-performance high-throughput
+  implementations.</li>
 <li>It is okay to do things multiple ways so long as there is <em>one default</em>
   that all developers implement, and the rest of the "ways" are optional.
   For example, we can have multiple transports (WebSockets, WebTransport,
   even REST) without all the developers needing to move beyond WebSockets.</li>
+<li>Everybody must implement the entire core plus WebSockets transport.
+  Code that isn't required by everybody should be defined outside of core
+  as an extension, transport, or application, as these are all optional.</li>
 </ul>
 <h2 id="core-library">Core Library</h2>
-<p>This specification is being developed in parallel to a core library. The
-findings from development feed back into this specification. This is to
-be published on github shortly.</p>
+<p>This specification is being developed in parallel to a
+<a href="https://github.com/SteveFarroll/mosaic-core">core library</a>. The
+findings from development feed back into this specification.</p>
               
             </div>
           </div><footer>

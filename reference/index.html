@@ -67,13 +67,13 @@
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../record/">Record</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tag_types/">Tag Types</a>
+                </li>
                 <li class="toctree-l2 current"><a class="reference internal current" href="#">Reference</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../tags/">Tag Types</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../appids/">Application IDs</a>
-                </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../kinds/">Record Kinds</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Core Records</a>
     <ul>
@@ -87,6 +87,8 @@
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../protocol/">Protocol</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../filter/">Filter</a>
+                </li>
     </ul>
                   </li>
               </ul>
@@ -99,15 +101,24 @@
                   <li class="toctree-l1"><a class="reference internal" href="../rest/">REST</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Mosaic Social media</span></p>
+              <p class="caption"><span class="caption-text">Extensions</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../microblog/">Microblogging</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../sync_protocol_extension/">Sync Protocol Extension</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../blog/">Blog</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../chat/">Chat</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Applications</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Mosaic Social media</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../microblog/">Microblogging</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../blog/">Blog</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../chat/">Chat</a>
+                </li>
+    </ul>
                   </li>
               </ul>
       </div>
@@ -154,12 +165,12 @@ record layout at <code>[160:208]</code> making up 48 bytes.</p>
 <li>The the author's public key (32 bytes),</li>
 <li>The timestamp (6 bytes),</li>
 <li>The nonce (6 bytes</li>
-<li>The application ID (4 bytes).</li>
+<li>The kind (4 bytes).</li>
 </ul>
 <p>An author can replace a record by creating a new record with the same address,
 in which case the address is copied (the nonce is not randomly generated).
 Replaced records must then contain the same author key, the same timestamp,
-and the same application id.  They may however be signed by a different
+and the same kind.  They may however be signed by a different
 signing keypair or have their flags modified, their tags changed, and their
 content changed.</p>
 <p>Rationale:</p>
@@ -169,9 +180,8 @@ content changed.</p>
 <li>These are 48 bytes long and easily fit into a 253 byte tag when needed.</li>
 <li>By not including the hash of content, records can be edited and replaced by
   the author (where edits make sense)</li>
-<li>By containing the application ID, records that are edited cannot change their
-  type.</li>
-<li>By containing the application ID, software can filter records that are not
+<li>By containing the kind, records that are edited cannot change their kind.</li>
+<li>By containing the kind, software can filter records that are not
   relevant to a situation without needing to look them up first.</li>
 <li>48 bits of randomness (in the nonce) is unique enough. The odds that a user
   will have multiple clients that simultaneously create records at the same
@@ -186,8 +196,8 @@ content changed.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../record/" class="btn btn-neutral float-left" title="Record"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../tags/" class="btn btn-neutral float-right" title="Tag Types">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../tag_types/" class="btn btn-neutral float-left" title="Tag Types"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../kinds/" class="btn btn-neutral float-right" title="Record Kinds">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -212,10 +222,10 @@ content changed.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../record/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../tag_types/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../tags/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../kinds/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

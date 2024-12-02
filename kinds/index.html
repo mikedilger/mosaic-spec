@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Application IDs - Mosaic</title>
+    <title>Record Kinds - Mosaic</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Application IDs";
-        var mkdocs_page_input_path = "appids.md";
+        var mkdocs_page_name = "Record Kinds";
+        var mkdocs_page_input_path = "kinds.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -61,19 +61,19 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" >Record Format</a>
-    <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >Record Format</a>
+    <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../timestamps/">Timestamps</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../record/">Record</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tag_types/">Tag Types</a>
+                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../reference/">Reference</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../tags/">Tag Types</a>
-                </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">Application IDs</a>
-                </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Record Kinds</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Core Records</a>
     <ul>
@@ -87,6 +87,8 @@
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../protocol/">Protocol</a>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" href="../filter/">Filter</a>
+                </li>
     </ul>
                   </li>
               </ul>
@@ -99,15 +101,24 @@
                   <li class="toctree-l1"><a class="reference internal" href="../rest/">REST</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Mosaic Social media</span></p>
+              <p class="caption"><span class="caption-text">Extensions</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../microblog/">Microblogging</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../sync_protocol_extension/">Sync Protocol Extension</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../blog/">Blog</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../chat/">Chat</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Applications</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Mosaic Social media</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../microblog/">Microblogging</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../blog/">Blog</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../chat/">Chat</a>
+                </li>
+    </ul>
                   </li>
               </ul>
       </div>
@@ -125,8 +136,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Mosaic Core</li>
-          <li class="breadcrumb-item">Record Format</li>
-      <li class="breadcrumb-item active">Application IDs</li>
+      <li class="breadcrumb-item active">Record Kinds</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -135,26 +145,58 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="application-ids">Application IDs</h1>
+                <h1 id="record-kinds">Record Kinds</h1>
 <p><status>PAGE STATUS: Early Draft</status></p>
-<p>Application IDs are 4-byte unsigned integers in little-endian format.</p>
-<h2 id="core">Core</h2>
-<ul>
-<li>0x1 - <a href="../keyschedule/">Key Schedule</a></li>
-<li>0x2 - <a href="../profile/">Profile</a></li>
-</ul>
-<h2 id="social-media">Social Media</h2>
-<ul>
-<li>0x3 - <a href="../microblog/">Microblog Root</a></li>
-<li>0x4 - <a href="../reply_comment/">Reply Comment</a></li>
-<li>0x5 - <a href="../blog/">Blog post</a></li>
-<li>0x6 - <a href="../chat/">Chat message</a></li>
-</ul>
+<p>Kinds are 4-byte unsigned integers in little-endian format.</p>
+<p>This page is a Registry of kinds, their name, and the standard
+that defines them.  Refer to their definitions in the standards that
+define them.</p>
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Name</th>
+<th>Standard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x1</td>
+<td>Key Schedule</td>
+<td>Mosiac Core <a href="../keyschedule/">Key Schedule</a></td>
+</tr>
+<tr>
+<td>0x2</td>
+<td>Profile</td>
+<td>Mosaic Core <a href="../profile/">Profile</a></td>
+</tr>
+<tr>
+<td>0x3</td>
+<td>Microblog Root</td>
+<td>Mosaic Social Media <a href="../microblog/">Microblog Root</a></td>
+</tr>
+<tr>
+<td>0x4</td>
+<td>Reply Comment</td>
+<td>Mosaic Social Media <a href="../reply_comment/">Reply Comment</a></td>
+</tr>
+<tr>
+<td>0x5</td>
+<td>Blog Post</td>
+<td>Mosaic Social Media <a href="../blog/">Blog Post</a></td>
+</tr>
+<tr>
+<td>0x6</td>
+<td>Chat Message</td>
+<td>Mosaic Social Media <a href="../chat/">Chat Message</a></td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../tags/" class="btn btn-neutral float-left" title="Tag Types"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../reference/" class="btn btn-neutral float-left" title="Reference"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../keyschedule/" class="btn btn-neutral float-right" title="Key Schedule">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -180,7 +222,7 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../tags/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../reference/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../keyschedule/" style="color: #fcfcfc">Next &raquo;</a></span>

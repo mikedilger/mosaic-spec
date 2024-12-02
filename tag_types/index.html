@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Timestamps - Mosaic</title>
+    <title>Tag Types - Mosaic</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Timestamps";
-        var mkdocs_page_input_path = "timestamps.md";
+        var mkdocs_page_name = "Tag Types";
+        var mkdocs_page_input_path = "tag_types.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -63,11 +63,11 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" >Record Format</a>
     <ul class="current">
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">Timestamps</a>
+                <li class="toctree-l2"><a class="reference internal" href="../timestamps/">Timestamps</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../record/">Record</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../tag_types/">Tag Types</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Tag Types</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../reference/">Reference</a>
                 </li>
@@ -137,7 +137,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Mosaic Core</li>
           <li class="breadcrumb-item">Record Format</li>
-      <li class="breadcrumb-item active">Timestamps</li>
+      <li class="breadcrumb-item active">Tag Types</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -146,62 +146,58 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="timestamps">Timestamps</h1>
-<p><status>PAGE STATUS: draft</status></p>
-<p>Timestamps are unixtimes, adjusted for leap seconds, expressed in milliseconds,
-and encoded into a 48-bit unsigned integer in little-endian format.</p>
-<p>The first bit is 0. Records that have a 1 bit here SHOULD be ignored.</p>
-<p>The next 47 bits represent the number of milliseconds that have actually elapsed
-on the surface of the Earth since the UNIX epoch. The epoch is defined as (these
-definitions are believed to be equivalent):</p>
-<ul>
-<li>1 January 1970 UTC</li>
-<li>Unixtime 0</li>
-<li>NTP timestamp 2208988800</li>
-<li>Julian Date 2440587.5 UT1</li>
-<li>Julian Date 2440587.5004766666 TT<ul>
-<li>NOTE: the fracton above beyond .5 represents the 9 seconds that UTC was
-  behind TAI, plus the 32.184 seconds that TAI is behind TT.</li>
-</ul>
-</li>
-</ul>
-<p>Timestamps account for all leap seconds, unlike unixtime and unlike NTP
-timestamps (both of which pretend that leap seconds did not happen).</p>
-<p>Before 1 Jan 1972, timestamps match unixtime.</p>
-<p>As of this writing (unixtime 1732829887) the current timetstamp which includes
-28 additional leap seconds is 1732829915.</p>
-<p>Since computers tend to be synchronized with UTC for the time being, your
-software will need to be aware of leap seconds so it can adjust.</p>
-<p>Leap second data is available at the
-<a href="https://data.iana.org/time-zones/data/leap-seconds.list">IANA leap second list</a>
-The data should be interpreted as follows:</p>
-<ul>
-<li>The leftmost column is an NTP timestamp. Subtract 2_208_988_800 from it to
-  get a unixtime.</li>
-<li>The rightmost column is an adjustment to TAI.  Subtract 9 from it to get the
-  number of leapseconds that have elapsed as of the time in the first column and
-  thereafter (until the next entry).</li>
-<li>A timestamp is the current unixtime, plus the number of leap seconds that have
-  elapsed.</li>
-</ul>
-<p>Rationale:</p>
-<ul>
-<li>UTC is a discontinous time scale that is occasionally adjusted by leap seconds.
-  Unixtime is derived from UTC and is thus also discontinuous.  Subtracting two
-  unixtimes could give a time interval that is off by up to 28 seconds (for
-  example when comparing dates before 1 Jan 1972 with today).</li>
-<li>The first bit is zero in case it is ever interpreted as a sign bit, in order
-  to preserve sorting.</li>
-<li>Millisecond unixtimes in 47 bits give us more than 4000 years before they
-  roll over.</li>
-</ul>
-<p>Refer to the <a href="https://data.iana.org/time-zones/data/leap-seconds.list">IANA leap second list</a></p>
+                <h1 id="tag-types">Tag types</h1>
+<p><status>PAGE STATUS: early draft</status></p>
+<p>Tag types are 2-byte (16-bit) unsigned integers in little-endian format.</p>
+<h2 id="public-key-0x1">Public Key (0x1)</h2>
+<p>Type = 0x1</p>
+<p>Value = A public key</p>
+<p>This tag indicates that the record is of interest to the person identified by the public key. By
+being tagged as such, that person can easily look up such records.</p>
+<p>Note that such records should be delivered to all of this persons' INBOX servers as specified in
+their <a href="../bootstrap/">bootstrap</a> record.</p>
+<h2 id="reply-hash-reference-0x2">Reply, Hash Reference (0x2)</h2>
+<p>Type = 0x2</p>
+<p>Value = A 32-byte hash <a href="../reference/">reference</a></p>
+<p>This record replies to (in a threading sense) the referenced record.</p>
+<p>Replies are application-independent and may reference records of any type.
+If a record includes this tag, it must also include a <code>Root, Hash Reference</code> 0x4 tag as well.</p>
+<h2 id="reply-address-reference-0x3">Reply, Address Reference (0x3)</h2>
+<p>Type = 0x3</p>
+<p>Value = A 48-byte address <a href="../reference/">reference</a></p>
+<p>This record replies to (in a threading sense) the referenced record.</p>
+<p>Replies are application-independent and may reference records of any type.
+If a record includes this tag, it must also include a <code>Root, Address Reference</code> 0x5 tag as well.</p>
+<h2 id="root-hash-reference-0x4">Root, Hash Reference (0x4)</h2>
+<p>Type = 0x4</p>
+<p>Value = A 32-byte hash <a href="../reference/">reference</a></p>
+<p>This record replies to a thread whose root is the referenced record. This is to support
+loading an entire thread in one round trip.</p>
+<p>Replies are application-independent and may reference records of any type.
+If a record includes this tag, it must also include a <code>Reply, Hash Reference</code> 0x2 tag as well.</p>
+<h2 id="root-address-reference-0x5">Root, Address Reference (0x5)</h2>
+<p>Type = 0x5</p>
+<p>Value = A 48-byte address <a href="../reference/">reference</a></p>
+<p>This record replies to a thread whose root is the referenced record. This is to support
+loading an entire thread in one round trip.</p>
+<p>Replies are application-independent and may reference records of any type.
+If a record includes this tag, it must also include a <code>Reply, Address Reference</code> 0x3 tag as well.</p>
+<h2 id="quote-hash-reference-0x6">Quote, Hash Reference (0x6)</h2>
+<p>Type = 0x6</p>
+<p>Value = A 32-byte hash <a href="../reference/">reference</a></p>
+<p>This indicates another record is quoted, but not as a threaded reply.
+Records with this tag can also have reply and root tags, but not to the same record that is quoted.</p>
+<h2 id="quote-address-reference-0x7">Quote, Address Reference (0x7)</h2>
+<p>Type = 0x7</p>
+<p>Value = A 48-byte address <a href="../reference/">reference</a></p>
+<p>This indicates another record is quoted, but not as a threaded reply.
+Records with this tag can also have reply and root tags, but not to the same record that is quoted.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../bootstrap/" class="btn btn-neutral float-left" title="Bootstrap"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../record/" class="btn btn-neutral float-right" title="Record">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../record/" class="btn btn-neutral float-left" title="Record"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../reference/" class="btn btn-neutral float-right" title="Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -226,10 +222,10 @@ The data should be interpreted as follows:</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../bootstrap/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../record/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../record/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../reference/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
