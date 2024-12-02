@@ -39,19 +39,36 @@ header, at this point being only 'mosaic2024'.
 This subprotocol is not (as of this writing) registered with IANA, but does
 not conflict with registered subprotocols.
 
-### X-Mosaic-Features
+### X-Mosaic-Extensions
 
-Clients SHOULD NOT present an `X-Mosaic-Features` header in the handshake
-because features have not currently been defined.
+Clients MAY present an `X-Mosiac-Extensions` header to specify the extentions
+they support and may wish to use.
 
-Servers MUST check for an `X-Mosaic-Features` header. If one is specified,
-split it's contents on semicolons. Remove all features you are unable to
-service. Join these back together and return an `X-Mosaic-Features` header
-with this string. If that string was empty, use a `-` instead.
+The value of an `X-Mosiac-Extensions` header is a list of extension names
+separated by semicolons.
 
-Clients MUST check for an `X-Mosaic-Features` header during negotiation,
-and configure themselves to use only the features that the server returned
+Clients SHOULD NOT present an `X-Mosaic-Extensions` header in the handshake
+unless they are not requesting any extensions.
+
+The following extension names are defined:
+
+* [SYNC](sync_protocol_extension.md)
+
+Servers MUST check for an `X-Mosaic-Extensions` header. If one is specified,
+split it's contents on semicolons. Remove all extensions you are unable to
+service. Join these back together and return an `X-Mosaic-Extensions`
+header with this string. If that string was empty, use a `-` instead.
+
+Clients MUST check for an `X-Mosaic-Extensions` header during negotiation,
+and configure themselves to use only the extensions that the server returned
 to them, considering `-` as the empty set.
+
+### X-Mosaic-Service-Url
+
+Servers MAY present a service URL for a website which users can visit in
+order to manage their relationship with the server (e.g. sign up for an
+account, make payment, view logs, or anything else that is relevant to
+that relationship). These kinds of activities are not standardized here.
 
 ## Binary
 

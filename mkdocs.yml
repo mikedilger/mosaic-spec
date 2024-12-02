@@ -33,8 +33,11 @@ nav:
     - WebSockets: websockets.md
     - WebTransport: webtransport.md
     - REST: rest.md
-  - Mosaic Social media:
-    - Microblogging: microblog.md
-    - Blog: blog.md
-    - Reply Comment: reply_comment.md
-    - Chat: chat.md
+  - Extensions:
+    - Sync Protocol Extension: sync_protocol_extension.md
+  - Applications:
+    - Mosaic Social media:
+      - Microblogging: microblog.md
+      - Blog: blog.md
+      - Reply Comment: reply_comment.md
+      - Chat: chat.md
