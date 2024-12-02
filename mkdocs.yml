@@ -5,3 +5,35 @@ theme:
   include_sidebar: true
   highlightjs: true
   logo: img/favicon-96x96.png
+  custom_dir: custom_theme/
+  collapse_navitation: false
+  titles_only: true
+extra_css:
+  - style.css
+nav:
+  - Mosaic Introduction: index.md
+  - Mosaic Core:
+    - Identity:
+      - Cryptography: cryptography.md
+      - Identity: identity.md
+      - Bootstrap: bootstrap.md
+    - Record Format:
+      - Timestamps: timestamps.md
+      - Record: record.md
+      - Reference: reference.md
+      - Tag Types: tags.md
+      - Application IDs: appids.md
+    - Core Records:
+      - Key Schedule: keyschedule.md
+      - Profile: profile.md
+    - Core Protocol:
+      - Protocol: protocol.md
+  - Mosaic Transport:
+    - WebSockets: websockets.md
+    - WebTransport: webtransport.md
+    - REST: rest.md
+  - Mosaic Social media:
+    - Microblogging: microblog.md
+    - Blog: blog.md
+    - Reply Comment: reply_comment.md
+    - Chat: chat.md
