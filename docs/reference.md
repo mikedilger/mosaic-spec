@@ -25,12 +25,12 @@ record layout at `[160:208]` making up 48 bytes.
 * The the author's public key (32 bytes),
 * The timestamp (6 bytes),
 * The nonce (6 bytes
-* The application ID (4 bytes).
+* The kind (4 bytes).
 
 An author can replace a record by creating a new record with the same address,
 in which case the address is copied (the nonce is not randomly generated).
 Replaced records must then contain the same author key, the same timestamp,
-and the same application id.  They may however be signed by a different
+and the same kind.  They may however be signed by a different
 signing keypair or have their flags modified, their tags changed, and their
 content changed.
 
@@ -41,9 +41,8 @@ Rationale:
 * These are 48 bytes long and easily fit into a 253 byte tag when needed.
 * By not including the hash of content, records can be edited and replaced by
   the author (where edits make sense)
-* By containing the application ID, records that are edited cannot change their
-  type.
-* By containing the application ID, software can filter records that are not
+* By containing the kind, records that are edited cannot change their kind.
+* By containing the kind, software can filter records that are not
   relevant to a situation without needing to look them up first.
 * 48 bits of randomness (in the nonce) is unique enough. The odds that a user
   will have multiple clients that simultaneously create records at the same

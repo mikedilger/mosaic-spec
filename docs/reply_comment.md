@@ -2,7 +2,7 @@
 
 <status>PAGE STATUS: incomplete</status>
 
-App ID = 0x5 - Reply Comment
+Kind = 0x5 - Reply Comment
 
 ## Flags
 

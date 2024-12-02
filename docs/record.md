@@ -83,7 +83,7 @@ Note that records are laid out in a way to provide 64-bit alignment.
 192 +-------------------------------+
     | Timestamp             | Nonce |
 200 +-------------------------------+
-    | ... Nonce     | Appl ID       |
+    | ... Nonce     | Kind          |
 208 +-------------------------------+
     | Len_t | Len_p |FLAGS |RESERVED|
 216 +-------------------------------+
@@ -166,12 +166,13 @@ they are copied from the prior record).
 The purpose of the nonce is to ensure that address-based references are unique.
 See [References](reference.md).
 
-### Application ID
+### Kind
 
 4 bytes at `[204:208]`
 
-This is the ID of the application this record services (like a nostr kind),
-represented in 4 bytes (32 bits) as an unsigned integer, little-endian.
+This is the [kind](kinds.md) of the record which is application specific, and
+determines the nature of the payload, represented in 4 bytes (32 bits) as an
+unsigned integer, little-endian.
 
 ### Len_t
 

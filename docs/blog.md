@@ -2,7 +2,7 @@
 
 <status>PAGE STATUS: early draft</status>
 
-App ID = 0x6 - Blog post
+Kind = 0x6 - Blog post
 
 ## Flags
 

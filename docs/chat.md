@@ -2,7 +2,7 @@
 
 <status>PAGE STATUS: early draft</status>
 
-App ID = 0x7 - chat message
+Kind = 0x7 - chat message
 
 ## Flags
 

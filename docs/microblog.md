@@ -2,7 +2,7 @@
 
 <status>PAGE STATUS: incomplete</status>
 
-App ID = 0x4 - Root
+Kind = 0x4 - Root
 
 ## Flags
 

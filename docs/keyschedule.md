@@ -5,7 +5,7 @@
 A key schedule record lists subkey information and revocation information for a
 master key.
 
-A key schedule record has Application ID 0x1.
+A key schedule record has kind 0x1.
 
 A key schedule record MUST be considered invalid if it does not conform to this
 specification.

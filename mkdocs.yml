@@ -20,9 +20,9 @@ nav:
     - Record Format:
       - Timestamps: timestamps.md
       - Record: record.md
-      - Reference: reference.md
       - Tag Types: tags.md
-      - Application IDs: appids.md
+      - Reference: reference.md
+    - Record Kinds: kinds.md
     - Core Records:
       - Key Schedule: keyschedule.md
       - Profile: profile.md
