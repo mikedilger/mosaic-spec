@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Record - Mosaic</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Record";
+        var mkdocs_page_input_path = "record.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../img/favicon-96x96.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Mosaic Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../status/">Status and Development</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mosaic Core</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >Identity</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../cryptography/">Cryptography</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../identity/">Identity</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../bootstrap/">Bootstrap</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Record Format</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../timestamps/">Timestamps</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Record</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reference/">Reference</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tags/">Tag Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../appids/">Application IDs</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Core Records</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../keyschedule/">Key Schedule</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../profile/">Profile</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Core Protocol</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../protocol/">Protocol</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mosaic Transport</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../websockets/">WebSockets</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../webtransport/">WebTransport</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rest/">REST</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mosaic Social media</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../microblog/">Microblogging</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../blog/">Blog</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reply_comment/">Reply Comment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chat/">Chat</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Mosaic</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Mosaic Core</li>
+          <li class="breadcrumb-item">Record Format</li>
+      <li class="breadcrumb-item active">Record</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="record">Record</h1>
+<p><status>PAGE STATUS: draft</status></p>
+<blockquote>
+FIXME: The exact length of the tags and payload sections are not known,
+only to 8-bit word cutoff.  We should add 6 bits to express the
+exact length of the data minus the padding... possibly at the reserved
+area... possibly swap that with flags.
+</blockquote>
+
+<p>A record is a datum within Mosaic. All datums are records.</p>
+<h2 id="notation">Notation</h2>
+<p>Byte slice notation <code>[m:n]</code> indicates the bytes including <code>m</code> up to and
+including the byte <code>n-1</code> but not including the byte <code>n</code>. For example <code>[8:12]</code>
+represents bytes 8, 9, 10 and 11.</p>
+<h2 id="maximum-size">Maximum Size</h2>
+<p>The maximum size of a record is 1 mebibyte (1,048,576 bytes).</p>
+<p>This is specified so that length fields inside of records can be of a defined
+fixed number of bits and so that software can make reasonable decisions about
+buffer sizes.</p>
+<h2 id="layout">Layout</h2>
+<p>Note that records are laid out in a way to provide 64-bit alignment.</p>
+<pre><code>            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    | Signature 1/8                 |
+    +-------------------------------+
+    | Signature 2/8                 |
+    +-------------------------------+
+    | Signature 3/8                 |
+    +-------------------------------+
+    | Signature 4/8                 |
+    +-------------------------------+
+    | Signature 5/8                 |
+    +-------------------------------+
+    | Signature 6/8                 |
+    +-------------------------------+
+    | Signature 7/8                 |
+    +-------------------------------+
+    | Signature 8/8                 |
+ 64 +-------------------------------+
+    | Hash 1/4                      |
+    +-------------------------------+
+    | Hash 2/4                      |
+    +-------------------------------+
+    | Hash 3/4                      |
+    +-------------------------------+
+    | Hash 4/4                      |
+ 96 +-------------------------------+
+    | Hash 1/4                      |
+    +-------------------------------+
+    | Hash 2/4                      |
+    +-------------------------------+
+    | Hash 3/4                      |
+    +-------------------------------+
+    | Hash 4/4                      |
+128 +-------------------------------+
+    | Signing public key, 1/4       |
+    +-------------------------------+
+    | Signing public key, 2/4       |
+    +-------------------------------+
+    | Signing public key, 3/4       |
+    +-------------------------------+
+    | Signing public key, 4/4       |
+160 +-------------------------------+
+    | Author public key, 1/4        |
+    +-------------------------------+
+    | Author public key, 2/4        |
+    +-------------------------------+
+    | Author public key, 3/4        |
+    +-------------------------------+
+    | Author public key, 4/4        |
+192 +-------------------------------+
+    | Timestamp             | Nonce |
+200 +-------------------------------+
+    | ... Nonce     | Appl ID       |
+208 +-------------------------------+
+    | Len_t | Len_p |FLAGS |RESERVED|
+216 +-------------------------------+
+    | Tags...                       |
+    |                   .. +PADDING |
+  ? +-------------------------------+
+    | Payload ...                   |
+    |                   .. +PADDING |
+  ? +-------------------------------+
+</code></pre>
+<h2 id="fields">Fields</h2>
+<p>Records contain the following fields.</p>
+<p>See the <a href="#layout">layout</a> section for the binary layout of these fields within
+a record.</p>
+<h3 id="signature">Signature</h3>
+<p>64 bytes at <code>[0:64]</code></p>
+<p>The signature field is the EdDSA ed25519ph signature using the 64-byte hash at
+<code>[64:128]</code>. <code>ph</code> means "pre hashed" (we will hash the content with BLAKE3 and
+tell EdDSA that it is a SHA-512 hash of the message). We also provide a context
+to this algorithm of b"Mosaic";</p>
+<p>This signature is made with the Signing private key and is represented in 64
+bytes.</p>
+<p>Rationale:</p>
+<ul>
+<li>EdDSA uses a SHA-512 hashing internal to the algorithm. But BLAKE3 is a faster
+  especially for longer messages, and EdDSA works just fine with it.</li>
+<li>We provide a context so that users cannot be tricked by one application into
+  signing content for a different application (in case users think they can use
+  the same keypair for every application).</li>
+</ul>
+<h3 id="hash">Hash</h3>
+<p>64 bytes at <code>[64:128]</code></p>
+<p>The hashing function is BLAKE3, unkeyed.  We use the <code>finalize_xof()</code> function
+to extend the output from the default 256-bits up to 512 bits.</p>
+<p>This input of the hash is all the data starting at byte 128, <code>[128:]</code>,
+everything except the signature and hash itself.</p>
+<h3 id="signing-public-key">Signing Public Key</h3>
+<p>32 bytes at <code>[128:160]</code></p>
+<p>This is the public key of the signing keypair, which is usually a subkey under
+the author's master keypair (but theoretically could be delegated in some other
+fashion in the future). This is represented in 32 bytes (256 bits).</p>
+<h3 id="author-public-key">Author Public Key</h3>
+<p>32 bytes at <code>[160:192]</code></p>
+<p>This is the identity of the author, expressed as a public key from their master
+EdDSA ed25519 keypair, which is represented in 32 bytes (256 bits).</p>
+<h3 id="timestamp">Timestamp</h3>
+<p>6 bytes at <code>[192:198]</code></p>
+<p>This is a timestamp represented in 6 bytes (48 bits) according to
+<a href="../timestamps/">timestamps</a>.</p>
+<h3 id="nonce">Nonce</h3>
+<p>6 bytes at <code>[198:204]</code></p>
+<p>This is represented in 6 bytes (48 bits).</p>
+<p>These are randomly generated (except in the case of record replacement, where
+they are copied from the prior record).</p>
+<p>The purpose of the nonce is to ensure that address-based references are unique.
+See <a href="../reference/">References</a>.</p>
+<h3 id="application-id">Application ID</h3>
+<p>4 bytes at <code>[204:208]</code></p>
+<p>This is the ID of the application this record services (like a nostr kind),
+represented in 4 bytes (32 bits) as an unsigned integer, little-endian.</p>
+<h3 id="len_t">Len_t</h3>
+<p>2 bytes at <code>[208:210]</code> representing the length of the tags section divided by
+8, as an unsigned integer in litte-endian format.</p>
+<p>The tags section is padded out to 64-bit alignment.</p>
+<p>The maximum tags section length is 524288 bytes.</p>
+<h3 id="len_p">Len_p</h3>
+<p>2 bytes at <code>[210:212]</code> representing the length of the payload section divided
+by 8, as an unsigned integer in little-endian format.</p>
+<p>The payload section is padded out to 64-bit alignment.</p>
+<p>The maximum payload section length is 524288 bytes.</p>
+<h3 id="flags">Flags</h3>
+<p>2 bytes at <code>[212:214]</code></p>
+<p>Reserved flags MUST be set to 0.</p>
+<ul>
+<li>0x01 ZSTD - The payload is compressed with Zstd</li>
+<li>0x02 FROM_AUTHOR - Servers SHOULD only accept the record from the author (requiring authentication)</li>
+<li>0x04 TO_RECIPIENTS - Servers SHOULD only serve the record to people tagged (requiring authentication)</li>
+<li>0x08 NO_BRIDGE - Bridges SHOULD NOT propogate the record to other networks (nostr, mastodon, etc)</li>
+<li>0x10 EPHEMERAL - The record is ephemeral; Servers should serve it to current subscribers and not keep it.</li>
+<li>0x20 - RESERVED</li>
+<li>0x40 - RESERVED</li>
+<li>0x80 - RESERVED</li>
+<li>0x100 - RESERVED</li>
+<li>0x200 - RESERVED</li>
+<li>0x400 - RESERVED</li>
+<li>0x800 - RESERVED</li>
+<li>0x1000 - RESERVED</li>
+<li>0x2000 - RESERVED</li>
+<li>0x4000 - RESERVED</li>
+<li>0x8000 - RESERVED</li>
+</ul>
+<h3 id="reserved">Reserved</h3>
+<p>2 bytes at <code>[214:216]</code></p>
+<p>This Reserved space MUST be set to 0.</p>
+<h3 id="tags">Tags</h3>
+<p>Varying bytes at <code>[216:216+Len_t]</code></p>
+<p>These are searchable key-value tags.</p>
+<p>Unlike nostr tags, all of thsese are searchable. If an application requires
+unsearchable tags, these can be defined within that application's payload.</p>
+<p>Each tag has a 2 byte (16 bit) type and a value that is at most 253 bytes long.</p>
+<p>Tags are laid out as follows:</p>
+<pre><code>+-------+---------+---------+
+| type  | length  | value   |
++-------+---------+---------+
+</code></pre>
+<p>where the type is 2 bytes (16 bits) and the length is 1 byte (8 bits) and represents the
+length of the value, and the value is at most 253 bytes long.</p>
+<p>The tags section is padded out to 64-bit alignment.</p>
+<p>The maximum tags section length is 524288 bytes.</p>
+<p>Tag types are documented at <a href="../tags/">Core tags</a></p>
+<p>RATIONALE:</p>
+<ul>
+<li>Tag values should not be too large as they need to be indexed by relays.</li>
+<li>Constraining the value to 253 bytes allows an entire TLV (with 16-bit type and
+  8-bit length) to fit within 256 bytes, which may ease implementation in some cases.</li>
+</ul>
+<h3 id="payload">Payload</h3>
+<p>Varying bytes at <code>[216+Len_t:216+Len_t+Len_p].</code></p>
+<p>Payload is opaque (at this layer of specification) application-specific data.</p>
+<p>The payload section is padded out to 64-bit alignment.</p>
+<p>The maximum payload section length is 524288 bytes.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../timestamps/" class="btn btn-neutral float-left" title="Timestamps"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../reference/" class="btn btn-neutral float-right" title="Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  <div>
+    <i>Steve Farroll edition</i>
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../timestamps/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../reference/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

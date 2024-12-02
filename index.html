@@ -9,10 +9,11 @@
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="style.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Mosaic";
+        var mkdocs_page_name = "Mosaic Introduction";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = null;
       </script>
@@ -41,20 +42,73 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Mosaic</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#what-mosaic-is-not">What Mosaic is not</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#where-mosaic-came-from">Where Mosaic came from</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#principles-of-design">Principles of Design</a>
-    </li>
-        </ul>
-    </li>
-    </ul>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Mosaic Introduction</a>
                 </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="status/">Status and Development</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mosaic Core</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Identity</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="cryptography/">Cryptography</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="identity/">Identity</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="bootstrap/">Bootstrap</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Record Format</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="timestamps/">Timestamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="record/">Record</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="reference/">Reference</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="tags/">Tag Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="appids/">Application IDs</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Core Records</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="keyschedule/">Key Schedule</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="profile/">Profile</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Core Protocol</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="protocol/">Protocol</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mosaic Transport</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="websockets/">WebSockets</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="webtransport/">WebTransport</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rest/">REST</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mosaic Social media</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="microblog/">Microblogging</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="blog/">Blog</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reply_comment/">Reply Comment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="chat/">Chat</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -70,7 +124,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Mosaic</li>
+      <li class="breadcrumb-item active">Mosaic Introduction</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -80,48 +134,55 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="mosaic">Mosaic</h1>
+<p><status>PAGE STATUS: early draft</status></p>
 <h2 id="introduction">Introduction</h2>
 <p>Mosaic is a <em>distributed</em> <em>sovereign</em> <em>general-purpose</em> application protocol for the Internet.</p>
 <p><strong>distributed</strong>: There is no central point of failure, or place that can be taken down. There is no central place to "bootstrap" Mosaic (other than Mainline DHT's bootstrapping).</p>
 <p><strong>sovereign</strong>: All nodes (users/clients and servers) participation is self-managed and nobody can cancel your account. You manage your own keys. Mosaic does not depend on DNS and Mosaic does not depend on Certification Authorities to issue certificates.</p>
 <p><strong>general-purpose</strong>: Although it started as social media, this architecture has been shown to serve many general-purpose applications.</p>
+<p>Mosaic is a <strong>work in progress</strong>.  This specification is EARLY DRAFT.</p>
 <h3 id="what-mosaic-is-not">What Mosaic is not</h3>
-<p><em>Mosaic is not peer-to-peer</em>: Around the turn of the century, a lot of distributed sovereign protocol work focused on peer-to-peer:  Freenet, GnuNET, and later DHTs. As it turns out, peer-to-peer is difficult because most computers are not fully connected to the Internet. And as there is nothing particular difficult in running a server that <em>is</em> fully connected to the Internet (given VPS availability), being strictly peer-to-peer doesn't seem advantageous. I wouldn't have thought this previously, but nostr has proven this. So we choose the more rock-solid client-server architecture.</p>
-<p><em>Mosaic does not provide IP privacy</em>: Around the turn of the century, a lot of distributed sovereign protocol work focused on IP privacy: Freenet, GnuNET, etc.  However, Tor took off as a general privacy layer, and other alternatives exist including i2p and VPNs.  Architecturally, it makes sense to separate application layers from privacy layers.  There is no good reason to reinvent another privacy layer since Mosaic can run on top of an already existing privacy layer.</p>
+<p><em>Mosaic is NOT peer-to-peer</em>: <small>Around the turn of the century, a lot of distributed sovereign protocol work focused on peer-to-peer:  Freenet, GnuNET, and later DHTs.</small> As it turns out, peer-to-peer is difficult because most computers are not fully connected to the Internet. And as there is nothing particular difficult in running a server that <em>is</em> fully connected to the Internet (given VPS availability), being strictly peer-to-peer doesn't seem advantageous. So we choose the more rock-solid client-server architecture.</p>
+<p><em>Mosaic does NOT provide IP privacy</em>: <small>Around the turn of the century, a lot of distributed sovereign protocol work focused on IP privacy: Freenet, GnuNET, etc.</small>  However, Tor took off as a general privacy layer, and other alternatives exist including i2p and VPNs.  Architecturally, it makes sense to separate application layers from privacy layers.  There is no good reason to reinvent another privacy layer since Mosaic can run on top of an already existing privacy layer.</p>
 <h3 id="where-mosaic-came-from">Where Mosaic came from</h3>
 <p>Mosaic is an offshoot of <a href="https://github.com/nostr-protocol">nostr</a>.</p>
 <p>Like nostr:</p>
 <ul>
 <li>Mosaic uses sovereign user-controlled key pairs</li>
-<li>Mosaic uses websockets</li>
+<li>Mosaic uses WebSockets</li>
 <li>Mosaic uses client-server architecture, since peer-to-peer has connectivity problems</li>
 <li>Mosaic doesn't provide IP privacy</li>
 </ul>
 <p>Unlike nostr:</p>
 <ul>
-<li>Mosaic uses different cryptography (EdDSA ed25519)</li>
-<li>Mosaic uses subkeys from the start for better key management</li>
-<li>Mosaic servers have keypairs too, so you can be sure you are connecting
-  to the right server. Servers are identified by the public key, not their
-  DNS-based URL.</li>
-<li>Mosaic information (server's IP addresses and user's servers) is
-  bootstrapped from Mainline DHT</li>
-<li>Mosaic records are binary. The minimal Mosaic record is 216 bytes,
-  versus the minimal nostr record of 343 byes. The overhead of JSON
-  parsing along with it's ambiguity is gone!</li>
-<li>Mosaic records are editable if an application wants them to be, as all
-  records can be addressed either by their hash (not replaceable) or their
-  address (replaceable) and all records have both a hash and an address.</li>
-<li>Mosaic WebSockets uses TLS 1.2 or 1.3 with either self-signed certificates
-  or RawPublicKey, so that no dependency is made upon self-proclaimed
-  certificate authority companies.</li>
+<li>Mosaic uses different <a href="cryptography/">cryptography</a> (EdDSA ed25519 and BLAKE3)</li>
+<li>Mosaic uses <a href="identity/#master-keys-and-subkeys">subkeys</a> from the start for better key management</li>
+<li>Mosaic <a href="identity/#users-and-servers">servers</a> have keypair-based identities too, so you can be sure that
+  you are connecting to the right server. Servers are identified by the
+  public key, not their DNS-based URL.</li>
+<li>Mosaic information (server's IP addresses and user's home server information)
+  is <a href="bootstrap/">bootstrapped</a> from Mainline DHT</li>
+<li>Mosaic <a href="record/">records</a> are binary. The minimal Mosaic record is
+  216 bytes, versus the minimal nostr record of 343 byes. The overhead of JSON
+  parsing along with it's ambiguity is gone! Simple tools and library
+  functions can easily convert to/from JSON or indeed any other way you wish
+  to see the data.</li>
+<li>Mosaic records are <a href="reference/">editable</a> if an application wants them to
+  be, as all records can be addressed either by their hash (not replaceable)
+  or their address (replaceable) and all records have both a hash and an
+  address.</li>
+<li>Mosaic <a href="websockets/">WebSockets</a> uses TLS 1.2 or 1.3 with either
+  self-signed certificates or RawPublicKey, so that no dependency is made upon
+  self-proclaimed certificate authority companies.</li>
 <li>Client authentication by servers is done at the TLS layer where clients
   also present self-signed or RawPublicKey certificates.</li>
-<li>Timestamps account for leap seconds (unlike unixtime) and have millisecond
-  accuracy.</li>
+<li><a href="timestamps/">Timestamps</a> account for leap seconds (unlike unixtime) and
+  have millisecond accuracy.</li>
 <li>Clients and Servers remember the time that records are received, so that
   key revocation can revoke all records received after a certain time,
   and not rely on the possibly fake timestamps in the records themselves.</li>
+<li>The specification is layered, and focused on the core. Applications using
+  Mosaic are to be specified in their own respective places.</li>
 </ul>
 <p>Terminology differences</p>
 <ul>
@@ -129,20 +190,16 @@
 <li>Nostr <em>event IDs</em> are called <code>record hashes</code></li>
 <li>Nostr <em>relays</em> are called <code>servers</code></li>
 </ul>
-<h3 id="principles-of-design">Principles of Design</h3>
-<ul>
-<li>The protocol must be simple enough for multiple implementations to
-  be developed, but simplicity is not the only factor.</li>
-<li>The protocol must be functional enough to support a wide range of
-  applications beyond just social media ones.</li>
-<li>It is okay to do things multiple ways so long as there is one default
-  that all developers implement, and the rest of the "ways" are optional.
-  For example, we can have multiple transports (WebSockets, WebTransport,
-  even REST) without all the developers needing to move beyond WebSockets.</li>
-</ul>
+<h3 id="the-name-mosaic">The name Mosaic</h3>
+<p>No reason. Just a name. Easy to remember and pronounce. A throwback to
+the old NCSA Mosaic browser I suppose. It is not an acronym. We always
+capitalize it even in the middle of a sentence.</p>
               
             </div>
           </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="status/" class="btn btn-neutral float-right" title="Status and Development">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
 
   <hr/>
 
@@ -150,7 +207,9 @@
     <!-- Copyright etc -->
   </div>
 
-  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  <div>
+    <i>Steve Farroll edition</i>
+  </div>
 </footer>
           
         </div>
@@ -164,6 +223,8 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
+    
+      <span><a href="status/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -183,5 +244,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2024-12-02 06:17:50.189715+00:00
+Build Date UTC : 2024-12-02 08:07:05.161364+00:00
 -->
