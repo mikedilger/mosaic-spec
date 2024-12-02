@@ -1,6 +1,6 @@
 # Tag types
 
-<status>STATUS: early draft</status>
+<status>PAGE STATUS: early draft</status>
 
 Tag types are 2-byte (16-bit) unsigned integers in little-endian format.
 

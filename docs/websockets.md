@@ -1,6 +1,6 @@
 # Mosaic over Websockets
 
-<status>STATUS: draft</status>
+<status>PAGE STATUS: Incomplete</status>
 
 ## TLS
 

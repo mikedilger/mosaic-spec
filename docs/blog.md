@@ -1,6 +1,6 @@
 # Blog
 
-<status>STATUS: early draft</status>
+<status>PAGE STATUS: early draft</status>
 
 App ID = 0x6 - Blog post
 

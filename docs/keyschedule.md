@@ -1,6 +1,6 @@
 # Key Schedule Record
 
-<status>STATUS: draft</status>
+<status>PAGE STATUS: early draft</status>
 
 A key schedule record lists subkey information and revocation information for a master key.
 

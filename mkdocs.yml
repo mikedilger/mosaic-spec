@@ -6,12 +6,12 @@ theme:
   highlightjs: true
   logo: img/favicon-96x96.png
   custom_dir: custom_theme/
-  collapse_navitation: false
   titles_only: true
 extra_css:
   - style.css
 nav:
   - Mosaic Introduction: index.md
+  - Status and Development: status.md
   - Mosaic Core:
     - Identity:
       - Cryptography: cryptography.md

@@ -1,6 +1,6 @@
 # References
 
-<status>STATUS: draft</status>
+<status>PAGE STATUS: early draft</status>
 
 A reference is a pointer from one record to another.
 

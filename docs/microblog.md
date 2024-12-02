@@ -1,6 +1,6 @@
 # Microblog
 
-<status>STATUS: early draft</status>
+<status>PAGE STATUS: incomplete</status>
 
 App ID = 0x4 - Root
 

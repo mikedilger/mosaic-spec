@@ -1,6 +1,6 @@
 # Reply Comment
 
-<status>STATUS: early draft</status>
+<status>PAGE STATUS: incomplete</status>
 
 App ID = 0x5 - Reply Comment
 

@@ -1,6 +1,6 @@
 # Application IDs
 
-<status>STATUS: draft</status>
+<status>PAGE STATUS: Early Draft</status>
 
 Application IDs are 4-byte unsigned integers in little-endian format.
 

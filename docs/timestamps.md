@@ -1,6 +1,6 @@
 # Timestamps
 
-<status>STATUS: draft</status>
+<status>PAGE STATUS: draft</status>
 
 Timestamps are unixtimes, adjusted for leap seconds, expressed in milliseconds,
 and encoded into a 48-bit unsigned integer in little-endian format.
@@ -52,4 +52,3 @@ RATIONALE:
   roll over.
 
 Refer to the [IANA leap second list](https://data.iana.org/time-zones/data/leap-seconds.list)
-

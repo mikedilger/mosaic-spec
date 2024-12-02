@@ -1,6 +1,6 @@
 # Record
 
-<status>STATUS: draft</status>
+<status>PAGE STATUS: draft</status>
 
 A record is a datum within Mosaic. All datums are records.
 

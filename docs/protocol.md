@@ -1,6 +1,6 @@
 # Protocol
 
-<status>STATUS: early draft</status>
+<status>PAGE STATUS: incomplete</status>
 
 TBD: Server-Client feature negotation,
     includes nonce.

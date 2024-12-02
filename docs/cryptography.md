@@ -1,6 +1,6 @@
 # Cryptography
 
-<status>STATUS: draft</status>
+<status>PAGE STATUS: early draft</status>
 
 ## Hashing
 

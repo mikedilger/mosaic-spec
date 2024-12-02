@@ -1,6 +1,6 @@
 # Mosaic
 
-<status>STATUS: draft</status>
+<status>PAGE STATUS: early draft</status>
 
 ## Introduction
 
@@ -65,26 +65,6 @@ Terminology differences
 * Nostr *events* are called `records`
 * Nostr *event IDs* are called `record hashes`
 * Nostr *relays* are called `servers`
-
-### Principles of Design
-
-* The protocol must be simple enough for multiple implementations to
-  be developed, but simplicity is not the only factor.
-* The protocol must be functional enough to support a wide range of
-  applications beyond just social media ones.
-* It is okay to do things multiple ways so long as there is one default
-  that all developers implement, and the rest of the "ways" are optional.
-  For example, we can have multiple transports (WebSockets, WebTransport,
-  even REST) without all the developers needing to move beyond WebSockets.
-
-### Versions and Attribution
-
-Many people are expected to contribute to Mosaic and as a result there are
-various divergent viewpoints as to how Mosaic ought to be. As a result, we
-label this edition as the Steve Farroll edition with a version number.
-Other Mosaic contributors can fork this and maintain their own editions.
-The community will eventually settle on something because people want to
-be compatible.
 
 ### The name Mosaic
 
