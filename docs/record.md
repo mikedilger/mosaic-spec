@@ -234,7 +234,8 @@ The tags section is padded out to 64-bit alignment.
 
 The maximum tags section length is 65536 bytes.
 
-Tag types are documented at [Core tags](tag_types.md)
+Tag types are documented at [Tag Type Registry](tag_types.md) and
+the tags are defined at [Core Tags](core_tags.md).
 
 Rationale:
 

@@ -15,6 +15,26 @@ The following extensions have been defined:
 
 * [Sync Protocol Extension](sync_protocol_extension.md)
 
+## Asynchronous
+
+All client messages initiate an action, and all server messages are in
+response to client messages (NOTE: this may not apply to Mosaic
+extensions). Yet messaging is asychronous and both sides SHOULD be
+prepared to deal with a message sent at any time.
+
+Servers SHOULD not send messages until they receive a message that
+requires a response.
+
+If a server fails to receive a message from a client that does not
+have an open query or submission within a reasonable timeframe, it
+MAY close the connection.
+
+If a client receives a server message that was not expected, it MUST
+ignore it and decide what to do next. In some cases, clients MAY close
+the connection because the service they were seeking failed. In other
+cases they MAY try something else. There is no provision for a client
+to alert a server of an error.
+
 ## Messages
 
 Every message starts with a one-byte type, shown below in the header

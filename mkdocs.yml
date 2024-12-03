@@ -17,15 +17,15 @@ nav:
       - Cryptography: cryptography.md
       - Identity: identity.md
       - Bootstrap: bootstrap.md
-    - Record Format:
-      - Timestamps: timestamps.md
-      - Record: record.md
-      - Tag Types: tag_types.md
-      - Reference: reference.md
-    - Record Kinds: kinds.md
+    - Timestamps: timestamps.md
+    - Record: record.md
+    - Reference: reference.md
+    - Tag Type Registry: tag_types.md
+    - Record Kind Registry: kinds.md
     - Core Records:
       - Key Schedule: keyschedule.md
       - Profile: profile.md
+    - Core Tags: core_tags.md
     - Core Protocol:
       - Protocol: protocol.md
       - Filter: filter.md
