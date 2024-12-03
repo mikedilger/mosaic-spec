@@ -43,7 +43,7 @@ Rationale:
   case we need to change the format of the bootstrap record in the future, and
   because we have two different kinds of bootstrap records already (this
   allows a server keypair to also be a user keypair without collision).
-* This salts are short enough to not use too much space.
+* These salts are short enough to not use too much space.
 
 ### Sequence Numbers
 
@@ -51,7 +51,7 @@ Sequence numbers should start at 1 and monotonically increase with each write.
 
 ### Rust code
 
-A rust library to access this:  https://github.com/pubky/mainline
+There is a rust library to access this called [mainline](https://github.com/pubky/mainline)
 
 ## Bootstrap Record Format
 
@@ -81,7 +81,8 @@ those is found in a URL, software MUST prune such information. This includes
 pruning trailing slashes (which are paths).
 
 Only secure transports with TLS are defined. TLS must be version 1.2 or 1.3.
-The only known schemes currently are `wss` and `https`.
+The only known schemes currently are `wss` and `https` (`https` being designated
+for [WebTransport](webtransport.md))
 
 Here are some examples of server bootstrap record lines:
 
@@ -177,7 +178,7 @@ records at any time.
 ### Usage of servers and limits on their number
 
 *Maximums*: Users SHOULD list no more than 4 redundant servers of any kind,
-since more redundancy provides strongly dimishing benefit at a linearly
+since more redundancy provides strongly diminishing benefit at a linearly
 increasing network traffic cost.  Software MUST utilize the first four
 servers of the appropriate kind listed, and MAY tolerate additional servers
 but optionally MAY ignore additional servers.

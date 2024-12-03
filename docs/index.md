@@ -66,9 +66,9 @@ Unlike nostr:
   
 Terminology differences
 
-* Nostr *events* are called `records`
-* Nostr *event IDs* are called `record hashes`
-* Nostr *relays* are called `servers`
+* Nostr *events* are akin to Mosaic *records*
+* Nostr *event IDs* are akin to Mosaic *hashes*
+* Nostr *relays* are akin to Mosaic *servers*
 
 ### The name Mosaic
 

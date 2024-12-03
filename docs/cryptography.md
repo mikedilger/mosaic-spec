@@ -42,8 +42,8 @@ Rationale:
 * Very good resistance to side-channel attacks
 * Does not require point validation
 * In our form, provides the following guarantees:
-  * Existentially and Strongly unforgeable under chosen message attacks
-  * Strongly Binding Signature
+    * Existentially and Strongly unforgeable under chosen message attacks
+    * Strongly Binding Signature
 * Interoperates with TLS, Mainline DHT, and other modern ed25519-based
   identity systems
 
@@ -67,8 +67,9 @@ Encryption details are still TBD but we intend:
       schedule), which is not ephemeral but may nonetheless be frequently
       rolled over by the recipient.
 
-In order for a user to decrypt on any of their devices, they must share the x25519 public key's secret
-to all of their devices.  We recommend using an encryption-only subkey pair for this purpose, which is
-not used in ed25519 signing.  See [keyschedule](keyschedule.md) marker 0x2.
+In order for a user to decrypt on any of their devices, they must share the
+x25519 public key's secret to all of their devices. In order to preserve
+signing security, these keys are separate from ed25519 signing keys.
+See [keyschedule](keyschedule.md) marker 0x2.
 
 See also [this page at cryptosys.net](https://www.cryptosys.net/pki/manpki/pki_eccsafecurves.html)

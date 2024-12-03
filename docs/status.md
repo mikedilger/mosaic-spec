@@ -36,9 +36,9 @@ because people want to be compatible.
 * It is okay to do things multiple ways so long as there is *one default*
   that all developers implement, and the rest of the "ways" are optional.
   For example, we can have multiple transports (WebSockets, WebTransport,
-  even REST) without all the developers needing to move beyond WebSockets.
-* Everybody must implement the entire core plus WebSockets transport.
-  Code that isn't required by everybody should be defined outside of core
+  even REST) without all the developers needing to move beyond WebSockets,
+  so long as every implementation implements the WebSockets transport.
+* Code that isn't required by everybody should be defined outside of core
   as an extension, transport, or application, as these are all optional.
 
 

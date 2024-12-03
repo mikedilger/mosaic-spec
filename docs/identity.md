@@ -15,12 +15,11 @@ material. Convenient methods for doing so, as well as recovery, are outside of
 the scope of Mosaic except insomuch as we define master keys and subkeys with
 the purpose that subkeys are intended for online use, and master keys are
 intended to be long-term and kept more securely, perhaps being offline, in
-hardware, or perhaps managed by a trusted service.
+hardware, or managed by a trusted service.
 
 ## Public key cryptosystem keypair
 
 Identities are realized as a keypair produced within a public key cryptosystem.
-
 We use the EdDSA ed25519 cryptosystem for digital signature.
 See [cryptography](cryptography.md).
 
@@ -45,9 +44,9 @@ within the core records specification.
 A limited number of low-frequency operations in Mosaic require a signature from
 the master key. These include (presently):
 
-* Publishing or modifying a user's key schedule with new keys and/or revocations.
-* Publishing or modifying a user's server list
-* Publishing or modifying a user's profile record
+* Publishing/modifying a [User Bootstrap](bootstrap.md) listing their servers
+* Publishing/modifying a user's [Key Schedule](keyschedule.md) with new keys and/or revocations.
+* Publishing/modifying a user's [Profile](profile.md) record.
 
 Subkeys might be deterministically derived from the master private key, or they
 might not. Nothing in the Mosaic spec requires such, but some implementations
