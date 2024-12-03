@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Filter - Mosaic</title>
+    <title>Core Tags - Mosaic</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Filter";
-        var mkdocs_page_input_path = "filter.md";
+        var mkdocs_page_name = "Core Tags";
+        var mkdocs_page_input_path = "core_tags.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -61,15 +61,15 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Records</a>
-    <ul>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Records</a>
+    <ul class="current">
                 <li class="toctree-l2"><a class="reference internal" href="../timestamps/">Timestamps</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../record/">Record Format</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../reference/">References</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../core_tags/">Core Tags</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Core Tags</a>
                 </li>
     </ul>
                   </li>
@@ -81,9 +81,9 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" >Protocol</a>
-    <ul class="current">
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">Filter</a>
+                  <li class="toctree-l1"><a class="reference internal" >Protocol</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../filter/">Filter</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../protocol/">Core Protocol</a>
                 </li>
@@ -142,8 +142,8 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Mosaic Core</li>
-          <li class="breadcrumb-item">Protocol</li>
-      <li class="breadcrumb-item active">Filter</li>
+          <li class="breadcrumb-item">Records</li>
+      <li class="breadcrumb-item active">Core Tags</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -152,49 +152,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="filter">Filter</h1>
+                <h1 id="mosaic-core-tags">Mosaic Core Tags</h1>
 <p><status>PAGE STATUS: early draft</status></p>
-<p>A filter is a binary structure used within the <a href="../protocol/">Core Protocol</a>.</p>
-<p>It is defined as a contiguous sequence of type-value pairs.  Some types
-specify a count or length within their value.</p>
-<p>Each entry restricts the set of records that the filter matches.</p>
-<p>Filter types MUST not be used more than once within a filter.</p>
-<p>Filters can be up to 65536 bytes long maximum, but this size may not be
-possible given other constraints.</p>
-<h2 id="hash16">Hash16</h2>
+<p>Tag types are 2-byte (16-bit) unsigned integers in little-endian format.</p>
+<h2 id="notify-public-key">Notify Public Key</h2>
 <blockquote>
 <p><strong>0x1</strong></p>
 </blockquote>
-<p>Matches all records that have any of these hashes.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x1|          0x0          | n |
+    |  0x1  |        0x0            |
  8  +-------------------------------+
-    | HASH PREFIX 1/2               | 
+    | PUBLIC KEY 1/4                |
  16 +-------------------------------+
-    | HASH PREFIX 2/2               |
+    | PUBLIC KEY 2/4                |
  24 +-------------------------------+
-    | ... additional hash prefixes..|
-    +-------------------------------+
+    | PUBLIC KEY 3/4                |
+ 32 +-------------------------------+
+    | PUBLIC KEY 4/4                |
+ 40 +-------------------------------+
 </code></pre>
-<ul>
-<li>The byte 0x1</li>
-<li>Six bytes 0x0</li>
-<li>A 1-byte count <code>n</code>, then</li>
-<li>A sequence of <code>n</code> 16-byte, 128-bit hash prefixes.</li>
-</ul>
-<h2 id="hash32">Hash32</h2>
+<p><code>PUBLIC KEY</code> is a 32-byte public key.</p>
+<p>Records with this tag indicate that the record os if interest to the
+person identified by that public key (as their master key).  Being tagged
+as such, it should be delivered to all of this persons' INBOX servers as
+specified in their <a href="../bootstrap/">bootstrap</a> record.</p>
+<h2 id="reply-by-hash">Reply by Hash</h2>
 <blockquote>
 <p><strong>0x2</strong></p>
 </blockquote>
-<p>Matches all records that have any of these hashes.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x2|          0x0          | n |
+    |  0x2  |  0x0  |     KIND      |
  8  +-------------------------------+
-    | HASH 1/4                      | 
+    | HASH 1/4                      |
  16 +-------------------------------+
     | HASH 2/4                      |
  24 +-------------------------------+
@@ -202,245 +195,179 @@ possible given other constraints.</p>
  32 +-------------------------------+
     | HASH 4/4                      |
  40 +-------------------------------+
-    | ... additional hash prefixes..|
-    +-------------------------------+
 </code></pre>
-<ul>
-<li>The byte 0x2</li>
-<li>Six bytes 0x0</li>
-<li>A 1-byte count <code>n</code>, then</li>
-<li>A sequence of <code>n</code> 32-byte, 128-bit hash prefixes.</li>
-</ul>
-<h2 id="author-keys">Author Keys</h2>
+<p>This is a reply to another record in a threading sense.</p>
+<p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
+that this one replies to. Replies are application-independent and may
+reference records of any type. This information is provided to prevent
+lookup of records of kinds that software is not able to or does not wish
+to handle.</p>
+<p><code>HASH</code> is a 32-byte hash <a href="../reference/">reference</a> to some other record
+indicating which other record this record replies to.</p>
+<p>If a record includes this tag, it must also include a
+<a href="#root-by-addr">Root by Addr</a> tag as well.</p>
+<h2 id="reply-by-addr">Reply by Addr</h2>
 <blockquote>
 <p><strong>0x3</strong></p>
 </blockquote>
-<p>Matches all records authored by any of these keys.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x3|          0x0          | n |
+    |  0x3  |  0x0  |     KIND      |
  8  +-------------------------------+
-    | AUTHOR KEY 1/4                | 
+    | ADDR 1/6                      |
  16 +-------------------------------+
-    | AUTHOR KEY 2/4                |
+    | ADDR 2/6                      |
  24 +-------------------------------+
-    | AUTHOR KEY 3/4                |
+    | ADDR 3/6                      |
  32 +-------------------------------+
-    | AUTHOR KEY 4/4                |
+    | ADDR 4/6                      |
  40 +-------------------------------+
-    | ... additional keys..         |
-    +-------------------------------+
+    | ADDR 5/6                      |
+ 40 +-------------------------------+
+    | ADDR 6/6                      |
+ 40 +-------------------------------+
 </code></pre>
-<ul>
-<li>The byte 0x3</li>
-<li>Six bytes 0x0</li>
-<li>A 1-byte count <code>n</code>, then</li>
-<li>A sequence of <code>n</code> 32-byte author public keys.</li>
-</ul>
-<h2 id="signing-keys">Signing Keys</h2>
+<p>This is a reply to another record in a threading sense.</p>
+<p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
+that this one replies to. Replies are application-independent and may
+reference records of any type. This information is provided to prevent
+lookup of records of kinds that software is not able to or does not wish
+to handle.</p>
+<p><code>ADDR</code> is a 48-byte address <a href="../reference/">reference</a> to some other
+record indicating which other record this record replies to.</p>
+<p>If a record includes this tag, it must also include a
+<a href="#root-by-addr">Root by Addr</a> tag as well.</p>
+<h2 id="root-by-hash">Root by Hash</h2>
 <blockquote>
 <p><strong>0x4</strong></p>
 </blockquote>
-<p>Matches all records signed by any of these keys.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x4|        0x0            | n |
+    |  0x4  |  0x0  |     KIND      |
  8  +-------------------------------+
-    | SIGNING KEY 1/4               | 
+    | HASH 1/4                      |
  16 +-------------------------------+
-    | SIGNING KEY 2/4               |
+    | HASH 2/4                      |
  24 +-------------------------------+
-    | SIGNING KEY 3/4               |
+    | HASH 3/4                      |
  32 +-------------------------------+
-    | SIGNING KEY 4/4               |
+    | HASH 4/4                      |
  40 +-------------------------------+
-    | ... additional keys..         |
-    +-------------------------------+
 </code></pre>
-<ul>
-<li>The byte 0x4</li>
-<li>Six bytes 0x0</li>
-<li>A 1-byte count <code>n</code>, then</li>
-<li>A sequence of <code>n</code> 32-byte signing public keys.</li>
-</ul>
-<h2 id="timestamps">Timestamps</h2>
+<p>This indicates the root of the reply thread. This is to support loading
+an entire thread in one round trip.</p>
+<p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
+that the root record is. Threads are application-independent and may
+reference records of any type. This information is provided to prevent
+lookup of records of kinds that software is not able to or does not wish
+to handle.</p>
+<p><code>HASH</code> is a 32-byte hash <a href="../reference/">reference</a> to some other record
+indicating which other record this record replies to.</p>
+<p>If a record includes this tag, it must also include a
+<a href="#reply-by-hash">Reply by Hash</a> or <a href="#reply-by-addr">Reply by Addr</a> tag
+as well.</p>
+<h2 id="root-by-addr">Root by Addr</h2>
 <blockquote>
 <p><strong>0x5</strong></p>
 </blockquote>
-<p>Matches all records that have any of these exact timestamps.
-Typically used as part of address lookups.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x5|        0x0            | n |
+    |  0x5  |  0x0  |     KIND      |
  8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         | 
+    | ADDR 1/6                      |
  16 +-------------------------------+
-    | ..0x0 |    ..TIMESTAMP        |
+    | ADDR 2/6                      |
  24 +-------------------------------+
+    | ADDR 3/6                      |
+ 32 +-------------------------------+
+    | ADDR 4/6                      |
+ 40 +-------------------------------+
+    | ADDR 5/6                      |
+ 40 +-------------------------------+
+    | ADDR 6/6                      |
+ 40 +-------------------------------+
 </code></pre>
-<ul>
-<li>The byte 0x5</li>
-<li>Six bytes 0x0</li>
-<li>A 1-byte count <code>n</code>, then</li>
-<li>A sequence of <code>n</code> 8-byte fields, each being:<ul>
-<li>Two bytes 0x0</li>
-<li>A six byte <a href="../timestamps/">timestamp</a>.</li>
-</ul>
-</li>
-</ul>
-<h2 id="since">Since</h2>
+<p>This indicates the root of the reply thread. This is to support loading
+an entire thread in one round trip.</p>
+<p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
+that the root record is. Threads are application-independent and may
+reference records of any type. This information is provided to prevent
+lookup of records of kinds that software is not able to or does not wish
+to handle.</p>
+<p><code>ADDR</code> is a 48-byte address <a href="../reference/">reference</a> to some other
+record which is the root of the thread.</p>
+<p>If a record includes this tag, it must also include a
+<a href="#reply-by-hash">Reply by Hash</a> or <a href="#reply-by-addr">Reply by Addr</a> tag
+as well.</p>
+<h2 id="quote-by-hash">Quote by Hash</h2>
 <blockquote>
 <p><strong>0x6</strong></p>
 </blockquote>
-<p>Matches all records with a timestamp greater than or equal to
-this value.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x6|              0x0          |
+    |  0x6  |  0x0  |     KIND      |
  8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         | 
+    | HASH 1/4                      |
  16 +-------------------------------+
+    | HASH 2/4                      |
+ 24 +-------------------------------+
+    | HASH 3/4                      |
+ 32 +-------------------------------+
+    | HASH 4/4                      |
+ 40 +-------------------------------+
 </code></pre>
-<ul>
-<li>The byte 0x6</li>
-<li>Nine bytes 0x0</li>
-<li>A 6-byte timestamp</li>
-</ul>
-<h2 id="until">Until</h2>
+<p>This is a quote of another record.</p>
+<p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
+that this one quotes. Quotes are application-independent and may
+reference records of any type. This information is provided to prevent
+lookup of records of kinds that software is not able to or does not wish
+to handle.</p>
+<p><code>HASH</code> is a 32-byte hash <a href="../reference/">reference</a> to some other record
+indicating which other record this record quotes.</p>
+<p>Records with this tag can also have reply and root tags, but not to the
+same record that is quoted.</p>
+<h2 id="quote-by-addr">Quote by Addr</h2>
 <blockquote>
 <p><strong>0x7</strong></p>
 </blockquote>
-<p>Matches all records with a timestamp less than this value.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x7|              0x0          |
+    |  0x7  |  0x0  |     KIND      |
  8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         | 
+    | ADDR 1/6                      |
  16 +-------------------------------+
-</code></pre>
-<ul>
-<li>The byte 0x7</li>
-<li>Nine bytes 0x0</li>
-<li>A 6-byte timestamp</li>
-</ul>
-<h2 id="received-ats">Received Ats</h2>
-<blockquote>
-<p><strong>0x8</strong></p>
-</blockquote>
-<p>Matches all records that were received at any of these exact
-timestamps. This is unlikely to be useful but we add it for
-completeness.</p>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0x8|          0x0          | n |
- 8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         | 
- 16 +-------------------------------+
-    | ..0x0 |    ..TIMESTAMP        |
+    | ADDR 2/6                      |
  24 +-------------------------------+
+    | ADDR 3/6                      |
+ 32 +-------------------------------+
+    | ADDR 4/6                      |
+ 40 +-------------------------------+
+    | ADDR 5/6                      |
+ 40 +-------------------------------+
+    | ADDR 6/6                      |
+ 40 +-------------------------------+
 </code></pre>
-<ul>
-<li>The byte 0x8</li>
-<li>Six bytes 0x0</li>
-<li>A 1-byte count <code>n</code>, then</li>
-<li>A sequence of <code>n</code> 8-byte fields, each being:<ul>
-<li>Two bytes 0x0</li>
-<li>A six byte <a href="../timestamps/">timestamp</a>.</li>
-</ul>
-</li>
-</ul>
-<h2 id="received-since">Received Since</h2>
-<blockquote>
-<p><strong>0x9</strong></p>
-</blockquote>
-<p>Matches all records that were received by the server at or later
-than this value.</p>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0x9|              0x0          |
- 8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         | 
- 16 +-------------------------------+
-</code></pre>
-<ul>
-<li>The byte 0x9</li>
-<li>Nine bytes 0x0</li>
-<li>A 6-byte timestamp</li>
-</ul>
-<h2 id="received-until">Received Until</h2>
-<blockquote>
-<p><strong>0xA</strong></p>
-</blockquote>
-<p>Matches all records that were received by the server before
-this value.</p>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0xA|              0x0          |
- 8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         | 
- 16 +-------------------------------+
-</code></pre>
-<ul>
-<li>The byte 0xA</li>
-<li>Nine bytes 0x0</li>
-<li>A 6-byte timestamp</li>
-</ul>
-<h2 id="kinds">Kinds</h2>
-<blockquote>
-<p><strong>0xB</strong></p>
-</blockquote>
-<p>Matches all records which are of one of these kinds.</p>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0xB|          0x0          | n |
- 8  +-------------------------------+
-    |   KIND        |  ...KIND      |
- 16 +-------------------------------+
-</code></pre>
-<ul>
-<li>The byte 0xB</li>
-<li>6 bytes 0x0</li>
-<li>A 1-byte count <code>n</code>, then</li>
-<li>A sequence of <code>n</code> 4-byte <a href="../kinds/">kinds</a></li>
-</ul>
-<h2 id="tag-values">Tag Values</h2>
-<blockquote>
-<p><strong>0xC</strong></p>
-</blockquote>
-<p>Matches all records which have one of these tags.</p>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0xC|0x0| TTYPE | 0x0       | n |
- 8  +-------------------------------+
-    |   DATA...                     |
- 16 +-------------------------------+
-</code></pre>
-<ul>
-<li>The byte 0xC</li>
-<li>1 byte 0x0</li>
-<li>A 2-byte <a href="../tag_types/">tag type</a> in little-endian format</li>
-<li>3 bytes 0x0</li>
-<li>A 1-byte count <code>n</code>, then</li>
-<li>A sequence of n length-value pairs (length being 1 byte) representing
-  the n different values of the tag which cause the filter to match.
-  This data is not aligned and tag values are of varying length.</li>
-</ul>
+<p>This is a quote of another record.</p>
+<p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
+that this one quotes. Quotes are application-independent and may
+reference records of any type. This information is provided to prevent
+lookup of records of kinds that software is not able to or does not wish
+to handle.</p>
+<p><code>ADDR</code> is a 48-byte address <a href="../reference/">reference</a> to some other
+record indicating which other record this record quotes.</p>
+<p>Records with this tag can also have reply and root tags, but not to the
+same record that is quoted.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../profile/" class="btn btn-neutral float-left" title="Profile Record"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../protocol/" class="btn btn-neutral float-right" title="Core Protocol">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../reference/" class="btn btn-neutral float-left" title="References"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../keyschedule/" class="btn btn-neutral float-right" title="Key Schedule Record">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -465,10 +392,10 @@ this value.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../profile/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../reference/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../protocol/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../keyschedule/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
