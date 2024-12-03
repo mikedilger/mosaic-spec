@@ -2,13 +2,6 @@
 
 <status>PAGE STATUS: draft</status>
 
-<blockquote>
-FIXME: The exact length of the tags and payload sections are not known,
-only to 8-bit word cutoff.  We should add 6 bits to express the
-exact length of the data minus the padding... possibly at the reserved
-area... possibly swap that with flags.
-</blockquote>
-
 A record is a datum within Mosaic. All datums are records.
 
 ## Notation
@@ -57,14 +50,6 @@ Note that records are laid out in a way to provide 64-bit alignment.
     +-------------------------------+
     | Hash 4/4                      |
  96 +-------------------------------+
-    | Hash 5/5                      |
-    +-------------------------------+
-    | Hash 6/6                      |
-    +-------------------------------+
-    | Hash 7/7                      |
-    +-------------------------------+
-    | Hash 8/8                      |
-128 +-------------------------------+
     | Signing public key, 1/4       |
     +-------------------------------+
     | Signing public key, 2/4       |
@@ -72,7 +57,7 @@ Note that records are laid out in a way to provide 64-bit alignment.
     | Signing public key, 3/4       |
     +-------------------------------+
     | Signing public key, 4/4       |
-160 +-------------------------------+
+128 +-------------------------------+
     | Author public key, 1/4        |
     +-------------------------------+
     | Author public key, 2/4        |
@@ -80,13 +65,15 @@ Note that records are laid out in a way to provide 64-bit alignment.
     | Author public key, 3/4        |
     +-------------------------------+
     | Author public key, 4/4        |
-192 +-------------------------------+
+160 +-------------------------------+
     | Timestamp             | Nonce |
-200 +-------------------------------+
+168 +-------------------------------+
     | ... Nonce     | Kind          |
-208 +-------------------------------+
-    | Len_t | Len_p |FLAGS |RESERVED|
-216 +-------------------------------+
+176 +-------------------------------+
+    | RESV1 | Len_t | Len_p         |
+184 +-------------------------------+
+    | RESERVED2             | FLAGS |
+192 +-------------------------------+
     | Tags...                       |
     |                   .. +PADDING |
   ? +-------------------------------+
@@ -124,17 +111,19 @@ Rationale:
 
 ### Hash
 
-64 bytes at `[64:128]`
+64 bytes at `[64:96]`
 
-The hashing function is BLAKE3, unkeyed.  We use the `finalize_xof()` function
-to extend the output from the default 256-bits up to 512 bits.
+The hashing function is BLAKE3, unkeyed, with 256-bits (32 bytes) of output.
 
-This input of the hash is all the data starting at byte 128, `[128:]`,
+Note that we extend this to 512-bits with `finalize_xof()` for the input of
+the EdDSA algorithm, but we only store in the event the 256-bit prefix.
+
+This input of the hash is all the data starting at byte 96, `[96:]`,
 everything except the signature and hash itself.
 
 ### Signing Public Key
 
-32 bytes at `[128:160]`
+32 bytes at `[96:128]`
 
 This is the public key of the signing keypair, which is usually a subkey under
 the author's master keypair (but theoretically could be delegated in some other
@@ -142,21 +131,21 @@ fashion in the future). This is represented in 32 bytes (256 bits).
 
 ### Author Public Key
 
-32 bytes at `[160:192]`
+32 bytes at `[128:160]`
 
 This is the identity of the author, expressed as a public key from their master
 EdDSA ed25519 keypair, which is represented in 32 bytes (256 bits).
 
 ### Timestamp
 
-6 bytes at `[192:198]`
+6 bytes at `[160:166]`
 
 This is a timestamp represented in 6 bytes (48 bits) according to
 [timestamps](timestamps.md).
 
 ### Nonce
 
-6 bytes at `[198:204]`
+6 bytes at `[166:172]`
 
 This is represented in 6 bytes (48 bits).
 
@@ -168,62 +157,58 @@ See [References](reference.md).
 
 ### Kind
 
-4 bytes at `[204:208]`
+4 bytes at `[172:176]`
 
 This is the [kind](kinds.md) of the record which is application specific, and
 determines the nature of the payload, represented in 4 bytes (32 bits) as an
 unsigned integer, little-endian.
 
+### RESV1
+
+2 bytes at `[176:178`
+
+These are reserved and MUST be 0.
+
 ### Len_t
 
-2 bytes at `[208:210]` representing the length of the tags section divided by
-8, as an unsigned integer in litte-endian format.
+1 bytes at `[178:180]` representing the length of the tags section in bytes
+as an unsigned integer in little-endian format.
 
-The tags section is padded out to 64-bit alignment.
+This represents the exact length of the tags section, not counting padding
+at the end to achieve 64-bit alignment.
 
-The maximum tags section length is 524288 bytes.
+The maximum tags section length is 65536 bytes.
 
 ### Len_p
 
-2 bytes at `[210:212]` representing the length of the payload section divided
-by 8, as an unsigned integer in little-endian format.
+4 bytes at `[180:184]` representing the length of the payload section in
+bytes as an unsigned integer in little-endian format.
 
-The payload section is padded out to 64-bit alignment.
+This represents the exact length of the payload section, not counting padding
+at the end to achieve 64-bit alignment.
 
-The maximum payload section length is 524288 bytes.
+The maximum payload section length is 1_048_384 bytes.
+
+### RESERVED2
+
+6 bytes at `[184:190]`
+
+This Reserved space MUST be set to 0.
 
 ### Flags
 
-2 bytes at `[212:214]`
-
-Reserved flags MUST be set to 0.
+2 bytes at `[190:192]`
 
 * 0x01 ZSTD - The payload is compressed with Zstd
 * 0x02 FROM_AUTHOR - Servers SHOULD only accept the record from the author (requiring authentication)
 * 0x04 TO_RECIPIENTS - Servers SHOULD only serve the record to people tagged (requiring authentication)
 * 0x08 NO_BRIDGE - Bridges SHOULD NOT propogate the record to other networks (nostr, mastodon, etc)
 * 0x10 EPHEMERAL - The record is ephemeral; Servers should serve it to current subscribers and not keep it.
-* 0x20 - RESERVED
-* 0x40 - RESERVED
-* 0x80 - RESERVED
-* 0x100 - RESERVED
-* 0x200 - RESERVED
-* 0x400 - RESERVED
-* 0x800 - RESERVED
-* 0x1000 - RESERVED
-* 0x2000 - RESERVED
-* 0x4000 - RESERVED
-* 0x8000 - RESERVED
-
-### Reserved
-
-2 bytes at `[214:216]`
-
-This Reserved space MUST be set to 0.
+* All other bits - RESERVED and MUST be 0
 
 ### Tags
 
-Varying bytes at `[216:216+Len_t]`
+Varying bytes at `[192:192+Len_t]`
 
 These are searchable key-value tags.
 
@@ -247,7 +232,7 @@ Tags only have one value.
 
 The tags section is padded out to 64-bit alignment.
 
-The maximum tags section length is 524288 bytes.
+The maximum tags section length is 65536 bytes.
 
 Tag types are documented at [Core tags](tag_types.md)
 
@@ -259,10 +244,10 @@ Rationale:
 
 ### Payload
 
-Varying bytes at `[216+Len_t:216+Len_t+Len_p].`
+Varying bytes at `[192+Len_t:192+Len_t+Len_p].`
 
 Payload is opaque (at this layer of specification) application-specific data.
 
 The payload section is padded out to 64-bit alignment.
 
-The maximum payload section length is 524288 bytes.
+The maximum payload section length is 1_048_384 bytes

@@ -41,7 +41,7 @@ Unlike nostr:
 * Mosaic information (server's IP addresses and user's home server information)
   is [bootstrapped](bootstrap.md) from Mainline DHT
 * Mosaic [records](record.md) are binary. The minimal Mosaic record is
-  216 bytes, versus the minimal nostr record of 343 byes. The overhead of JSON
+  192 bytes, versus the minimal nostr record of 343 byes. The overhead of JSON
   parsing along with it's ambiguity is gone! Simple tools and library
   functions can easily convert to/from JSON or indeed any other way you wish
   to see the data.
@@ -59,8 +59,10 @@ Unlike nostr:
 * Clients and Servers remember the time that records are received, so that
   key revocation can revoke all records received after a certain time,
   and not rely on the possibly fake timestamps in the records themselves.
-* The specification is layered, and focused on the core. Applications using
-  Mosaic are to be specified in their own respective places.
+* The specification is layered with Core, Transport, Extensions, and
+  Applications being separate. Only Core and WebSockets are required by
+  all participants.
+
   
 Terminology differences
 

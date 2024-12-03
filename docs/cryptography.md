@@ -4,25 +4,24 @@
 
 ## Hashing
 
-We use BLAKE3 in unkeyed hashing mode, producing a 512-bit digest.
+We use BLAKE3 in unkeyed hashing mode, producing a 512-bit digest,
+storing only the first 256-bits in the record but passing the full
+512-bits into EdDSA
 
 Rationale:
 
+* EdDSA ed25519 is defined to use SHA-512 and we are using BLAKE3 as a
+  drop-in replacement, so we have to produce 512-bit hashes. But these
+  do not need to be in the record. What the record needs is some way to
+  index and reference it, and the 256 bit prefix is enough for that.
+  In BLAKE3, hashes are variable size, and smaller outputs are prefixes
+  of longer outputs.
 * This is a very fast hash function with 128-bit security. It is even
   sometimes faster in software than hardware versions of SHA-256, and
   is about 14x as fast as software versions of SHA-256. It is highly
   parallelizable and can take advantage of vector instructions.
 * It's predecessor BLAKE was the most analyzed algorithm during the NIST
   SHA-3 competition.
-* Yes 512-bits is a lot. But EdDSA ed25519 is defined to use SHA-512 and we
-  are using BLAKE3 as a drop-in replacement, so we have to produce 512-bit
-  hashes anyways. We can always refer to events with a hash prefix.
-
-Alternative:
-
-* Use the 512-bits in EdDSA ed25519, but only store the 256-bit prefix of
-  that hash (BLAKE3 hashes are variable size, and smaller hashes are
-  prefixes of larger hashes).
 
 ## Digital Signature
 
