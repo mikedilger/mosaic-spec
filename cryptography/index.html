@@ -190,9 +190,11 @@ validation checks. In particular:</p>
 <li>Widely studied</li>
 <li>Very good resistance to side-channel attacks</li>
 <li>Does not require point validation</li>
-<li>In our form, provides the following guarantees:</li>
+<li>In our form, provides the following guarantees:<ul>
 <li>Existentially and Strongly unforgeable under chosen message attacks</li>
 <li>Strongly Binding Signature</li>
+</ul>
+</li>
 <li>Interoperates with TLS, Mainline DHT, and other modern ed25519-based
   identity systems</li>
 </ul>
@@ -213,9 +215,10 @@ applications have a need to encrypt data.</p>
 </ul>
 </li>
 </ul>
-<p>In order for a user to decrypt on any of their devices, they must share the x25519 public key's secret
-to all of their devices.  We recommend using an encryption-only subkey pair for this purpose, which is
-not used in ed25519 signing.  See <a href="../keyschedule/">keyschedule</a> marker 0x2.</p>
+<p>In order for a user to decrypt on any of their devices, they must share the
+x25519 public key's secret to all of their devices. In order to preserve
+signing security, these keys are separate from ed25519 signing keys.
+See <a href="../keyschedule/">keyschedule</a> marker 0x2.</p>
 <p>See also <a href="https://www.cryptosys.net/pki/manpki/pki_eccsafecurves.html">this page at cryptosys.net</a></p>
               
             </div>

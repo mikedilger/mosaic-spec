@@ -189,12 +189,12 @@ bootstrap records.</p>
   case we need to change the format of the bootstrap record in the future, and
   because we have two different kinds of bootstrap records already (this
   allows a server keypair to also be a user keypair without collision).</li>
-<li>This salts are short enough to not use too much space.</li>
+<li>These salts are short enough to not use too much space.</li>
 </ul>
 <h3 id="sequence-numbers">Sequence Numbers</h3>
 <p>Sequence numbers should start at 1 and monotonically increase with each write.</p>
 <h3 id="rust-code">Rust code</h3>
-<p>A rust library to access this:  https://github.com/pubky/mainline</p>
+<p>There is a rust library to access this called <a href="https://github.com/pubky/mainline">mainline</a></p>
 <h2 id="bootstrap-record-format">Bootstrap Record Format</h2>
 <p>Bootstrap records (the data after the bencoded prefix) are UTF-8 valid text up
 to 983 bytes long, and consist of a series of lines separated with a single
@@ -214,7 +214,8 @@ must NOT contain user, password, path, query, or fragment sections. If any of
 those is found in a URL, software MUST prune such information. This includes
 pruning trailing slashes (which are paths).</p>
 <p>Only secure transports with TLS are defined. TLS must be version 1.2 or 1.3.
-The only known schemes currently are <code>wss</code> and <code>https</code>.</p>
+The only known schemes currently are <code>wss</code> and <code>https</code> (<code>https</code> being designated
+for <a href="../webtransport/">WebTransport</a>)</p>
 <p>Here are some examples of server bootstrap record lines:</p>
 <p><code>wss://203.0.113.1</code> specifies WebSockets with TLS on port 80 at IP address
 <code>203.0.113.0</code>.</p>
@@ -284,7 +285,7 @@ see below for other limitations on the number of servers).</p>
 records at any time.</p>
 <h3 id="usage-of-servers-and-limits-on-their-number">Usage of servers and limits on their number</h3>
 <p><em>Maximums</em>: Users SHOULD list no more than 4 redundant servers of any kind,
-since more redundancy provides strongly dimishing benefit at a linearly
+since more redundancy provides strongly diminishing benefit at a linearly
 increasing network traffic cost.  Software MUST utilize the first four
 servers of the appropriate kind listed, and MAY tolerate additional servers
 but optionally MAY ignore additional servers.</p>
