@@ -2,10 +2,17 @@
 
 <status>PAGE STATUS: early draft</status>
 
-A filter is a binary record that is up to 65536 bytes long maximum.
+A filter is a binary structure used within the [Core Protocol](protocol.md).
 
 It is defined as a contiguous sequence of type-value pairs.  Some types
 specify a count or length within their value.
+
+Each entry restricts the set of records that the filter matches.
+
+Filter types MUST not be used more than once within a filter.
+
+Filters can be up to 65536 bytes long maximum, but this size may not be
+possible given other constraints.
 
 ## Hash16
 

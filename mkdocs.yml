@@ -7,6 +7,7 @@ theme:
   logo: img/favicon-96x96.png
   custom_dir: custom_theme/
   titles_only: true
+  navigation_depth: 3
 extra_css:
   - style.css
 nav:
@@ -17,18 +18,20 @@ nav:
       - Cryptography: cryptography.md
       - Identity: identity.md
       - Bootstrap: bootstrap.md
-    - Timestamps: timestamps.md
-    - Record: record.md
-    - Reference: reference.md
-    - Tag Type Registry: tag_types.md
-    - Record Kind Registry: kinds.md
+    - Records:
+      - Timestamps: timestamps.md
+      - Record Format: record.md
+      - References: reference.md
+      - Core Tags: core_tags.md
     - Core Records:
-      - Key Schedule: keyschedule.md
-      - Profile: profile.md
-    - Core Tags: core_tags.md
-    - Core Protocol:
-      - Protocol: protocol.md
+      - Key Schedule Record: keyschedule.md
+      - Profile Record: profile.md
+    - Protocol:
       - Filter: filter.md
+      - Core Protocol: protocol.md
+    - Registries:
+      - Tag Type Registry: tag_types.md
+      - Record Kind Registry: kinds.md
   - Mosaic Transport:
     - WebSockets: websockets.md
     - WebTransport: webtransport.md

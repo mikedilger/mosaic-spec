@@ -136,7 +136,7 @@ to handle.
 indicating which other record this record replies to.
 
 If a record includes this tag, it must also include a
-[Reply by Hash](#reply-by-hash) or [Reply by Root](#reply-by-root) tag
+[Reply by Hash](#reply-by-hash) or [Reply by Addr](#reply-by-addr) tag
 as well.
 
 ## Root by Addr
@@ -176,7 +176,7 @@ to handle.
 record which is the root of the thread.
 
 If a record includes this tag, it must also include a
-[Reply by Hash](#reply-by-hash) or [Reply by Root](#reply-by-root) tag
+[Reply by Hash](#reply-by-hash) or [Reply by Addr](#reply-by-addr) tag
 as well.
 
 ## Quote by Hash
