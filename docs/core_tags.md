@@ -2,7 +2,25 @@
 
 <status>PAGE STATUS: early draft</status>
 
-Tag types are 2-byte (16-bit) unsigned integers in little-endian format.
+All tags start with this data:
+
+```text
+            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    |  TYPE |  LEN  | ...           |
+ 8  +-------------------------------+
+```
+
+* A two byte (16-bit) unsigned integer in little-endian format
+  representing the type of tag
+* A two byte (16-bit) unsigned integer in little endian format
+  representing the byte length of the tag.
+
+This length is always present even if implied by the tag type because
+applications are not required to recognize every tag type to look up its
+length or method of length calculation, but they will need to skip forward
+to the next tag.
 
 ## Notify Public Key
 
@@ -12,7 +30,7 @@ Tag types are 2-byte (16-bit) unsigned integers in little-endian format.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |  0x1  |        0x0            |
+    |  0x1  |  0x30 |    0x0        |
  8  +-------------------------------+
     | PUBLIC KEY 1/4                |
  16 +-------------------------------+
@@ -39,7 +57,7 @@ specified in their [bootstrap](bootstrap.md) record.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |  0x2  |  0x0  |     KIND      |
+    |  0x2  |  0x30 |     KIND      |
  8  +-------------------------------+
     | HASH 1/4                      |
  16 +-------------------------------+
@@ -73,7 +91,7 @@ If a record includes this tag, it must also include a
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |  0x3  |  0x0  |     KIND      |
+    |  0x3  |  0x40 |     KIND      |
  8  +-------------------------------+
     | ADDR 1/6                      |
  16 +-------------------------------+
@@ -84,9 +102,9 @@ If a record includes this tag, it must also include a
     | ADDR 4/6                      |
  40 +-------------------------------+
     | ADDR 5/6                      |
- 40 +-------------------------------+
+ 48 +-------------------------------+
     | ADDR 6/6                      |
- 40 +-------------------------------+
+ 56 +-------------------------------+
 ```
 
 This is a reply to another record in a threading sense.
@@ -111,7 +129,7 @@ If a record includes this tag, it must also include a
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |  0x4  |  0x0  |     KIND      |
+    |  0x4  |  0x30 |     KIND      |
  8  +-------------------------------+
     | HASH 1/4                      |
  16 +-------------------------------+
@@ -147,7 +165,7 @@ as well.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |  0x5  |  0x0  |     KIND      |
+    |  0x5  |  0x40 |     KIND      |
  8  +-------------------------------+
     | ADDR 1/6                      |
  16 +-------------------------------+
@@ -187,7 +205,7 @@ as well.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |  0x6  |  0x0  |     KIND      |
+    |  0x6  |  0x30 |     KIND      |
  8  +-------------------------------+
     | HASH 1/4                      |
  16 +-------------------------------+
@@ -221,7 +239,7 @@ same record that is quoted.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |  0x7  |  0x0  |     KIND      |
+    |  0x7  |  0x40 |     KIND      |
  8  +-------------------------------+
     | ADDR 1/6                      |
  16 +-------------------------------+

@@ -18,11 +18,11 @@ nav:
       - Cryptography: cryptography.md
       - Identity: identity.md
       - Bootstrap: bootstrap.md
-    - Records:
+    - Record Type:
       - Timestamps: timestamps.md
       - Record Format: record.md
-      - References: reference.md
       - Core Tags: core_tags.md
+    - References: reference.md
     - Core Records:
       - Key Schedule Record: keyschedule.md
       - Profile Record: profile.md
