@@ -175,7 +175,7 @@ previously supplied by the client in a [`Query`](#query).
 The `CODE` indicates the reason for closure, from among the following
 defined reasons.
 
-* `ON_REQUEST`: 0x1 - In response to [`Close`](#close)
+* `ON_REQUEST`: 0x1 - In response to [`Close Query`](#close-query)
 * `REJECTED_INVALID`: 0x10 - Query was rejected due to being invalid
 * `REJECTED_TOO_OPEN`: 0x11 - Query was rejected due to being too open
    (scraping too many records)
