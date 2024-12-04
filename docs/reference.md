@@ -20,35 +20,33 @@ replacements, often (and by default presumably) with the most recent record
 superceding the older records.
 
 An address consists of four fields which are contiguous and in order in the
-record layout at `[160:208]` making up 48 bytes.
+record layout at `[128:176]` making up 48 bytes.
 
 * The the author's public key (32 bytes),
-* The timestamp (6 bytes),
-* The nonce (6 bytes
-* The kind (4 bytes).
+* The kind (2 bytes),
+* The original timestamp (6 bytes),
+* The random nonce (8 bytes),
 
 An author can replace a record by creating a new record with the same address,
 in which case the address is copied (the nonce is not randomly generated).
-Replaced records must then contain the same author key, the same timestamp,
-and the same kind.  They may however be signed by a different
-signing keypair or have their flags modified, their tags changed, and their
-content changed.
+Replaced records must then contain the same author key and be of the same
+kind.  They may however be signed by a different signing keypair or have
+their flags modified, their tags changed, and their content changed.
+
+The timestamp of a replacement record MUST be larger than the original
+timestamp in the address.
 
 Rationale:
 
-* By containing the Author public key, record location can be determined through
-  [bootstrapping](bootstrap.md).
-* These are 48 bytes long and easily fit into a 253 byte tag when needed.
+* By containing the Author public key, record location can be determined
+  through [bootstrapping](bootstrap.md).
+* At only 48 bytes long, these can easily fit into a 253 byte tag when needed.
 * By not including the hash of content, records can be edited and replaced by
   the author (where edits make sense)
 * By containing the kind, records that are edited cannot change their kind.
 * By containing the kind, software can filter records that are not
   relevant to a situation without needing to look them up first.
-* 48 bits of randomness (in the nonce) is unique enough. The odds that a user
-  will have multiple clients that simultaneously create records at the same
-  millisecond and also choose the same 48-bit random number is exceedingly low
-  given that the odds of choosing the same 48-bit random number is about 1 in
-  281 trillion. Normally people use 64-bit random numbers for global
-  uniqueness, but we don't need global uniqueness, just unique for the given
-  author at that precise millisecond in time.
-* These addresses sort in chronological order, per author.
+* By containing the original timestamp and a 64-bit nonce, it is statistically
+  infeasible for two different records to have the same address
+  unintentionally. In fact this is overkill, but using anything shorter
+  that still aligns at 64-bits ends up being not unique enough.
