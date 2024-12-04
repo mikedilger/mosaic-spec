@@ -172,6 +172,15 @@ This keeps addresses unique.
 * 0x04 TO_RECIPIENTS - Servers SHOULD only serve the record to people tagged (requiring authentication)
 * 0x08 NO_BRIDGE - Bridges SHOULD NOT propogate the record to other networks (nostr, mastodon, etc)
 * 0x10 EPHEMERAL - The record is ephemeral; Servers should serve it to current subscribers and not keep it.
+* 0x20 - RESERVED and MUST be 0
+* 0x80, 0x40 - Signature scheme:
+    * 00 - (default) EdDSA ed25519
+    * 01 - (nostr) secp256k1 Schnorr
+    * 10 - RESERVED
+    * 11 - RESERVED
+    * NOTE: This only affects the signing key and the signature. The hash is
+      always created with BLAKE3, and the master key is always EdDSA
+      ed25519. This enables using nostr keys as subkeys.
 * All other bits - RESERVED and MUST be 0
 
 ### Timestamp
