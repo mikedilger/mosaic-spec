@@ -72,7 +72,7 @@ Note that records are laid out in a way to provide 64-bit alignment.
 176 +-------------------------------+
     | Flags | Timestamp             |
 184 +-------------------------------+
-    | RESV  | Len_t | Len_p         |
+    |AppFlgs| Len_t | Len_p         |
 192 +-------------------------------+
     | Tags...                       |
     |                   .. +PADDING |
@@ -140,8 +140,9 @@ EdDSA ed25519 keypair, which is represented in 32 bytes (256 bits).
 
 2 bytes at `[160:162]`
 
-This is the [kind](kinds.md) of the record which is application specific, and
-determines the nature of the payload, represented in 2 bytes (16 bits) as an
+This is the [kind](kinds.md) of the record which is determines the application
+this record is part of, which then determines the nature of the non-core tags
+and the payload. This is represented in 2 bytes (16 bits) as an
 unsigned integer, little-endian.
 
 ### Orig Timestamp
@@ -193,11 +194,12 @@ This is a timestamp represented in 6 bytes (48 bits) according to
 If this record replaces a previous record, this timestamp MUST be larger
 than [Orig Timestamp](#orig-timestamp).
 
-### RESV
+### AppFlgs
 
 2 bytes at `[184:186]`
 
-These are reserved and MUST be 0.
+These are bitflags reserved for use by the specific application based on
+the [kind](#kind).
 
 ### Len_t
 
