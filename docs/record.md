@@ -227,7 +227,7 @@ Varying bytes at `[192:192+Len_t]`
 
 These are searchable key-value tags.
 
-Unlike nostr tags, all of thsese are searchable. If an application requires
+Unlike nostr tags, all of these are searchable. If an application requires
 unsearchable tags, these can be defined within that application's payload.
 
 Tags are laid out as follows:
@@ -266,3 +266,30 @@ Payload is opaque (at this layer of specification) application-specific data.
 The payload section is padded out to 64-bit alignment.
 
 The maximum payload section length is 1_048_384 bytes
+
+# Validation
+
+Records MUST be fully validated by clients.
+
+Records MUST be fully validated by servers except for the
+steps marked CLIENTS ONLY.
+
+Validation steps
+
+1. The length must be between 192 and 1048576 bytes.
+2. The length must equal 192 + Len_t + Len_p.
+3. The Signing public key must be validated according to the
+   [crypto](crypto.md) key validation checks.
+4. The Author public key must be validated according to the
+   [crypto](crypto.md) key validation checks.
+5. CLIENTS ONLY: The Signing public key must be verified to be
+   a non-revoked subkey of the Author via the Author's
+   [bootstrap](bootstrap.md).
+6. The bytes after the hash to the end of the record must hash
+   with BLAKE3 to the hash stored in the record.
+7. The signature must be a valid EdDSA ed25519 signature of
+   the hash with the signing public key.
+8. The timestamp and the orig timestamp must be validated according to
+   [timestamps](timestamps.md).
+9. All reserved flags must be set to 0.
+10. CLIENTS ONLY: Application specific validation should be performed.
