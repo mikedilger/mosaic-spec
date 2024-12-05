@@ -159,7 +159,8 @@ represents a user or a server (by the context) or you may not even know that.
 And you also may not know what servers this key uses to host it's
 <a href="../keyschedule/">key schedule</a>, and <a href="../profile/">profile</a> information, or to
 publish it's records or receive messages.</p>
-<p>We store bootstrap records in Mainline DHT.</p>
+<p>We store bootstraps in Mainline DHT.</p>
+<p>Bootstraps are not <a href="../record/">records</a>. They have their own format.</p>
 <h2 id="mainline-dht">Mainline DHT</h2>
 <p>We use Mainline DHT to store mutable data signed under an ed25519 signature
 according to <a href="https://www.bittorrent.org/beps/bep_0044.html">BEP 0044</a>.</p>
@@ -180,14 +181,14 @@ according to <a href="https://www.bittorrent.org/beps/bep_0044.html">BEP 0044</a
   frequently. Software SHOULD cache results for at least 2 hours.</li>
 </ul>
 <h3 id="salt">Salt</h3>
-<p>We use a salt of "msb24" for server bootstrap records and "mub24" for user
-bootstrap records.</p>
+<p>We use a salt of "msb24" for server bootstraps and "mub24" for user
+bootstraps.</p>
 <p>Rationale:</p>
 <ul>
 <li>We use the salt to avoid collisions, in case the same ed25519 identity
   keypair is used by both mosaic and <a href="https://github.com/pubky">pubky</a>, or in
-  case we need to change the format of the bootstrap record in the future, and
-  because we have two different kinds of bootstrap records already (this
+  case we need to change the format of the bootstrap in the future, and
+  because we have two different kinds of bootstraps already (this
   allows a server keypair to also be a user keypair without collision).</li>
 <li>These salts are short enough to not use too much space.</li>
 </ul>
@@ -195,28 +196,29 @@ bootstrap records.</p>
 <p>Sequence numbers should start at 1 and monotonically increase with each write.</p>
 <h3 id="rust-code">Rust code</h3>
 <p>There is a rust library to access this called <a href="https://github.com/pubky/mainline">mainline</a></p>
-<h2 id="bootstrap-record-format">Bootstrap Record Format</h2>
-<p>Bootstrap records (the data after the bencoded prefix) are UTF-8 valid text up
+<h2 id="bootstrap-format">Bootstrap Format</h2>
+<p>Bootstraps (the data after the bencoded prefix) are UTF-8 valid text up
 to 983 bytes long, and consist of a series of lines separated with a single
 ASCII Line Feed (LF) character (0x0A, \n). Lines MUST not have trailing
 whitespace.</p>
-<p>Two kinds of records may be stored, based on whether the identity represents a
-server or a user.</p>
-<h2 id="server-bootstrap-records">Server Bootstrap Records</h2>
-<p>Server bootstrap records specify the internet locations (protocol, host and
+<p>Two kinds of bootstraps may be stored, based on whether the identity
+represents a server or a user.</p>
+<h2 id="server-bootstraps">Server Bootstraps</h2>
+<p>Server bootstraps specify the internet locations (protocol, host and
 port) that the server is available at.</p>
-<p>A server bootstrap record starts with the line <code>S</code>.</p>
-<p>Each subsequent line in a server bootstrap record specifies a URL where the
-server can be accessed. There can be any number of lines. However, the total
-length of the data cannot exceed 983 bytes.</p>
-<p>URLs must contain scheme and host, and may optionally contain a port. URLs
-must NOT contain user, password, path, query, or fragment sections. If any of
-those is found in a URL, software MUST prune such information. This includes
-pruning trailing slashes (which are paths).</p>
+<p>A server bootstrap starts with the line <code>S</code>.</p>
+<p>Each subsequent line in a server bootstrap specifies a pathless URL where
+the server can be accessed. There can be any number of lines. However, the
+total length of the data cannot exceed 983 bytes.</p>
+<p>Pathless URLs MUST contain a scheme and a host, and may optionally contain
+a port. Pathless URLs must NOT contain user, password, path, query, or
+fragment sections. If any of those is found in a pathless URL, software MUST
+prune such information. This includes pruning trailing slashes (which are
+paths).</p>
 <p>Only secure transports with TLS are defined. TLS must be version 1.2 or 1.3.
-The only known schemes currently are <code>wss</code> and <code>https</code> (<code>https</code> being designated
-for <a href="../webtransport/">WebTransport</a>)</p>
-<p>Here are some examples of server bootstrap record lines:</p>
+The only known schemes currently are <code>wss</code> and <code>https</code> (<code>https</code> being
+designated for <a href="../webtransport/">WebTransport</a>)</p>
+<p>Here are some examples of server bootstrap lines:</p>
 <p><code>wss://203.0.113.1</code> specifies WebSockets with TLS on port 80 at IP address
 <code>203.0.113.0</code>.</p>
 <p><code>wss://203.0.113.0:5198</code> specifies WebSockets with TLS on port 5198 at IP
@@ -228,21 +230,21 @@ on port 443.</p>
 <p><code>https://mosaic.example:555</code> specifies WebTransport with TLS on port 555 to DNS
 node mosaic.example (https is to be interpreted as WebTransport, not REST).</p>
 <p>Servers are expected to operate as their own inbox/outbox and encryption
-server. So they do not require the same records as the user bootstrap records.</p>
-<h2 id="user-bootstrap-records">User Bootstrap Records</h2>
-<p>User bootstrap records specify servers that the user uses, and how the user
+server. So they do not require the same data as the user bootstrap.</p>
+<h2 id="user-bootstrap">User Bootstrap</h2>
+<p>User bootstraps specify servers that the user uses, and how the user
 uses them.</p>
-<p>A user bootstrap record starts with the line <code>U</code>.</p>
-<p>Each line consists of two parts</p>
+<p>A user bootstrap starts with the line <code>U</code>.</p>
+<p>Each line consists of two parts separated by a single ASCII space.</p>
 <h3 id="server-usage-character">Server Usage Character</h3>
 <p>This first part is a single character that encodes that kind of usage.</p>
 <p>There are three defined server usages:</p>
 <ul>
 <li>
 <p><strong>Outbox</strong> - Outbox servers are where users publish public records meant to
-be read by anyone who is following the person's public content. Bootstrap
-records such as the <a href="../keyschedule/">key schedule</a> and <a href="../profile/">profile</a>
-are published here.</p>
+be read by anyone who is following the person's public content.
+The <a href="../keyschedule/">key schedule</a> and <a href="../profile/">profile</a> are published
+here.</p>
 </li>
 <li>
 <p><strong>Inbox</strong> - Inbox servers are where users receive records that reference them,
@@ -271,18 +273,18 @@ three usages, use <code>7</code>.</p>
 standard alphabet of RFC 4648). This will be 44 characters long ending in an
 <code>=</code> symbol.</p>
 <h3 id="example">Example</h3>
-<p>Here is an example user bootstrap record:</p>
+<p>Here is an example user bootstrap:</p>
 <pre><code>U
-1FB42YsY/CV2FqlMrI4CNeaZ2LnCHXzXmmdGKA+UsuBc=
-3GQ859t+vK9gfYolOMfGB0VD/+kjk3iGFjxHj0GfhMos=
-2L+RDYOrIKID+eEK81510TJ1pQOQW7kMrA10MwKOu0Iw=
-3uBpfOVe3ooWMnc1RdMbYKBAIcHlfl2FsQU67lK2CJ8A=
-6VKLdex3KykACzM0JpRfduelqwytel1AZGaXuv4sZhfU=
+1 FB42YsY/CV2FqlMrI4CNeaZ2LnCHXzXmmdGKA+UsuBc=
+3 GQ859t+vK9gfYolOMfGB0VD/+kjk3iGFjxHj0GfhMos=
+2 L+RDYOrIKID+eEK81510TJ1pQOQW7kMrA10MwKOu0Iw=
+3 uBpfOVe3ooWMnc1RdMbYKBAIcHlfl2FsQU67lK2CJ8A=
+6 VKLdex3KykACzM0JpRfduelqwytel1AZGaXuv4sZhfU=
 </code></pre>
-<p>Based on size limits of 983 bytes, no more than 20 records can be stored (but
-see below for other limitations on the number of servers).</p>
+<p>Based on size limits of 983 bytes, no more than 20 server entries can be
+listed (but see below for other limitations on the number of servers).</p>
 <p>Should servers become unreliable, users can change servers and update these
-records at any time.</p>
+bootstrap entries at any time.</p>
 <h3 id="usage-of-servers-and-limits-on-their-number">Usage of servers and limits on their number</h3>
 <p><em>Maximums</em>: Users SHOULD list no more than 4 redundant servers of any kind,
 since more redundancy provides strongly diminishing benefit at a linearly
