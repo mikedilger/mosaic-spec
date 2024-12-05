@@ -87,6 +87,9 @@ Only secure transports with TLS are defined. TLS must be version 1.2 or 1.3.
 The only known schemes currently are `wss` and `https` (`https` being
 designated for [WebTransport](webtransport.md))
 
+The order of the entries expresses the preference or priority. Earlier
+entries are preferred by the server to later ones.
+
 Here are some examples of server bootstrap lines:
 
 `wss://203.0.113.1` specifies WebSockets with TLS on port 80 at IP address
@@ -112,6 +115,9 @@ server. So they do not require the same data as the user bootstrap.
 
 User bootstraps specify servers that the user uses, and how the user
 uses them.
+
+The order of the entries expresses the preference or priority. Earlier
+entries are preferred by the user to later ones.
 
 A user bootstrap starts with the line `U`.
 
