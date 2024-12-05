@@ -13,7 +13,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Mosaic Introduction";
+        var mkdocs_page_name = "Mosaic";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = null;
       </script>
@@ -41,8 +41,8 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Mosaic Introduction</a>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="intro/">Mosaic Introduction</a>
                 </li>
               </ul>
               <ul>
@@ -98,6 +98,11 @@
     </ul>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">Mosaic Accessory</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="human_encodings/">Human Encodings</a>
+                  </li>
+              </ul>
               <p class="caption"><span class="caption-text">Mosaic Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="websockets/">WebSockets</a>
@@ -139,7 +144,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Mosaic Introduction</li>
+      <li class="breadcrumb-item active">Mosaic</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -184,7 +189,8 @@
   is <a href="bootstrap/">bootstrapped</a> from Mainline DHT</li>
 <li>Mosaic <a href="record/">records</a> are binary, meaning they are smaller,
   have no parsing overhead, and have no layout or character encoding
-  ambiguities. Refer to
+  ambiguities. If you think we should have used CBOR or JSON, 
+  Refer to
   <a href="https://github.com/SteveFarroll/mosaic-spec/issues/8">debate: Binary</a></li>
 <li>Mosaic records are <a href="reference/">editable</a> if an application wants them to
   be, as all records can be addressed either by their hash (not replaceable)
@@ -212,9 +218,6 @@ capitalize it even in the middle of a sentence.</p>
               
             </div>
           </div><footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="status/" class="btn btn-neutral float-right" title="Status and Development">Next <span class="icon icon-circle-arrow-right"></span></a>
-    </div>
 
   <hr/>
 
@@ -239,8 +242,6 @@ capitalize it even in the middle of a sentence.</p>
     
     
     
-      <span><a href="status/" style="color: #fcfcfc">Next &raquo;</a></span>
-    
   </span>
 </div>
     <script src="js/jquery-3.6.0.min.js"></script>
@@ -259,5 +260,5 @@ capitalize it even in the middle of a sentence.</p>
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2024-12-05 05:49:48.323152+00:00
+Build Date UTC : 2024-12-05 06:57:57.419198+00:00
 -->

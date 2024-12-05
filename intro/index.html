@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>References - Mosaic</title>
+    <title>Mosaic Introduction - Mosaic</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "References";
-        var mkdocs_page_input_path = "reference.md";
+        var mkdocs_page_name = "Mosaic Introduction";
+        var mkdocs_page_input_path = "intro.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -41,8 +41,8 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../intro/">Mosaic Introduction</a>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Mosaic Introduction</a>
                 </li>
               </ul>
               <ul>
@@ -50,7 +50,7 @@
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Mosaic Core</span></p>
-              <ul class="current">
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" >Identity</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../cryptography/">Cryptography</a>
@@ -71,7 +71,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">References</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/">References</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Core Records</a>
     <ul>
@@ -144,8 +144,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Mosaic Core</li>
-      <li class="breadcrumb-item active">References</li>
+      <li class="breadcrumb-item active">Mosaic Introduction</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -154,55 +153,73 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="references">References</h1>
+                <h1 id="mosaic">Mosaic</h1>
 <p><status>PAGE STATUS: early draft</status></p>
-<p>A reference is a pointer from one record to another.</p>
-<p>Mosaic defines two kinds of references</p>
-<h2 id="hash-reference">Hash Reference</h2>
-<p>A <code>hash</code> reference is a pointer to an exact record with no provision for
-replacement or edits. It is a prefix of the <code>hash</code> of the message. Usually
-either a 16-byte (128 bit) or 32-byte (256 bit) prefix is used.</p>
-<h2 id="address-reference">Address Reference</h2>
-<p>An <code>address</code> reference is a pointer to a group of records that have the same
-address, which usually represent an initial record and it's subsequent
-replacements, often (and by default presumably) with the most recent record
-superceding the older records.</p>
-<p>An address consists of four fields which are contiguous and in order in the
-record layout at <code>[128:176]</code> making up 48 bytes.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Mosaic is a <em>distributed</em> <em>sovereign</em> <em>general-purpose</em> application protocol for the Internet.</p>
+<p><strong>distributed</strong>: There is no central point of failure, or place that can be taken down. There is no central place to "bootstrap" Mosaic (other than Mainline DHT's bootstrapping).</p>
+<p><strong>sovereign</strong>: All nodes (users/clients and servers) participation is self-managed and nobody can cancel your account. You manage your own keys. Mosaic does not depend on DNS and Mosaic does not depend on Certification Authorities to issue certificates.</p>
+<p><strong>general-purpose</strong>: Although it started as social media, this architecture has been shown to serve many general-purpose applications.</p>
+<p>Mosaic is a <strong>work in progress</strong>.  This specification is EARLY DRAFT.</p>
+<h3 id="what-mosaic-is-not">What Mosaic is not</h3>
+<p><em>Mosaic is NOT peer-to-peer</em>: <small>Around the turn of the century, a lot of distributed sovereign protocol work focused on peer-to-peer:  Freenet, GnuNET, and later DHTs.</small> As it turns out, peer-to-peer is difficult because most computers are not fully connected to the Internet. And as there is nothing particular difficult in running a server that <em>is</em> fully connected to the Internet (given VPS availability), being strictly peer-to-peer doesn't seem advantageous. So we choose the more rock-solid client-server architecture.</p>
+<p><em>Mosaic does NOT provide IP privacy</em>: <small>Around the turn of the century, a lot of distributed sovereign protocol work focused on IP privacy: Freenet, GnuNET, etc.</small>  However, Tor took off as a general privacy layer, and other alternatives exist including i2p and VPNs.  Architecturally, it makes sense to separate application layers from privacy layers.  There is no good reason to reinvent another privacy layer since Mosaic can run on top of an already existing privacy layer.</p>
+<h3 id="where-mosaic-came-from">Where Mosaic came from</h3>
+<p>Mosaic is an offshoot of <a href="https://github.com/nostr-protocol">nostr</a>.</p>
+<p>Like nostr:</p>
 <ul>
-<li>The the author's public key (32 bytes),</li>
-<li>The kind (2 bytes),</li>
-<li>The original timestamp (6 bytes),</li>
-<li>The random nonce (8 bytes),</li>
+<li>Mosaic uses sovereign user-controlled key pairs</li>
+<li>Mosaic uses WebSockets</li>
+<li>Mosaic uses client-server architecture, since peer-to-peer has connectivity problems</li>
+<li>Mosaic doesn't provide IP privacy</li>
 </ul>
-<p>An author can replace a record by creating a new record with the same address,
-in which case the address is copied (the nonce is not randomly generated).
-Replaced records must then contain the same author key and be of the same
-kind.  They may however be signed by a different signing keypair or have
-their flags modified, their tags changed, and their content changed.</p>
-<p>The timestamp of a replacement record MUST be larger than the original
-timestamp in the address.</p>
-<p>Rationale:</p>
+<p>Unlike nostr:</p>
 <ul>
-<li>By containing the Author public key, record location can be determined
-  through <a href="../bootstrap/">bootstrapping</a>.</li>
-<li>At only 48 bytes long, these can easily fit into a 253 byte tag when needed.</li>
-<li>By not including the hash of content, records can be edited and replaced by
-  the author (where edits make sense)</li>
-<li>By containing the kind, records that are edited cannot change their kind.</li>
-<li>By containing the kind, software can filter records that are not
-  relevant to a situation without needing to look them up first.</li>
-<li>By containing the original timestamp and a 64-bit nonce, it is statistically
-  infeasible for two different records to have the same address
-  unintentionally. In fact this is overkill, but using anything shorter
-  that still aligns at 64-bits ends up being not unique enough.</li>
+<li>Mosaic uses different <a href="../cryptography/">cryptography</a> (EdDSA ed25519 and BLAKE3)</li>
+<li>Mosaic uses <a href="../identity/#master-keys-and-subkeys">subkeys</a> from the start for better key management</li>
+<li>Mosaic <a href="../identity/#users-and-servers">servers</a> have keypair-based identities too, so you can be sure that
+  you are connecting to the right server. Servers are identified by their
+  keypair, not their DNS-based URL.</li>
+<li>Mosaic <a href="../websockets/">WebSockets</a> uses TLS 1.2 or 1.3 with either
+  self-signed certificates or RawPublicKey, so that no dependency is made upon
+  self-proclaimed certificate authority companies.</li>
+<li>Client authentication by servers is done at the TLS layer where clients
+  also present self-signed or RawPublicKey certificates.</li>
+<li>Mosaic information (server's IP addresses and user's home server information)
+  is <a href="../bootstrap/">bootstrapped</a> from Mainline DHT</li>
+<li>Mosaic <a href="../record/">records</a> are binary, meaning they are smaller,
+  have no parsing overhead, and have no layout or character encoding
+  ambiguities. If you think we should have used CBOR or JSON, 
+  Refer to
+  <a href="https://github.com/SteveFarroll/mosaic-spec/issues/8">debate: Binary</a></li>
+<li>Mosaic records are <a href="../reference/">editable</a> if an application wants them to
+  be, as all records can be addressed either by their hash (not replaceable)
+  or their address (replaceable) and all records have both a hash and an
+  address.</li>
+<li><a href="../timestamps/">Timestamps</a> account for leap seconds (unlike unixtime) and
+  have millisecond accuracy.</li>
+<li>Clients and Servers remember the time that records are received, so that
+  key revocation can revoke all records received after a certain time,
+  and not rely on the possibly fake timestamps in the records themselves.</li>
+<li>The specification is layered with Core, Transport, Extensions, and
+  Applications being separate. Only Core and WebSockets are required by
+  all participants.</li>
 </ul>
+<p>Terminology differences</p>
+<ul>
+<li>Nostr <em>events</em> are akin to Mosaic <em>records</em></li>
+<li>Nostr <em>event IDs</em> are akin to Mosaic <em>hashes</em></li>
+<li>Nostr <em>relays</em> are akin to Mosaic <em>servers</em></li>
+</ul>
+<h3 id="the-name-mosaic">The name Mosaic</h3>
+<p>No reason. Just a name. Easy to remember and pronounce. A throwback to
+the old NCSA Mosaic browser I suppose. It is not an acronym. We always
+capitalize it even in the middle of a sentence.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../core_tags/" class="btn btn-neutral float-left" title="Core Tags"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../keyschedule/" class="btn btn-neutral float-right" title="Key Schedule Record">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../status/" class="btn btn-neutral float-right" title="Status and Development">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -227,10 +244,8 @@ timestamp in the address.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../core_tags/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
-    
-      <span><a href="../keyschedule/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../status/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

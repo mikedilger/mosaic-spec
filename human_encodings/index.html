@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>References - Mosaic</title>
+    <title>Human Encodings - Mosaic</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "References";
-        var mkdocs_page_input_path = "reference.md";
+        var mkdocs_page_name = "Human Encodings";
+        var mkdocs_page_input_path = "human_encodings.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -50,7 +50,7 @@
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Mosaic Core</span></p>
-              <ul class="current">
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" >Identity</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../cryptography/">Cryptography</a>
@@ -71,7 +71,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">References</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/">References</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Core Records</a>
     <ul>
@@ -99,8 +99,8 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Mosaic Accessory</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../human_encodings/">Human Encodings</a>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Human Encodings</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Mosaic Transport</span></p>
@@ -144,8 +144,8 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Mosaic Core</li>
-      <li class="breadcrumb-item active">References</li>
+          <li class="breadcrumb-item">Mosaic Accessory</li>
+      <li class="breadcrumb-item active">Human Encodings</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -154,55 +154,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="references">References</h1>
-<p><status>PAGE STATUS: early draft</status></p>
-<p>A reference is a pointer from one record to another.</p>
-<p>Mosaic defines two kinds of references</p>
-<h2 id="hash-reference">Hash Reference</h2>
-<p>A <code>hash</code> reference is a pointer to an exact record with no provision for
-replacement or edits. It is a prefix of the <code>hash</code> of the message. Usually
-either a 16-byte (128 bit) or 32-byte (256 bit) prefix is used.</p>
-<h2 id="address-reference">Address Reference</h2>
-<p>An <code>address</code> reference is a pointer to a group of records that have the same
-address, which usually represent an initial record and it's subsequent
-replacements, often (and by default presumably) with the most recent record
-superceding the older records.</p>
-<p>An address consists of four fields which are contiguous and in order in the
-record layout at <code>[128:176]</code> making up 48 bytes.</p>
-<ul>
-<li>The the author's public key (32 bytes),</li>
-<li>The kind (2 bytes),</li>
-<li>The original timestamp (6 bytes),</li>
-<li>The random nonce (8 bytes),</li>
-</ul>
-<p>An author can replace a record by creating a new record with the same address,
-in which case the address is copied (the nonce is not randomly generated).
-Replaced records must then contain the same author key and be of the same
-kind.  They may however be signed by a different signing keypair or have
-their flags modified, their tags changed, and their content changed.</p>
-<p>The timestamp of a replacement record MUST be larger than the original
-timestamp in the address.</p>
-<p>Rationale:</p>
-<ul>
-<li>By containing the Author public key, record location can be determined
-  through <a href="../bootstrap/">bootstrapping</a>.</li>
-<li>At only 48 bytes long, these can easily fit into a 253 byte tag when needed.</li>
-<li>By not including the hash of content, records can be edited and replaced by
-  the author (where edits make sense)</li>
-<li>By containing the kind, records that are edited cannot change their kind.</li>
-<li>By containing the kind, software can filter records that are not
-  relevant to a situation without needing to look them up first.</li>
-<li>By containing the original timestamp and a 64-bit nonce, it is statistically
-  infeasible for two different records to have the same address
-  unintentionally. In fact this is overkill, but using anything shorter
-  that still aligns at 64-bits ends up being not unique enough.</li>
-</ul>
+                <h1 id="mosaic-human-encodings">Mosaic Human Encodings</h1>
+<p>Human encodings are defined to provide uniform compatible ways for
+sharing data between humans and software.</p>
+<p><a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#bech32">bech32</a>
+is used in many of these due to its superior properties. Refer to the link.</p>
+<h2 id="keys">Keys</h2>
+<p>User public keys are encoded with bech32 using the <code>moupub</code> prefix.</p>
+<p>Server public keys are encoded with bech32 using the <code>mospub</code> prefix.</p>
+<p>Public keys can be encoded with bech32 using the <code>mopub</code> prefix if the
+encoder does not know whether it represents a user or a server.</p>
+<p>Secret keys are encoded with bech32 using the <code>mosec</code> prefix.</p>
+<p>Hashes are encoded with bech32 using the <code>mohash</code> prefix.</p>
+<p>Addresses are encoded with bech32 using the <code>moaddr</code> prefix.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../core_tags/" class="btn btn-neutral float-left" title="Core Tags"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../keyschedule/" class="btn btn-neutral float-right" title="Key Schedule Record">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../kinds/" class="btn btn-neutral float-left" title="Record Kind Registry"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../websockets/" class="btn btn-neutral float-right" title="WebSockets">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -227,10 +197,10 @@ timestamp in the address.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../core_tags/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../kinds/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../keyschedule/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../websockets/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
