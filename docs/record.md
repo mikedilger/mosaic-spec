@@ -228,18 +228,17 @@ These are searchable key-value tags.
 Unlike nostr tags, all of thsese are searchable. If an application requires
 unsearchable tags, these can be defined within that application's payload.
 
-Each tag has a 2 byte (16 bit) type and a value that is at most 253 bytes long.
-
 Tags are laid out as follows:
 
 ```text
-+-------+---------+---------+
-| type  | length  | value   |
-+-------+---------+---------+
+0           2         3         256 max
++-----------+---------+----------+
+| type      | length  | value ...|
++-----------+---------+----------+
 ```
 
-where the type is 2 bytes (16 bits) and the length is 1 byte (8 bits) and
-represents the length of the value, and the value is at most 253 bytes long.
+Each tag has a 2-byte (16 bit) type `[0:2]`, a 1-byte (8 bit) length `[2:3]`,
+and a value that is at most 253 bytes long `[3:]`.
 
 Tags only have one value.
 

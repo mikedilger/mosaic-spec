@@ -2,49 +2,56 @@
 
 <status>PAGE STATUS: early draft</status>
 
-All tags start with this data:
+Tags are laid out as follows:
 
 ```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  TYPE |  LEN  | ...           |
- 8  +-------------------------------+
+0           2      3         256 max
++-----------+------+----------+
+| type      | len  | value ...|
++-----------+------+----------+
 ```
 
-* A two byte (16-bit) unsigned integer in little-endian format
-  representing the type of tag
-* A two byte (16-bit) unsigned integer in little endian format
-  representing the byte length of the tag.
+* `[0:2]` - The type
+* `[2:3]` - The length of the entire tag including the 3 byte header
+    This must be at least 3.
+* `[3:]` - The value, which is at most 253 bytes long.
 
-This length is always present even if implied by the tag type because
-applications are not required to recognize every tag type to look up its
-length or method of length calculation, but they will need to skip forward
-to the next tag.
+Rationale
+
+* While for some tag types a length could be inferred, this is not
+  true in general. Applications are not required to recognize every
+  tag type to look up its known length or method of length
+  calculation.
+
+Some tag types start with padding in the value in order to better align
+their data.
 
 ## Notify Public Key
 
 > **0x1**
 
 ```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x1  |  0x30 |    0x0        |
- 8  +-------------------------------+
-    | PUBLIC KEY 1/4                |
- 16 +-------------------------------+
-    | PUBLIC KEY 2/4                |
- 24 +-------------------------------+
-    | PUBLIC KEY 3/4                |
- 32 +-------------------------------+
-    | PUBLIC KEY 4/4                |
- 40 +-------------------------------+
+            
+      0       2    3                  8
+ 0x0  +-------------------------------+ 0
+      |  0x1  |0x28|       0x0        |
+ 0x8  +-------------------------------+ 8
+      | PUBLIC KEY 1/4                |
+ 0x10 +-------------------------------+ 16
+      | PUBLIC KEY 2/4                |
+ 0x18 +-------------------------------+ 24
+      | PUBLIC KEY 3/4                |
+ 0x20 +-------------------------------+ 32
+      | PUBLIC KEY 4/4                |
+ 0x28 +-------------------------------+ 40
 ```
 
-`PUBLIC KEY` is a 32-byte public key.
+* `[0:2]` - The type 0x1 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x28
+* `[3:8]` - Zeroed
+* `[8:40]` - public key (32 bytes)
 
-Records with this tag indicate that the record os if interest to the
+Records with this tag indicate that the record is if interest to the
 person identified by that public key (as their master key).  Being tagged
 as such, it should be delivered to all of this persons' INBOX servers as
 specified in their [bootstrap](bootstrap.md) record.
@@ -54,20 +61,25 @@ specified in their [bootstrap](bootstrap.md) record.
 > **0x2**
 
 ```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x2  |  0x30 |     KIND      |
- 8  +-------------------------------+
-    | HASH 1/4                      |
- 16 +-------------------------------+
-    | HASH 2/4                      |
- 24 +-------------------------------+
-    | HASH 3/4                      |
- 32 +-------------------------------+
-    | HASH 4/4                      |
- 40 +-------------------------------+
+      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x2  |0x28| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | HASH 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | HASH 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | HASH 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | HASH 4/4                      |
+ 0x28 +-------------------------------+ 40
 ```
+
+* `[0:2]` - The type 0x2 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x28
+* `[3:4]` - Zeroed
+* `[4:8]` - The [kind](kinds.md)
+* `[8:40]` - The hash (32 bytes)
 
 This is a reply to another record in a threading sense.
 
@@ -88,24 +100,29 @@ If a record includes this tag, it must also include a
 > **0x3**
 
 ```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x3  |  0x40 |     KIND      |
- 8  +-------------------------------+
-    | ADDR 1/6                      |
- 16 +-------------------------------+
-    | ADDR 2/6                      |
- 24 +-------------------------------+
-    | ADDR 3/6                      |
- 32 +-------------------------------+
-    | ADDR 4/6                      |
- 40 +-------------------------------+
-    | ADDR 5/6                      |
- 48 +-------------------------------+
-    | ADDR 6/6                      |
- 56 +-------------------------------+
+      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x3  |0x38| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | ADDR 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | ADDR 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | ADDR 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | ADDR 4/4                      |
+ 0x28 +-------------------------------+ 40
+      | ADDR 5/4                      |
+ 0x30 +-------------------------------+ 48
+      | ADDR 6/4                      |
+ 0x38 +-------------------------------+ 56
 ```
+
+* `[0:2]` - The type 0x3 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x38
+* `[3:4]` - Zeroed
+* `[4:8]` - The [kind](kinds.md)
+* `[8:56]` - The address (48 bytes)
 
 This is a reply to another record in a threading sense.
 
@@ -126,20 +143,25 @@ If a record includes this tag, it must also include a
 > **0x4**
 
 ```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x4  |  0x30 |     KIND      |
- 8  +-------------------------------+
-    | HASH 1/4                      |
- 16 +-------------------------------+
-    | HASH 2/4                      |
- 24 +-------------------------------+
-    | HASH 3/4                      |
- 32 +-------------------------------+
-    | HASH 4/4                      |
- 40 +-------------------------------+
+      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x4  |0x28| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | HASH 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | HASH 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | HASH 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | HASH 4/4                      |
+ 0x28 +-------------------------------+ 40
 ```
+
+* `[0:2]` - The type 0x4 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x28
+* `[3:4]` - Zeroed
+* `[4:8]` - The [kind](kinds.md)
+* `[8:40]` - The hash (32 bytes)
 
 This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.
@@ -162,24 +184,29 @@ as well.
 > **0x5**
 
 ```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x5  |  0x40 |     KIND      |
- 8  +-------------------------------+
-    | ADDR 1/6                      |
- 16 +-------------------------------+
-    | ADDR 2/6                      |
- 24 +-------------------------------+
-    | ADDR 3/6                      |
- 32 +-------------------------------+
-    | ADDR 4/6                      |
- 40 +-------------------------------+
-    | ADDR 5/6                      |
- 40 +-------------------------------+
-    | ADDR 6/6                      |
- 40 +-------------------------------+
+      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x5  |0x38| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | ADDR 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | ADDR 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | ADDR 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | ADDR 4/4                      |
+ 0x28 +-------------------------------+ 40
+      | ADDR 5/4                      |
+ 0x30 +-------------------------------+ 48
+      | ADDR 6/4                      |
+ 0x38 +-------------------------------+ 56
 ```
+
+* `[0:2]` - The type 0x5 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x38
+* `[3:4]` - Zeroed
+* `[4:8]` - The [kind](kinds.md)
+* `[8:56]` - The address (48 bytes)
 
 This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.
@@ -202,20 +229,25 @@ as well.
 > **0x6**
 
 ```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x6  |  0x30 |     KIND      |
- 8  +-------------------------------+
-    | HASH 1/4                      |
- 16 +-------------------------------+
-    | HASH 2/4                      |
- 24 +-------------------------------+
-    | HASH 3/4                      |
- 32 +-------------------------------+
-    | HASH 4/4                      |
- 40 +-------------------------------+
+      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x6  |0x28| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | HASH 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | HASH 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | HASH 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | HASH 4/4                      |
+ 0x28 +-------------------------------+ 40
 ```
+
+* `[0:2]` - The type 0x6 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x28
+* `[3:4]` - Zeroed
+* `[4:8]` - The [kind](kinds.md)
+* `[8:40]` - The hash (32 bytes)
 
 This is a quote of another record.
 
@@ -236,24 +268,29 @@ same record that is quoted.
 > **0x7**
 
 ```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x7  |  0x40 |     KIND      |
- 8  +-------------------------------+
-    | ADDR 1/6                      |
- 16 +-------------------------------+
-    | ADDR 2/6                      |
- 24 +-------------------------------+
-    | ADDR 3/6                      |
- 32 +-------------------------------+
-    | ADDR 4/6                      |
- 40 +-------------------------------+
-    | ADDR 5/6                      |
- 40 +-------------------------------+
-    | ADDR 6/6                      |
- 40 +-------------------------------+
+      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x7  |0x38| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | ADDR 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | ADDR 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | ADDR 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | ADDR 4/4                      |
+ 0x28 +-------------------------------+ 40
+      | ADDR 5/4                      |
+ 0x30 +-------------------------------+ 48
+      | ADDR 6/4                      |
+ 0x38 +-------------------------------+ 56
 ```
+
+* `[0:2]` - The type 0x7 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x38
+* `[3:4]` - Zeroed
+* `[4:8]` - The [kind](kinds.md)
+* `[8:56]` - The address (48 bytes)
 
 This is a quote of another record.
 

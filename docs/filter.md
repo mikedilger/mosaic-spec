@@ -305,7 +305,6 @@ Matches all records which have one of these tags.
 * A 2-byte [tag type](tag_types.md) in little-endian format
 * 3 bytes 0x0
 * A 1-byte count `n`, then
-* A sequence of n length-value pairs (length being 1 byte) representing
-  the n different values of the tag which cause the filter to match.
-  This data is not aligned and tag values are of varying length.
-
+* DATA being a sequence of n length-value pairs (length being 1 byte)
+  representing the n different values of the tag which cause the filter
+  to match. This data is not aligned and tag values are of varying length.

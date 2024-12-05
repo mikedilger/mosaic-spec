@@ -26,19 +26,21 @@ tag listing the subkey.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    | Subkey    1/4                 |
+    | SUBKEY    1/4                 |
  8  +-------------------------------+
-    | Subkey    2/4                 |
+    | SUBKEY    2/4                 |
  16 +-------------------------------+
-    | Subkey    3/4                 |
+    | SUBKEY    3/4                 |
  24 +-------------------------------+
-    | Subkey    4/4                 |
+    | SUBKEY    4/4                 |
  32 +-------------------------------+
     |MARKER|RES|REVOC TIMESTAMP     |
     +-------------------------------+
 ```
 
-`Marker` `[32:33]` is 1-byte and is one of the following
+`[0:32]` - SUBKEY is the 32-byte subkey
+
+`[32:33]` - MARKER is 1-byte and is one of the following
 
 * 0x0 - ACTIVE_SIGNING_KEY - A Mosaic ed25519 signing key (subkey) in current use
 * 0x1 - ACTIVE_ENCRYPTION_KEY - A Mosaic X25519 encryption key in current use
@@ -59,9 +61,9 @@ tag listing the subkey.
     * This helps support dual-stack software that works with both nostr and
       Mosaic.
 
-`Res` `[33:34]` is 1-byte and is reserved. It MUST be 0.
+`[33:34]` - RES is 1-byte and is reserved. It MUST be 0.
 
-`Timestamp` `[34:40]` is 6-bytes and is in the format described in
+`[34:40]` - REVOC TIMESTAMP is 6-bytes and is in the format described in
 [timestamps](timestamps.md). Timestamp is required for REVOKED ALL and
 REVOKED PAST.  Timestamp is suggested for OUT_OF_USE. Timestamp SHOULD be
 zeroed in all other cases.
