@@ -36,24 +36,23 @@ Unlike nostr:
 * Mosaic uses different [cryptography](cryptography.md) (EdDSA ed25519 and BLAKE3)
 * Mosaic uses [subkeys](identity.md#master-keys-and-subkeys) from the start for better key management
 * Mosaic [servers](identity.md#users-and-servers) have keypair-based identities too, so you can be sure that
-  you are connecting to the right server. Servers are identified by the
-  public key, not their DNS-based URL.
-* Mosaic information (server's IP addresses and user's home server information)
-  is [bootstrapped](bootstrap.md) from Mainline DHT
-* Mosaic [records](record.md) are binary. The minimal Mosaic record is
-  192 bytes, versus the minimal nostr record of 343 byes. The overhead of JSON
-  parsing along with it's ambiguity is gone! Simple tools and library
-  functions can easily convert to/from JSON or indeed any other way you wish
-  to see the data.
-* Mosaic records are [editable](reference.md) if an application wants them to
-  be, as all records can be addressed either by their hash (not replaceable)
-  or their address (replaceable) and all records have both a hash and an
-  address.
+  you are connecting to the right server. Servers are identified by their
+  keypair, not their DNS-based URL.
 * Mosaic [WebSockets](websockets.md) uses TLS 1.2 or 1.3 with either
   self-signed certificates or RawPublicKey, so that no dependency is made upon
   self-proclaimed certificate authority companies.
 * Client authentication by servers is done at the TLS layer where clients
   also present self-signed or RawPublicKey certificates.
+* Mosaic information (server's IP addresses and user's home server information)
+  is [bootstrapped](bootstrap.md) from Mainline DHT
+* Mosaic [records](record.md) are binary, meaning they are smaller,
+  have no parsing overhead, and have no layout or character encoding
+  ambiguities. Refer to
+  [debate: Binary](https://github.com/SteveFarroll/mosaic-spec/issues/8)
+* Mosaic records are [editable](reference.md) if an application wants them to
+  be, as all records can be addressed either by their hash (not replaceable)
+  or their address (replaceable) and all records have both a hash and an
+  address.
 * [Timestamps](timestamps.md) account for leap seconds (unlike unixtime) and
   have millisecond accuracy.
 * Clients and Servers remember the time that records are received, so that
