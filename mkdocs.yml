@@ -32,6 +32,8 @@ nav:
     - Registries:
       - Tag Type Registry: tag_types.md
       - Record Kind Registry: kinds.md
+  - Mosaic Accessory:
+    - Human Encodings: human_encodings.md
   - Mosaic Transport:
     - WebSockets: websockets.md
     - WebTransport: webtransport.md
