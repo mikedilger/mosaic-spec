@@ -218,7 +218,7 @@ buffer sizes.</p>
 176 +-------------------------------+
     | Flags | Timestamp             |
 184 +-------------------------------+
-    | RESV  | Len_t | Len_p         |
+    |AppFlgs| Len_t | Len_p         |
 192 +-------------------------------+
     | Tags...                       |
     |                   .. +PADDING |
@@ -265,8 +265,9 @@ fashion in the future). This is represented in 32 bytes (256 bits).</p>
 EdDSA ed25519 keypair, which is represented in 32 bytes (256 bits).</p>
 <h3 id="kind">Kind</h3>
 <p>2 bytes at <code>[160:162]</code></p>
-<p>This is the <a href="../kinds/">kind</a> of the record which is application specific, and
-determines the nature of the payload, represented in 2 bytes (16 bits) as an
+<p>This is the <a href="../kinds/">kind</a> of the record which is determines the application
+this record is part of, which then determines the nature of the non-core tags
+and the payload. This is represented in 2 bytes (16 bits) as an
 unsigned integer, little-endian.</p>
 <h3 id="orig-timestamp">Orig Timestamp</h3>
 <p>6 bytes at <code>[162:168]</code></p>
@@ -307,9 +308,10 @@ This keeps addresses unique.</p>
 <a href="../timestamps/">timestamps</a>.</p>
 <p>If this record replaces a previous record, this timestamp MUST be larger
 than <a href="#orig-timestamp">Orig Timestamp</a>.</p>
-<h3 id="resv">RESV</h3>
+<h3 id="appflgs">AppFlgs</h3>
 <p>2 bytes at <code>[184:186]</code></p>
-<p>These are reserved and MUST be 0.</p>
+<p>These are bitflags reserved for use by the specific application based on
+the <a href="#kind">kind</a>.</p>
 <h3 id="len_t">Len_t</h3>
 <p>2 bytes at <code>[186:188]</code> representing the length of the tags section in bytes
 as an unsigned integer in little-endian format.</p>
@@ -325,7 +327,7 @@ at the end to achieve 64-bit alignment.</p>
 <h3 id="tags">Tags</h3>
 <p>Varying bytes at <code>[192:192+Len_t]</code></p>
 <p>These are searchable key-value tags.</p>
-<p>Unlike nostr tags, all of thsese are searchable. If an application requires
+<p>Unlike nostr tags, all of these are searchable. If an application requires
 unsearchable tags, these can be defined within that application's payload.</p>
 <p>Tags are laid out as follows:</p>
 <pre><code class="language-text">0           2         3         256 max
@@ -351,6 +353,30 @@ the tags are defined at <a href="../core_tags/">Core Tags</a>.</p>
 <p>Payload is opaque (at this layer of specification) application-specific data.</p>
 <p>The payload section is padded out to 64-bit alignment.</p>
 <p>The maximum payload section length is 1_048_384 bytes</p>
+<h1 id="validation">Validation</h1>
+<p>Records MUST be fully validated by clients.</p>
+<p>Records MUST be fully validated by servers except for the
+steps marked CLIENTS ONLY.</p>
+<p>Validation steps</p>
+<ol>
+<li>The length must be between 192 and 1048576 bytes.</li>
+<li>The length must equal 192 + Len_t + Len_p.</li>
+<li>The Signing public key must be validated according to the
+   <a href="../cryptography/">cryptography</a> key validation checks.</li>
+<li>The Author public key must be validated according to the
+   <a href="../cryptography/">cryptography</a> key validation checks.</li>
+<li>CLIENTS ONLY: The Signing public key must be verified to be
+   a non-revoked subkey of the Author via the Author's
+   <a href="../bootstrap/">bootstrap</a>.</li>
+<li>The bytes after the hash to the end of the record must hash
+   with BLAKE3 to the hash stored in the record.</li>
+<li>The signature must be a valid EdDSA ed25519 signature of
+   the hash with the signing public key.</li>
+<li>The timestamp and the orig timestamp must be validated according to
+   <a href="../timestamps/">timestamps</a>.</li>
+<li>All reserved flags must be set to 0.</li>
+<li>CLIENTS ONLY: Application specific validation should be performed.</li>
+</ol>
               
             </div>
           </div><footer>

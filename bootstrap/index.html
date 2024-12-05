@@ -221,6 +221,8 @@ paths).</p>
 <p>Only secure transports with TLS are defined. TLS must be version 1.2 or 1.3.
 The only known schemes currently are <code>wss</code> and <code>https</code> (<code>https</code> being
 designated for <a href="../webtransport/">WebTransport</a>)</p>
+<p>The order of the entries expresses the preference or priority. Earlier
+entries are preferred by the server to later ones.</p>
 <p>Here are some examples of server bootstrap lines:</p>
 <p><code>wss://203.0.113.1</code> specifies WebSockets with TLS on port 80 at IP address
 <code>203.0.113.0</code>.</p>
@@ -237,6 +239,8 @@ server. So they do not require the same data as the user bootstrap.</p>
 <h2 id="user-bootstrap">User Bootstrap</h2>
 <p>User bootstraps specify servers that the user uses, and how the user
 uses them.</p>
+<p>The order of the entries expresses the preference or priority. Earlier
+entries are preferred by the user to later ones.</p>
 <p>A user bootstrap starts with the line <code>U</code>.</p>
 <p>Each line consists of two parts separated by a single ASCII space.</p>
 <h3 id="server-usage-character">Server Usage Character</h3>
