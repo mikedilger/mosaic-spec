@@ -47,7 +47,8 @@ Unlike nostr:
   is [bootstrapped](bootstrap.md) from Mainline DHT
 * Mosaic [records](record.md) are binary, meaning they are smaller,
   have no parsing overhead, and have no layout or character encoding
-  ambiguities. Refer to
+  ambiguities. If you think we should have used CBOR or JSON, 
+  Refer to
   [debate: Binary](https://github.com/SteveFarroll/mosaic-spec/issues/8)
 * Mosaic records are [editable](reference.md) if an application wants them to
   be, as all records can be addressed either by their hash (not replaceable)
