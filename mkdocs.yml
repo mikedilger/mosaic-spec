@@ -11,7 +11,7 @@ theme:
 extra_css:
   - style.css
 nav:
-  - Mosaic Introduction: intro.md
+  - Mosaic Introduction: index.md
   - Status and Development: status.md
   - Mosaic Core:
     - Identity:
