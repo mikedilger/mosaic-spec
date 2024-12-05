@@ -40,6 +40,16 @@ to alert a server of an error.
 Every message starts with a one-byte type, shown below in the header
 of each type. Following this is the data of the message.
 
+| Initiator | Message |
+|--------|-----------------|
+| Client | [Query](#query) |
+| Client | [Close Query](#close-query) |
+| Client | [Submission](#submission) |
+| Server | [Record](#record) |
+| Server | [Query Complete](#query-complete) |
+| Server | [Query Closed](#query-closed) |
+| Server | [Submission Result](#submission-result) |
+
 ## Client messages
 
 ### Query
