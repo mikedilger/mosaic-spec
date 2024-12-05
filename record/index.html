@@ -324,14 +324,14 @@ at the end to achieve 64-bit alignment.</p>
 <p>These are searchable key-value tags.</p>
 <p>Unlike nostr tags, all of thsese are searchable. If an application requires
 unsearchable tags, these can be defined within that application's payload.</p>
-<p>Each tag has a 2 byte (16 bit) type and a value that is at most 253 bytes long.</p>
 <p>Tags are laid out as follows:</p>
-<pre><code class="language-text">+-------+---------+---------+
-| type  | length  | value   |
-+-------+---------+---------+
+<pre><code class="language-text">0           2         3         256 max
++-----------+---------+----------+
+| type      | length  | value ...|
++-----------+---------+----------+
 </code></pre>
-<p>where the type is 2 bytes (16 bits) and the length is 1 byte (8 bits) and
-represents the length of the value, and the value is at most 253 bytes long.</p>
+<p>Each tag has a 2-byte (16 bit) type <code>[0:2]</code>, a 1-byte (8 bit) length <code>[2:3]</code>,
+and a value that is at most 253 bytes long <code>[3:]</code>.</p>
 <p>Tags only have one value.</p>
 <p>The tags section is padded out to 64-bit alignment.</p>
 <p>The maximum tags section length is 65536 bytes.</p>

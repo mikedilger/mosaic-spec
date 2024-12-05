@@ -154,43 +154,52 @@
               
                 <h1 id="mosaic-core-tags">Mosaic Core Tags</h1>
 <p><status>PAGE STATUS: early draft</status></p>
-<p>All tags start with this data:</p>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  TYPE |  LEN  | ...           |
- 8  +-------------------------------+
+<p>Tags are laid out as follows:</p>
+<pre><code class="language-text">0           2      3         256 max
++-----------+------+----------+
+| type      | len  | value ...|
++-----------+------+----------+
 </code></pre>
 <ul>
-<li>A two byte (16-bit) unsigned integer in little-endian format
-  representing the type of tag</li>
-<li>A two byte (16-bit) unsigned integer in little endian format
-  representing the byte length of the tag.</li>
+<li><code>[0:2]</code> - The type</li>
+<li><code>[2:3]</code> - The length of the entire tag including the 3 byte header
+    This must be at least 3.</li>
+<li><code>[3:]</code> - The value, which is at most 253 bytes long.</li>
 </ul>
-<p>This length is always present even if implied by the tag type because
-applications are not required to recognize every tag type to look up its
-length or method of length calculation, but they will need to skip forward
-to the next tag.</p>
+<p>Rationale</p>
+<ul>
+<li>While for some tag types a length could be inferred, this is not
+  true in general. Applications are not required to recognize every
+  tag type to look up its known length or method of length
+  calculation.</li>
+</ul>
+<p>Some tag types start with padding in the value in order to better align
+their data.</p>
 <h2 id="notify-public-key">Notify Public Key</h2>
 <blockquote>
 <p><strong>0x1</strong></p>
 </blockquote>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x1  |  0x30 |    0x0        |
- 8  +-------------------------------+
-    | PUBLIC KEY 1/4                |
- 16 +-------------------------------+
-    | PUBLIC KEY 2/4                |
- 24 +-------------------------------+
-    | PUBLIC KEY 3/4                |
- 32 +-------------------------------+
-    | PUBLIC KEY 4/4                |
- 40 +-------------------------------+
+<pre><code class="language-text">
+      0       2    3                  8
+ 0x0  +-------------------------------+ 0
+      |  0x1  |0x28|       0x0        |
+ 0x8  +-------------------------------+ 8
+      | PUBLIC KEY 1/4                |
+ 0x10 +-------------------------------+ 16
+      | PUBLIC KEY 2/4                |
+ 0x18 +-------------------------------+ 24
+      | PUBLIC KEY 3/4                |
+ 0x20 +-------------------------------+ 32
+      | PUBLIC KEY 4/4                |
+ 0x28 +-------------------------------+ 40
 </code></pre>
-<p><code>PUBLIC KEY</code> is a 32-byte public key.</p>
-<p>Records with this tag indicate that the record os if interest to the
+<ul>
+<li><code>[0:2]</code> - The type 0x1 as a little-endian encoded unsigned integer</li>
+<li><code>[2:3]</code> - The length 0x28</li>
+<li><code>[3:8]</code> - Zeroed</li>
+<li><code>[8:40]</code> - public key (32 bytes)</li>
+</ul>
+<p>Records with this tag indicate that the record is if interest to the
 person identified by that public key (as their master key).  Being tagged
 as such, it should be delivered to all of this persons' INBOX servers as
 specified in their <a href="../bootstrap/">bootstrap</a> record.</p>
@@ -198,20 +207,26 @@ specified in their <a href="../bootstrap/">bootstrap</a> record.</p>
 <blockquote>
 <p><strong>0x2</strong></p>
 </blockquote>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x2  |  0x30 |     KIND      |
- 8  +-------------------------------+
-    | HASH 1/4                      |
- 16 +-------------------------------+
-    | HASH 2/4                      |
- 24 +-------------------------------+
-    | HASH 3/4                      |
- 32 +-------------------------------+
-    | HASH 4/4                      |
- 40 +-------------------------------+
+<pre><code class="language-text">      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x2  |0x28| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | HASH 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | HASH 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | HASH 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | HASH 4/4                      |
+ 0x28 +-------------------------------+ 40
 </code></pre>
+<ul>
+<li><code>[0:2]</code> - The type 0x2 as a little-endian encoded unsigned integer</li>
+<li><code>[2:3]</code> - The length 0x28</li>
+<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The <a href="../kinds/">kind</a></li>
+<li><code>[8:40]</code> - The hash (32 bytes)</li>
+</ul>
 <p>This is a reply to another record in a threading sense.</p>
 <p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
 that this one replies to. Replies are application-independent and may
@@ -226,24 +241,30 @@ indicating which other record this record replies to.</p>
 <blockquote>
 <p><strong>0x3</strong></p>
 </blockquote>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x3  |  0x40 |     KIND      |
- 8  +-------------------------------+
-    | ADDR 1/6                      |
- 16 +-------------------------------+
-    | ADDR 2/6                      |
- 24 +-------------------------------+
-    | ADDR 3/6                      |
- 32 +-------------------------------+
-    | ADDR 4/6                      |
- 40 +-------------------------------+
-    | ADDR 5/6                      |
- 48 +-------------------------------+
-    | ADDR 6/6                      |
- 56 +-------------------------------+
+<pre><code class="language-text">      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x3  |0x38| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | ADDR 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | ADDR 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | ADDR 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | ADDR 4/4                      |
+ 0x28 +-------------------------------+ 40
+      | ADDR 5/4                      |
+ 0x30 +-------------------------------+ 48
+      | ADDR 6/4                      |
+ 0x38 +-------------------------------+ 56
 </code></pre>
+<ul>
+<li><code>[0:2]</code> - The type 0x3 as a little-endian encoded unsigned integer</li>
+<li><code>[2:3]</code> - The length 0x38</li>
+<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The <a href="../kinds/">kind</a></li>
+<li><code>[8:56]</code> - The address (48 bytes)</li>
+</ul>
 <p>This is a reply to another record in a threading sense.</p>
 <p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
 that this one replies to. Replies are application-independent and may
@@ -258,20 +279,26 @@ record indicating which other record this record replies to.</p>
 <blockquote>
 <p><strong>0x4</strong></p>
 </blockquote>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x4  |  0x30 |     KIND      |
- 8  +-------------------------------+
-    | HASH 1/4                      |
- 16 +-------------------------------+
-    | HASH 2/4                      |
- 24 +-------------------------------+
-    | HASH 3/4                      |
- 32 +-------------------------------+
-    | HASH 4/4                      |
- 40 +-------------------------------+
+<pre><code class="language-text">      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x4  |0x28| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | HASH 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | HASH 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | HASH 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | HASH 4/4                      |
+ 0x28 +-------------------------------+ 40
 </code></pre>
+<ul>
+<li><code>[0:2]</code> - The type 0x4 as a little-endian encoded unsigned integer</li>
+<li><code>[2:3]</code> - The length 0x28</li>
+<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The <a href="../kinds/">kind</a></li>
+<li><code>[8:40]</code> - The hash (32 bytes)</li>
+</ul>
 <p>This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.</p>
 <p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
@@ -288,24 +315,30 @@ as well.</p>
 <blockquote>
 <p><strong>0x5</strong></p>
 </blockquote>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x5  |  0x40 |     KIND      |
- 8  +-------------------------------+
-    | ADDR 1/6                      |
- 16 +-------------------------------+
-    | ADDR 2/6                      |
- 24 +-------------------------------+
-    | ADDR 3/6                      |
- 32 +-------------------------------+
-    | ADDR 4/6                      |
- 40 +-------------------------------+
-    | ADDR 5/6                      |
- 40 +-------------------------------+
-    | ADDR 6/6                      |
- 40 +-------------------------------+
+<pre><code class="language-text">      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x5  |0x38| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | ADDR 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | ADDR 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | ADDR 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | ADDR 4/4                      |
+ 0x28 +-------------------------------+ 40
+      | ADDR 5/4                      |
+ 0x30 +-------------------------------+ 48
+      | ADDR 6/4                      |
+ 0x38 +-------------------------------+ 56
 </code></pre>
+<ul>
+<li><code>[0:2]</code> - The type 0x5 as a little-endian encoded unsigned integer</li>
+<li><code>[2:3]</code> - The length 0x38</li>
+<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The <a href="../kinds/">kind</a></li>
+<li><code>[8:56]</code> - The address (48 bytes)</li>
+</ul>
 <p>This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.</p>
 <p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
@@ -322,20 +355,26 @@ as well.</p>
 <blockquote>
 <p><strong>0x6</strong></p>
 </blockquote>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x6  |  0x30 |     KIND      |
- 8  +-------------------------------+
-    | HASH 1/4                      |
- 16 +-------------------------------+
-    | HASH 2/4                      |
- 24 +-------------------------------+
-    | HASH 3/4                      |
- 32 +-------------------------------+
-    | HASH 4/4                      |
- 40 +-------------------------------+
+<pre><code class="language-text">      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x6  |0x28| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | HASH 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | HASH 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | HASH 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | HASH 4/4                      |
+ 0x28 +-------------------------------+ 40
 </code></pre>
+<ul>
+<li><code>[0:2]</code> - The type 0x6 as a little-endian encoded unsigned integer</li>
+<li><code>[2:3]</code> - The length 0x28</li>
+<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The <a href="../kinds/">kind</a></li>
+<li><code>[8:40]</code> - The hash (32 bytes)</li>
+</ul>
 <p>This is a quote of another record.</p>
 <p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
 that this one quotes. Quotes are application-independent and may
@@ -350,24 +389,30 @@ same record that is quoted.</p>
 <blockquote>
 <p><strong>0x7</strong></p>
 </blockquote>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |  0x7  |  0x40 |     KIND      |
- 8  +-------------------------------+
-    | ADDR 1/6                      |
- 16 +-------------------------------+
-    | ADDR 2/6                      |
- 24 +-------------------------------+
-    | ADDR 3/6                      |
- 32 +-------------------------------+
-    | ADDR 4/6                      |
- 40 +-------------------------------+
-    | ADDR 5/6                      |
- 40 +-------------------------------+
-    | ADDR 6/6                      |
- 40 +-------------------------------+
+<pre><code class="language-text">      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x7  |0x38| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      | ADDR 1/4                      |
+ 0x10 +-------------------------------+ 16
+      | ADDR 2/4                      |
+ 0x18 +-------------------------------+ 24
+      | ADDR 3/4                      |
+ 0x20 +-------------------------------+ 32
+      | ADDR 4/4                      |
+ 0x28 +-------------------------------+ 40
+      | ADDR 5/4                      |
+ 0x30 +-------------------------------+ 48
+      | ADDR 6/4                      |
+ 0x38 +-------------------------------+ 56
 </code></pre>
+<ul>
+<li><code>[0:2]</code> - The type 0x7 as a little-endian encoded unsigned integer</li>
+<li><code>[2:3]</code> - The length 0x38</li>
+<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The <a href="../kinds/">kind</a></li>
+<li><code>[8:56]</code> - The address (48 bytes)</li>
+</ul>
 <p>This is a quote of another record.</p>
 <p><code>KIND</code> is a 4-byte record <a href="../kinds/">kind</a> indicating the kind of record
 that this one quotes. Quotes are application-independent and may

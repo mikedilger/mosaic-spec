@@ -431,9 +431,9 @@ this value.</p>
 <li>A 2-byte <a href="../tag_types/">tag type</a> in little-endian format</li>
 <li>3 bytes 0x0</li>
 <li>A 1-byte count <code>n</code>, then</li>
-<li>A sequence of n length-value pairs (length being 1 byte) representing
-  the n different values of the tag which cause the filter to match.
-  This data is not aligned and tag values are of varying length.</li>
+<li>DATA being a sequence of n length-value pairs (length being 1 byte)
+  representing the n different values of the tag which cause the filter
+  to match. This data is not aligned and tag values are of varying length.</li>
 </ul>
               
             </div>
