@@ -8,11 +8,11 @@ This page is a Registry of kinds, their name, and the standard
 that defines them.  Refer to their definitions in the standards that
 define them.
 
-|Kind|Name|Standard|
-|----|----|--------|
-|0x1|Key Schedule|Mosiac Core [Key Schedule](keyschedule.md)|
-|0x2|Profile|Mosaic Core [Profile](profile.md)|
-|0x3|Microblog Root|Mosaic Social Media [Microblog Root](microblog.md)|
-|0x4|Reply Comment|Mosaic Social Media [Reply Comment](reply_comment.md)|
-|0x5|Blog Post|Mosaic Social Media [Blog Post](blog.md)|
-|0x6|Chat Message|Mosaic Social Media [Chat Message](chat.md)|
+|Kind|Name|Standard|Server Used|
+|----|----|--------|-----------|
+|0x1|Key Schedule|Mosaic Core [Key Schedule](keyschedule.md)|Outbox|
+|0x2|Profile|Mosaic Core [Profile](profile.md)|Outbox|
+|0x3|Microblog Root|Mosaic Social Media [Microblog Root](microblog.md)|Outbox|
+|0x4|Reply Comment|Mosaic Social Media [Reply Comment](reply_comment.md)|Outbox & Parent Author Inbox|
+|0x5|Blog Post|Mosaic Social Media [Blog Post](blog.md)|Outbox|
+|0x6|Chat Message|Mosaic Social Media [Chat Message](chat.md)|Chat Server|

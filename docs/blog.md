@@ -17,3 +17,7 @@ Kind = 0x6 - Blog post
 Blogs SHOULD not have the following tags: 0x1, 0x2, 0x3, 0x4, 0x5, 0x6.
 
 Blogs MAY have 0x7.
+
+## Server Used
+
+These are posted to all of the author's Outbox servers.

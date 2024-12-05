@@ -16,3 +16,6 @@ Kind = 0x7 - chat message
 
 This MAY include up to one refer tag, either 0x6 or 0x7.
 
+## Server Used
+
+These are posted to a Chat Server.

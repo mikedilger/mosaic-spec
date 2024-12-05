@@ -67,3 +67,7 @@ tag listing the subkey.
 [timestamps](timestamps.md). Timestamp is required for REVOKED ALL and
 REVOKED PAST.  Timestamp is suggested for OUT_OF_USE. Timestamp SHOULD be
 zeroed in all other cases.
+
+## Server Used
+
+These are posted to all of the author's Outbox servers.

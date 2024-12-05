@@ -11,3 +11,7 @@ Kind = 0x4 - Root
 * 0x04 TORECIPIENTS - MUST be off. Microblogs are public.
 * 0x08 NOBRIDGE - may be on or off
 * 0x10 EPHEMERAL- MUST be off. Reply comments are not ephemeral.
+
+## Server Used
+
+These are posted to all of the author's Outbox servers.
