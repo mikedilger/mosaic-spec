@@ -35,7 +35,6 @@ nav:
   - Mosaic Transport:
     - WebSockets: websockets.md
     - WebTransport: webtransport.md
-    - REST: rest.md
   - Extensions:
     - Sync Protocol Extension: sync_protocol_extension.md
   - Applications:
