@@ -119,7 +119,7 @@ This is the submission of a record in the following format:
     |  0x3  |   LENGTH              |
     +-------------------------------+
     | RECORD ...                    |
-    | ...                           | 
+    | ...                           |
     +-------------------------------+
 ```
 
@@ -150,7 +150,7 @@ This is a record returned from a query in the following format:
     |  0x0  |   LENGTH              |
     +-------------------------------+
     | RECORD ...                    |
-    | ...                           | 
+    | ...                           |
     +-------------------------------+
 ```
 
