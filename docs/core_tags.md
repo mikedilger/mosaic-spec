@@ -305,3 +305,34 @@ record indicating which other record this record quotes.
 
 Records with this tag can also have reply and root tags, but not to the
 same record that is quoted.
+
+## Nostr Sister Event
+
+> **0x8**
+
+```text
+      0       2    3                  8
+ 0x0  +-------------------------------+ 0
+      |  0x8  |0x28|       0x0        |
+ 0x8  +-------------------------------+ 8
+      | NOSTR ID 1/4                  |
+ 0x10 +-------------------------------+ 16
+      | NOSTR ID 2/4                  |
+ 0x18 +-------------------------------+ 24
+      | NOSTR ID 3/4                  |
+ 0x20 +-------------------------------+ 32
+      | NOSTR ID 4/4                  |
+ 0x28 +-------------------------------+ 40
+```
+
+* `[0:2]` - The type 0x8 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x38
+* `[3:8]` - Zeroed
+* `[8:56]` - The Nostr ID (32 bytes)
+
+For dual-stack clients that produce Nostr events alongside Mosaic records,
+and who want to track replies on sister events in nostr as well as here in
+Mosaic, this is a pointer to the sister event in nostr.
+
+NOTE: The nostr sister event will have a "mosaic" tag that contains the
+hex of the id of its Mosaic sister record.
