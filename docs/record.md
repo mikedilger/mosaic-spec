@@ -279,9 +279,9 @@ Validation steps
 1. The length must be between 192 and 1048576 bytes.
 2. The length must equal 192 + Len_t + Len_p.
 3. The Signing public key must be validated according to the
-   [crypto](crypto.md) key validation checks.
+   [cryptography](cryptography.md) key validation checks.
 4. The Author public key must be validated according to the
-   [crypto](crypto.md) key validation checks.
+   [cryptography](cryptography.md) key validation checks.
 5. CLIENTS ONLY: The Signing public key must be verified to be
    a non-revoked subkey of the Author via the Author's
    [bootstrap](bootstrap.md).
