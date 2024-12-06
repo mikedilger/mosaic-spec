@@ -88,6 +88,9 @@ This is a client initiated message. Servers are expected to reply with:
   the initial response (so long as the query is still open), or
 * a [`Query Closed`](#query-closed) message if the query could not be served.
 
+Queries MUST return results in anti-chronological order, from most
+recent backwards.
+
 ### Close Query
 
 > **0x2**
@@ -230,7 +233,7 @@ the following format:
                     1       2       3
     0       8       6       4       2
  0  +-------------------------------+
-    |  0x82 |  0x0  |  0x0  |  CODE |
+    |  0x83 |  0x0  |  0x0  |  CODE |
     +-------------------------------+
     |  ID PREFIX 1/8                |
     +-------------------------------+
@@ -272,4 +275,4 @@ defined results:
 
 FIXME: add proof of work (not defined yet)
 
-The `ID_PREFIX` is the first 256-bits of the record id.
+The `ID_PREFIX` is the first 32 bytes of the record id

@@ -64,21 +64,25 @@ specified in their [bootstrap](bootstrap.md) record.
  0x0  +-------------------------------+ 0
       |  0x2  |0x28| 0|     KIND      |
  0x8  +-------------------------------+ 8
-      | ID 1/4                        |
+      | ID 1/6                        |
  0x10 +-------------------------------+ 16
-      | ID 2/4                        |
+      | ID 2/6                        |
  0x18 +-------------------------------+ 24
-      | ID 3/4                        |
+      | ID 3/6                        |
  0x20 +-------------------------------+ 32
-      | ID 4/4                        |
+      | ID 4/6                        |
  0x28 +-------------------------------+ 40
+      | ID 5/6                        |
+ 0x30 +-------------------------------+ 48
+      | ID 6/6                        |
+ 0x38 +-------------------------------+ 56
 ```
 
 * `[0:2]` - The type 0x2 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x28
+* `[2:3]` - The length 0x38
 * `[3:4]` - Zeroed
 * `[4:8]` - The [kind](kinds.md)
-* `[8:40]` - The id (32 bytes)
+* `[8:56]` - The id (48 bytes)
 
 This is a reply to another record in a threading sense.
 
@@ -88,7 +92,7 @@ reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
 
-`ID` is a 32-byte id [reference](reference.md) to some other record
+`ID` is a 48-byte id [reference](reference.md) to some other record
 indicating which other record this record replies to.
 
 If a record includes this tag, it must also include a
@@ -146,21 +150,25 @@ If a record includes this tag, it must also include a
  0x0  +-------------------------------+ 0
       |  0x4  |0x28| 0|     KIND      |
  0x8  +-------------------------------+ 8
-      | ID 1/4                        |
+      | ID 1/6                        |
  0x10 +-------------------------------+ 16
-      | ID 2/4                        |
+      | ID 2/6                        |
  0x18 +-------------------------------+ 24
-      | ID 3/4                        |
+      | ID 3/6                        |
  0x20 +-------------------------------+ 32
-      | ID 4/4                        |
+      | ID 4/6                        |
  0x28 +-------------------------------+ 40
+      | ID 5/6                        |
+ 0x30 +-------------------------------+ 48
+      | ID 6/6                        |
+ 0x38 +-------------------------------+ 56
 ```
 
 * `[0:2]` - The type 0x4 as a little-endian encoded unsigned integer
 * `[2:3]` - The length 0x28
 * `[3:4]` - Zeroed
 * `[4:8]` - The [kind](kinds.md)
-* `[8:40]` - The id (32 bytes)
+* `[8:56]` - The id (48 bytes)
 
 This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.
@@ -171,7 +179,7 @@ reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
 
-`ID` is a 32-byte id [reference](reference.md) to some other record
+`ID` is a 48-byte id [reference](reference.md) to some other record
 indicating which other record this record replies to.
 
 If a record includes this tag, it must also include a
@@ -328,18 +336,22 @@ This is a mention of a server.
 ```text
       0       2   3   4               8
  0x0  +-------------------------------+ 0
-      |  0x22 |0x30| 0|     KIND      |
+      |  0x22 |0x40| 0|     KIND      |
  0x8  +-------------------------------+ 8
       |     0x0       |    OFFSET     |
  0x10 +-------------------------------+ 16
-      | ID 1/4                      |
+      | ID 1/6                        |
  0x18 +-------------------------------+ 24
-      | ID 2/4                      |
+      | ID 2/6                        |
  0x20 +-------------------------------+ 32
-      | ID 3/4                      |
+      | ID 3/6                        |
  0x28 +-------------------------------+ 40
-      | ID 4/4                      |
+      | ID 4/6                        |
  0x30 +-------------------------------+ 48
+      | ID 5/6                        |
+ 0x38 +-------------------------------+ 56
+      | ID 6/6                        |
+ 0x40 +-------------------------------+ 64
 ```
 
 * `[0:2]` - The type 0x22 as a little-endian encoded unsigned integer
@@ -348,7 +360,7 @@ This is a mention of a server.
 * `[4:8]` - The [kind](kinds.md) of the quoted record
 * `[8:12]` - Zeroed
 * `[12:16]` - The offset as a little-endian encoded unsigned integer.
-* `[16:48]` - The id (32 bytes) of the quoted record
+* `[16:64]` - The id (48 bytes) of the quoted record
 
 `KIND` is a 4-byte record [kind](kinds.md) indicating the kind of record
 that this one replies to. Replies are application-independent and may
@@ -403,7 +415,7 @@ to handle.
 
 `OFFSET` is the offset into the content where the mention appears.
 
-`ID` is the id of the quoted record.
+`ADDR` is the address of the quoted record.
 
 This is a quote of another record by address.
 

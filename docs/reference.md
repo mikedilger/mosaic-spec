@@ -8,8 +8,9 @@ Mosaic defines two kinds of references
 
 ## Id Reference
 
-An `id` reference is a pointer to an exact record with no provision for
-replacement or edits. It is the `id` of the message.
+A `id` reference is a pointer to an exact record with no provision for
+replacement or edits. It contains some `hash` of the message making it
+unique. See [record](record.md) for the Id field.
 
 ## Address Reference
 
@@ -21,9 +22,9 @@ superceding the older records.
 An address consists of four fields which are contiguous and in order in the
 record layout at `[128:176]` making up 48 bytes.
 
-* The the author's public key (32 bytes),
+* The original timestamp (6 bytes) in big-endian,
 * The kind (2 bytes),
-* The original timestamp (6 bytes),
+* The the author's public key (32 bytes),
 * The random nonce (8 bytes),
 
 An author can replace a record by creating a new record with the same address,
@@ -45,6 +46,8 @@ Rationale:
 * By containing the kind, records that are edited cannot change their kind.
 * By containing the kind, software can filter records that are not
   relevant to a situation without needing to look them up first.
+* By putting the timestamp at the front of the address, addresses sort in
+  time order and group temporally (for database performance).
 * By containing the original timestamp and a 64-bit nonce, it is statistically
   infeasible for two different records to have the same address
   unintentionally. In fact this is overkill, but using anything shorter
