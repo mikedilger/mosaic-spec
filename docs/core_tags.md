@@ -256,7 +256,7 @@ hex of the id of its Mosaic sister record.
 
 ## Content Segment: User Mention
 
-> **0x20
+> **0x20**
 
 ```text
       0       2    3   4              8
