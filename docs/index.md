@@ -47,7 +47,7 @@ Unlike nostr:
   is [bootstrapped](bootstrap.md) from Mainline DHT
 * Mosaic [records](record.md) are binary, meaning they are smaller,
   have no parsing overhead, and have no layout or character encoding
-  ambiguities. If you think we should have used CBOR or JSON, 
+  ambiguities. If you think we should have used CBOR or JSON,
   Refer to
   [debate: Binary](https://github.com/SteveFarroll/mosaic-spec/issues/8)
 * Mosaic records are [editable](reference.md) if an application wants them to
@@ -63,7 +63,7 @@ Unlike nostr:
   Applications being separate. Only Core and WebSockets are required by
   all participants.
 
-  
+
 Terminology differences
 
 * Nostr *events* are akin to Mosaic *records*

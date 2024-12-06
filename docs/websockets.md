@@ -74,7 +74,7 @@ that relationship). These kinds of activities are not standardized here.
 
 All messages use websockets binary.
 
-Messages are formed as the binary message protocol specified in 
+Messages are formed as the binary message protocol specified in
 [protocol](protocol.md). Each message starts with a single byte indicating
 the type, followed by the data that such type requires.
 
