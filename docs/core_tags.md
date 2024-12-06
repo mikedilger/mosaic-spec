@@ -223,84 +223,222 @@ If a record includes this tag, it must also include a
 [Reply by Hash](#reply-by-hash) or [Reply by Addr](#reply-by-addr) tag
 as well.
 
-## Quote by Hash
+## Content Segment: User Mention
 
-> **0x6**
+> **0x20
 
 ```text
-      0       2   3   4               8
+      0       2    3   4              8
  0x0  +-------------------------------+ 0
-      |  0x6  |0x28| 0|     KIND      |
+      |  0x20 |0x28|0x0|   OFFSET     |
  0x8  +-------------------------------+ 8
-      | HASH 1/4                      |
+      | PUBLIC KEY 1/4                |
  0x10 +-------------------------------+ 16
-      | HASH 2/4                      |
+      | PUBLIC KEY 2/4                |
  0x18 +-------------------------------+ 24
-      | HASH 3/4                      |
+      | PUBLIC KEY 3/4                |
  0x20 +-------------------------------+ 32
-      | HASH 4/4                      |
+      | PUBLIC KEY 4/4                |
  0x28 +-------------------------------+ 40
 ```
 
-* `[0:2]` - The type 0x6 as a little-endian encoded unsigned integer
+* `[0:2]` - The type 0x20 as a little-endian encoded unsigned integer
 * `[2:3]` - The length 0x28
 * `[3:4]` - Zeroed
-* `[4:8]` - The [kind](kinds.md)
-* `[8:40]` - The hash (32 bytes)
+* `[4:8]` - The offset as a little-endian encoded unsigned integer.
+* `[8:40]` - public key (32 bytes)
 
-This is a quote of another record.
+This is a mention of a person.
 
-`KIND` is a 4-byte record [kind](kinds.md) indicating the kind of record
-that this one quotes. Quotes are application-independent and may
-reference records of any type. This information is provided to prevent
-lookup of records of kinds that software is not able to or does not wish
-to handle.
+`OFFSET` is the offset into the content where the mention appears.
 
-`HASH` is a 32-byte hash [reference](reference.md) to some other record
-indicating which other record this record quotes.
+`PUBLIC_KEY` is the master public key of the person mentioned.
 
-Records with this tag can also have reply and root tags, but not to the
-same record that is quoted.
+Note that this is different from a [Notify Public Key](#notify-public-key) tag
+which indicates the event should be delivered to that person.  Instead, this
+tag indicates that a `@name` for the person should be rendered when rendering
+the content.
 
-## Quote by Addr
+## Content Segment: Server Mention
 
-> **0x7**
+> **0x21**
+
+```text
+      0       2    3   4              8
+ 0x0  +-------------------------------+ 0
+      |  0x21 |0x28|0x0|   OFFSET     |
+ 0x8  +-------------------------------+ 8
+      | PUBLIC KEY 1/4                |
+ 0x10 +-------------------------------+ 16
+      | PUBLIC KEY 2/4                |
+ 0x18 +-------------------------------+ 24
+      | PUBLIC KEY 3/4                |
+ 0x20 +-------------------------------+ 32
+      | PUBLIC KEY 4/4                |
+ 0x28 +-------------------------------+ 40
+```
+
+* `[0:2]` - The type 0x20 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x28
+* `[3:4]` - Zeroed
+* `[4:8]` - The offset as a little-endian encoded unsigned integer.
+* `[8:40]` - public key (32 bytes)
+
+This is a mention of a server.
+
+`OFFSET` is the offset into the content where the mention appears.
+
+`PUBLIC_KEY` is the public key of the server.
+
+## Content Segment: Quote by Id
+
+> **0x22**
 
 ```text
       0       2   3   4               8
  0x0  +-------------------------------+ 0
-      |  0x7  |0x38| 0|     KIND      |
+      |  0x22 |0x30| 0|     KIND      |
  0x8  +-------------------------------+ 8
-      | ADDR 1/4                      |
+      |     0x0       |    OFFSET     |
  0x10 +-------------------------------+ 16
-      | ADDR 2/4                      |
+      | HASH 1/4                      |
  0x18 +-------------------------------+ 24
-      | ADDR 3/4                      |
+      | HASH 2/4                      |
  0x20 +-------------------------------+ 32
-      | ADDR 4/4                      |
+      | HASH 3/4                      |
  0x28 +-------------------------------+ 40
-      | ADDR 5/4                      |
+      | HASH 4/4                      |
  0x30 +-------------------------------+ 48
-      | ADDR 6/4                      |
- 0x38 +-------------------------------+ 56
 ```
 
-* `[0:2]` - The type 0x7 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x38
+* `[0:2]` - The type 0x22 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x30
 * `[3:4]` - Zeroed
-* `[4:8]` - The [kind](kinds.md)
-* `[8:56]` - The address (48 bytes)
+* `[4:8]` - The [kind](kinds.md) of the quoted record
+* `[8:12]` - Zeroed
+* `[12:16]` - The offset as a little-endian encoded unsigned integer.
+* `[16:48]` - The hash (32 bytes) of the quoted record
 
-This is a quote of another record.
+`KIND` is the kind of the quoted record.
 
-`KIND` is a 4-byte record [kind](kinds.md) indicating the kind of record
-that this one quotes. Quotes are application-independent and may
-reference records of any type. This information is provided to prevent
-lookup of records of kinds that software is not able to or does not wish
-to handle.
+`OFFSET` is the offset into the content where the mention appears.
 
-`ADDR` is a 48-byte address [reference](reference.md) to some other
-record indicating which other record this record quotes.
+`HASH` is the hash of the quoted record.
 
-Records with this tag can also have reply and root tags, but not to the
-same record that is quoted.
+This is a quote of another record by id.
+
+## Content Segment: Quote by Addr
+
+> **0x23**
+
+```text
+      0       2   3   4               8
+ 0x0  +-------------------------------+ 0
+      |  0x23 |0x40| 0|     KIND      |
+ 0x8  +-------------------------------+ 8
+      |     0x0       |    OFFSET     |
+ 0x10 +-------------------------------+ 16
+      | ADDR 1/4                      |
+ 0x18 +-------------------------------+ 24
+      | ADDR 2/4                      |
+ 0x20 +-------------------------------+ 32
+      | ADDR 3/4                      |
+ 0x28 +-------------------------------+ 40
+      | ADDR 4/4                      |
+ 0x30 +-------------------------------+ 48
+      | ADDR 5/6                      |
+ 0x38 +-------------------------------+ 56
+      | ADDR 6/6                      |
+ 0x40 +-------------------------------+ 64
+```
+
+* `[0:2]` - The type 0x23 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x40
+* `[3:4]` - Zeroed
+* `[4:8]` - The [kind](kinds.md) of the quoted record
+* `[8:12]` - Zeroed
+* `[12:16]` - The offset as a little-endian encoded unsigned integer.
+* `[16:64]` - The address (48 bytes) of the quoted record
+
+`KIND` is the kind of the quoted record.
+
+`OFFSET` is the offset into the content where the mention appears.
+
+`HASH` is the hash of the quoted record.
+
+This is a quote of another record by address.
+
+## Content Segment: URL
+
+> **0x24**
+
+```text
+      0       2    3   4              8
+ 0x0  +-------------------------------+ 0
+      |  0x24 |LEN |0x0|   OFFSET     |
+ 0x8  +-------------------------------+ 8
+      | URL...                        |
+      +-------------------------------+
+```
+
+* `[0:2]` - The type 0x24 as a little-endian encoded unsigned integer
+* `[2:3]` - The length of the tag (8 + the length of the URL)
+* `[3:4]` - Zeroed
+* `[4:8]` - The offset as a little-endian encoded unsigned integer.
+* `[8:]` - The URL to be included (up to 248 bytes long)
+
+`OFFSET` is the offset into the content where the mention appears.
+
+`URL` is the URL to be inserted at the offset.
+
+This is a URL to a web page.
+
+## Content Segment: Image
+
+> **0x25**
+
+```text
+      0       2    3   4              8
+ 0x0  +-------------------------------+ 0
+      |  0x25 |LEN |0x0|   OFFSET     |
+ 0x8  +-------------------------------+ 8
+      | URL...                        |
+      +-------------------------------+
+```
+
+* `[0:2]` - The type 0x25 as a little-endian encoded unsigned integer
+* `[2:3]` - The length of the tag (8 + the length of the URL)
+* `[3:4]` - Zeroed
+* `[4:8]` - The offset as a little-endian encoded unsigned integer.
+* `[8:]` - The URL to be included (up to 248 bytes long)
+
+`OFFSET` is the offset into the content where the mention appears.
+
+`URL` is the URL to be inserted at the offset.
+
+This is a URL to an image
+
+## Content Segment: Video
+
+> **0x26**
+
+```text
+      0       2    3   4              8
+ 0x0  +-------------------------------+ 0
+      |  0x26 |LEN |0x0|   OFFSET     |
+ 0x8  +-------------------------------+ 8
+      | URL...                        |
+      +-------------------------------+
+```
+
+* `[0:2]` - The type 0x26 as a little-endian encoded unsigned integer
+* `[2:3]` - The length of the tag (8 + the length of the URL)
+* `[3:4]` - Zeroed
+* `[4:8]` - The offset as a little-endian encoded unsigned integer.
+* `[8:]` - The URL to be included (up to 248 bytes long)
+
+`OFFSET` is the offset into the content where the mention appears.
+
+`URL` is the URL to be inserted at the offset.
+
+This is a URL to a video

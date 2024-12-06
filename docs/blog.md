@@ -4,6 +4,10 @@
 
 Kind = 0x6 - Blog post
 
+## Payload
+
+The payload follows the [Human Readable Content](human_readable_content.md) rules.
+
 ## Flags
 
 * 0x01 ZSTD - may be on or off

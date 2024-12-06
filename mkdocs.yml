@@ -21,6 +21,7 @@ nav:
     - Record Type:
       - Timestamps: timestamps.md
       - Record Format: record.md
+      - Human Readable Content: human_readable_content.md
       - Core Tags: core_tags.md
     - References: reference.md
     - Core Records:
