@@ -32,6 +32,10 @@ Limitations:
   disappear over time. Mechanisms for this are out of scope for Mosaic Core.
 * Data storage and retrieval may take a few seconds, and should not be done too
   frequently. Software SHOULD cache results for at least 2 hours.
+* You need a bootstrap to get started and find peers. `router.utorrent.com`
+  and `router.bittorrent.com` are common but could be targetted in an attack.
+  However, you can find many more or setup your own
+  [bootstrap-dht](https://github.com/bittorrent/bootstrap-dht).
 
 ### Salt
 
