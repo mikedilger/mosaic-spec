@@ -96,17 +96,17 @@ entries are preferred by the server to later ones.
 
 Here are some examples of server bootstrap lines:
 
-`wss://203.0.113.1` specifies WebSockets with TLS on port 80 at IP address
-`203.0.113.0`.
+`wss://203.0.113.1` specifies WebSockets with TLS on port 443 at IP address
+`203.0.113.1`.
 
 `wss://203.0.113.0:5198` specifies WebSockets with TLS on port 5198 at IP
 address `203.0.113.0`.
 
 `wss://myserverlk23lkjsefo8u.onion` specifies WebSockets with TLS on port 443
-over Tor.
+over Tor to onion site `myserverlk23lkjsefo8u.onion`.
 
-`wss://[2001::130F::09C0:876A:130B]` specifies WebSockets with TLS over IPv6
-on port 443.
+`wss://[2001::130F::09C0:876A:130B]` specifies WebSockets with TLS on port 443
+over IPv6 to address `2001::130F::09C0:876A:130B`.
 
 `https://mosaic.example:555` specifies WebTransport with TLS on port 555 to DNS
 node mosaic.example (https is to be interpreted as WebTransport, not REST).
@@ -117,11 +117,10 @@ server. So they do not require the same data as the user bootstrap.
 
 ## User Bootstrap
 
-User bootstraps specify servers that the user uses, and how the user
-uses them.
+User bootstraps specify servers that the user uses, and how the user uses them.
 
-The order of the entries expresses the preference or priority. Earlier
-entries are preferred by the user to later ones.
+The order of the entries expresses the preference or priority. Earlier entries are
+preferred by the user to later ones.
 
 A user bootstrap starts with the line `U`.
 
