@@ -17,6 +17,6 @@ encoder does not know whether it represents a user or a server.
 
 Secret keys are encoded with bech32 using the `mosec` prefix.
 
-Hashes are encoded with bech32 using the `mohash` prefix.
+Ids are encoded with bech32 using the `moid` prefix.
 
 Addresses are encoded with bech32 using the `moaddr` prefix.

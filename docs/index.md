@@ -51,9 +51,9 @@ Unlike nostr:
   Refer to
   [debate: Binary](https://github.com/SteveFarroll/mosaic-spec/issues/8)
 * Mosaic records are [editable](reference.md) if an application wants them to
-  be, as all records can be addressed either by their hash (not replaceable)
-  or their address (replaceable) and all records have both a hash and an
-  address.
+  be, as all records can be addressed either by their hash-based id (not
+  replaceable) or their address (replaceable) and all records have both a
+  hash-based id and an address.
 * [Timestamps](timestamps.md) account for leap seconds (unlike unixtime) and
   have millisecond accuracy.
 * Clients and Servers remember the time that records are received, so that
@@ -67,7 +67,6 @@ Unlike nostr:
 Terminology differences
 
 * Nostr *events* are akin to Mosaic *records*
-* Nostr *event IDs* are akin to Mosaic *hashes*
 * Nostr *relays* are akin to Mosaic *servers*
 
 ### The name Mosaic

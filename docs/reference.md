@@ -6,11 +6,10 @@ A reference is a pointer from one record to another.
 
 Mosaic defines two kinds of references
 
-## Hash Reference
+## Id Reference
 
-A `hash` reference is a pointer to an exact record with no provision for
-replacement or edits. It is a prefix of the `hash` of the message. Usually
-either a 16-byte (128 bit) or 32-byte (256 bit) prefix is used.
+An `id` reference is a pointer to an exact record with no provision for
+replacement or edits. It is the `id` of the message.
 
 ## Address Reference
 

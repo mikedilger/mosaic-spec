@@ -55,7 +55,7 @@ person identified by that public key (as their master key).  Being tagged
 as such, it should be delivered to all of this persons' INBOX servers as
 specified in their [bootstrap](bootstrap.md) record.
 
-## Reply by Hash
+## Reply by Id
 
 > **0x2**
 
@@ -64,13 +64,13 @@ specified in their [bootstrap](bootstrap.md) record.
  0x0  +-------------------------------+ 0
       |  0x2  |0x28| 0|     KIND      |
  0x8  +-------------------------------+ 8
-      | HASH 1/4                      |
+      | ID 1/4                        |
  0x10 +-------------------------------+ 16
-      | HASH 2/4                      |
+      | ID 2/4                        |
  0x18 +-------------------------------+ 24
-      | HASH 3/4                      |
+      | ID 3/4                        |
  0x20 +-------------------------------+ 32
-      | HASH 4/4                      |
+      | ID 4/4                        |
  0x28 +-------------------------------+ 40
 ```
 
@@ -78,7 +78,7 @@ specified in their [bootstrap](bootstrap.md) record.
 * `[2:3]` - The length 0x28
 * `[3:4]` - Zeroed
 * `[4:8]` - The [kind](kinds.md)
-* `[8:40]` - The hash (32 bytes)
+* `[8:40]` - The id (32 bytes)
 
 This is a reply to another record in a threading sense.
 
@@ -88,7 +88,7 @@ reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
 
-`HASH` is a 32-byte hash [reference](reference.md) to some other record
+`ID` is a 32-byte id [reference](reference.md) to some other record
 indicating which other record this record replies to.
 
 If a record includes this tag, it must also include a
@@ -137,7 +137,7 @@ record indicating which other record this record replies to.
 If a record includes this tag, it must also include a
 [Root by Addr](#root-by-addr) tag as well.
 
-## Root by Hash
+## Root by Id
 
 > **0x4**
 
@@ -146,13 +146,13 @@ If a record includes this tag, it must also include a
  0x0  +-------------------------------+ 0
       |  0x4  |0x28| 0|     KIND      |
  0x8  +-------------------------------+ 8
-      | HASH 1/4                      |
+      | ID 1/4                        |
  0x10 +-------------------------------+ 16
-      | HASH 2/4                      |
+      | ID 2/4                        |
  0x18 +-------------------------------+ 24
-      | HASH 3/4                      |
+      | ID 3/4                        |
  0x20 +-------------------------------+ 32
-      | HASH 4/4                      |
+      | ID 4/4                        |
  0x28 +-------------------------------+ 40
 ```
 
@@ -160,7 +160,7 @@ If a record includes this tag, it must also include a
 * `[2:3]` - The length 0x28
 * `[3:4]` - Zeroed
 * `[4:8]` - The [kind](kinds.md)
-* `[8:40]` - The hash (32 bytes)
+* `[8:40]` - The id (32 bytes)
 
 This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.
@@ -171,11 +171,11 @@ reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
 
-`HASH` is a 32-byte hash [reference](reference.md) to some other record
+`ID` is a 32-byte id [reference](reference.md) to some other record
 indicating which other record this record replies to.
 
 If a record includes this tag, it must also include a
-[Reply by Hash](#reply-by-hash) or [Reply by Addr](#reply-by-addr) tag
+[Reply by Id](#reply-by-id) or [Reply by Addr](#reply-by-addr) tag
 as well.
 
 ## Root by Addr
@@ -220,7 +220,7 @@ to handle.
 record which is the root of the thread.
 
 If a record includes this tag, it must also include a
-[Reply by Hash](#reply-by-hash) or [Reply by Addr](#reply-by-addr) tag
+[Reply by Id](#reply-by-id) or [Reply by Addr](#reply-by-addr) tag
 as well.
 
 ## Nostr Sister Event
@@ -332,13 +332,13 @@ This is a mention of a server.
  0x8  +-------------------------------+ 8
       |     0x0       |    OFFSET     |
  0x10 +-------------------------------+ 16
-      | HASH 1/4                      |
+      | ID 1/4                      |
  0x18 +-------------------------------+ 24
-      | HASH 2/4                      |
+      | ID 2/4                      |
  0x20 +-------------------------------+ 32
-      | HASH 3/4                      |
+      | ID 3/4                      |
  0x28 +-------------------------------+ 40
-      | HASH 4/4                      |
+      | ID 4/4                      |
  0x30 +-------------------------------+ 48
 ```
 
@@ -348,7 +348,7 @@ This is a mention of a server.
 * `[4:8]` - The [kind](kinds.md) of the quoted record
 * `[8:12]` - Zeroed
 * `[12:16]` - The offset as a little-endian encoded unsigned integer.
-* `[16:48]` - The hash (32 bytes) of the quoted record
+* `[16:48]` - The id (32 bytes) of the quoted record
 
 `KIND` is a 4-byte record [kind](kinds.md) indicating the kind of record
 that this one replies to. Replies are application-independent and may
@@ -358,7 +358,7 @@ to handle.
 
 `OFFSET` is the offset into the content where the mention appears.
 
-`HASH` is the hash of the quoted record.
+`ID` is the id of the quoted record.
 
 This is a quote of another record by id.
 
@@ -403,7 +403,7 @@ to handle.
 
 `OFFSET` is the offset into the content where the mention appears.
 
-`HASH` is the hash of the quoted record.
+`ID` is the id of the quoted record.
 
 This is a quote of another record by address.
 

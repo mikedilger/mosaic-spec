@@ -14,11 +14,11 @@ Filter types MUST not be used more than once within a filter.
 Filters can be up to 65536 bytes long maximum, but this size may not be
 possible given other constraints.
 
-## Hash16
+## Id16
 
 > **0x1**
 
-Matches all records that have any of these hashes.
+Matches all records that have any of these ids.
 
 ```text
             1   2   3   4   4   5   6
@@ -26,9 +26,9 @@ Matches all records that have any of these hashes.
  0  +-------------------------------+
     |0x1|          0x0          | n |
  8  +-------------------------------+
-    | HASH PREFIX 1/2               |
+    | ID PREFIX 1/2                 |
  16 +-------------------------------+
-    | HASH PREFIX 2/2               |
+    | ID PREFIX 2/2                 |
  24 +-------------------------------+
     | ... additional hash prefixes..|
     +-------------------------------+
@@ -37,13 +37,13 @@ Matches all records that have any of these hashes.
 * The byte 0x1
 * Six bytes 0x0
 * A 1-byte count `n`, then
-* A sequence of `n` 16-byte, 128-bit hash prefixes.
+* A sequence of `n` 16-byte, 128-bit id prefixes.
 
-## Hash32
+## Id32
 
 > **0x2**
 
-Matches all records that have any of these hashes.
+Matches all records that have any of these ids.
 
 ```text
             1   2   3   4   4   5   6
@@ -51,22 +51,22 @@ Matches all records that have any of these hashes.
  0  +-------------------------------+
     |0x2|          0x0          | n |
  8  +-------------------------------+
-    | HASH 1/4                      |
+    | ID 1/4                        |
  16 +-------------------------------+
-    | HASH 2/4                      |
+    | ID 2/4                        |
  24 +-------------------------------+
-    | HASH 3/4                      |
+    | ID 3/4                        |
  32 +-------------------------------+
-    | HASH 4/4                      |
+    | ID 4/4                        |
  40 +-------------------------------+
-    | ... additional hash prefixes..|
+    | ... additional id prefixes..  |
     +-------------------------------+
 ```
 
 * The byte 0x2
 * Six bytes 0x0
 * A 1-byte count `n`, then
-* A sequence of `n` 32-byte, 128-bit hash prefixes.
+* A sequence of `n` 32-byte, 128-bit id prefixes.
 
 ## Author Keys
 

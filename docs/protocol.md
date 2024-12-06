@@ -131,7 +131,7 @@ subsequent record submitted.
 
 This is a client initiated message. Servers are expected to reply with:
 
-* [`Submission Result`](#submission-result) with a hash prefix matching the record.
+* [`Submission Result`](#submission-result) with an id prefix matching the record.
 
 ## Server messages
 
@@ -232,21 +232,21 @@ the following format:
  0  +-------------------------------+
     |  0x82 |  0x0  |  0x0  |  CODE |
     +-------------------------------+
-    |  HASH PREFIX 1/8              |
+    |  ID PREFIX 1/8                |
     +-------------------------------+
-    |  HASH PREFIX 2/8              |
+    |  ID PREFIX 2/8                |
     +-------------------------------+
-    |  HASH PREFIX 3/8              |
+    |  ID PREFIX 3/8                |
     +-------------------------------+
-    |  HASH PREFIX 4/8              |
+    |  ID PREFIX 4/8                |
     +-------------------------------+
-    |  HASH PREFIX 5/8              |
+    |  ID PREFIX 5/8                |
     +-------------------------------+
-    |  HASH PREFIX 6/8              |
+    |  ID PREFIX 6/8                |
     +-------------------------------+
-    |  HASH PREFIX 7/8              |
+    |  ID PREFIX 7/8                |
     +-------------------------------+
-    |  HASH PREFIX 8/8              |
+    |  ID PREFIX 8/8                |
     +-------------------------------+
 ```
 
@@ -272,4 +272,4 @@ defined results:
 
 FIXME: add proof of work (not defined yet)
 
-The `HASH_PREFIX` is the first 256-bits of the event hash.
+The `ID_PREFIX` is the first 256-bits of the record id.
