@@ -184,6 +184,10 @@ according to <a href="https://www.bittorrent.org/beps/bep_0044.html">BEP 0044</a
   disappear over time. Mechanisms for this are out of scope for Mosaic Core.</li>
 <li>Data storage and retrieval may take a few seconds, and should not be done too
   frequently. Software SHOULD cache results for at least 2 hours.</li>
+<li>You need a bootstrap to get started and find peers. <code>router.utorrent.com</code>
+  and <code>router.bittorrent.com</code> are common but could be targetted in an attack.
+  However, you can find many more or setup your own
+  <a href="https://github.com/bittorrent/bootstrap-dht">bootstrap-dht</a>.</li>
 </ul>
 <h3 id="salt">Salt</h3>
 <p>We use a salt of "msb24" for server bootstraps and "mub24" for user
