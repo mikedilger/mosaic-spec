@@ -319,7 +319,11 @@ This is a mention of a server.
 * `[12:16]` - The offset as a little-endian encoded unsigned integer.
 * `[16:48]` - The hash (32 bytes) of the quoted record
 
-`KIND` is the kind of the quoted record.
+`KIND` is a 4-byte record [kind](kinds.md) indicating the kind of record
+that this one replies to. Replies are application-independent and may
+reference records of any type. This information is provided to prevent
+lookup of records of kinds that software is not able to or does not wish
+to handle.
 
 `OFFSET` is the offset into the content where the mention appears.
 
@@ -360,7 +364,11 @@ This is a quote of another record by id.
 * `[12:16]` - The offset as a little-endian encoded unsigned integer.
 * `[16:64]` - The address (48 bytes) of the quoted record
 
-`KIND` is the kind of the quoted record.
+`KIND` is a 4-byte record [kind](kinds.md) indicating the kind of record
+that this one replies to. Replies are application-independent and may
+reference records of any type. This information is provided to prevent
+lookup of records of kinds that software is not able to or does not wish
+to handle.
 
 `OFFSET` is the offset into the content where the mention appears.
 
