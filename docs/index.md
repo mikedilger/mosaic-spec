@@ -16,9 +16,9 @@ Mosaic is a **work in progress**.  This specification is EARLY DRAFT.
 
 ### What Mosaic is not
 
-*Mosaic is NOT peer-to-peer*: <small>Around the turn of the century, a lot of distributed sovereign protocol work focused on peer-to-peer:  Freenet, GnuNET, and later DHTs.</small> As it turns out, peer-to-peer is difficult because most computers are not fully connected to the Internet. And as there is nothing particular difficult in running a server that *is* fully connected to the Internet (given VPS availability), being strictly peer-to-peer doesn't seem advantageous. So we choose the more rock-solid client-server architecture.
+*Mosaic is NOT peer-to-peer*: It turns out that peer-to-peer is difficult because most computers are not fully connected to the Internet. And as there is nothing particular difficult in running a server that *is* fully connected to the Internet (given VPS availability), being strictly peer-to-peer doesn't seem advantageous. So we choose the more rock-solid client-server architecture.
 
-*Mosaic does NOT provide IP privacy*: <small>Around the turn of the century, a lot of distributed sovereign protocol work focused on IP privacy: Freenet, GnuNET, etc.</small>  However, Tor took off as a general privacy layer, and other alternatives exist including i2p and VPNs.  Architecturally, it makes sense to separate application layers from privacy layers.  There is no good reason to reinvent another privacy layer since Mosaic can run on top of an already existing privacy layer.
+*Mosaic does NOT provide IP privacy*: Several IP privacy network layers exist which already do a good job (Tor, i2p, VPNs). Architecturally, it makes sense to separate application layers from privacy layers. There is no good reason to reinvent another privacy layer since Mosaic can run on top of an already existing privacy layer.
 
 ### Where Mosaic came from
 
