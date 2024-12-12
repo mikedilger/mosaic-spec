@@ -8,13 +8,14 @@ Mosaic defines two kinds of references
 
 ## Id Reference
 
-A `id` reference is a pointer to an exact record with no provision for
-replacement or edits. It contains some `hash` of the message making it
+An <t>id reference</t> is a pointer to an exact record with no provision for
+replacement or edits. It contains some *hash* of the message making it
 unique. See [record](record.md) for the Id field.
 
 ## Address Reference
 
-An `address` reference is a pointer to a group of records that have the same
+An <t>address reference</t> [<sup>rat</sup>](rationale.md#address-fields)
+is a pointer to a group of records that have the same
 address, which usually represent an initial record and it's subsequent
 replacements, often (and by default presumably) with the most recent record
 superceding the older records.
@@ -30,25 +31,9 @@ record layout at `[128:176]` making up 48 bytes.
 An author can replace a record by creating a new record with the same address,
 in which case the address is copied (the nonce is not randomly generated).
 Replaced records must then contain the same author key and be of the same
-kind.  They may however be signed by a different signing keypair or have
-their flags modified, their tags changed, and their content changed.
+kind, and refer to the original timestamp.  They may however be signed by a
+different signing keypair or have their flags modified, their tags changed,
+and their content changed.
 
 The timestamp of a replacement record MUST be larger than the original
 timestamp in the address.
-
-Rationale:
-
-* By containing the Author public key, record location can be determined
-  through [bootstrapping](bootstrap.md).
-* At only 48 bytes long, these can easily fit into a 253 byte tag when needed.
-* By not including the hash of content, records can be edited and replaced by
-  the author (where edits make sense)
-* By containing the kind, records that are edited cannot change their kind.
-* By containing the kind, software can filter records that are not
-  relevant to a situation without needing to look them up first.
-* By putting the timestamp at the front of the address, addresses sort in
-  time order and group temporally (for database performance).
-* By containing the original timestamp and a 64-bit nonce, it is statistically
-  infeasible for two different records to have the same address
-  unintentionally. In fact this is overkill, but using anything shorter
-  that still aligns at 64-bits ends up being not unique enough.

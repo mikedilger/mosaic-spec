@@ -2,7 +2,8 @@
 
 <status>PAGE STATUS: early draft</status>
 
-Tags are laid out as follows:
+<t>Tags</t> [<sup>rat</sup>](rationale.md#tags)
+are laid out as follows:
 
 ```text
 0           2      3         256 max
@@ -16,15 +17,6 @@ Tags are laid out as follows:
     This must be at least 3.
 * `[3:]` - The value, which is at most 253 bytes long.
 
-Rationale
-
-* While for some tag types a length could be inferred, this is not
-  true in general. Applications are not required to recognize every
-  tag type to look up its known length or method of length
-  calculation.
-
-Some tag types start with padding in the value in order to better align
-their data.
 
 |Tag|
 |---|
@@ -34,6 +26,7 @@ their data.
 |[Root by Id](#root-by-id)|
 |[Root by Addr](#root-by-addr)|
 |[Nostr Sister Event](#nostr-sister-event)|
+|[Subkey](#subkey)|
 |[Content Segment: User Mention](#content-segment-user-mention)|
 |[Content Segment: Server Mention](#content-segment-server-mention)|
 |[Content Segment: Quote by Id](#content-segment-quote-by-id)|
@@ -66,9 +59,9 @@ their data.
 * `[3:8]` - Zeroed
 * `[8:40]` - public key (32 bytes)
 
-Records with this tag indicate that the record is if interest to the
+Records with this tag indicate that the record is of interest to the
 person identified by that public key (as their master key).  Being tagged
-as such, it should be delivered to all of this persons' INBOX servers as
+as such, it SHOULD be delivered to all of this persons' INBOX servers as
 specified in their [bootstrap](bootstrap.md) record.
 
 ## Reply by Id
@@ -108,7 +101,7 @@ reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
 
-`ID` is a 48-byte id [reference](reference.md) to some other record
+`ID` is a 48-byte [id reference](reference.md#id-reference) to some other record
 indicating which other record this record replies to.
 
 If a record includes this tag, it must also include a
@@ -151,7 +144,7 @@ reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
 
-`ADDR` is a 48-byte address [reference](reference.md) to some other
+`ADDR` is a 48-byte [address reference](reference.md#address-reference) to some other
 record indicating which other record this record replies to.
 
 If a record includes this tag, it must also include a
@@ -195,8 +188,8 @@ reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
 
-`ID` is a 48-byte id [reference](reference.md) to some other record
-indicating which other record this record replies to.
+`ID` is a 48-byte [id reference](reference.md#id-reference) to some other record
+which is the root of the thread.
 
 If a record includes this tag, it must also include a
 [Reply by Id](#reply-by-id) or [Reply by Addr](#reply-by-addr) tag
@@ -240,8 +233,8 @@ reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
 
-`ADDR` is a 48-byte address [reference](reference.md) to some other
-record which is the root of the thread.
+`ADDR` is a 48-byte [address reference](reference.md#address-reference)
+to some other record which is the root of the thread.
 
 If a record includes this tag, it must also include a
 [Reply by Id](#reply-by-id) or [Reply by Addr](#reply-by-addr) tag
@@ -269,7 +262,7 @@ as well.
 * `[0:2]` - The type 0x8 as a little-endian encoded unsigned integer
 * `[2:3]` - The length 0x38
 * `[3:8]` - Zeroed
-* `[8:56]` - The Nostr ID (32 bytes)
+* `[8:40]` - The Nostr ID (32 bytes)
 
 For dual-stack clients that produce Nostr events alongside Mosaic records,
 and who want to track replies on sister events in nostr as well as here in
@@ -277,6 +270,34 @@ Mosaic, this is a pointer to the sister event in nostr.
 
 NOTE: The nostr sister event will have a "mosaic" tag that contains the
 hex of the id of its Mosaic sister record.
+
+## Subkey
+
+> **0x10**
+
+```text
+      0       2    3   4              8
+ 0x0  +-------------------------------+ 0
+      |  0x10 |0x28|    0x0           |
+ 0x8  +-------------------------------+ 8
+      | PUBLIC SUBKEY 1/4             |
+ 0x10 +-------------------------------+ 16
+      | PUBLIC SUBKEY 2/4             |
+ 0x18 +-------------------------------+ 24
+      | PUBLIC SUBKEY 3/4             |
+ 0x20 +-------------------------------+ 32
+      | PUBLIC SUBKEY 4/4             |
+ 0x28 +-------------------------------+ 40
+```
+
+* `[0:2]` - The type 0x10 as a little-endian encoded unsigned integer
+* `[2:3]` - The length 0x28
+* `[3:8]` - Zeroed
+* `[8:40]` - The subkey public key
+
+This is used only on [key schedule](keyschedule.md) records so that clients
+can look up a subkey to verify it's association to a master key.
+
 
 ## Content Segment: User Mention
 

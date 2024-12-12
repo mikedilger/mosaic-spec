@@ -6,29 +6,27 @@
 
 Identities are split between Users and Servers.
 
-Users in Mosaic are self-created and self-administered. This puts each user in
-control of their own account, allowing them to digitally sign their content,
-move to different servers and not to rely on any central service or authority.
+Users in Mosaic are self-created and self-administered.
 
-This however also requires each end user to securely manage their private key
-material. Convenient methods for doing so, as well as recovery, are outside of
-the scope of Mosaic except insomuch as we define master keys and subkeys with
-the purpose that subkeys are intended for online use, and master keys are
-intended to be long-term and kept more securely, perhaps being offline, in
-hardware, or managed by a trusted service.
+This requires each end user to securely manage their private key material.
+Convenient methods for doing so are outside of the scope of Mosaic
+except insomuch as we define master keys and subkeys with the purpose that
+subkeys are intended for online use, and master keys are intended to be
+long-term and kept more securely, perhaps being offline, in hardware, or
+managed by a trusted service.
 
-## Public key cryptosystem keypair
+## User Identity
 
-Identities are realized as a keypair produced within a public key cryptosystem.
-We use the EdDSA ed25519 cryptosystem for digital signature.
-See [cryptography](cryptography.md).
+A user is defined to be the person, organization, or other entity with knowledge
+of the private half of an [EdDSA](cryptography.md#digital-signature-with-eddsa-ed25519)
+keypair.  This key pair is considered their *master keypair*.
 
-A user is identified by their ed25519 master public key.
+A user is referenced by the public half of their *master keypair*.
 
 ## Master keys and Subkeys
 
-Users may have subsidiary public keys, known as `subkeys`. At times this may
-also be called `signing keys` or `device keys`.
+Users may have subsidiary public keys, known as *subkeys*, *signing keys* or
+*device keys* (these terms being mostly functionally interchangeable).
 
 The purpose of subkeys is for online usage in less secure environments, where
 compromise and revocation do not invalidate the master key identity that the

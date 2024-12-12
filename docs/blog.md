@@ -4,6 +4,12 @@
 
 Kind = 0x6 - Blog post
 
+## Tags
+
+Blogs SHOULD not have the following tags: 0x1, 0x2, 0x3, 0x4, 0x5, 0x6.
+
+Blogs MAY have 0x7.
+
 ## Payload
 
 The payload follows the [Human Readable Content](human_readable_content.md) rules.
@@ -17,10 +23,6 @@ The payload follows the [Human Readable Content](human_readable_content.md) rule
 * 0x10 EPHEMERAL- MUST be off. Blogs are not ephemeral.
 
 ## Tags
-
-Blogs SHOULD not have the following tags: 0x1, 0x2, 0x3, 0x4, 0x5, 0x6.
-
-Blogs MAY have 0x7.
 
 ## Server Used
 
