@@ -35,8 +35,8 @@ compromise and revocation do not invalidate the master key identity that the
 user is known by.
 
 Subkeys also support alternative algorithms, such as X25519 public keys for
-receiving encrypted information, or nostr secp256k1 keys for backwards
-compatibility with nostr.
+receiving encrypted information, or secp256k1 keys for backwards compatibility
+with nostr.
 
 Users publish their subkeys in a [key schedule record](keyschedule.md), defined
 within the core records specification.
@@ -44,7 +44,8 @@ within the core records specification.
 A limited number of low-frequency operations in Mosaic require a signature from
 the master key. These include (presently):
 
-* Publishing/modifying a [User Bootstrap](bootstrap.md) listing their servers
+* Publishing/modifying a [User Bootstrap](bootstrap.md) listing their servers (or
+  a [Server Bootstrap](bootstrap.md) listing it's endpoints)
 * Publishing/modifying a user's [Key Schedule](keyschedule.md) with new keys and/or revocations.
 * Publishing/modifying a user's [Profile](profile.md) record.
 

@@ -8,7 +8,7 @@ Mosaic is a *distributed* *sovereign* *general-purpose* application protocol for
 
 **distributed**: There is no central point of failure, or place that can be taken down. There is no central place to "bootstrap" Mosaic (we use Mainline DHT's bootstrapping, there are mutiple and you can run your own).
 
-**sovereign**: All nodes (users/clients and servers) participation is self-managed and nobody can cancel your account. You manage your own keys. Mosaic does not depend on DNS and Mosaic does not depend on Certification Authorities to issue certificates.
+**sovereign**: All nodes (users/clients and servers) participation is self-managed and nobody can cancel your account. You manage your own keys. Mosaic does not depend on upstream DNS providers and Mosaic does not depend on Certification Authorities to issue certificates.
 
 **general-purpose**: Although it started as social media, this architecture has been shown to serve many general-purpose applications.
 

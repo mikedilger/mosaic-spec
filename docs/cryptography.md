@@ -4,18 +4,19 @@
 
 ## Hashing
 
-We use BLAKE3 in unkeyed hashing mode, producing a 512-bit digest,
-storing only the first 256-bits in the record but passing the full
-512-bits into EdDSA
+We use BLAKE3 in unkeyed hashing mode, producing a 512-bit digest.
+
+Some of this hash (but not all of it) is also stored in the record
+as part of the record Id.
 
 Rationale:
 
 * EdDSA ed25519 is defined to use SHA-512 and we are using BLAKE3 as a
   drop-in replacement, so we have to produce 512-bit hashes. But these
   do not need to be in the record. What the record needs is some way to
-  index and reference it, and the 256 bit prefix is enough for that.
-  In BLAKE3, hashes are variable size, and smaller outputs are prefixes
-  of longer outputs.
+  index and reference it, and part of the hash (at least 256 bits) is
+  good enough for that purpose. In BLAKE3, hashes are variable size, and
+  smaller outputs are prefixes of longer outputs.
 * This is a very fast hash function with 128-bit security. It is even
   sometimes faster in software than hardware versions of SHA-256, and
   is about 14x as fast as software versions of SHA-256. It is highly
@@ -44,7 +45,7 @@ Rationale:
 * In our form, provides the following guarantees:
     * Existentially and Strongly unforgeable under chosen message attacks
     * Strongly Binding Signature
-* Interoperates with TLS, Mainline DHT, and other modern ed25519-based
+* Interoperates with ssh, gpg, TLS, Mainline DHT, and other modern ed25519-based
   identity systems
 
 See [Taming the many EdDSAs](https://eprint.iacr.org/2020/1244.pdf)

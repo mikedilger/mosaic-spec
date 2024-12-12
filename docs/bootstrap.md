@@ -8,6 +8,9 @@ And you also may not know what servers this key uses to host it's
 [key schedule](keyschedule.md), and [profile](profile.md) information, or to
 publish it's records or receive messages.
 
+Bootstraps are public digitally signed records designed to let you acquire
+this kind of information.
+
 We store bootstraps in Mainline DHT.
 
 Bootstraps are not [records](record.md). They have their own format.
