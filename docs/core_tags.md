@@ -26,6 +26,22 @@ Rationale
 Some tag types start with padding in the value in order to better align
 their data.
 
+|Tag|
+|---|
+|[Notify Public Key](#notify-public-key)|
+|[Reply by Id](#reply-by-id)|
+|[Reply by Addr](#reply-by-addr)|
+|[Root by Id](#root-by-id)|
+|[Root by Addr](#root-by-addr)|
+|[Nostr Sister Event](#nostr-sister-event)|
+|[Content Segment: User Mention](#content-segment-user-mention)|
+|[Content Segment: Server Mention](#content-segment-server-mention)|
+|[Content Segment: Quote by Id](#content-segment-quote-by-id)|
+|[Content Segment: Quote by Addr](#content-segment-quote-by-addr)|
+|[Content Segment: URL](#content-segment-url)|
+|[Content Segment: Image](#content-segment-image)|
+|[Content Segment: Video](#content-segment-video)|
+
 ## Notify Public Key
 
 > **0x1**
