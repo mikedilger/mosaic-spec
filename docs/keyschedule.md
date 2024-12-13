@@ -5,7 +5,7 @@
 A key schedule record lists subkey information and revocation information for a
 master key.
 
-A key schedule record has kind 0x1.
+A key schedule record has kind `0x1`.
 
 A key schedule record MUST be considered invalid if it does not conform to this
 specification.
@@ -15,10 +15,12 @@ master key are not identical.
 
 ## Tags
 
-Every subkey listed in a key schedule record must have an associated `Subkey`
-tag listing the subkey.
+Every subkey listed in a key schedule record must have an associated
+[subkey tag](core_tags.md#subkey) listing the subkey.
 
 ## Payload
+
+The payload is not [human readable](human_readable_content.md).
 
 `The payload contains a sequence of 40-byte subkey records laid out as follows:
 

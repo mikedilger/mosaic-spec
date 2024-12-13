@@ -30,13 +30,13 @@ because people want to be compatible.
 * The protocol must be *simple* enough for multiple implementations to
   be developed, but simplicity is not the only factor.
 * The protocol must be *functional* enough to support a wide range of
-  applications beyond just social media ones.
+  applications beyond just social media.
 * The protocol should not impede high-performance high-throughput
   implementations.
-* It is okay to do things multiple ways so long as there is *one default*
+* It is ok to do things multiple ways so long as there is *one default*
   that all developers implement, and the rest of the "ways" are optional.
-  For example, we can have multiple transports (WebSockets, WebTransport,
-  even REST) without all the developers needing to move beyond WebSockets,
+  For example, we can have multiple transports (WebSockets, WebTransport)
+  without all the developers needing to move beyond WebSockets,
   so long as every implementation implements the WebSockets transport.
 * Code that isn't required by everybody should be defined outside of core
   as an extension, transport, or application, as these are all optional.

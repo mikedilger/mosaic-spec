@@ -13,6 +13,7 @@ extra_css:
 nav:
   - Mosaic Introduction: index.md
   - Status and Development: status.md
+  - Rationale: rationale.md
   - Mosaic Core:
     - Identity:
       - Cryptography: cryptography.md

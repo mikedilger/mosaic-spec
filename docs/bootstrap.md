@@ -2,11 +2,14 @@
 
 <status>PAGE STATUS: draft</status>
 
-When you first find out about a new public key, you may already know if it
-represents a user or a server (by the context) or you may not even know that.
-And you also may not know what servers this key uses to host it's
-[key schedule](keyschedule.md), and [profile](profile.md) information, or to
-publish it's records or receive messages.
+When you first find out about a new public key, you may already know by the
+context if it represents a user or a server. But sometimes you don't even
+know that.  You also may not know what servers this key uses to host it's
+[key schedule](keyschedule.md) and [profile](profile.md) information, or which
+it uses to publish it's records or receive messages.
+
+Bootstraps are public digitally signed records designed to let you acquire
+this kind of information.
 
 We store bootstraps in Mainline DHT.
 
@@ -14,18 +17,13 @@ Bootstraps are not [records](record.md). They have their own format.
 
 ## Mainline DHT
 
-We use Mainline DHT to store mutable data signed under an ed25519 signature
-according to [BEP 0044](https://www.bittorrent.org/beps/bep_0044.html).
-
-Rationale:
-
-* Mainline DHT is distributed and censorship resistant, including being
-  resistant to (or able to detect) Sybil attacks. It also has this mutable
-  data functionality and works with ed25519 signed data.
+We use <t>Mainline DHT</t> [<sup>rat</sup>](rationale.md#mainline-dht)
+to store mutable data signed under an ed25519 signature
+according to [BitTorrent BEP 0044](https://www.bittorrent.org/beps/bep_0044.html).
 
 Limitations:
 
-* Only 1000 bytes can be reliably stored, and some will be used for bencoding
+* Only 1000 bytes can be reliably stored, and some will be used for *bencoding*
   overhead and the salt, leaving us only 983 bytes of usable data.
 * Data must be refreshed periodically otherwise it may be removed after a time.
   Users are responsible for refreshing data in the Mainline DHT which will
@@ -35,25 +33,17 @@ Limitations:
 * You need a bootstrap to get started and find peers. `router.utorrent.com`
   and `router.bittorrent.com` are common but could be targetted in an attack.
   However, you can find many more or setup your own
-  [bootstrap-dht](https://github.com/bittorrent/bootstrap-dht).
+  [bootstrap server](https://github.com/bittorrent/bootstrap-dht).
 
 ### Salt
 
-We use a salt of "msb24" for server bootstraps and "mub24" for user
-bootstraps.
-
-Rationale:
-
-* We use the salt to avoid collisions, in case the same ed25519 identity
-  keypair is used by both mosaic and [pubky](https://github.com/pubky), or in
-  case we need to change the format of the bootstrap in the future, and
-  because we have two different kinds of bootstraps already (this
-  allows a server keypair to also be a user keypair without collision).
-* These salts are short enough to not use too much space.
+We use a <t>salt</t> [<sup>rat</sup>](rationale.md#salt)  of `msb24`
+for server bootstraps and `mub24` for user bootstraps.
 
 ### Sequence Numbers
 
-Sequence numbers should start at 1 and monotonically increase with each write.
+<t>Sequence numbers</t> [<sup>rat</sup>](rationale.md#sequence-numbers)
+should start at 1 and monotonically increase with each write.
 
 ### Rust code
 
@@ -63,8 +53,7 @@ There is a rust library to access this called [mainline](https://github.com/pubk
 
 Bootstraps (the data after the bencoded prefix) are UTF-8 valid text up
 to 983 bytes long, and consist of a series of lines separated with a single
-ASCII Line Feed (LF) character (0x0A, \n). Lines MUST not have trailing
-whitespace.
+ASCII Line Feed (LF) character (`\n`). Lines MUST not have trailing whitespace.
 
 Two kinds of bootstraps may be stored, based on whether the identity
 represents a server or a user.
@@ -72,20 +61,18 @@ represents a server or a user.
 
 ## Server Bootstraps
 
-Server bootstraps specify the internet locations (protocol, host and
+Server bootstraps specify the Internet locations (protocol, host and
 port) that the server is available at.
 
 A server bootstrap starts with the line `S`.
 
-Each subsequent line in a server bootstrap specifies a pathless URL where
-the server can be accessed. There can be any number of lines. However, the
-total length of the data cannot exceed 983 bytes.
+Each subsequent line in a server bootstrap specifies a URL where
+the server can be accessed.
 
-Pathless URLs MUST contain a scheme and a host, and may optionally contain
-a port. Pathless URLs must NOT contain user, password, path, query, or
-fragment sections. If any of those is found in a pathless URL, software MUST
-prune such information. This includes pruning trailing slashes (which are
-paths).
+These URLs MUST contain a scheme and a host, may optionally contain a port, and must
+specify the root path (`/`).  They must NOT contain user, password, query, or fragment
+section. If any of those is found in one of these URL, software MUST prune such
+information.
 
 Only secure transports with TLS are defined. TLS must be version 1.2 or 1.3.
 The only known schemes currently are `wss` and `https` (`https` being
@@ -113,7 +100,6 @@ node mosaic.example (https is to be interpreted as WebTransport, not REST).
 
 Servers are expected to operate as their own inbox/outbox and encryption
 server. So they do not require the same data as the user bootstrap.
-
 
 ## User Bootstrap
 

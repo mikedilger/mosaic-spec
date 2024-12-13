@@ -14,6 +14,8 @@ Mosaic Core defines a few core tags in [Core Tags](core_tags.md).
 |0x3|Reply by Addr|Mosaic [Core Tags](core_tags.md)|
 |0x4|Root by Hash|Mosaic [Core Tags](core_tags.md)|
 |0x5|Root by Addr|Mosaic [Core Tags](core_tags.md)|
+|0x8|Nostr Sister Event|Mosaic [Core Tags](core_tags.md)|
+|0x10|Subkey|Mosaic [Core Tags](core_tags.md)|
 |0x20|Content Segment: User Mention|Mosaic [Core Tags](core_tags.md)|
 |0x21|Content Segment: Server Mention|Mosaic [Core Tags](core_tags.md)|
 |0x22|Content Segment: Quote by Id|Mosaic [Core Tags](core_tags.md)|

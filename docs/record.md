@@ -10,17 +10,20 @@ Byte slice notation `[m:n]` indicates the bytes including `m` up to and
 including the byte `n-1` but not including the byte `n`. For example `[8:12]`
 represents bytes 8, 9, 10 and 11.
 
+Byte slices that are missing a beginning such as `[:64]` start at 0.
+
+Byte slices that are missing an ending such as `[112:]` continue until the
+end of the data.
+
 ## Maximum Size
 
-The maximum size of a record is 1 mebibyte (1,048,576 bytes).
+The
+<t>maximum size</t> [<sup>rat</sup>](rationale.md#maximum-size)
+of a record is 1 mebibyte (1,048,576 bytes).
 
-This is specified so that length fields inside of records can be of a defined
-fixed number of bits and so that software can make reasonable decisions about
-buffer sizes.
 
 ## Layout
 
-Note that records are laid out in a way to provide 64-bit alignment.
 
 ```text
             1   2   3   4   4   5   6
@@ -76,7 +79,7 @@ Note that records are laid out in a way to provide 64-bit alignment.
 192 +-------------------------------+ <-----|
     | Flags | Timestamp             |
 200 +-------------------------------+
-    |AppFlgs| Len_t | Len_p         |
+    |AppFlgs| LenT  | LenP          |
 208 +-------------------------------+
     | Tags...                       |
     |                   .. +PADDING |
@@ -86,12 +89,11 @@ Note that records are laid out in a way to provide 64-bit alignment.
   ? +-------------------------------+
 ```
 
+[Rationale](rationale.md#layout)
+
 ## Fields
 
 Records contain the following fields.
-
-See the [layout](#layout) section for the binary layout of these fields within
-a record.
 
 ### Signature
 
@@ -114,7 +116,7 @@ This is the first part of the three-part ID.
 
 #### Zeroes
 
-2 bytes of zeroes from `[70:72]` just to keep alignment.
+2 bytes of zeroes from `[70:72]`.
 
 This is the second part of the three-part ID.
 
@@ -132,7 +134,7 @@ This is the third part of the three-part ID.
 
 This is the public key of the signing keypair, which is usually a subkey under
 the author's master keypair (but theoretically could be delegated in some other
-fashion in the future). This is represented in 32 bytes (256 bits).
+fashion in the future).
 
 ### Address
 
@@ -146,16 +148,7 @@ This is the original timestamp represented in 6 bytes (48 bits) according
 to [timestamps](timestamps.md), except in big-endian format.
 
 If the record is not a replacement of another record (the usual case)
-this is the same value as [Timestamp](#timestamp).
-
-If the record is a replacement of another record, it copies the address
-from the original record which will fill this with the original record
-timestamp.
-
-Rationale:
-
-* By putting the timestamp at the front of the address, addresses sort in
-  time order and group temporally (for database performance).
+then this is the same value as [Timestamp](#timestamp).
 
 #### Kind
 
@@ -163,8 +156,8 @@ Rationale:
 
 This is the [kind](kinds.md) of the record which determines the application
 this record is part of, which then determines the nature of the non-core tags
-and the payload. This is represented in 2 bytes (16 bits) as an
-unsigned integer, little-endian.
+and the payload. This is represented as an unsigned integer in little-endian
+format.
 
 #### Nonce
 
@@ -176,26 +169,27 @@ This keeps addresses unique.
 32 bytes at `[160:192]`
 
 This is the identity of the author, expressed as a public key from their master
-EdDSA ed25519 keypair, which is represented in 32 bytes (256 bits).
+EdDSA ed25519 keypair.
 
 ### Flags
 
 2 bytes at `[192:194]`
 
-* 0x01 ZSTD - The payload is compressed with Zstd
-* 0x02 FROM_AUTHOR - Servers SHOULD only accept the record from the author (requiring authentication)
-* 0x04 TO_RECIPIENTS - Servers SHOULD only serve the record to people tagged (requiring authentication)
-* 0x08 NO_BRIDGE - Bridges SHOULD NOT propogate the record to other networks (nostr, mastodon, etc)
-* 0x10 EPHEMERAL - The record is ephemeral; Servers should serve it to current subscribers and not keep it.
-* 0x20 - RESERVED and MUST be 0
-* 0x80, 0x40 - Signature scheme:
-    * 00 - (default) EdDSA ed25519
-    * 01 - (nostr) secp256k1 Schnorr
-    * 10 - RESERVED
-    * 11 - RESERVED
+* `0x01 ZSTD` - The payload is compressed with Zstd
+* `0x02 FROM_AUTHOR` - Servers SHOULD only accept the record from the author (requiring authentication)
+* `0x04 TO_RECIPIENTS` - Servers SHOULD only serve the record to people tagged (requiring authentication)
+* `0x08 NO_BRIDGE` - Bridges SHOULD NOT propogate the record to other networks (nostr, mastodon, etc)
+* `0x10 EPHEMERAL` - The record is ephemeral; Servers should serve it to current subscribers and not keep it.
+* `0x20 - RESERVED` and MUST be 0
+* `0x80, 0x40` - Signature scheme:
+    * `00 - EDDSA` - EdDSA ed25519 (default)
+    * `01 - NOSTR` - reserved for secp256k1 Schnorr signatures (not in use)
+    * `10 - RESERVED`
+    * `11 - RESERVED`
     * NOTE: This only affects the signing key and the signature. The hash is
       always created with BLAKE3, and the master key is always EdDSA
-      ed25519. This enables using nostr keys as subkeys.
+      ed25519. This enables using nostr keys as subkeys (the records generated
+      however will not interoperate with nostr-only software).
 * All other bits - RESERVED and MUST be 0
 
 ### Timestamp
@@ -208,13 +202,6 @@ This is a timestamp represented in 6 bytes (48 bits) according to
 If this record replaces a previous record, this timestamp MUST be larger
 than [Orig Timestamp](#orig-be-timestamp).
 
-Rationale:
-
-* It might seem like we have too many timestamps. But we need a timestamp
-  of the current record, separate from the address, and which gets
-  hashed by the hashing algorithm (the timestamp in the ID was not part
-  of the hashing input).
-
 ### AppFlgs
 
 2 bytes at `[200:202]`
@@ -222,7 +209,7 @@ Rationale:
 These are bitflags reserved for use by the specific application based on
 the [kind](#kind).
 
-### Len_t
+### LenT
 
 2 bytes at `[202:204]` representing the length of the tags section in bytes
 as an unsigned integer in little-endian format.
@@ -232,7 +219,7 @@ at the end to achieve 64-bit alignment.
 
 The maximum tags section length is 65536 bytes.
 
-### Len_p
+### LenP
 
 4 bytes at `[204:208]` representing the length of the payload section in
 bytes as an unsigned integer in little-endian format.
@@ -240,16 +227,19 @@ bytes as an unsigned integer in little-endian format.
 This represents the exact length of the payload section, not counting padding
 at the end to achieve 64-bit alignment.
 
-The maximum payload section length is 1_048_384 bytes.
+The maximum payload section length is 1_048_384 bytes (which is the maximum record
+size minus the header size).
 
 ### Tags
 
-Varying bytes at `[208:208+Len_t]`
+Varying bytes at `[208:208+LenT]`
 
 These are searchable key-value tags.
 
-Unlike nostr tags, all of these are searchable. If an application requires
-unsearchable tags, these can be defined within that application's payload.
+<t>Tags</t> [<sup>ref</sup>](rationale.md#tags)  are a maximum of 256 bytes long.
+
+All tags are searchable on servers. If an application requires unsearchable tags,
+these can be defined within that application's payload.
 
 Tags are laid out as follows:
 
@@ -269,24 +259,19 @@ The tags section is padded out to 64-bit alignment.
 
 The maximum tags section length is 65536 bytes.
 
-Tag types are documented at [Tag Type Registry](tag_types.md) and
-the tags are defined at [Core Tags](core_tags.md).
-
-Rationale:
-
-* Tag values should not be too large as they need to be indexed by relays.
-* Constraining the value to 253 bytes allows an entire TLV (with 16-bit
-  type and 8-bit length) to fit within 256 bytes.
+Tag types are documented at the [Tag Type Registry](tag_types.md)
+which includes the defined [Core Tags](core_tags.md).
 
 ### Payload
 
-Varying bytes at `[208+Len_t:208+Len_t+Len_p].`
+Varying bytes at `[208+LenT:208+LenT+LenP].`
 
 Payload is opaque (at this layer of specification) application-specific data.
 
 The payload section is padded out to 64-bit alignment.
 
-The maximum payload section length is 1_048_384 bytes
+The maximum payload section length is 1_048_384 bytes (which is the maximum record
+size minus the header size).
 
 # Construction
 
@@ -302,20 +287,6 @@ The maximum payload section length is 1_048_384 bytes
 5. Write the timestamp as a 48-bit unsigned big-endian to `[64:70]`.
 6. Set bytes 70 and 71 to 0 (if not already).
 
-Rationale:
-
-* EdDSA specifies SHA-512, but BLAKE3 is faster especially for longer
-  messages, and EdDSA works just fine with it.
-* We provide a context so that users cannot be tricked by one application
-  into signing content for a different application (in case users think
-  they can use the same keypair for every application).
-* In order for IDs to sort in time order, and to group temporally (for
-  database performance) we start them with the timestamp.
-* We want the ID to have at least 32 bytes of hash, and with the timestamp
-  overwrite part we extended it.
-* This makes IDs 48-bytes long, which conveniently matches the length of
-  addrs.
-
 # Validation
 
 Records MUST be fully validated by clients.
@@ -326,7 +297,7 @@ steps marked CLIENTS ONLY.
 Validation steps
 
 1. The length must be between 208 and 1048576 bytes.
-2. The length must equal 208 + Len_t + Len_p.
+2. The length must equal 208 + LenT + LenP.
 3. The Signing public key must be validated according to the
    [cryptography](cryptography.md) key validation checks.
 4. The Author public key must be validated according to the

@@ -4,6 +4,10 @@
 
 Kind = 0x4 - Root
 
+## Tags
+
+No special tags are defined here, but most core tags apply.
+
 ## Payload
 
 The payload follows the [Human Readable Content](human_readable_content.md) rules.
