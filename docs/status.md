@@ -34,9 +34,9 @@ because people want to be compatible.
 * The protocol should not impede high-performance high-throughput
   implementations.
 * It is ok to do things multiple ways so long as there is *one default*
-  that all developers implement, and the rest of the "ways" are optional.
-  For example, we can have multiple transports (WebSockets, WebTransport)
-  without all the developers needing to move beyond WebSockets,
+  that all developers implement, and the rest of the "ways" are truly
+  optional. For example, we can have multiple transports (WebSockets,
+  WebTransport) without all the developers needing to move beyond WebSockets,
   so long as every implementation implements the WebSockets transport.
 * Code that isn't required by everybody should be defined outside of core
   as an extension, transport, or application, as these are all optional.

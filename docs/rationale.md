@@ -38,7 +38,7 @@ is needed.
 
 Other than that, binary is better in all respects.
 
-We argue that extensibility of the main Record is sufficiently done via Record kinds,
+We argue that extensibility of the main record is sufficiently done via record kinds,
 tags and content, and therefore extensibility is not needed for this structure.
 
 We sacrifice:
@@ -88,8 +88,9 @@ However, we opt for a dumb-server smart-client design to put more control into t
 ## Distributed
 
 Centralized systems have a fatal flaw: they can easily be captured and controlled by people you do not
-agree with such as corporate or censors, or hackers. By having a central point of attack, the entire
-system can be taken down or modified deleteriously by bad actors.
+agree with such as corporate or government censors or hackers. By having a
+central point of attack, the entire
+system can be taken down or damaged by bad actors.
 
 Mosaic is desgined to be fully distributed, with no centralized points of failure.
 
@@ -107,7 +108,7 @@ This allows either side to initiate an action, which turns out to be a very usef
 For example when a new record that matches a user's subscribed filters arrives at the server,
 the server can immediately shuttle it to the client. In a request-response architecture, there
 would be a delay until the client polled again. And due to the polling nature, the client would
-need to make many poll requests when nothing was ready for them.
+need to make many poll requests even when nothing was ready for them.
 
 ---
 
