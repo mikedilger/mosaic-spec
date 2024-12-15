@@ -341,6 +341,8 @@ It has the following format:
 24  +-----------------------------------------------+
     | ID PREFIX bytes 16..24                        |
 32  +-----------------------------------------------+
+    | ID PREFIX bytes 24..32                        |
+40  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x83
@@ -363,4 +365,4 @@ It has the following format:
     * `INTERNAL_ERROR`: 0xF0 - A server error occured
     * `OTHER`: 0xFF - Some other reason
 * `[2:8]` - Zeroed
-* `[8:32]` - A 24-byte prefix of the Id of the 48-byte Id.
+* `[8:40]` - A 32-byte prefix of the 48-byte Id.
