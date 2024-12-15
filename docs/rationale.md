@@ -175,8 +175,8 @@ compatible.
 
 ## Master-Key Subkey
 
-Users need to keep their private key secure so they don't have their identity stolen. But
-they also need to access their private key online in order to use the protocol. By splitting
+Users need to keep their secret key secure so they don't have their identity stolen. But
+they also need to access their secret key online in order to use the protocol. By splitting
 the keys into a master key and multiple device keys (or subkeys) we can enable very secure
 master key storage and usage without impeding the ability to operate online with subkeys.
 

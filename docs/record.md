@@ -281,7 +281,7 @@ size minus the header size).
    of output using BLAKE3's `finalize_xof()` function. This does not
    directly go into the record.
 3. Generate EdDSA ed25519ph pre-hashed signature of that 512-bit hash
-   using the Signing private key, and providing the context string
+   using the Signing secret key, and providing the context string
    of "Mosaic". NOTE: ed25519 calls for a SHA-512 hash, but we use
    a BLAKE3 hash instead. Place the signature at bytes `[0:64]`.
 4. Copy the first 40 bytes of the hash to `[72:112]`.

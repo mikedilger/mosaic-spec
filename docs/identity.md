@@ -8,7 +8,7 @@ Identities are split between Users and Servers.
 
 Users in Mosaic are self-created and self-administered.
 
-This requires each end user to securely manage their private key material.
+This requires each end user to securely manage their secret key material.
 Convenient methods for doing so are outside of the scope of Mosaic
 except insomuch as we define master keys and subkeys with the purpose that
 subkeys are intended for online use, and master keys are intended to be
@@ -18,7 +18,7 @@ managed by a trusted service.
 ## User Identity
 
 A user is defined to be the person, organization, or other entity with knowledge
-of the private half of an [EdDSA](cryptography.md#digital-signature-with-eddsa-ed25519)
+of the secret half of an [EdDSA](cryptography.md#digital-signature-with-eddsa-ed25519)
 keypair.  This key pair is considered their *master keypair*.
 
 A user is referenced by the public half of their *master keypair*.
@@ -47,6 +47,6 @@ the master key. These include (presently):
 * Publishing/modifying a user's [Key Schedule](keyschedule.md) with new keys and/or revocations.
 * Publishing/modifying a user's [Profile](profile.md) record.
 
-Subkeys might be deterministically derived from the master private key, or they
+Subkeys might be deterministically derived from the master secret key, or they
 might not. Nothing in the Mosaic spec requires such, but some implementations
 may make use of this.
