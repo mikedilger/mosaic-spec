@@ -16,8 +16,6 @@ possible given other constraints.
 
 |type|name|
 |----|----|
-|0x1|[Ids](#ids)|
-|0x2|[Addresses](#addresses)|
 |0x4|[Author Keys](#author-keys)|
 |0x5|[Signing Keys](#signing-keys)|
 |0x6|[Timestamps](#timestamps)|
@@ -28,74 +26,6 @@ possible given other constraints.
 |0xB|[Received Until](#received-until)|
 |0xC|[Kinds](#kinds)|
 |0xD|[Tag Values](#tag-values)|
-|0xE|[Limit](#limit)|
-
-## Ids
-
-> **0x1**
-
-Matches all records that have any of these ids.
-
-```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0x1|          0x0          | n |
- 8  +-------------------------------+
-    | Id 1/6                        |
- 16 +-------------------------------+
-    | Id 2/6                        |
- 24 +-------------------------------+
-    | Id 3/6                        |
- 32 +-------------------------------+
-    | Id 4/6                        |
- 40 +-------------------------------+
-    | Id 5/6                        |
- 48 +-------------------------------+
-    | Id 6/6                        |
- 56 +-------------------------------+
-    | ... additional ids..          |
-    +-------------------------------+
-```
-
-* The byte 0x1
-* Six bytes 0x0
-* A 1-byte count `n`, then
-* A sequence of `n` 48-byte IDs.
-
-
-## Addresses
-
-> **0x2**
-
-Matches all records that have any of these addresses.
-
-```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0x2|          0x0          | n |
- 8  +-------------------------------+
-    | ADDR 1/6                      |
- 16 +-------------------------------+
-    | ADDR 2/6                      |
- 24 +-------------------------------+
-    | ADDR 3/6                      |
- 32 +-------------------------------+
-    | ADDR 4/6                      |
- 32 +-------------------------------+
-    | ADDR 5/6                      |
- 32 +-------------------------------+
-    | ADDR 6/6                      |
- 40 +-------------------------------+
-    | ... additional addrs..        |
-    +-------------------------------+
-```
-
-* The byte 0x2
-* Six bytes 0x0
-* A 1-byte count `n`, then
-* A sequence of `n` 48-byte addresses.
 
 ## Author Keys
 
@@ -338,23 +268,3 @@ tag type.
 * DATA being a sequence of n length-value pairs (length being 1 byte)
   representing the n different values of the tag which cause the filter
   to match. This data is not aligned and tag values are of varying length.
-
-## Limit
-
-> **0xE**
-
-Limits the records to the specified limit, providing only the most recent
-results.
-
-```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0xE|    0x0    |     LIMIT     |
- 8  +-------------------------------+
-```
-
-* The byte 0xE
-* Three bytes 0x0
-* Four bytes representing a LIMIT, an unsigned integer in little-endian
-  order.
