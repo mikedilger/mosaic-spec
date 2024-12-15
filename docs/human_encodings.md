@@ -8,15 +8,8 @@ is used in many of these due to its superior properties. Refer to the link.
 
 ## Keys
 
-User public keys are encoded with bech32 using the `moupub` prefix.
-
-Server public keys are encoded with bech32 using the `mospub` prefix.
-
-Public keys can be encoded with bech32 using the `mopub` prefix if the
-encoder does not know whether it represents a user or a server.
+Public keys are encoded with bech32 using the `mopub` prefix.
 
 Secret keys are encoded with bech32 using the `mosec` prefix.
 
-Ids are encoded with bech32 using the `moid` prefix.
-
-Addresses are encoded with bech32 using the `moaddr` prefix.
+References are encoded with bech32 using the `moref` prefix.
