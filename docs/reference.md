@@ -14,7 +14,7 @@ unique. See [record](record.md) for the Id field.
 
 ## Address Reference
 
-An <t>address reference</t> [<sup>rat</sup>](rationale.md#address-fields)
+An <t>address reference</t> [<sup>rat</sup>](rationale.md#references)
 is a pointer to a group of records that have the same
 address, which usually represent an initial record and it's subsequent
 replacements, often (and by default presumably) with the most recent record

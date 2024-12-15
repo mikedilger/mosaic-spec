@@ -15,6 +15,7 @@ to this page with [<sup>rat</sup>](#) links.
 | [Master-Key Subkey](#master-key-subkey) |
 | [No IP Privacy](#no-ip-privacy) |
 | [Records](#records) |
+| [References](#references) |
 | [Server Identities](#server-identities) |
 | [Sovereign](#sovereign) |
 | [Storing received-at timestamps](#storing-received-at-timestamps) |
@@ -206,45 +207,6 @@ All data that needs hashing is contigous so that no data needs to be copied in o
 the hash. The hash-based id and signature could have appeared before or after, and we have chosen
 to place them before to give them well defined offsets.
 
-### Id Fields
-
-By putting the big-endian timestamp at the front of the ID, IDs sort in time order
-and group temporally (for database performance).
-
-The zeroes in the ID maintain 64-bit alignment.
-
-The hash in the ID cryptographically represents all the data that was hashed. It is 40 bytes
-long because we needed at least 32 bytes for cryptographic reasons, and because addresses
-are already 48 bytes long, we used the extra 8 bytes to extend the hash.
-
-The entire 512-bit (64 byte) hash is overkill. Even though we have to produce it for the
-EdDSA ed25519 signature, we don't have to waste precious record space with that entire
-long hash.
-
-### Address Fields
-
-By not including the hash of content, records can be edited and replaced by
-the author (where edits make sense). Application will specify which kind of
-reference to use in which context.
-
-By containing the Author public key, record location can be determined
-through [bootstrapping](bootstrap.md).
-
-At only 48 bytes long, these can easily fit into a 253 byte tag when needed.
-
-By containing the kind, records that are edited cannot change their kind.
-
-By containing the kind, software can filter records that are not relevant to
-a situation without needing to look them up first.
-
-By putting the timestamp at the front of the address in big-endian format,
-addresses sort in time order and group temporally (for database performance).
-
-By containing the original timestamp and a 64-bit nonce, it is statistically
-infeasible for two different records to have the same address unintentionally.
-In fact this is overkill, but using anything shorter that still aligns at 64-bits
-ends up being not unique enough.
-
 ### Flags
 
 A number of record properties that span applications have been conceived of and we
@@ -281,6 +243,53 @@ Some tag types start with padding in the value in order to better align
 their data.
 
 ---
+
+## References
+
+### Id Fields
+
+The hash in the ID cryptographically represents all the data that was hashed.
+It is 40 bytes long because we needed at least 32 bytes for cryptographic
+reasons, and because addresses are already 48 bytes long, we used the extra
+8 bytes to extend the hash.
+
+The entire 512-bit (64 byte) hash is overkill. Even though we have to produce
+it for the EdDSA ed25519 signature, we don't have to waste precious record
+space with that entire long hash.
+
+By putting the big-endian timestamp at the front of the ID, IDs sort in time
+order and group temporally (for database performance).
+
+The zeroes in the ID maintain 64-bit alignment.
+
+### Address Fields
+
+By not including the hash of content, records can be edited and replaced by
+the author (where edits make sense). Application will specify which kind of
+reference to use in which context.
+
+By containing the Author public key, record location can be determined
+through [bootstrapping](bootstrap.md).
+
+By containing the kind, records that are edited cannot change their kind.
+
+By containing the kind, software can filter records that are not relevant to
+a situation without needing to look them up first.
+
+By putting the timestamp at the front of the address in big-endian format,
+addresses sort in time order and group temporally (for database performance).
+
+By containing the original timestamp and a 64-bit nonce, it is statistically
+infeasible for two different records to have the same address unintentionally.
+In fact this is overkill, but using anything shorter that still aligns at
+64-bits ends up being not unique enough.
+
+At only 48 bytes long, these can easily fit into a 253 byte tag when needed.
+
+By the first bit being a 1, IDs and ADDRs can be intermixed and their type
+determined by that bit.
+
+--
 
 ## Server Identities
 
@@ -349,7 +358,7 @@ Millisecond unixtimes only take 6 bytes and in 47 bits give us more than
 
 ### Bit 48
 
-The most significant bit of timestamps is always a 0 in case software interprets
+The most significant bit of timestamps is set to 0 in case software interprets
 it as a signed integer, to preserve sorting.
 
 ---

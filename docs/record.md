@@ -145,10 +145,11 @@ A 48 byte Address from `[144:192]` made up of the following four parts.
 6 bytes at `[144:150]`
 
 This is the original timestamp represented in 6 bytes (48 bits) according
-to [timestamps](timestamps.md), except in big-endian format.
+to [timestamps](timestamps.md), except in big-endian format, and also the
+most significant bit is set to 1. [<sup>ref</sup>](rationale.md#address-fields)
 
 If the record is not a replacement of another record (the usual case)
-then this is the same value as [Timestamp](#timestamp).
+then this comes from the same value as [Timestamp](#timestamp).
 
 #### Kind
 
