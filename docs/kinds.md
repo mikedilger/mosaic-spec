@@ -2,7 +2,7 @@
 
 <status>PAGE STATUS: Early Draft</status>
 
-Kinds are 4-byte unsigned integers in little-endian format.
+Kinds are 2-byte unsigned integers in little-endian format.
 
 This page is a Registry of kinds, their name, and the standard
 that defines them.  Refer to their definitions in the standards that

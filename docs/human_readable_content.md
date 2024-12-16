@@ -12,8 +12,7 @@ tags are defined including:
 
 * [Content Segment: User Mention](core_tags.md#content-segment-user-mention) for things like `@user`.
 * [Content Segment: Server Mention](core_tags.md#content-segment-server-mention) for mentioning a server.
-* [Content Segment: Quote by id](core_tags.md#content-segment-quote-by-id) for quoting other records.
-* [Content Segment: Quote by addr](core_tags.md#content-segment-quote-by-addr) for quoting other records.
+* [Content Segment: Quote](core_tags.md#content-segment-quote) for quoting other records.
 * [Content Segment: URL](core_tags.md#content-segment-url) for inserting a URL to a website.
 * [Content Segment: Image](core_tags.md#content-segment-image) for inserting an image.
 * [Content Segment: Video](core_tags.md#content-segment-video) for inserting a video.
