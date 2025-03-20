@@ -103,8 +103,8 @@ mutiple bootstrap servers and you can run your own.
 
 ## Duplex Communication
 
-We base Mosaic on transport protocols that provide duplex communication such as Web Sockets and
-Web Transport.  This is in opposition to a request-response architecture such as HTTP REST.
+We base Mosaic on transport protocols that provide duplex communication such as QUIC and Web
+Sockets. This is in opposition to a request-response architecture such as HTTP REST.
 
 This allows either side to initiate an action, which turns out to be a very useful feature.
 For example when a new record that matches a user's subscribed filters arrives at the server,
@@ -353,13 +353,11 @@ events.
 ## Timestamps
 
 ### Leap Seconds
+
 UTC is a discontinous time scale that is occasionally adjusted by leap seconds.
 Unixtime is derived from UTC and is thus also discontinuous.  Subtracting two
 unixtimes could give a time interval that is off by up to 28 seconds (for
 example when comparing dates before 1 Jan 1972 with today).
-
-The first bit is zero in case it is ever interpreted as a sign bit, in order
-to preserve sorting.
 
 ### Milliseconds
 
