@@ -14,6 +14,7 @@ to this page with [<sup>rat</sup>](#) links.
 | [Mainline DHT](#mainline-dht) |
 | [Master-Key Subkey](#master-key-subkey) |
 | [No IP Privacy](#no-ip-privacy) |
+| [QUIC](#quic) |
 | [Records](#records) |
 | [References](#references) |
 | [Server Identities](#server-identities) |
@@ -188,6 +189,23 @@ Several IP privacy network layers exist which already do a good job (Tor, i2p, V
 issue is almost entirely orthogonal to the application protocol, and so architecturally it makes sense
 to separate application layers from privacy layers. There is no good reason to reinvent another privacy
 layer just for Mosaic since Mosaic can run on top of an already existing general-purpose privacy layer.
+
+---
+
+## QUIC
+
+HTTP has a lot of baggage. WebSockets layers on top of that.
+
+What we really need is size-unrestricted datagrams within TLS.  QUIC
+gives us that if we do our own framing within a QUIC stream.
+
+QUIC is widely deployed due to its use in HTTP 1.3. QUIC is also much
+faster due to fewer roundtrips and no head-of-line blocking, while
+taking care of TLS, multiplexed streams, congestion control and other
+details that we would not dare to reimplement.
+
+The only concern would be if the port is not opened, and in this case
+a server can run on UDP port 443 (even though it is not speaking HTTP).
 
 ---
 
