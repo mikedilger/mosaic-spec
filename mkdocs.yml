@@ -10,6 +10,7 @@ theme:
   navigation_depth: 3
 extra_css:
   - style.css
+use_directory_urls: false
 nav:
   - Mosaic Introduction: index.md
   - Status and Development: status.md
