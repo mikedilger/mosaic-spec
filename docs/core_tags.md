@@ -168,7 +168,7 @@ If a record includes this tag, it must also include a
 ```
 
 * `[0:2]` - The type 0x8 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x38
+* `[2:3]` - The length 0x28
 * `[3:8]` - Zeroed
 * `[8:40]` - The Nostr ID (32 bytes)
 
@@ -300,7 +300,7 @@ This is a mention of a server.
 ```
 
 * `[0:2]` - The type 0x22 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x30
+* `[2:3]` - The length 0x40
 * `[3:4]` - Zeroed
 * `[4:8]` - The offset as a little-endian encoded unsigned integer.
 * `[8:14]` - Zeroed
