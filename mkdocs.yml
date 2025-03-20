@@ -38,8 +38,8 @@ nav:
   - Mosaic Accessory:
     - Human Encodings: human_encodings.md
   - Mosaic Transport:
+    - QUIC: quic.md
     - WebSockets: websockets.md
-    - WebTransport: webtransport.md
   - Extensions:
     - Sync Protocol Extension: sync_protocol_extension.md
   - Applications:

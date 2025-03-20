@@ -8,8 +8,9 @@ transport and certificate authentication.
 ## Protocol Extensions
 
 Protocol extension negotiation is done on a transport-by-transport level.
-For [WebSockets](websockets.md) transport (the default) this is done with
-the `X-Mosaic-Extensions` header.
+For [QUIC](quic.md) transport this is done with the initial packet.
+For [WebSockets](websockets.md) transport this is done with the
+`X-Mosaic-Extensions` header.
 
 The following extensions have been defined:
 

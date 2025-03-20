@@ -69,21 +69,22 @@ A server bootstrap starts with the line `S`.
 Each subsequent line in a server bootstrap specifies a URL where
 the server can be accessed.
 
-These URLs MUST contain a scheme and a host, may optionally contain a port, and must
-specify the root path (`/`).  They must NOT contain user, password, query, or fragment
-section. If any of those is found in one of these URL, software MUST prune such
+These URLs MUST contain a scheme and a host, may optionally contain a port
+(with defaults to 443 for wss and 1320 for quic), and must specify the root path
+(`/`). They must NOT contain user, password, query, or fragment section. If
+any of those is found in one of these URL, software MUST prune such
 information.
 
-Only secure transports with TLS are defined. TLS must be version 1.2 or 1.3.
-The only known schemes currently are `wss` and `https` (`https` being
-designated for [WebTransport](webtransport.md))
+Only secure transports with TLS are defined. TLS must be version 1.2 or 1.3,
+and for QUIC is must be 1.3.  The only known schemes currently are `wss` for
+[WebSockets](websockets.md) and `quic` for [QUIC](quic.md).
 
 The order of the entries expresses the preference or priority. Earlier
 entries are preferred by the server to later ones.
 
 Here are some examples of server bootstrap lines:
 
-`wss://203.0.113.1` specifies WebSockets with TLS on port 443 at IP address
+`quic://203.0.113.1` specifies QUIC on port 1320 at IP address
 `203.0.113.1`.
 
 `wss://203.0.113.0:5198` specifies WebSockets with TLS on port 5198 at IP
@@ -95,8 +96,8 @@ over Tor to onion site `myserverlk23lkjsefo8u.onion`.
 `wss://[2001::130F::09C0:876A:130B]` specifies WebSockets with TLS on port 443
 over IPv6 to address `2001::130F::09C0:876A:130B`.
 
-`https://mosaic.example:555` specifies WebTransport with TLS on port 555 to DNS
-node mosaic.example (https is to be interpreted as WebTransport, not REST).
+`quic://mosaic.example:555` specifies QUIC on port 555 to DNS
+node mosaic.example
 
 Servers are expected to operate as their own inbox/outbox and encryption
 server. So they do not require the same data as the user bootstrap.
@@ -175,7 +176,7 @@ bootstrap entries at any time.
 
 ### Usage of servers and limits on their number
 
-*Maximums*: Users SHOULD list no more than 4 redundant servers of any kind,
+*Maximums*: Users SHOULD list no more than 3 redundant servers of any kind,
 since more redundancy provides strongly diminishing benefit at a linearly
 increasing network traffic cost.  Software MUST utilize the first four
 servers of the appropriate kind listed, and MAY tolerate additional servers
