@@ -215,18 +215,10 @@ provided space to set these.
 We provided separate flags for application-specific usage. These are quicker to look
 up than tag-based or content-based flags.
 
-### Multiple Timestamps
+### Duplicate Timestamp
 
-At first blush it appears we have the timestamp three different times. But consider this:
-
-The only timestamp that is current and hashed (and signed) is the [timestamp](record.md#timestamp)
-field. So we cannot dispense with that.
-
-The big-endian original timestamp in the address is required for sorting and
-differentiation, and it is also hashed and signed (but not necessarily the creation
-time of the record).
-
-And the big-endian timestamp in the ID is not hashed or signed.
+We have the timestamp twice. We had to duplicate it because the big-endian
+timestamp in the ID is not hashed or signed.
 
 ### Tags
 
@@ -276,15 +268,15 @@ By containing the kind, records that are edited cannot change their kind.
 By containing the kind, software can filter records that are not relevant to
 a situation without needing to look them up first.
 
-By putting the timestamp at the front of the address in big-endian format,
-addresses sort in time order and group temporally (for database performance).
+By containing a long unique nonce, it is statistically infeasible for two
+different records to have the same address unintentionally. In fact this is
+overkill, but we had the space due to alignment requirements.
 
-By containing the original timestamp and a 64-bit nonce, it is statistically
-infeasible for two different records to have the same address unintentionally.
-In fact this is overkill, but using anything shorter that still aligns at
-64-bits ends up being not unique enough.
+By not specifying how the nonce is generated, applications can solve different
+problems with different requirements.
 
-At only 48 bytes long, these can easily fit into a 253 byte tag when needed.
+At only 48 bytes long, these can easily fit into a 253 byte tag when needed
+and are the same size as an ID.
 
 By the first bit being a 1, IDs and ADDRs can be intermixed and their type
 determined by that bit.
