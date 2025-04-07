@@ -6,8 +6,10 @@ theme:
   highlightjs: true
   logo: img/favicon-96x96.png
   custom_dir: custom_theme/
-  titles_only: true
-  navigation_depth: 3
+  titles_only: false
+  navigation_depth: 4
+  features:
+    - navigation.expand
 extra_css:
   - style.css
 use_directory_urls: false
