@@ -219,6 +219,11 @@ at the end to achieve 64-bit alignment.
 
 The maximum tags section length is 65536 bytes.
 
+#### LenTPad
+
+The length of the tags section including padding is called `LenTPad` and is
+calculated as `(LenT + 7) & !7`
+
 ### LenP
 
 4 bytes at `[204:208]` representing the length of the payload section in
@@ -229,6 +234,11 @@ at the end to achieve 64-bit alignment.
 
 The maximum payload section length is 1_048_384 bytes (which is the maximum record
 size minus the header size).
+
+#### LenPPad
+
+The length of the payload section including padding is called `LenPPad` and is
+calculated as `(LenP + 7) & !7`
 
 ### Tags
 
@@ -264,7 +274,7 @@ which includes the defined [Core Tags](core_tags.md).
 
 ### Payload
 
-Varying bytes at `[208+LenT:208+LenT+LenP].`
+Varying bytes at `[208+LenTPad:208+LenTPad+LenP].`
 
 Payload is opaque (at this layer of specification) application-specific data.
 
@@ -297,7 +307,7 @@ steps marked CLIENTS ONLY.
 Validation steps
 
 1. The length must be between 208 and 1048576 bytes.
-2. The length must equal 208 + LenT + LenP.
+2. The length must equal 208 + LenTPad + LenPPad.
 3. The Signing public key must be validated according to the
    [cryptography](cryptography.md) key validation checks.
 4. The Author public key must be validated according to the
