@@ -152,7 +152,7 @@ to detect) Sybil attacks. It is the largest (or one of) and longest living DHT.
 
 It also has this mutable data functionality and works with ed25519 signed data.
 
-### Salt
+### Salt
 
 We use the salt to avoid collisions, in case the same ed25519 identity keypair is used by
 both mosaic and [pubky](https://github.com/pubky), or in case we need to change the format
@@ -162,6 +162,9 @@ We also need different salts because we have two different kinds of bootstraps a
 Different salts allow a server keypair to also be a user keypair without collision.
 
 These salts are short enough to not use too much space.
+
+The user bootstrap salt used to be `mub24` but was changed to `mub25` when the format of
+printable public keys changed.
 
 ### Sequence Numbers
 

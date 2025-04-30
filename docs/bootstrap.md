@@ -6,7 +6,7 @@ When you first find out about a new public key, you may already know by the
 context if it represents a user or a server. But sometimes you don't even
 know that.  You also may not know what servers this key uses to host it's
 [key schedule](keyschedule.md) and [profile](profile.md) information, or which
-it uses to publish it's records or receive messages.
+it uses to publish its records or receive messages.
 
 Bootstraps are public digitally signed records designed to let you acquire
 this kind of information.
@@ -38,7 +38,7 @@ Limitations:
 ### Salt
 
 We use a <t>salt</t> [<sup>rat</sup>](rationale.md#salt)  of `msb24`
-for server bootstraps and `mub24` for user bootstraps.
+for server bootstraps and `mub25` for user bootstraps.
 
 ### Sequence Numbers
 
@@ -151,9 +151,9 @@ Conveniently with this encoding the ASCII number also matches the relavant bits.
 
 ### Server Key
 
-The second part is the server's public key, encoded using base64 (using the
-standard alphabet of RFC 4648). This will be 44 characters long ending in an
-`=` symbol.
+The second part is the server's public key, encoded according to
+[human encodings](human_encodings.md) as a `mopub0`. This are 58 characters
+long.
 
 ### Example
 
@@ -161,24 +161,23 @@ Here is an example user bootstrap:
 
 ```
 U
-1 FB42YsY/CV2FqlMrI4CNeaZ2LnCHXzXmmdGKA+UsuBc=
-3 GQ859t+vK9gfYolOMfGB0VD/+kjk3iGFjxHj0GfhMos=
-2 L+RDYOrIKID+eEK81510TJ1pQOQW7kMrA10MwKOu0Iw=
-3 uBpfOVe3ooWMnc1RdMbYKBAIcHlfl2FsQU67lK2CJ8A=
-6 VKLdex3KykACzM0JpRfduelqwytel1AZGaXuv4sZhfU=
+1 mopub0naeu8zzpu4g9g8jwqkpsrxoje5gwtwzh7bxzkek51mkwbe7x3oqo
+3 mopub04fapk8fyyuoxjuwjwp5cmnuaqtoc519jsmz7qnzjp6r73ect966o
+2 mopub09drnk9atpgk75qkhchyxn63nr7qzd1nfzxr8hk1xw8fd4xsznodo
+3 mopub0oemxqrm9mq16krm73n8au5ykerakcppkuzosrdu7im3h1bzhdnay
+6 mopub041wfk1mo87xzt8uazdng9dhhcz9ypzernfyeznhg7me7y9nsjkxy
 ```
 
-Based on size limits of 983 bytes, no more than 20 server entries can be
-listed (but see below for other limitations on the number of servers).
+Based on size limits of 983 bytes, no more than 16 server entries can be
+listed. But see below for other limitations on the number of servers.
 
-Should servers become unreliable, users can change servers and update these
-bootstrap entries at any time.
+Users can change servers and update these bootstrap entries at any time.
 
 ### Usage of servers and limits on their number
 
 *Maximums*: Users SHOULD list no more than 3 redundant servers of any kind,
 since more redundancy provides strongly diminishing benefit at a linearly
-increasing network traffic cost.  Software MUST utilize the first four
+increasing network traffic cost. Software MUST utilize the first three
 servers of the appropriate kind listed, and MAY tolerate additional servers
 but optionally MAY ignore additional servers.
 
