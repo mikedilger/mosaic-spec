@@ -20,7 +20,7 @@ Mosaic runs over any
 <t>duplex communication</t> [<sup>rat</sup>](rationale.md#duplex-communication)
 transport protocol that is
 <t>TLS</t> [<sup>rat</sup>](rationale.md#tls)
-secured such as [QUIC](quic.md).
+secured such as <t>QUIC</t> [<sup>rat</sup>](rationale.md#quic).
 
 Mosaic does not provide
 <t>IP privacy</t> [<sup>rat</sup>](rationale.md#no-ip-privacy)
@@ -33,7 +33,7 @@ keypairs and Mosaic uses a
 [<sup>rat</sup>](rationale.md#master-key-subkey)
 design.
 
-Mosaic [servers](identity.md#users-and-servers) have key-based
+Mosaic [servers](identity.md#users-versus-servers) have key-based
 <t>server identites</t> [<sup>rat</sup>](rationale.md#server-identities).
 
 Mosaic identity and endpoint information is [bootstrapped](bootstrap.md) from
@@ -57,8 +57,7 @@ Clients and Servers
 [<sup>rat</sup>](rationale.md#storing-received-at-timestamps).
 
 The Mosaic specification is layered with Core, Transport, Extensions, and
-Applications being separate specification layer. Only Core and Transport:QUIC
-are required by all participants.
+Applications. Only Core and Transport:QUIC are required by all participants.
 
 Mosaic is an offshoot of [nostr](https://github.com/nostr-protocol).
 

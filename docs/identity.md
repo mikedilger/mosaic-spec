@@ -2,22 +2,17 @@
 
 <status>PAGE STATUS: early draft</status>
 
-## Users and Servers
+## Sovereign Identity
 
-Identities are split between Users and Servers.
-
-Users in Mosaic are self-created and self-administered.
-
-This requires each end user to securely manage their secret key material.
+Identities in Mosaic are self-created and self-administered.
+This requires each end user and server to securely manage their secret key material.
 Convenient methods for doing so are outside of the scope of Mosaic
 except insomuch as we define master keys and subkeys with the purpose that
 subkeys are intended for online use, and master keys are intended to be
 long-term and kept more securely, perhaps being offline, in hardware, or
 managed by a trusted service.
 
-## User Identity
-
-A user is defined to be the person, organization, or other entity with knowledge
+An identity is defined to be the person, organization, or other entity with knowledge
 of the secret half of an [EdDSA](cryptography.md#digital-signature-with-eddsa-ed25519)
 keypair.  This key pair is considered their *master keypair*.
 
@@ -50,3 +45,13 @@ the master key. These include (presently):
 Subkeys might be deterministically derived from the master secret key, or they
 might not. Nothing in the Mosaic spec requires such, but some implementations
 may make use of this.
+
+## Users versus Servers
+
+Identities are split between Users and Servers.
+
+Servers provide an infrastructure service. Users rely on the service provided by
+servers.
+
+
+

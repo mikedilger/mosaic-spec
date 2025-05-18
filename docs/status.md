@@ -1,5 +1,7 @@
 # Status and Development
 
+<status>PAGE STATUS: early draft</status>
+
 ## Page statuses
 
 Page statuses move between these states

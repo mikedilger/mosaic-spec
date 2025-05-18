@@ -78,12 +78,19 @@ We utilize this.
 
 ## Client-Server
 
-Mosaic is NOT peer-to-peer. It turns out that peer-to-peer is difficult because most computers are not
-fully connected to the Internet. And as there is nothing particular difficult in running a server that
-*is* fully connected to the Internet (given VPS availability), being strictly peer-to-peer doesn't seem
-advantageous. So we choose the more rock-solid client-server architecture.
+Mosaic is client-server, not peer-to-peer.
 
-However, we opt for a dumb-server smart-client design to put more control into the hands of the users.
+Mosaic servers are used in a way that presumes they will be online and available most of
+the time. Mosaic has built-in redundancy across such servers, but nonetheless a machine
+that is not even intended or capable of being up all the time (such as a phone or
+laptop) makes a poor mosaic server.
+
+Peer to peer architectures work well for situations when nodes do not need to remain
+online. Most social media situations instead seek to be always-on. Mosaic caters to
+the latter.
+
+We opt for a dumb-server smart-client design to put more control into the hands of the
+users.
 
 ---
 

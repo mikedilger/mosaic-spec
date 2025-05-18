@@ -2,7 +2,8 @@
 
 <status>PAGE STATUS: draft</status>
 
-A record is a datum within Mosaic. All datums are records.
+All Mosaic persistent data is stored within Record structures (except for
+bootstrap data).
 
 ## Notation
 
@@ -20,7 +21,6 @@ end of the data.
 The
 <t>maximum size</t> [<sup>rat</sup>](rationale.md#maximum-size)
 of a record is 1 mebibyte (1,048,576 bytes).
-
 
 ## Layout
 
@@ -120,7 +120,7 @@ This is the first part of the three-part ID.
 
 This is the second part of the three-part ID.
 
-### Hash
+#### Hash
 
 40 bytes at `[72:112]`
 
@@ -128,7 +128,7 @@ This is the first 40 bytes of the BLAKE3 hash.
 
 This is the third part of the three-part ID.
 
-#### Signing Public Key
+### Signing Public Key
 
 32 bytes at `[112:144]`
 
@@ -157,6 +157,8 @@ application and its purpose:
    of bytes. This is useful for applications that require seeking an
    event by a known fixed string of bytes (and known author and kind).
 4. They can be copied from a previous event, to replace that event.
+
+The method of creation is determined by the application layer.
 
 #### Kind
 
@@ -221,6 +223,8 @@ The maximum tags section length is 65536 bytes.
 
 #### LenTPad
 
+This is NOT included in the record, it is calculated.
+
 The length of the tags section including padding is called `LenTPad` and is
 calculated as `(LenT + 7) & !7`
 
@@ -237,6 +241,8 @@ size minus the header size).
 
 #### LenPPad
 
+This is NOT included in the record, it is calculated.
+
 The length of the payload section including padding is called `LenPPad` and is
 calculated as `(LenP + 7) & !7`
 
@@ -246,7 +252,7 @@ Varying bytes at `[208:208+LenT]`
 
 These are searchable key-value tags.
 
-<t>Tags</t> [<sup>ref</sup>](rationale.md#tags)  are a maximum of 256 bytes long.
+<t>Tags</t> [<sup>ref</sup>](rationale.md#tags) are a maximum of 256 bytes long.
 
 All tags are searchable on servers. If an application requires unsearchable tags,
 these can be defined within that application's payload.
@@ -289,11 +295,11 @@ size minus the header size).
 2. Take a BLAKE3 hash of `[112:]`, unkeyed, and extend to 64 bytes
    of output using BLAKE3's `finalize_xof()` function. This does not
    directly go into the record.
-3. Generate EdDSA ed25519ph pre-hashed signature of that 512-bit hash
-   using the Signing secret key, and providing the context string
-   of "Mosaic". NOTE: ed25519 calls for a SHA-512 hash, but we use
-   a BLAKE3 hash instead. Place the signature at bytes `[0:64]`.
-4. Copy the first 40 bytes of the hash to `[72:112]`.
+3. Generate EdDSA ed25519ph pre-hashed signature of the 512-bit hash
+   generated in step 2 using the Signing secret key, and providing the
+   context string of "Mosaic". NOTE: ed25519 calls for a SHA-512 hash,
+   but we use a BLAKE3 hash instead. Place the signature at bytes `[0:64]`.
+4. Copy the first 40 bytes of the hash generated in step 2 to `[72:112]`.
 5. Write the timestamp as a 48-bit unsigned big-endian to `[64:70]`.
 6. Set bytes 70 and 71 to 0 (if not already).
 
@@ -301,7 +307,7 @@ size minus the header size).
 
 Records MUST be fully validated by clients.
 
-Records MUST be fully validated by servers except for the
+Records MUST be fully validated by servers upon receipt except for the
 steps marked CLIENTS ONLY.
 
 Validation steps

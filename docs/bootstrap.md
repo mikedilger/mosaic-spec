@@ -1,12 +1,13 @@
 # Bootstrap
 
-<status>PAGE STATUS: draft</status>
+<status>PAGE STATUS: early draft</status>
 
 When you first find out about a new public key, you may already know by the
 context if it represents a user or a server. But sometimes you don't even
 know that.  You also may not know what servers this key uses to host it's
 [key schedule](keyschedule.md) and [profile](profile.md) information, or which
-it uses to publish its records or receive messages.
+it uses to publish its records or receive messages, or if a server, which URLs
+it is available at.
 
 Bootstraps are public digitally signed records designed to let you acquire
 this kind of information.
@@ -61,43 +62,26 @@ represents a server or a user.
 
 ## Server Bootstraps
 
-Server bootstraps specify the Internet locations (protocol, host and
-port) that the server is available at.
-
-A server bootstrap starts with the line `S`.
-
-Each subsequent line in a server bootstrap specifies a URL where
-the server can be accessed.
-
-These URLs MUST contain a scheme and a host, may optionally contain a port
-(with defaults to 443 for wss and 1320 for quic), and must specify the root path
-(`/`). They must NOT contain user, password, query, or fragment section. If
-any of those is found in one of these URL, software MUST prune such
-information.
-
-Only secure transports with TLS are defined. TLS must be version 1.2 or 1.3,
-and for QUIC is must be 1.3.  The only known schemes currently are `wss` for
-[WebSockets](websockets.md) and `quic` for [QUIC](quic.md).
+Server bootstraps provide the URLs that a server is available on.
 
 The order of the entries expresses the preference or priority. Earlier
 entries are preferred by the server to later ones.
 
-Here are some examples of server bootstrap lines:
+A server bootstrap starts with the line `S`.
 
-`quic://203.0.113.1` specifies QUIC on port 1320 at IP address
-`203.0.113.1`.
+Each subsequent line in a server bootstrap specifies a [URL](url.md) where
+the server can be accessed.
 
-`wss://203.0.113.0:5198` specifies WebSockets with TLS on port 5198 at IP
-address `203.0.113.0`.
 
-`wss://myserverlk23lkjsefo8u.onion` specifies WebSockets with TLS on port 443
-over Tor to onion site `myserverlk23lkjsefo8u.onion`.
+Here is an example server bootstrap:
 
-`wss://[2001::130F::09C0:876A:130B]` specifies WebSockets with TLS on port 443
-over IPv6 to address `2001::130F::09C0:876A:130B`.
-
-`quic://mosaic.example:555` specifies QUIC on port 555 to DNS
-node mosaic.example
+```
+S
+wss://myserverlk23lkjsefo8u.onion
+mosaic://203.0.113.1
+mosaic://203.0.113.2:5198
+mosaic://[2001::130F::09C0:876A:130B]
+```
 
 Servers are expected to operate as their own inbox/outbox and encryption
 server. So they do not require the same data as the user bootstrap.

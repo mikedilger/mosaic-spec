@@ -6,7 +6,7 @@ theme:
   highlightjs: true
   logo: img/favicon-96x96.png
   custom_dir: custom_theme/
-  titles_only: false
+  titles_only: true
   navigation_depth: 4
   features:
     - navigation.expand
@@ -21,6 +21,7 @@ nav:
     - Identity:
       - Cryptography: cryptography.md
       - Identity: identity.md
+      - URL: url.md
       - Bootstrap: bootstrap.md
     - Record Type:
       - Timestamps: timestamps.md

@@ -4,30 +4,37 @@
 
 A filter is a binary structure used within the [Core Protocol](protocol.md).
 
-It is defined as a contiguous sequence of type-value pairs.  Some types
-specify a count or length within their value.
+It is defined as a contiguous sequence of type-selector pairs.  Some selector
+types specify a count or length within their value.
 
-Each entry restricts the set of records that the filter matches. For an
-event to pass the filter, it must pass all entries.
+Each selector restricts the set of records that the filter matches. For an
+event to pass the filter, it must pass all the selectors.
 
-Filter types MUST not be used more than once within a filter.
+Selector types MUST not be used more than once within a filter.
 
 Filters can be up to 65536 bytes long maximum, but this size may not be
 possible given other constraints.
 
-|type|name|
-|----|----|
-|0x1|[Exclude](#exclude)|
-|0x4|[Author Keys](#author-keys)|
-|0x5|[Signing Keys](#signing-keys)|
-|0x6|[Timestamps](#timestamps)|
-|0x7|[Since](#since)|
-|0x8|[Until](#until)|
-|0x9|[Received Ats](#received-ats)|
-|0xA|[Received Since](#received-since)|
-|0xB|[Received Until](#received-until)|
-|0xC|[Kinds](#kinds)|
-|0xD|[Tag Values](#tag-values)|
+Filters SHOULD include at least one narrowly-tailored selector in order
+to narrow down the set of matching events to something reasonable. Software
+MAY reject filters that do not comply with this requirement.
+
+The following selectors are defined:
+
+|type|name|narrow|
+|----|----|------|
+|0x1|[Exclude](#exclude)| no |
+|0x4|[Author Keys](#author-keys)| yes |
+|0x5|[Signing Keys](#signing-keys)| yes |
+|0x6|[Timestamps](#timestamps)| yes |
+|0x7|[Since](#since)| no |
+|0x8|[Until](#until)| no |
+|0x9|[Received Ats](#received-ats)| yes |
+|0xA|[Received Since](#received-since)| no |
+|0xB|[Received Until](#received-until)| no |
+|0xC|[Kinds](#kinds)| yes |
+|0xD|[Includes Tag](#includes-tag)| yes |
+|0xE|[Excludes Tag](#excludes-tag)| no |
 
 ## Exclude
 
@@ -273,12 +280,11 @@ Matches all records which are of any one of these kinds.
 * `[7:8]` - A 1-byte count `n` of kinds
 * `[8]` - A sequence of `n` 4-byte [kinds](kinds.md)
 
-## Tag Values
+## Includes Tag
 
 > **0xD**
 
-Matches all records where the tags of the given tag type pass an
-encoded boolean algebraic condition.
+Matches all records that contain the given tag.
 
 ```text
             1   2   3   4   4   5   6
@@ -286,7 +292,7 @@ encoded boolean algebraic condition.
  0  +-------------------------------+
     |0xD|0x0| TTYPE | 0x0   |  LEN  |
  8  +-------------------------------+
-    |   CONDITION..                 |
+    |   VALUE...  .                 |
     +-------------------------------+
 ```
 
@@ -295,29 +301,29 @@ encoded boolean algebraic condition.
 * `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
 * `[4:6]` - Zeroed
 * `[6:8]` - A 2-byte `LEN` unsigned integer in little-endian format
-  indicating the length in bytes of the `CONDITION`
-* `[*]` - The `CONDITION` which is described next
+  indicating the length of the `VALUE`
+* `[*]` - The `VALUE` of the tag, up to 253 bytes.
 
+## Excludes Tag
 
-All boolean expressions can be reduced to
-[disjunctive normal form](https://en.wikipedia.org/wiki/Disjunctive_normal_form).
-We require this form.
+> **0xE**
 
-`CONDITION` is encoded as follows:
+Matches all records that do NOT contain the given tag.
 
-* `[0:1]` - A count of how many values are listed (maximum of 127)
-* `[*]` - A sequence of Length-Value pairs with 1-byte length, where the
-  value is a tag value to match
-* `[*]` - The encoded `EXPRESSION` which references these previous values
-  by their index.
+```text
+            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    |0xE|0x0| TTYPE | 0x0   |  LEN  |
+ 8  +-------------------------------+
+    |   VALUE...  .                 |
+    +-------------------------------+
+```
 
-The encoded `EXPRESSION` is written as follows:
-
-* `[0:1]` - Number of terms
-* `[*]` - the `TERMS`
-
-The `TERMS` are written as follows
-
-* `[0:1]` - The number of values `n`
-* `[1:n]` - `n` value references, referred to by the index where they were
-  defined in the `CONDITION`.
+* `[0:1]` - The type 0xE
+* `[1:2]` - Zeroed
+* `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
+* `[4:6]` - Zeroed
+* `[6:8]` - A 2-byte `LEN` unsigned integer in little-endian format
+  indicating the length of the `VALUE`
+* `[*]` - The `VALUE` of the tag, up to 253 bytes.
