@@ -180,22 +180,23 @@ EdDSA ed25519 keypair.
 
 2 bytes at `[192:194]`
 
-* `0x01 ZSTD` - The payload is compressed with Zstd
-* `0x02 FROM_AUTHOR` - Servers SHOULD only accept the record from the author (requiring authentication)
-* `0x04 TO_RECIPIENTS` - Servers SHOULD only serve the record to people tagged (requiring authentication)
-* `0x08 NO_BRIDGE` - Bridges SHOULD NOT propogate the record to other networks (nostr, mastodon, etc)
-* `0x10 EPHEMERAL` - The record is ephemeral; Servers should serve it to current subscribers and not keep it.
-* `0x20 - RESERVED` and MUST be 0
-* `0x80, 0x40` - Signature scheme:
+* `0x0001 ZSTD` - The payload is compressed with Zstd
+* `0x0002 PRINTABLE` - The payload is printable and can be displayed to end users
+* `0x0004 FROM_AUTHOR` - Servers SHOULD only accept the record from the author (requiring authentication)
+* `0x0008 TO_RECIPIENTS` - Servers SHOULD only serve the record to people tagged (requiring authentication)
+* `0x0010 EPHEMERAL` - The record is ephemeral; Servers should serve it to current subscribers and not keep it.
+* `0x0020 EDITABLE` - Among a group of records with the same address, only the latest one is valid, the others SHOULD be deleted or at least not served.
+* `0x0080, 0x0040` - Signature scheme:
     * `00 - EDDSA` - EdDSA ed25519 (default)
-    * `01 - NOSTR` - reserved for secp256k1 Schnorr signatures (not in use)
+    * `01 - RESERVED FOR SECP256K1` - secp256k1 Schnorr signatures (not yet in use)
     * `10 - RESERVED`
     * `11 - RESERVED`
     * NOTE: This only affects the signing key and the signature. The hash is
       always created with BLAKE3, and the master key is always EdDSA
-      ed25519. This enables using nostr keys as subkeys (the records generated
-      however will not interoperate with nostr-only software).
-* All other bits - RESERVED and MUST be 0
+      ed25519.
+
+* All other bits - RESERVED and MUST be 0. If any of the reserved bits are 1, software MUST
+  reject the record.
 
 ### Timestamp
 
