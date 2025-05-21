@@ -4,79 +4,58 @@
 
 A filter is a binary structure used within the [Core Protocol](protocol.md).
 
-It is defined as a contiguous sequence of selectors.
-Each selector restricts the set of records that the filter matches.
-For an event to pass the filter, it must pass all the selectors.
+It is defined as a contiguous sequence of filter elements.
 
-Most selectors are narrow (e.g. it must be one of the listed authors).
-Some selectors are wide (any record after a given timestamp).
-Filters SHOULD include at least one narrow selector in order
+Each filter element restricts the set of records that the filter matches.
+For a record to pass a filter, it must pass every filter element in the filter.
+
+Some filter elements are narrow, meaning they select just a few records among
+many. Other filter elements are wide and select many or even most records.
+Filters SHOULD include at least one narrow filter element in order
 to narrow down the set of matching events to something reasonable. Software
 MAY reject filters that do not comply with this requirement.
 
-Filters can be up to 65536 bytes long maximum, but this size may not be
+Narrow filter elements have a type number that has the top 4 bits clear (less than 0x80).
+
+Each filter element contains it's type in the first byte, and a length byte as
+it's second byte. The length byte counts the number of 8-byte words, so multiply
+by 8 to get the length of the filter element in bytes. This means that filter elements
+can be up to 2048 bytes long. If the length byte is 0, the filter is invalid and MUST
+be rejected.
+
+Filters can be up to 65536 bytes long maximum, but this size may not be quite
 possible given other constraints.
 
-Most types of selectors should only be used once, and provide for multiple
-values. Tag selectors can be used multiple times, once for each type of tag.
+Most types of filter elements should only be used once, and provide for multiple
+values. Tag filter elements can be used multiple times, once for each type of tag.
 
-
-The following selectors are defined:
+The following filter elements are defined:
 
 |type|name|narrow|
 |----|----|------|
-|0x1|[Exclude](#exclude)| no |
-|0x4|[Author Keys](#author-keys)| yes |
-|0x5|[Signing Keys](#signing-keys)| yes |
-|0x6|[Timestamps](#timestamps)| yes |
-|0x7|[Since](#since)| no |
-|0x8|[Until](#until)| no |
-|0xA|[Received Since](#received-since)| no |
-|0xB|[Received Until](#received-until)| no |
-|0xC|[Kinds](#kinds)| yes |
-|0xD|[Includes Tag](#includes-tag)| yes |
-|0xE|[Excludes Tag](#excludes-tag)| no |
-
-## Exclude
-
-> **0x1**
-
-Excludes all records with the given IDs or Addresses.
-
-```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0x1|         0x0           | n |
- 8  +-------------------------------+
-    | ID or ADDR prefix bytes 0..8  |
-16  +-------------------------------+
-    | ID or ADDR prefix bytes 8..16 |
-24  +-------------------------------+
-    | ID or ADDR prefx bytes 16..24 |
-32  +-------------------------------+
-    | ID or ADDR prefx bytes 24..32 |
-40  +-------------------------------+
-    | ... additional references     |
-    +-------------------------------+
-```
-
-* `[0:1]` - The type 0x1
-* `[1:7]` - Zeroed
-* `[7:8]` - A 1-byte count `n` of references
-* `[*]` - A sequence of `n` 32-byte ID or Address prefixes.
+|0x1|[Author Keys](#author-keys)| yes |
+|0x2|[Signing Keys](#signing-keys)| yes |
+|0x3|[Kinds](#kinds)| yes |
+|0x4|[Timestamps](#timestamps)| yes |
+|0x5|[Includes Tag](#includes-tag)| yes |
+|0x80|[Since](#since)| no |
+|0x81|[Until](#until)| no |
+|0x82|[Received Since](#received-since)| no |
+|0x83|[Received Until](#received-until)| no |
+|0x84|[Exclude](#exclude)| no |
+|0x85|[Excludes Tag](#excludes-tag)| no |
 
 ## Author Keys
 
-> **0x4**
+> **0x1**
 
-Matches all records authored by any of these keys.
+Matches all records authored by any of these author keys.
 
 ```text
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x4|          0x0          | n |
+    |0x1|len|      0x0              |
  8  +-------------------------------+
     | AUTHOR KEY 1/4                |
  16 +-------------------------------+
@@ -90,14 +69,15 @@ Matches all records authored by any of these keys.
     +-------------------------------+
 ```
 
-* `[0:1]` - The type 0x4
-* `[1:7]` - Zeroed
-* `[7:8]` - A 1-byte count `n` of author keys
+* `[0:1]` - The type 0x1
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:8]` - Zeroed
 * `[*]` - A sequence of `n` 32-byte author public keys.
+
 
 ## Signing Keys
 
-> **0x5**
+> **0x2**
 
 Matches all records signed by any of these keys.
 
@@ -105,7 +85,7 @@ Matches all records signed by any of these keys.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x5|        0x0            | n |
+    |0x2|len|         0x0           |
  8  +-------------------------------+
     | SIGNING KEY 1/4               |
  16 +-------------------------------+
@@ -119,14 +99,36 @@ Matches all records signed by any of these keys.
     +-------------------------------+
 ```
 
-* `[0:1]` - The type 0x5
-* `[1:7]` - Zeroed
-* `[7:8]` - A 1-byte count `n` of signing keys
+* `[0:1]` - The type 0x2
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:8]` - Zeroed
 * `[*]` - A sequence of `n` 32-byte signing public keys.
+
+
+## Kinds
+
+> **0x3**
+
+Matches all records which are of any one of these kinds.
+
+```text
+            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    |0x3|len|        0x0            |
+ 8  +-------------------------------+
+    |   KIND        |  ...KIND      |
+ 16 +-------------------------------+
+```
+
+* `[0:1]` - The type 0x3
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:8]` - Zeroed
+* `[8]` - A sequence of `n` 4-byte [kinds](kinds.md)
 
 ## Timestamps
 
-> **0x6**
+> **0x4**
 
 Matches all records that have any of these exact timestamps.
 Typically used as part of address lookups.
@@ -135,7 +137,7 @@ Typically used as part of address lookups.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x6|        0x0            | n |
+    |0x4|len|        0x0            |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
@@ -143,16 +145,40 @@ Typically used as part of address lookups.
  24 +-------------------------------+
 ```
 
-* `[0:1]` - The type 0x6
-* `[1:7]` - Zeroed
-* `[7:8]` - A 1-byte count `n` of timestamp fields
+* `[0:1]` - The type 0x4
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:8]` - Zeroed
 * `[*]` - A sequence of `n` 8-byte fields, each being:
     * `[0:2]` - Zeroed
     * `[2:8]` - A six byte [timestamp](timestamps.md).
 
+## Includes Tag
+
+> **0x5**
+
+Matches all records that contain the given tag.
+
+```text
+            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    |0x5|len| TTYPE |   0x0     |TL |
+ 8  +-------------------------------+
+    |   VALUE...  .                 |
+    +-------------------------------+
+```
+
+* `[0:1]` - The type 0x5
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
+* `[4:7]` - Zeroed
+* `[7:8]` - TL, a tag length in exact bytes, up to 253.
+* `[*]` - The `VALUE` of the tag, of TL bytes in lenght, plus padding
+          to align to 8 bytes.
+
 ## Since
 
-> **0x7**
+> **0x80**
 
 Matches all records with a timestamp greater than or equal to
 this value.
@@ -161,19 +187,20 @@ this value.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x7|              0x0          |
+    |0x80|len|         0x0          |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
 ```
 
-* `[0:1]` - The type 0x7
-* `[1:10]` - Zeroed
+* `[0:1]` - The type 0x80
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:10]` - Zeroed
 * `[10:16]` - A six byte [timestamp](timestamps.md).
 
 ## Until
 
-> **0x8**
+> **0x81**
 
 Matches all records with a timestamp less than this value.
 
@@ -181,19 +208,20 @@ Matches all records with a timestamp less than this value.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x8|              0x0          |
+    |0x81|len|         0x0          |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
 ```
 
-* `[0:1]` - The type 0x8
-* `[1:10]` - Zeroed
+* `[0:1]` - The type 0x81
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:10]` - Zeroed
 * `[10:16]` - A six byte [timestamp](timestamps.md).
 
 ## Received Since
 
-> **0xA**
+> **0x82**
 
 Matches all records that were received by the server at or later
 than this value.
@@ -202,19 +230,20 @@ than this value.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0xA|              0x0          |
+    |0x82|len|         0x0          |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
 ```
 
-* `[0:1]` - The type 0xA
-* `[1:10]` - Zeroed
+* `[0:1]` - The type 0x82
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:10]` - Zeroed
 * `[10:16]` - A six byte [timestamp](timestamps.md).
 
 ## Received Until
 
-> **0xB**
+> **0x83**
 
 Matches all records that were received by the server before
 this value.
@@ -223,64 +252,50 @@ this value.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0xB|              0x0          |
+    |0x83|len|         0x0          |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
 ```
 
-* `[0:1]` - The type 0xB
-* `[1:10]` - Zeroed
+* `[0:1]` - The type 0x83
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:10]` - Zeroed
 * `[10:16]` - A six byte [timestamp](timestamps.md).
 
-## Kinds
 
-> **0xC**
+## Exclude
 
-Matches all records which are of any one of these kinds.
+> **0x84**
 
-```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0xC|          0x0          | n |
- 8  +-------------------------------+
-    |   KIND        |  ...KIND      |
- 16 +-------------------------------+
-```
-
-* `[0:1]` - The type 0xC
-* `[1:7]` - Zeroed
-* `[7:8]` - A 1-byte count `n` of kinds
-* `[8]` - A sequence of `n` 4-byte [kinds](kinds.md)
-
-## Includes Tag
-
-> **0xD**
-
-Matches all records that contain the given tag.
+Excludes all records with the given references (IDs or Addresses).
 
 ```text
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0xD|0x0| TTYPE | 0x0   |  LEN  |
+    |0x84|len|        0x0           |
  8  +-------------------------------+
-    |   VALUE...  .                 |
+    | REFERENCE prefix bytes 0..8   |
+16  +-------------------------------+
+    | REFERENCE prefix bytes 8..16  |
+24  +-------------------------------+
+    | REFERENCE prefix bytes 16..24 |
+32  +-------------------------------+
+    | REFERENCE prefix bytes 24..32 |
+40  +-------------------------------+
+    | ... additional references     |
     +-------------------------------+
 ```
 
-* `[0:1]` - The type 0xD
-* `[1:2]` - Zeroed
-* `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
-* `[4:6]` - Zeroed
-* `[6:8]` - A 2-byte `LEN` unsigned integer in little-endian format
-  indicating the length of the `VALUE`
-* `[*]` - The `VALUE` of the tag, up to 253 bytes.
+* `[0:1]` - The type 0x84
+* `[1:2]` - The length of the filter element in 8-byte words
+* `[2:8]` - Zeroed
+* `[*]` - A sequence of 32-byte reference prefixes.
 
 ## Excludes Tag
 
-> **0xE**
+> **0x85**
 
 Matches all records that do NOT contain the given tag.
 
@@ -288,16 +303,16 @@ Matches all records that do NOT contain the given tag.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0xE|0x0| TTYPE | 0x0   |  LEN  |
+    |0x85|len|TTYPE | 0x0       |TL |
  8  +-------------------------------+
     |   VALUE...  .                 |
     +-------------------------------+
 ```
 
-* `[0:1]` - The type 0xE
-* `[1:2]` - Zeroed
+* `[0:1]` - The type 0x85
+* `[1:2]` - The length of the filter element in 8-byte words
 * `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
-* `[4:6]` - Zeroed
-* `[6:8]` - A 2-byte `LEN` unsigned integer in little-endian format
-  indicating the length of the `VALUE`
-* `[*]` - The `VALUE` of the tag, up to 253 bytes.
+* `[4:7]` - Zeroed
+* `[7:8]` - TL, a tag length in exact bytes, up to 253.
+* `[*]` - The `VALUE` of the tag, of TL bytes in length, plus padding
+           to align to 8 bytes.
