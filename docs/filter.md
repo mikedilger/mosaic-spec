@@ -4,20 +4,22 @@
 
 A filter is a binary structure used within the [Core Protocol](protocol.md).
 
-It is defined as a contiguous sequence of type-selector pairs.  Some selector
-types specify a count or length within their value.
+It is defined as a contiguous sequence of selectors.
+Each selector restricts the set of records that the filter matches.
+For an event to pass the filter, it must pass all the selectors.
 
-Each selector restricts the set of records that the filter matches. For an
-event to pass the filter, it must pass all the selectors.
-
-Selector types MUST not be used more than once within a filter.
+Most selectors are narrow (e.g. it must be one of the listed authors).
+Some selectors are wide (any record after a given timestamp).
+Filters SHOULD include at least one narrow selector in order
+to narrow down the set of matching events to something reasonable. Software
+MAY reject filters that do not comply with this requirement.
 
 Filters can be up to 65536 bytes long maximum, but this size may not be
 possible given other constraints.
 
-Filters SHOULD include at least one narrowly-tailored selector in order
-to narrow down the set of matching events to something reasonable. Software
-MAY reject filters that do not comply with this requirement.
+Most types of selectors should only be used once, and provide for multiple
+values. Tag selectors can be used multiple times, once for each type of tag.
+
 
 The following selectors are defined:
 
@@ -29,7 +31,6 @@ The following selectors are defined:
 |0x6|[Timestamps](#timestamps)| yes |
 |0x7|[Since](#since)| no |
 |0x8|[Until](#until)| no |
-|0x9|[Received Ats](#received-ats)| yes |
 |0xA|[Received Since](#received-since)| no |
 |0xB|[Received Until](#received-until)| no |
 |0xC|[Kinds](#kinds)| yes |
@@ -189,33 +190,6 @@ Matches all records with a timestamp less than this value.
 * `[0:1]` - The type 0x8
 * `[1:10]` - Zeroed
 * `[10:16]` - A six byte [timestamp](timestamps.md).
-
-## Received Ats
-
-> **0x9**
-
-Matches all records that were received at any of these exact
-timestamps. This is unlikely to be useful but we add it for
-completeness.
-
-```text
-            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0x9|          0x0          | n |
- 8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         |
- 16 +-------------------------------+
-    | ..0x0 |    ..TIMESTAMP        |
- 24 +-------------------------------+
-```
-
-* `[0:1]` - The type 0x9
-* `[1:7]` - Zeroed
-* `[7:8]` - A 1-byte count `n` of timestamp fields
-* `[*]` - A sequence of `n` 8-byte fields, each being:
-    * `[0:2]` - Zeroed
-    * `[2:8]` - A six byte [timestamp](timestamps.md).
 
 ## Received Since
 
