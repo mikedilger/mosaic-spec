@@ -2,34 +2,57 @@
 
 <status>PAGE STATUS: early draft</status>
 
-A filter is a binary structure used within the [Core Protocol](protocol.md).
+A <t>filter</t> is a binary structure used within the [Core Protocol](protocol.md).
 
-It is defined as a contiguous sequence of filter elements.
+A <t>filter</t> consists of a sequence of <t>filter element</t>s.
 
-Each filter element restricts the set of records that the filter matches.
-For a record to pass a filter, it must pass every filter element in the filter.
+Each <t>filter element</t> restricts the set of records that the <t>filter</t> matches.
+For a record to pass a <t>filter</t>, it must pass every <t>filter element</t> in the <t>filter</t>.
 
-Some filter elements are narrow, meaning they select just a few records among
-many. Other filter elements are wide and select many or even most records.
-Filters SHOULD include at least one narrow filter element in order
+Some <t>filter element</t>s are narrow, meaning they select just a few records among
+many. Other <t>filter element</t>s are wide and select many or even most records.
+<T>Filter</T>s SHOULD include at least one narrow <t>filter element</t> in order
 to narrow down the set of matching events to something reasonable. Software
-MAY reject filters that do not comply with this requirement.
+MAY reject <t>filter</t>s that do not comply with this requirement.
+Narrow <t>filter element</t>s have a type number that has the top 4 bits clear (less than 0x80).
 
-Narrow filter elements have a type number that has the top 4 bits clear (less than 0x80).
+Each <t>filter element</t> contains it's type in the first byte, and a length byte as
+it's second byte as a count of the number of 8-byte words, so multiply
+this by 8 to get the length of the <t>filter element</t> in bytes. This means that
+<t>filter element</t>s can be up to 2048 bytes long. If the length byte is 0, the
+<t>filter</t> is invalid and MUST be rejected.
 
-Each filter element contains it's type in the first byte, and a length byte as
-it's second byte. The length byte counts the number of 8-byte words, so multiply
-by 8 to get the length of the filter element in bytes. This means that filter elements
-can be up to 2048 bytes long. If the length byte is 0, the filter is invalid and MUST
-be rejected.
-
-Filters can be up to 65536 bytes long maximum, but this size may not be quite
+<T>Filter</T>s can be up to 65536 bytes long maximum, but this size may not be quite
 possible given other constraints.
 
-Most types of filter elements should only be used once, and provide for multiple
-values. Tag filter elements can be used multiple times, once for each type of tag.
+Most types of <t>filter element</t>s SHOULD only be used once, and provide for multiple
+values. Tag <t>filter element</t>s can be used multiple times, once for each type of tag.
 
-The following filter elements are defined:
+
+## Filter Structure
+
+It is defined as a simple header followed by a contiguous sequence of <t>filter element</t>s.
+
+```text
+            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    |bytelen|          0x0          |
+ 8  +-------------------------------+
+    | Filter Elements ...           |
+    +-------------------------------+
+```
+
+* `[0:2]` - The full byte length of the <t>filter</t> in little-endian.
+* `[2:8]` - Zeroed
+* `[8:]` - The contiguous sequence of <t>filter element</t>s
+
+
+
+
+<hr>
+
+The following <t>filter element</t>s are defined:
 
 |type|name|narrow|
 |----|----|------|
@@ -70,7 +93,7 @@ Matches all records authored by any of these author keys.
 ```
 
 * `[0:1]` - The type 0x1
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
 * `[*]` - A sequence of `n` 32-byte author public keys.
 
@@ -100,7 +123,7 @@ Matches all records signed by any of these keys.
 ```
 
 * `[0:1]` - The type 0x2
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
 * `[*]` - A sequence of `n` 32-byte signing public keys.
 
@@ -122,7 +145,7 @@ Matches all records which are of any one of these kinds.
 ```
 
 * `[0:1]` - The type 0x3
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
 * `[8]` - A sequence of `n` 4-byte [kinds](kinds.md)
 
@@ -146,7 +169,7 @@ Typically used as part of address lookups.
 ```
 
 * `[0:1]` - The type 0x4
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
 * `[*]` - A sequence of `n` 8-byte fields, each being:
     * `[0:2]` - Zeroed
@@ -169,7 +192,7 @@ Matches all records that contain the given tag.
 ```
 
 * `[0:1]` - The type 0x5
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
 * `[4:7]` - Zeroed
 * `[7:8]` - TL, a tag length in exact bytes, up to 253.
@@ -194,7 +217,7 @@ this value.
 ```
 
 * `[0:1]` - The type 0x80
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:10]` - Zeroed
 * `[10:16]` - A six byte [timestamp](timestamps.md).
 
@@ -215,7 +238,7 @@ Matches all records with a timestamp less than this value.
 ```
 
 * `[0:1]` - The type 0x81
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:10]` - Zeroed
 * `[10:16]` - A six byte [timestamp](timestamps.md).
 
@@ -237,7 +260,7 @@ than this value.
 ```
 
 * `[0:1]` - The type 0x82
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:10]` - Zeroed
 * `[10:16]` - A six byte [timestamp](timestamps.md).
 
@@ -259,7 +282,7 @@ this value.
 ```
 
 * `[0:1]` - The type 0x83
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:10]` - Zeroed
 * `[10:16]` - A six byte [timestamp](timestamps.md).
 
@@ -289,7 +312,7 @@ Excludes all records with the given references (IDs or Addresses).
 ```
 
 * `[0:1]` - The type 0x84
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
 * `[*]` - A sequence of 32-byte reference prefixes.
 
@@ -310,7 +333,7 @@ Matches all records that do NOT contain the given tag.
 ```
 
 * `[0:1]` - The type 0x85
-* `[1:2]` - The length of the filter element in 8-byte words
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
 * `[4:7]` - Zeroed
 * `[7:8]` - TL, a tag length in exact bytes, up to 253.
