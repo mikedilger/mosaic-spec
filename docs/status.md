@@ -22,7 +22,7 @@ status, they don't have to wait for draft status.
 
 Many people are expected to contribute to Mosaic and as a result there are
 various divergent viewpoints as to how Mosaic ought to be. As a result, we
-label this edition as the Steve Farroll edition. You will see this at the
+label this edition as the Mike Dilger edition. You will see this at the
 bottom of every page. Other Mosaic contributors can fork this and maintain
 their own editions. The community will eventually settle on something
 because people want to be compatible.
@@ -47,5 +47,5 @@ because people want to be compatible.
 ## Core Library
 
 This specification is being developed in parallel to a
-[core library](https://github.com/SteveFarroll/mosaic-core). The
+[core library](https://github.com/MikeDilger/mosaic-core). The
 findings from development feed back into this specification.
