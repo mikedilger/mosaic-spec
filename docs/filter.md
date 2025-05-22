@@ -95,7 +95,7 @@ Matches all records authored by any of these author keys.
 * `[0:1]` - The type 0x1
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
-* `[*]` - A sequence of `n` 32-byte author public keys.
+* `[8:]` - A sequence of 32-byte author public keys.
 
 
 ## Signing Keys
@@ -125,7 +125,7 @@ Matches all records signed by any of these keys.
 * `[0:1]` - The type 0x2
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
-* `[*]` - A sequence of `n` 32-byte signing public keys.
+* `[8:]` - A sequence of 32-byte signing public keys.
 
 
 ## Kinds
@@ -138,16 +138,18 @@ Matches all records which are of any one of these kinds.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x3|len|        0x0            |
+    |0x3|len|        0x0        | n |
  8  +-------------------------------+
-    |   KIND        |  ...KIND      |
+    |  KIND | ...                   |
  16 +-------------------------------+
 ```
 
 * `[0:1]` - The type 0x3
-* `[1:2]` - The length of the <t>filter element</t> in 8-byte words
-* `[2:8]` - Zeroed
-* `[8]` - A sequence of `n` 4-byte [kinds](kinds.md)
+* `[1:2]` - The length of the <t>filter element</t> in 8-byte words.
+             Some of the length may be padding since kinds are only 2-bytes long.
+* `[2:7]` - Zeroed
+* `[7:8]` - `n`, The number of 2-byte kinds in this filter element
+* `[8:]` - A sequence of `n` 2-byte [kinds](kinds.md)
 
 ## Timestamps
 
@@ -171,7 +173,7 @@ Typically used as part of address lookups.
 * `[0:1]` - The type 0x4
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
-* `[*]` - A sequence of `n` 8-byte fields, each being:
+* `[8:]` - A sequence of 8-byte fields, each being:
     * `[0:2]` - Zeroed
     * `[2:8]` - A six byte [timestamp](timestamps.md).
 
@@ -196,7 +198,7 @@ Matches all records that contain the given tag.
 * `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
 * `[4:7]` - Zeroed
 * `[7:8]` - TL, a tag length in exact bytes, up to 253.
-* `[*]` - The `VALUE` of the tag, of TL bytes in lenght, plus padding
+* `[8:]` - The `VALUE` of the tag, of TL bytes in lenght, plus padding
           to align to 8 bytes.
 
 ## Since
@@ -314,7 +316,7 @@ Excludes all records with the given references (IDs or Addresses).
 * `[0:1]` - The type 0x84
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
-* `[*]` - A sequence of 32-byte reference prefixes.
+* `[8:]` - A sequence of 32-byte reference prefixes.
 
 ## Excludes Tag
 
@@ -337,5 +339,5 @@ Matches all records that do NOT contain the given tag.
 * `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
 * `[4:7]` - Zeroed
 * `[7:8]` - TL, a tag length in exact bytes, up to 253.
-* `[*]` - The `VALUE` of the tag, of TL bytes in length, plus padding
+* `[8:]` - The `VALUE` of the tag, of TL bytes in length, plus padding
            to align to 8 bytes.
