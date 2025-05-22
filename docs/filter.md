@@ -181,13 +181,13 @@ Typically used as part of address lookups.
 
 > **0x5**
 
-Matches all records that contain the given tag.
+Matches all records that contain any of the given tags.
 
 ```text
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x5|len| TTYPE |   0x0     |TL |
+    |0x5|len|          0x0          |
  8  +-------------------------------+
     |   VALUE...  .                 |
     +-------------------------------+
@@ -195,11 +195,9 @@ Matches all records that contain the given tag.
 
 * `[0:1]` - The type 0x5
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
-* `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
-* `[4:7]` - Zeroed
-* `[7:8]` - TL, a tag length in exact bytes, up to 253.
-* `[8:]` - The `VALUE` of the tag, of TL bytes in lenght, plus padding
-          to align to 8 bytes.
+* `[2:8]` - Zeroed
+* `[8:]` - A sequence of [Tags](record.md#tags), each starting with a 2-byte type
+           and a 1 byte length, then up to 253 bytes of data.
 
 ## Since
 
@@ -322,13 +320,13 @@ Excludes all records with the given references (IDs or Addresses).
 
 > **0x85**
 
-Matches all records that do NOT contain the given tag.
+Matches all records that do NOT contain any of the given tags.
 
 ```text
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x85|len|TTYPE | 0x0       |TL |
+    |0x85|len|          0x0         |
  8  +-------------------------------+
     |   VALUE...  .                 |
     +-------------------------------+
@@ -336,8 +334,6 @@ Matches all records that do NOT contain the given tag.
 
 * `[0:1]` - The type 0x85
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
-* `[2:4]` - A 2-byte [tag type](tag_types.md) in little-endian format.
-* `[4:7]` - Zeroed
-* `[7:8]` - TL, a tag length in exact bytes, up to 253.
-* `[8:]` - The `VALUE` of the tag, of TL bytes in length, plus padding
-           to align to 8 bytes.
+* `[2:8]` - Zeroed
+* `[8:]` - A sequence of [Tags](record.md#tags), each starting with a 2-byte type
+           and a 1 byte length, then up to 253 bytes of data.
