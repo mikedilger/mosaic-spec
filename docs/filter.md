@@ -149,7 +149,7 @@ Matches all records which are of any one of these kinds.
              Some of the length may be padding since kinds are only 2-bytes long.
 * `[2:7]` - Zeroed
 * `[7:8]` - `n`, The number of 2-byte kinds in this filter element
-* `[8:]` - A sequence of `n` 2-byte [kinds](kinds.md)
+* `[8:]` - A sequence of `n` 2-byte [kinds](kinds.md) in little-endian format.
 
 ## Timestamps
 
@@ -291,7 +291,7 @@ this value.
 
 > **0x84**
 
-Excludes all records with the given references (IDs or Addresses).
+Excludes all records with the given IDs
 
 ```text
             1   2   3   4   4   5   6
@@ -299,13 +299,13 @@ Excludes all records with the given references (IDs or Addresses).
  0  +-------------------------------+
     |0x84|len|        0x0           |
  8  +-------------------------------+
-    | REFERENCE prefix bytes 0..8   |
+    |    ID prefix bytes 0..8       |
 16  +-------------------------------+
-    | REFERENCE prefix bytes 8..16  |
+    |    ID prefix bytes 8..16      |
 24  +-------------------------------+
-    | REFERENCE prefix bytes 16..24 |
+    |    ID prefix bytes 16..24     |
 32  +-------------------------------+
-    | REFERENCE prefix bytes 24..32 |
+    |    ID prefix bytes 24..32     |
 40  +-------------------------------+
     | ... additional references     |
     +-------------------------------+
@@ -314,7 +314,7 @@ Excludes all records with the given references (IDs or Addresses).
 * `[0:1]` - The type 0x84
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
-* `[8:]` - A sequence of 32-byte reference prefixes.
+* `[8:]` - A sequence of 32-byte ID prefixes.
 
 ## Excludes Tag
 
