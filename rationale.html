@@ -220,6 +220,9 @@ to this page with <a href="#"><sup>rat</sup></a> links.</p>
 <td><a href="#timestamps">Timestamps</a></td>
 </tr>
 <tr>
+<td><a href="#big-endian-reverse-timestamp">Big Endian Reverse Timestamp</a></td>
+</tr>
+<tr>
 <td><a href="#tls">TLS</a></td>
 </tr>
 </tbody>
@@ -497,6 +500,11 @@ example when comparing dates before 1 Jan 1972 with today).</p>
 <h3 id="bit-48">Bit 48</h3>
 <p>The most significant bit of timestamps is set to 0 in case software interprets
 it as a signed integer, to preserve sorting.</p>
+<hr />
+<h2 id="big-endian-reverse-timestamp">Big Endian Reverse Timestamp</h2>
+<p>We prefix the record Id with a big-endian encoded timestamp in reverse time order.
+If software sorts events by ID in a lexographic (or simple binary form), they
+will sort in reverse time order.</p>
 <hr />
 <h2 id="tls">TLS</h2>
 <p>We use TLS security because it is heavily researched and state-of-the-art.</p>
