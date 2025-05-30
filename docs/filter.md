@@ -7,7 +7,11 @@ A <t>filter</t> is a binary structure used within the [Core Protocol](protocol.m
 A <t>filter</t> consists of a sequence of <t>filter element</t>s.
 
 Each <t>filter element</t> restricts the set of records that the <t>filter</t> matches.
-For a record to pass a <t>filter</t>, it must pass every <t>filter element</t> in the <t>filter</t>.
+For a record to pass a <t>filter</t>, it must pass every <t>filter element</t> in the
+<t>filter</t> except as excepted in the next paragraph.
+
+All <t>filter element</t>s SHOULD be unique. If more than one <t>filter element</t> of
+the same type exists, only the first one counts. Subsequent ones MUST be ignored.
 
 Some <t>filter element</t>s are narrow, meaning they select just a few records among
 many. Other <t>filter element</t>s are wide and select many or even most records.
@@ -25,9 +29,6 @@ this by 8 to get the length of the <t>filter element</t> in bytes. This means th
 <T>Filter</T>s can be up to 65536 bytes long maximum, but this size may not be quite
 possible given other constraints.
 
-Most types of <t>filter element</t>s SHOULD only be used once, and provide for multiple
-values. Tag <t>filter element</t>s can be used multiple times, once for each type of tag.
-
 
 ## Filter Structure
 
@@ -43,7 +44,8 @@ It is defined as a simple header followed by a contiguous sequence of <t>filter 
     +-------------------------------+
 ```
 
-* `[0:2]` - The full byte length of the <t>filter</t> in little-endian.
+* `[0:2]` - The full byte length of the <t>filter</t> in little-endian. This MUST be
+             divisible by 8 since all filter elements are multiple of 8 in length.
 * `[2:8]` - Zeroed
 * `[8:]` - The contiguous sequence of <t>filter element</t>s
 
