@@ -21,6 +21,7 @@ to this page with [<sup>rat</sup>](#) links.
 | [Sovereign](#sovereign) |
 | [Storing received-at timestamps](#storing-received-at-timestamps) |
 | [Timestamps](#timestamps) |
+| [Big Endian Reverse Timestamp](#big-endian-reverse-timestamp) |
 | [TLS](#tls) |
 
 ---
@@ -378,6 +379,14 @@ Millisecond unixtimes only take 6 bytes and in 47 bits give us more than
 
 The most significant bit of timestamps is set to 0 in case software interprets
 it as a signed integer, to preserve sorting.
+
+---
+
+## Big Endian Reverse Timestamp
+
+We prefix the record Id with a big-endian encoded timestamp in reverse time order.
+If software sorts events by ID in a lexographic (or simple binary form), they
+will sort in reverse time order.
 
 ---
 
