@@ -298,24 +298,28 @@ EdDSA ed25519 keypair.</p>
 <h3 id="flags">Flags</h3>
 <p>2 bytes at <code>[192:194]</code></p>
 <ul>
-<li><code>0x01 ZSTD</code> - The payload is compressed with Zstd</li>
-<li><code>0x02 FROM_AUTHOR</code> - Servers SHOULD only accept the record from the author (requiring authentication)</li>
-<li><code>0x04 TO_RECIPIENTS</code> - Servers SHOULD only serve the record to people tagged (requiring authentication)</li>
-<li><code>0x08 NO_BRIDGE</code> - Bridges SHOULD NOT propogate the record to other networks (nostr, mastodon, etc)</li>
-<li><code>0x10 EPHEMERAL</code> - The record is ephemeral; Servers should serve it to current subscribers and not keep it.</li>
-<li><code>0x20 - RESERVED</code> and MUST be 0</li>
-<li><code>0x80, 0x40</code> - Signature scheme:<ul>
+<li><code>0x0001 ZSTD</code> - The payload is compressed with Zstd</li>
+<li><code>0x0002 PRINTABLE</code> - The payload is printable and can be displayed to end users</li>
+<li><code>0x0004 FROM_AUTHOR</code> - Servers SHOULD only accept the record from the author (requiring authentication)</li>
+<li><code>0x0008 TO_RECIPIENTS</code> - Servers SHOULD only serve the record to people tagged (requiring authentication)</li>
+<li><code>0x0010 EPHEMERAL</code> - The record is ephemeral; Servers should serve it to current subscribers and not keep it.</li>
+<li><code>0x0020 EDITABLE</code> - Among a group of records with the same address, only the latest one is valid, the others SHOULD be deleted or at least not served.</li>
+<li>
+<p><code>0x0080, 0x0040</code> - Signature scheme:</p>
+<ul>
 <li><code>00 - EDDSA</code> - EdDSA ed25519 (default)</li>
-<li><code>01 - NOSTR</code> - reserved for secp256k1 Schnorr signatures (not in use)</li>
+<li><code>01 - RESERVED FOR SECP256K1</code> - secp256k1 Schnorr signatures (not yet in use)</li>
 <li><code>10 - RESERVED</code></li>
 <li><code>11 - RESERVED</code></li>
 <li>NOTE: This only affects the signing key and the signature. The hash is
   always created with BLAKE3, and the master key is always EdDSA
-  ed25519. This enables using nostr keys as subkeys (the records generated
-  however will not interoperate with nostr-only software).</li>
+  ed25519.</li>
 </ul>
 </li>
-<li>All other bits - RESERVED and MUST be 0</li>
+<li>
+<p>All other bits - RESERVED and MUST be 0. If any of the reserved bits are 1, software MUST
+  reject the record.</p>
+</li>
 </ul>
 <h3 id="timestamp">Timestamp</h3>
 <p>6 bytes at <code>[194:200]</code></p>

@@ -165,20 +165,45 @@
               
                 <h1 id="filter">Filter</h1>
 <p><status>PAGE STATUS: early draft</status></p>
-<p>A filter is a binary structure used within the <a href="protocol.html">Core Protocol</a>.</p>
-<p>It is defined as a contiguous sequence of selectors.
-Each selector restricts the set of records that the filter matches.
-For an event to pass the filter, it must pass all the selectors.</p>
-<p>Most selectors are narrow (e.g. it must be one of the listed authors).
-Some selectors are wide (any record after a given timestamp).
-Filters SHOULD include at least one narrow selector in order
+<p>A <t>filter</t> is a binary structure used within the <a href="protocol.html">Core Protocol</a>.</p>
+<p>A <t>filter</t> consists of a sequence of <t>filter element</t>s.</p>
+<p>Each <t>filter element</t> restricts the set of records that the <t>filter</t> matches.
+For a record to pass a <t>filter</t>, it must pass every <t>filter element</t> in the
+<t>filter</t> except as excepted in the next paragraph.</p>
+<p>All <t>filter element</t>s SHOULD be unique. If more than one <t>filter element</t> of
+the same type exists, only the first one counts. Subsequent ones MUST be ignored.</p>
+<p>Some <t>filter element</t>s are narrow, meaning they select just a few records among
+many. Other <t>filter element</t>s are wide and select many or even most records.
+<T>Filter</T>s SHOULD include at least one narrow <t>filter element</t> in order
 to narrow down the set of matching events to something reasonable. Software
-MAY reject filters that do not comply with this requirement.</p>
-<p>Filters can be up to 65536 bytes long maximum, but this size may not be
+MAY reject <t>filter</t>s that do not comply with this requirement.
+Narrow <t>filter element</t>s have a type number that has the top 4 bits clear (less than 0x80).</p>
+<p>Each <t>filter element</t> contains it's type in the first byte, and a length byte as
+it's second byte as a count of the number of 8-byte words, so multiply
+this by 8 to get the length of the <t>filter element</t> in bytes. This means that
+<t>filter element</t>s can be up to 2048 bytes long. If the length byte is 0, the
+<t>filter</t> is invalid and MUST be rejected.</p>
+<p><T>Filter</T>s can be up to 65536 bytes long maximum, but this size may not be quite
 possible given other constraints.</p>
-<p>Most types of selectors should only be used once, and provide for multiple
-values. Tag selectors can be used multiple times, once for each type of tag.</p>
-<p>The following selectors are defined:</p>
+<h2 id="filter-structure">Filter Structure</h2>
+<p>It is defined as a simple header followed by a contiguous sequence of <t>filter element</t>s.</p>
+<pre><code class="language-text">            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    |bytelen|          0x0          |
+ 8  +-------------------------------+
+    | Filter Elements ...           |
+    +-------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:2]</code> - The full byte length of the <t>filter</t> in little-endian. This MUST be
+             divisible by 8 since all filter elements are multiple of 8 in length.</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:]</code> - The contiguous sequence of <t>filter element</t>s</li>
+</ul>
+<hr>
+
+<p>The following <t>filter element</t>s are defined:</p>
 <table>
 <thead>
 <tr>
@@ -190,97 +215,70 @@ values. Tag selectors can be used multiple times, once for each type of tag.</p>
 <tbody>
 <tr>
 <td>0x1</td>
-<td><a href="#exclude">Exclude</a></td>
-<td>no</td>
-</tr>
-<tr>
-<td>0x4</td>
 <td><a href="#author-keys">Author Keys</a></td>
 <td>yes</td>
 </tr>
 <tr>
-<td>0x5</td>
+<td>0x2</td>
 <td><a href="#signing-keys">Signing Keys</a></td>
 <td>yes</td>
 </tr>
 <tr>
-<td>0x6</td>
-<td><a href="#timestamps">Timestamps</a></td>
-<td>yes</td>
-</tr>
-<tr>
-<td>0x7</td>
-<td><a href="#since">Since</a></td>
-<td>no</td>
-</tr>
-<tr>
-<td>0x8</td>
-<td><a href="#until">Until</a></td>
-<td>no</td>
-</tr>
-<tr>
-<td>0xA</td>
-<td><a href="#received-since">Received Since</a></td>
-<td>no</td>
-</tr>
-<tr>
-<td>0xB</td>
-<td><a href="#received-until">Received Until</a></td>
-<td>no</td>
-</tr>
-<tr>
-<td>0xC</td>
+<td>0x3</td>
 <td><a href="#kinds">Kinds</a></td>
 <td>yes</td>
 </tr>
 <tr>
-<td>0xD</td>
+<td>0x4</td>
+<td><a href="#timestamps">Timestamps</a></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>0x5</td>
 <td><a href="#includes-tag">Includes Tag</a></td>
 <td>yes</td>
 </tr>
 <tr>
-<td>0xE</td>
+<td>0x80</td>
+<td><a href="#since">Since</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td><a href="#until">Until</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td><a href="#received-since">Received Since</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td><a href="#received-until">Received Until</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td><a href="#exclude">Exclude</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>0x85</td>
 <td><a href="#excludes-tag">Excludes Tag</a></td>
 <td>no</td>
 </tr>
 </tbody>
 </table>
-<h2 id="exclude">Exclude</h2>
+<h2 id="author-keys">Author Keys</h2>
 <blockquote>
 <p><strong>0x1</strong></p>
 </blockquote>
-<p>Excludes all records with the given IDs or Addresses.</p>
+<p>Matches all records authored by any of these author keys.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x1|         0x0           | n |
- 8  +-------------------------------+
-    | ID or ADDR prefix bytes 0..8  |
-16  +-------------------------------+
-    | ID or ADDR prefix bytes 8..16 |
-24  +-------------------------------+
-    | ID or ADDR prefx bytes 16..24 |
-32  +-------------------------------+
-    | ID or ADDR prefx bytes 24..32 |
-40  +-------------------------------+
-    | ... additional references     |
-    +-------------------------------+
-</code></pre>
-<ul>
-<li><code>[0:1]</code> - The type 0x1</li>
-<li><code>[1:7]</code> - Zeroed</li>
-<li><code>[7:8]</code> - A 1-byte count <code>n</code> of references</li>
-<li><code>[*]</code> - A sequence of <code>n</code> 32-byte ID or Address prefixes.</li>
-</ul>
-<h2 id="author-keys">Author Keys</h2>
-<blockquote>
-<p><strong>0x4</strong></p>
-</blockquote>
-<p>Matches all records authored by any of these keys.</p>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0x4|          0x0          | n |
+    |0x1|len|      0x0              |
  8  +-------------------------------+
     | AUTHOR KEY 1/4                |
  16 +-------------------------------+
@@ -294,20 +292,20 @@ values. Tag selectors can be used multiple times, once for each type of tag.</p>
     +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0x4</li>
-<li><code>[1:7]</code> - Zeroed</li>
-<li><code>[7:8]</code> - A 1-byte count <code>n</code> of author keys</li>
-<li><code>[*]</code> - A sequence of <code>n</code> 32-byte author public keys.</li>
+<li><code>[0:1]</code> - The type 0x1</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:]</code> - A sequence of 32-byte author public keys.</li>
 </ul>
 <h2 id="signing-keys">Signing Keys</h2>
 <blockquote>
-<p><strong>0x5</strong></p>
+<p><strong>0x2</strong></p>
 </blockquote>
 <p>Matches all records signed by any of these keys.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x5|        0x0            | n |
+    |0x2|len|         0x0           |
  8  +-------------------------------+
     | SIGNING KEY 1/4               |
  16 +-------------------------------+
@@ -321,21 +319,42 @@ values. Tag selectors can be used multiple times, once for each type of tag.</p>
     +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0x5</li>
-<li><code>[1:7]</code> - Zeroed</li>
-<li><code>[7:8]</code> - A 1-byte count <code>n</code> of signing keys</li>
-<li><code>[*]</code> - A sequence of <code>n</code> 32-byte signing public keys.</li>
+<li><code>[0:1]</code> - The type 0x2</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:]</code> - A sequence of 32-byte signing public keys.</li>
+</ul>
+<h2 id="kinds">Kinds</h2>
+<blockquote>
+<p><strong>0x3</strong></p>
+</blockquote>
+<p>Matches all records which are of any one of these kinds.</p>
+<pre><code class="language-text">            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    |0x3|len|        0x0        | n |
+ 8  +-------------------------------+
+    |  KIND | ...                   |
+ 16 +-------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x3</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words.
+             Some of the length may be padding since kinds are only 2-bytes long.</li>
+<li><code>[2:7]</code> - Zeroed</li>
+<li><code>[7:8]</code> - <code>n</code>, The number of 2-byte kinds in this filter element</li>
+<li><code>[8:]</code> - A sequence of <code>n</code> 2-byte <a href="kinds.html">kinds</a> in little-endian format.</li>
 </ul>
 <h2 id="timestamps">Timestamps</h2>
 <blockquote>
-<p><strong>0x6</strong></p>
+<p><strong>0x4</strong></p>
 </blockquote>
 <p>Matches all records that have any of these exact timestamps.
 Typically used as part of address lookups.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x6|        0x0            | n |
+    |0x4|len|        0x0            |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
@@ -343,152 +362,160 @@ Typically used as part of address lookups.</p>
  24 +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0x6</li>
-<li><code>[1:7]</code> - Zeroed</li>
-<li><code>[7:8]</code> - A 1-byte count <code>n</code> of timestamp fields</li>
-<li><code>[*]</code> - A sequence of <code>n</code> 8-byte fields, each being:<ul>
+<li><code>[0:1]</code> - The type 0x4</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:]</code> - A sequence of 8-byte fields, each being:<ul>
 <li><code>[0:2]</code> - Zeroed</li>
 <li><code>[2:8]</code> - A six byte <a href="timestamps.html">timestamp</a>.</li>
 </ul>
 </li>
 </ul>
+<h2 id="includes-tag">Includes Tag</h2>
+<blockquote>
+<p><strong>0x5</strong></p>
+</blockquote>
+<p>Matches all records that contain any of the given tags.</p>
+<pre><code class="language-text">            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    |0x5|len|          0x0          |
+ 8  +-------------------------------+
+    |   VALUE...  .                 |
+    +-------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x5</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:]</code> - A sequence of <a href="record.html#tags">Tags</a>, each starting with a 2-byte type
+           and a 1 byte length, then up to 253 bytes of data.</li>
+</ul>
 <h2 id="since">Since</h2>
 <blockquote>
-<p><strong>0x7</strong></p>
+<p><strong>0x80</strong></p>
 </blockquote>
 <p>Matches all records with a timestamp greater than or equal to
 this value.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x7|              0x0          |
+    |0x80|len|         0x0          |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0x7</li>
-<li><code>[1:10]</code> - Zeroed</li>
+<li><code>[0:1]</code> - The type 0x80</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:10]</code> - Zeroed</li>
 <li><code>[10:16]</code> - A six byte <a href="timestamps.html">timestamp</a>.</li>
 </ul>
 <h2 id="until">Until</h2>
 <blockquote>
-<p><strong>0x8</strong></p>
+<p><strong>0x81</strong></p>
 </blockquote>
 <p>Matches all records with a timestamp less than this value.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x8|              0x0          |
+    |0x81|len|         0x0          |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0x8</li>
-<li><code>[1:10]</code> - Zeroed</li>
+<li><code>[0:1]</code> - The type 0x81</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:10]</code> - Zeroed</li>
 <li><code>[10:16]</code> - A six byte <a href="timestamps.html">timestamp</a>.</li>
 </ul>
 <h2 id="received-since">Received Since</h2>
 <blockquote>
-<p><strong>0xA</strong></p>
+<p><strong>0x82</strong></p>
 </blockquote>
 <p>Matches all records that were received by the server at or later
 than this value.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0xA|              0x0          |
+    |0x82|len|         0x0          |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0xA</li>
-<li><code>[1:10]</code> - Zeroed</li>
+<li><code>[0:1]</code> - The type 0x82</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:10]</code> - Zeroed</li>
 <li><code>[10:16]</code> - A six byte <a href="timestamps.html">timestamp</a>.</li>
 </ul>
 <h2 id="received-until">Received Until</h2>
 <blockquote>
-<p><strong>0xB</strong></p>
+<p><strong>0x83</strong></p>
 </blockquote>
 <p>Matches all records that were received by the server before
 this value.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0xB|              0x0          |
+    |0x83|len|         0x0          |
  8  +-------------------------------+
     |  0x0  |     TIMESTAMP         |
  16 +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0xB</li>
-<li><code>[1:10]</code> - Zeroed</li>
+<li><code>[0:1]</code> - The type 0x83</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:10]</code> - Zeroed</li>
 <li><code>[10:16]</code> - A six byte <a href="timestamps.html">timestamp</a>.</li>
 </ul>
-<h2 id="kinds">Kinds</h2>
+<h2 id="exclude">Exclude</h2>
 <blockquote>
-<p><strong>0xC</strong></p>
+<p><strong>0x84</strong></p>
 </blockquote>
-<p>Matches all records which are of any one of these kinds.</p>
+<p>Excludes all records with the given IDs</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0xC|          0x0          | n |
+    |0x84|len|        0x0           |
  8  +-------------------------------+
-    |   KIND        |  ...KIND      |
- 16 +-------------------------------+
-</code></pre>
-<ul>
-<li><code>[0:1]</code> - The type 0xC</li>
-<li><code>[1:7]</code> - Zeroed</li>
-<li><code>[7:8]</code> - A 1-byte count <code>n</code> of kinds</li>
-<li><code>[8]</code> - A sequence of <code>n</code> 4-byte <a href="kinds.html">kinds</a></li>
-</ul>
-<h2 id="includes-tag">Includes Tag</h2>
-<blockquote>
-<p><strong>0xD</strong></p>
-</blockquote>
-<p>Matches all records that contain the given tag.</p>
-<pre><code class="language-text">            1   2   3   4   4   5   6
-    0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    |0xD|0x0| TTYPE | 0x0   |  LEN  |
- 8  +-------------------------------+
-    |   VALUE...  .                 |
+    |    ID prefix bytes 0..8       |
+16  +-------------------------------+
+    |    ID prefix bytes 8..16      |
+24  +-------------------------------+
+    |    ID prefix bytes 16..24     |
+32  +-------------------------------+
+    |    ID prefix bytes 24..32     |
+40  +-------------------------------+
+    | ... additional references     |
     +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0xD</li>
-<li><code>[1:2]</code> - Zeroed</li>
-<li><code>[2:4]</code> - A 2-byte <a href="tag_types.html">tag type</a> in little-endian format.</li>
-<li><code>[4:6]</code> - Zeroed</li>
-<li><code>[6:8]</code> - A 2-byte <code>LEN</code> unsigned integer in little-endian format
-  indicating the length of the <code>VALUE</code></li>
-<li><code>[*]</code> - The <code>VALUE</code> of the tag, up to 253 bytes.</li>
+<li><code>[0:1]</code> - The type 0x84</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:]</code> - A sequence of 32-byte ID prefixes.</li>
 </ul>
 <h2 id="excludes-tag">Excludes Tag</h2>
 <blockquote>
-<p><strong>0xE</strong></p>
+<p><strong>0x85</strong></p>
 </blockquote>
-<p>Matches all records that do NOT contain the given tag.</p>
+<p>Matches all records that do NOT contain any of the given tags.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0xE|0x0| TTYPE | 0x0   |  LEN  |
+    |0x85|len|          0x0         |
  8  +-------------------------------+
     |   VALUE...  .                 |
     +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0xE</li>
-<li><code>[1:2]</code> - Zeroed</li>
-<li><code>[2:4]</code> - A 2-byte <a href="tag_types.html">tag type</a> in little-endian format.</li>
-<li><code>[4:6]</code> - Zeroed</li>
-<li><code>[6:8]</code> - A 2-byte <code>LEN</code> unsigned integer in little-endian format
-  indicating the length of the <code>VALUE</code></li>
-<li><code>[*]</code> - The <code>VALUE</code> of the tag, up to 253 bytes.</li>
+<li><code>[0:1]</code> - The type 0x85</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:]</code> - A sequence of <a href="record.html#tags">Tags</a>, each starting with a 2-byte type
+           and a 1 byte length, then up to 253 bytes of data.</li>
 </ul>
               
             </div>
