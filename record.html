@@ -354,16 +354,16 @@ calculated as <code>(LenP + 7) &amp; !7</code></p>
 <h3 id="tags">Tags</h3>
 <p>Varying bytes at <code>[208:208+LenT]</code></p>
 <p>These are searchable key-value tags.</p>
-<p><t>Tags</t> <a href="rationale.html#tags"><sup>ref</sup></a> are a maximum of 256 bytes long.</p>
+<p><t>Tags</t> <a href="rationale.html#tags"><sup>ref</sup></a> are a maximum of 256 bytes long each.</p>
 <p>All tags are searchable on servers. If an application requires unsearchable tags,
 these can be defined within that application's payload.</p>
 <p>Tags are laid out as follows:</p>
-<pre><code class="language-text">0           2         3         256 max
-+-----------+---------+----------+
-| type      | length  | value ...|
-+-----------+---------+----------+
+<pre><code class="language-text">0           2               3         256 max
++-----------+---------------+----------+
+| type      | value_length  | value ...|
++-----------+---------------+----------+
 </code></pre>
-<p>Each tag has a 2-byte (16 bit) type <code>[0:2]</code>, a 1-byte (8 bit) length <code>[2:3]</code>,
+<p>Each tag has a 2-byte (16 bit) type <code>[0:2]</code>, a 1-byte (8 bit) value length <code>[2:3]</code>,
 and a value that is at most 253 bytes long <code>[3:]</code>.</p>
 <p>Tags only have one value.</p>
 <p>The tags section is padded out to 64-bit alignment.</p>
