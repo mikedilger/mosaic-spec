@@ -260,8 +260,11 @@ While for some tag types a length could be inferred, this is not true in general
 should not be required to recognize every tag type to look up its known length or type-specific
 method of length calculation.
 
-Some tag types start with padding in the value in order to better align
-their data.
+Tags specify a value length not a length of the whole tag. This allows tags of 256 bytes in length
+to be represented (with a value length of 253). Otherwise a tag of such length could not fit
+its length (256) into a single byte. Value lengths > 253 must be considered invalid.
+
+Some tag types start with padding in the value in order to better align their data.
 
 ---
 

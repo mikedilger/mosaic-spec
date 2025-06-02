@@ -13,8 +13,8 @@ are laid out as follows:
 ```
 
 * `[0:2]` - The type
-* `[2:3]` - The length of the entire tag including the 3 byte header
-    This must be at least 3.
+* `[2:3]` - The length of the tag value, not including the 3 byte header.
+    This must be at most 253.
 * `[3:]` - The value, which is at most 253 bytes long.
 
 
@@ -39,7 +39,7 @@ are laid out as follows:
 ```text
       0       2    3                  8
  0x0  +-------------------------------+ 0
-      |  0x1  |0x28|       0x0        |
+      |  0x1  |0x25|       0x0        |
  0x8  +-------------------------------+ 8
       | PUBLIC KEY 1/4                |
  0x10 +-------------------------------+ 16
@@ -52,7 +52,7 @@ are laid out as follows:
 ```
 
 * `[0:2]` - The type 0x1 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x28
+* `[2:3]` - The length 0x25
 * `[3:8]` - Zeroed
 * `[8:40]` - public key (32 bytes)
 
@@ -68,7 +68,7 @@ specified in their [bootstrap](bootstrap.md) record.
 ```text
       0       2   3          6         8
  0x0  +-------------------------------+ 0
-      |  0x2  |0x38|   0     |  KIND  |
+      |  0x2  |0x35|   0     |  KIND  |
  0x8  +-------------------------------+ 8
       | REFERENCE 1/6                 |
  0x10 +-------------------------------+ 16
@@ -85,7 +85,7 @@ specified in their [bootstrap](bootstrap.md) record.
 ```
 
 * `[0:2]` - The type 0x2 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x38
+* `[2:3]` - The length 0x35
 * `[3:6]` - Zeroed
 * `[6:8]` - The [kind](kinds.md)
 * `[8:56]` - The reference (48 bytes)
@@ -111,7 +111,7 @@ If a record includes this tag, it must also include a
 ```text
       0       2   3          6        8
  0x0  +-------------------------------+ 0
-      |  0x3  |0x38|    0    |  KIND  |
+      |  0x3  |0x35|    0    |  KIND  |
  0x8  +-------------------------------+ 8
       | REFERENCE 1/6                 |
  0x10 +-------------------------------+ 16
@@ -128,7 +128,7 @@ If a record includes this tag, it must also include a
 ```
 
 * `[0:2]` - The type 0x3 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x38
+* `[2:3]` - The length 0x35
 * `[3:6]` - Zeroed
 * `[6:8]` - The [kind](kinds.md)
 * `[8:56]` - The reference (48 bytes)
@@ -155,7 +155,7 @@ If a record includes this tag, it must also include a
 ```text
       0       2    3                  8
  0x0  +-------------------------------+ 0
-      |  0x8  |0x28|       0x0        |
+      |  0x8  |0x25|       0x0        |
  0x8  +-------------------------------+ 8
       | NOSTR ID 1/4                  |
  0x10 +-------------------------------+ 16
@@ -168,7 +168,7 @@ If a record includes this tag, it must also include a
 ```
 
 * `[0:2]` - The type 0x8 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x28
+* `[2:3]` - The length 0x25
 * `[3:8]` - Zeroed
 * `[8:40]` - The Nostr ID (32 bytes)
 
@@ -186,7 +186,7 @@ hex of the id of its Mosaic sister record.
 ```text
       0       2    3   4              8
  0x0  +-------------------------------+ 0
-      |  0x10 |0x28|    0x0           |
+      |  0x10 |0x25|    0x0           |
  0x8  +-------------------------------+ 8
       | PUBLIC SUBKEY 1/4             |
  0x10 +-------------------------------+ 16
@@ -199,7 +199,7 @@ hex of the id of its Mosaic sister record.
 ```
 
 * `[0:2]` - The type 0x10 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x28
+* `[2:3]` - The length 0x25
 * `[3:8]` - Zeroed
 * `[8:40]` - The subkey public key
 
@@ -214,7 +214,7 @@ can look up a subkey to verify it's association to a master key.
 ```text
       0       2    3   4              8
  0x0  +-------------------------------+ 0
-      |  0x20 |0x28|0x0|   OFFSET     |
+      |  0x20 |0x25|0x0|   OFFSET     |
  0x8  +-------------------------------+ 8
       | PUBLIC KEY 1/4                |
  0x10 +-------------------------------+ 16
@@ -227,7 +227,7 @@ can look up a subkey to verify it's association to a master key.
 ```
 
 * `[0:2]` - The type 0x20 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x28
+* `[2:3]` - The length 0x25
 * `[3:4]` - Zeroed
 * `[4:8]` - The offset as a little-endian encoded unsigned integer.
 * `[8:40]` - public key (32 bytes)
@@ -250,7 +250,7 @@ the content.
 ```text
       0       2    3   4              8
  0x0  +-------------------------------+ 0
-      |  0x21 |0x28|0x0|   OFFSET     |
+      |  0x21 |0x25|0x0|   OFFSET     |
  0x8  +-------------------------------+ 8
       | PUBLIC KEY 1/4                |
  0x10 +-------------------------------+ 16
@@ -263,7 +263,7 @@ the content.
 ```
 
 * `[0:2]` - The type 0x20 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x28
+* `[2:3]` - The length 0x25
 * `[3:4]` - Zeroed
 * `[4:8]` - The offset as a little-endian encoded unsigned integer.
 * `[8:40]` - public key (32 bytes)
@@ -281,7 +281,7 @@ This is a mention of a server.
 ```text
       0       2   3   4               8
  0x0  +-------------------------------+ 0
-      |  0x22 |0x40| 0|    OFFSET     |
+      |  0x22 |0x3D| 0|    OFFSET     |
  0x8  +-------------------------------+ 8
       |     0x0               | KIND  |
  0x10 +-------------------------------+ 16
@@ -300,7 +300,7 @@ This is a mention of a server.
 ```
 
 * `[0:2]` - The type 0x22 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x40
+* `[2:3]` - The length 0x3D
 * `[3:4]` - Zeroed
 * `[4:8]` - The offset as a little-endian encoded unsigned integer.
 * `[8:14]` - Zeroed
@@ -331,7 +331,7 @@ to handle.
 ```
 
 * `[0:2]` - The type 0x24 as a little-endian encoded unsigned integer
-* `[2:3]` - The length of the tag (8 + the length of the URL)
+* `[2:3]` - The length of the tag (5 + the length of the URL)
 * `[3:4]` - Zeroed
 * `[4:8]` - The offset as a little-endian encoded unsigned integer.
 * `[8:]` - The URL to be included (up to 248 bytes long)
@@ -356,7 +356,7 @@ This is a URL to a web page.
 ```
 
 * `[0:2]` - The type 0x25 as a little-endian encoded unsigned integer
-* `[2:3]` - The length of the tag (8 + the length of the URL)
+* `[2:3]` - The length of the tag (5 + the length of the URL)
 * `[3:4]` - Zeroed
 * `[4:8]` - The offset as a little-endian encoded unsigned integer.
 * `[8:]` - The URL to be included (up to 248 bytes long)
@@ -381,7 +381,7 @@ This is a URL to an image
 ```
 
 * `[0:2]` - The type 0x26 as a little-endian encoded unsigned integer
-* `[2:3]` - The length of the tag (8 + the length of the URL)
+* `[2:3]` - The length of the tag (5 + the length of the URL)
 * `[3:4]` - Zeroed
 * `[4:8]` - The offset as a little-endian encoded unsigned integer.
 * `[8:]` - The URL to be included (up to 248 bytes long)

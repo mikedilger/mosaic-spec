@@ -199,7 +199,7 @@ Matches all records that contain any of the given tags.
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
 * `[8:]` - A sequence of [Tags](record.md#tags), each starting with a 2-byte type
-           and a 1 byte length, then up to 253 bytes of data.
+           and a 1 byte data length, then up to 253 bytes of data.
 
 ## Since
 
@@ -338,4 +338,4 @@ Matches all records that do NOT contain any of the given tags.
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
 * `[8:]` - A sequence of [Tags](record.md#tags), each starting with a 2-byte type
-           and a 1 byte length, then up to 253 bytes of data.
+           and a 1 byte data length, then up to 253 bytes of data.
