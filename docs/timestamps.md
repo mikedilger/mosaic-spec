@@ -1,6 +1,8 @@
 # Timestamps
 
-<status>PAGE STATUS: draft</status>
+<status>PAGE STATUS: early draft</status>
+
+WARNING: THIS FORMAT IS CHANGING TO 8 BYTES U64 WITH NANOSECOND PRECISION.
 
 Timestamps are unixtimes, adjusted for leap seconds, expressed in
 <t>milliseconds</t> [<sup>rat</sup>](rationale.md#milliseconds)
