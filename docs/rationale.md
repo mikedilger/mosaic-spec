@@ -21,7 +21,6 @@ to this page with [<sup>rat</sup>](#) links.
 | [Sovereign](#sovereign) |
 | [Storing received-at timestamps](#storing-received-at-timestamps) |
 | [Timestamps](#timestamps) |
-| [Big Endian Reverse Timestamp](#big-endian-reverse-timestamp) |
 | [TLS](#tls) |
 
 ---
@@ -241,13 +240,13 @@ to place them before to give them well defined offsets.
 A number of record properties that span applications have been conceived of and we
 provided space to set these.
 
-We provided separate flags for application-specific usage. These are quicker to look
-up than tag-based or content-based flags.
-
 ### Duplicate Timestamp
 
-We have the timestamp twice. We had to duplicate it because the big-endian
-timestamp in the ID is not hashed or signed.
+We have the timestamp twice.
+
+We have it in the ID so that IDs sort in timestamp order.
+
+But IDs are not hashed and signed. So we have to duplicate it in the main part of the record.
 
 ### Tags
 
@@ -283,8 +282,6 @@ space with that entire long hash.
 
 By putting the big-endian timestamp at the front of the ID, IDs sort in time
 order and group temporally (for database performance).
-
-The zeroes in the ID maintain 64-bit alignment.
 
 ### Address Fields
 
@@ -368,28 +365,20 @@ events.
 
 ### Leap Seconds
 
-UTC is a discontinous time scale that is occasionally adjusted by leap seconds.
-Unixtime is derived from UTC and is thus also discontinuous.  Subtracting two
-unixtimes could give a time interval that is off by up to 28 seconds (for
-example when comparing dates before 1 Jan 1972 with today).
+Unixtime is a discontinous time scale that is occasionally adjusted by leap seconds.
+Subtracting two unixtimes could give a time interval that is off by up to 28 seconds
+(for example when comparing dates before 1 Jan 1972 with today).
 
-### Milliseconds
+### Nanoseconds
 
-Millisecond unixtimes only take 6 bytes and in 47 bits give us more than
-4000 years before they roll over.
+32 bytes do not provide enough space for sub-second precision. Once you choose to use
+the next larger integer (u64) you get plenty of numeric space. Thus we use it for
+nanosecond precision, even if nobody needs to be that precise.
 
-### Bit 48
+### Big Endian
 
-The most significant bit of timestamps is set to 0 in case software interprets
-it as a signed integer, to preserve sorting.
-
----
-
-## Big Endian Reverse Timestamp
-
-We prefix the record Id with a big-endian encoded timestamp in reverse time order.
-If software sorts events by ID in a lexographic (or simple binary form), they
-will sort in reverse time order.
+Timestamps are stored in big-endian format so that they sort in time order even when
+they are interpreted as a simple sequence of bytes (lexigraphically).
 
 ---
 

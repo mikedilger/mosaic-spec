@@ -2,16 +2,11 @@
 
 <status>PAGE STATUS: early draft</status>
 
-WARNING: THIS FORMAT IS CHANGING TO 8 BYTES U64 WITH NANOSECOND PRECISION.
-
 Timestamps are unixtimes, adjusted for leap seconds, expressed in
-<t>milliseconds</t> [<sup>rat</sup>](rationale.md#milliseconds)
-and encoded into a 48-bit unsigned integer in little-endian format.
+<t>nanoseconds</t> [<sup>rat</sup>](rationale.md#nanoseconds)
+and encoded into a 64-bit unsigned integer in big-endian format.
 
-The first bit is 0 [<sup>rat</sup>](rationale.md#bit-48).
-Records that have a 1 bit here SHOULD be ignored.
-
-The next 47 bits represent the number of milliseconds that have actually elapsed
+The integer represents the number of nanoseconds that have actually elapsed
 on the surface of the Earth since the UNIX epoch. The epoch is defined as (these
 definitions are believed to be equivalent):
 
@@ -23,15 +18,16 @@ definitions are believed to be equivalent):
     * NOTE: the fracton above beyond .5 represents the 9 seconds that UTC was
       behind TAI, plus the 32.184 seconds that TAI is behind TT.
 
-Timestamps account for all
-<t>leap seconds</t> [<sup>rat</sup>](rationale.md#leap-seconds)
-unlike unixtime and unlike NTP timestamps
-(both of which pretend that leap seconds did not happen).
+Timestamps account for all <t>leap seconds</t> [<sup>rat</sup>](rationale.md#leap-seconds)
+unlike unixtime and unlike NTP timestamps (both of which pretend that leap seconds did not
+happen).
 
-Before 1 Jan 1972, timestamps match unixtime.
+Before 31 Dec 1971 23:59:60, timestamps match unixtime.
 
 As of this writing (unixtime 1732829887) the current timetstamp which includes
-28 additional leap seconds is 1732829915.
+28 additional leap seconds is 1732829915.  Expressed in nanoseconds it is
+1_732_829_915_000_000_000. As a big-endian 64 bit unsigned integer its binary
+representation is 0x180c_3fa0_73be_ce00.
 
 Since computers tend to be synchronized with UTC for the time being, your
 software will need to be aware of leap seconds so it can adjust.

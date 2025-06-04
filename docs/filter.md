@@ -166,18 +166,18 @@ Typically used as part of address lookups.
  0  +-------------------------------+
     |0x4|len|        0x0            |
  8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         |
+    |             TIMESTAMP         |
  16 +-------------------------------+
-    | ..0x0 |    ..TIMESTAMP        |
+    |             TIMESTAMP         |
  24 +-------------------------------+
+    | ...                           |
 ```
 
 * `[0:1]` - The type 0x4
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
 * `[2:8]` - Zeroed
 * `[8:]` - A sequence of 8-byte fields, each being:
-    * `[0:2]` - Zeroed
-    * `[2:8]` - A six byte [timestamp](timestamps.md).
+    * `[0:8]` - An eight byte [timestamp](timestamps.md).
 
 ## Includes Tag
 
@@ -214,14 +214,14 @@ this value.
  0  +-------------------------------+
     |0x80|len|         0x0          |
  8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         |
+    |         TIMESTAMP             |
  16 +-------------------------------+
 ```
 
 * `[0:1]` - The type 0x80
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
-* `[2:10]` - Zeroed
-* `[10:16]` - A six byte [timestamp](timestamps.md).
+* `[2:8]` - Zeroed
+* `[8:16]` - An eight byte [timestamp](timestamps.md).
 
 ## Until
 
@@ -235,14 +235,14 @@ Matches all records with a timestamp less than this value.
  0  +-------------------------------+
     |0x81|len|         0x0          |
  8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         |
+    |          TIMESTAMP            |
  16 +-------------------------------+
 ```
 
 * `[0:1]` - The type 0x81
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
-* `[2:10]` - Zeroed
-* `[10:16]` - A six byte [timestamp](timestamps.md).
+* `[2:8]` - Zeroed
+* `[8:16]` - An eight byte [timestamp](timestamps.md).
 
 ## Received Since
 
@@ -257,14 +257,14 @@ than this value.
  0  +-------------------------------+
     |0x82|len|         0x0          |
  8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         |
+    |          TIMESTAMP            |
  16 +-------------------------------+
 ```
 
 * `[0:1]` - The type 0x82
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
-* `[2:10]` - Zeroed
-* `[10:16]` - A six byte [timestamp](timestamps.md).
+* `[2:8]` - Zeroed
+* `[8:16]` - An eight byte [timestamp](timestamps.md).
 
 ## Received Until
 
@@ -279,14 +279,14 @@ this value.
  0  +-------------------------------+
     |0x83|len|         0x0          |
  8  +-------------------------------+
-    |  0x0  |     TIMESTAMP         |
+    |         TIMESTAMP             |
  16 +-------------------------------+
 ```
 
 * `[0:1]` - The type 0x83
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words
-* `[2:10]` - Zeroed
-* `[10:16]` - A six byte [timestamp](timestamps.md).
+* `[2:8]` - Zeroed
+* `[8:16]` - An eight byte [timestamp](timestamps.md).
 
 
 ## Exclude
