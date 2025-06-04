@@ -50,7 +50,8 @@ a unique [hash-based id](reference.md#id-reference)
 and a separate [reusable address](reference.md#address-reference).
 
 [Timestamps](timestamps.md) [<sup>rat</sup>](rationale.md#timestamps)
-account for <t>leap seconds</t> and have <t>millisecond accuracy</t>.
+account for <t>leap seconds</t>, have <t>nanosecond accuracy</t>, and extend
+out to year 2262.
 
 Clients and Servers
 <t>remember the time that records are received</t>

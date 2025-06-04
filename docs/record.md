@@ -2,8 +2,6 @@
 
 <status>PAGE STATUS: early draft</status>
 
-WARNING: THIS FORMAT IS CHANGING AS TIMESTAMPS ARE CHANGING
-
 All Mosaic persistent data is stored within Record structures (except for
 bootstrap data).
 
@@ -47,7 +45,7 @@ of a record is 1 mebibyte (1,048,576 bytes).
  56 +-------------------------------+
     | Signature 8/8                 |
  64 +-------------------------------+ <-----|
-    | BE Rev Timestamp       |  0   |
+    | Timestamp                     |
  72 +-------------------------------+       |
     | Hash 1/5                      |       |
  80 +-------------------------------+       |
@@ -79,9 +77,9 @@ of a record is 1 mebibyte (1,048,576 bytes).
 184 +-------------------------------+       |
     | Author public key, 4/4        |       |
 192 +-------------------------------+ <-----|
-    | Flags | Timestamp             |
+    | Timestamp                     |
 200 +-------------------------------+
-    |AppFlgs| LenT  | LenP          |
+    | Flags | LenT  | LenP          |
 208 +-------------------------------+
     | Tags...                       |
     |                   .. +PADDING |
@@ -108,20 +106,15 @@ produced using the [construction](#construction) procedure.
 
 A 48 byte ID from `[64:112]` made up of the following three parts.
 
-#### Big-endian Reverse Timestamp
+#### Timestamp
 
-6 bytes from `[64:70]`
+8 bytes from `[64:72]`
 
-This is 0x7FFF_FFFF_FFFF minus the timestamp seconds, encoded in big-endian form.
-[<sup>ref</sup>](rationale.md#big-endian-reverse-timestamp)
+This is the big-endian unsigned 64-bit timestamp as described in [timestamps](timestamps.md),
+which represents the number of nanoseconds that have elapsed since 1 January 1970
+including within leap seconds.
 
-This is the first part of the three-part ID.
-
-#### Zeroes
-
-2 bytes of zeroes from `[70:72]`.
-
-This is the second part of the three-part ID.
+This is the first part of the two-part ID.
 
 #### Hash
 
@@ -129,7 +122,7 @@ This is the second part of the three-part ID.
 
 This is the first 40 bytes of the BLAKE3 hash.
 
-This is the third part of the three-part ID.
+This is the second part of the two-part ID.
 
 ### Signing Public Key
 
@@ -153,9 +146,8 @@ kind). They can be created in a number of different ways, depending on the
 application and its purpose:
 
 1. They can be generated randomly.
-2. They can be generated as a big-endian reverse timestamp concatenated
-   with randomly generated data. This is useful when the addresses should
-   sort in time order.
+2. They can be generated as a timestamp concatenated with randomly generated data.
+   This is useful when the addresses should sort in time order.
 3. They can be the first 14 bytes of a BLAKE3 hash of a fixed slice
    of bytes. This is useful for applications that require seeking an
    event by a known fixed string of bytes (and known author and kind).
@@ -203,17 +195,13 @@ EdDSA ed25519 keypair.
 
 ### Timestamp
 
-6 bytes at `[194:200]`
+8 bytes at `[192:200]`
 
-This is a timestamp represented in 6 bytes (48 bits) according to
-[timestamps](timestamps.md).
+This is the big-endian unsigned 64-bit timestamp as described in [timestamps](timestamps.md),
+which represents the number of nanoseconds that have elapsed since 1 January 1970
+including within leap seconds.
 
-### AppFlgs
-
-2 bytes at `[200:202]`
-
-These are bitflags reserved for use by the specific application based on
-the [kind](#kind).
+It is repeated in the ID, but this copy gets digitally signed.
 
 ### LenT
 
@@ -304,9 +292,7 @@ size minus the header size).
    context string of "Mosaic". NOTE: ed25519 calls for a SHA-512 hash,
    but we use a BLAKE3 hash instead. Place the signature at bytes `[0:64]`.
 4. Copy the first 40 bytes of the hash generated in step 2 to `[72:112]`.
-5. Write the reverse timestamp (0x7FFF_FFFF_FFFF minus the timestamp seconds)
-   as a 48-bit unsigned big-endian to `[64:70]`.
-6. Set bytes 70 and 71 to 0 (if not already).
+5. Copy the 64-bit timestamp to `[64:72]`.
 
 # Validation
 
@@ -330,15 +316,10 @@ Validation steps
    64 bytes of output using BLAKE3's `finalize_xof()` function.
 7. Verify the hash: Compare bytes `[0:40]` of this hash with bytes
    `[72:112]` of the record. They MUST match.
-8. Verify the ID timestamp: bytes `[64:70]` taken as a big-endian
-   48-bit unsigned integer, subtract from 0x7FFF_FFFF_FFFF, and this
-   must equal bytes `[194:200]` taken as a little-endian unsigned 48-bit
-   integer.
+8. Verify the ID timestamp: bytes `[64:72]` must be equal to bytes `[192:200]`.
 9. Verify the signature: The signature must be a valid EdDSA ed25519
    signature of the full 64-byte BLAKE3 hash taken in step 6 with the
    signing public key.
-10. The timestamp and the orig timestamp must be validated according to
-    [timestamps](timestamps.md).
-11. Bytes 70 and 71 must be 0.
-12. Reserved flags must be 0.
-13. CLIENTS ONLY: Application specific validation should be performed.
+10. Bytes 70 and 71 must be 0.
+11. Reserved flags must be 0.
+12. CLIENTS ONLY: Application specific validation should be performed.
