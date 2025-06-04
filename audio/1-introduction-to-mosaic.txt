@@ -1,0 +1,240 @@
+
+This is the first recording in a series of recordings on Mosaic.
+
+Today is the 3rd of June, 2025. I'm Mike Dilger.
+
+In this recording I'm going to explain what Mosaic is and why I'm working on it.
+
+Most of the recordings in this series are intended for developers, but this one
+is intended for general audiences. As a user, this recording will help you to
+understand whether it makes sense for you to use, fund, or otherwise get excited
+about Mosaic or applications built on Mosaic.
+
+So what is Mosaic?
+
+Mosaic is a social application base layer.
+
+There are many kinds of social applications: chat, blog, video streaming, etc.
+Whether it looks like X, telegram, discord, facebook, instagram or reddit,
+these are all social applications. Most deal with text, some with images, some
+with videos, some are more real-time than others.
+
+But what makes an application a social application is simply that it connects users
+over the Internet. Users seeing and engaging with content that was created by other
+users is the fundamental value proposition of a social application. This is in contrast
+to something like a spreadsheet where the user doesn't interact with other users.
+
+So what is a base layer? Well it is set of well-defined data structures, a network
+architecture, and a protocol.
+
+So why have a base layer? Because it allows multiple social applications to
+interoperate with each other without redefining the same kinds of things. It solves
+the shared problems they all have in a unified interoperable way.
+
+So what is special about Mosaic?  What does it offer?
+
+First of all, it IS a social application base layer. As far as I'm aware, there are
+no others. The various social applications out there all start from scratch, they
+don't really interoperate hardly at all. Nostr is very close to a base layer but
+the nostr spec doesn't make that clear... you have to pick out a number of
+optional NIPs to form the base layer.
+
+Like nostr, Mosaic offers self-service sovereign identity, as well as
+decentralization and censorship resistance.
+
+Self-service sovereign identity means that users can create their own accounts
+and do not rely on any authority to approve or moderate their account. And in Mosaic
+there is no federated server you need to tie yourself to, you can move your data
+as often as you like, and you can run your own servers if you want. Users own
+and control their own account and their own data.
+
+Decentralization means that there is no central infrastructure which could be
+taken down or perverted to corrupt the functionality of Mosaic.
+
+Censorship resistance means that it is difficult for anybody to censor anybody
+else.
+
+How Mosaic provides these things will be discussed in detail throughout this
+series of recordings. But we will discuss them at a high level in this recording.
+
+Where did Mosaic come from?
+
+Mosaic is a successor to nostr. Nostr is a social media protocol base layer itself,
+and Mosaic is a further iteration on nostr.
+
+I can't say that Mosaic is Nostr 2.0 because nostr isn't migrating to Mosaic. Nostr and
+Mosaic are separate. But Mosaic is designed to solve problems that nostr developers
+have encountered.
+
+Basically, as a nostr developer, I've been collecting a series of things that
+I wish we had done differently. Some of them could still be done in nostr but probably
+wont happen for lots of reasons, and some of them are such breaking changes that they
+are neigh impossible to back-patch into nostr. And some are just my personal differences
+of opinion about how things should be. I was hoping that eventually we could get them
+all (or at least mostly) into nostr.
+
+I collected these changes that couldn't easily be made to nostr into a
+github repository I called 'nostr-next'. And over time people from both inside and
+outside of the nostr community talked to me about developing a successor protocol. In
+fact I'd say about five people kinda pushed me to do it.
+
+At first I resisted because I didn't want to fork the community, a small community
+that didn't have enough gravity and network effect. Splitting a small community into
+two protocols would just detract from the goal of reaching some kind of network
+effect tipping point.
+
+But over time I decided that this hangup wasn't well founded. Nostr growth stalled,
+it isn't clear that a network effect tipping point is necessary for nostr to be useful,
+and it no longer made sense to hold myself back from making improvements just because
+of this worry.
+
+And even though I haven't figured out a clean way to make Nostr and Mosaic play well
+together, and there might not be a clean way... we may have to use a bridge like is
+done with Mastodon... I'm not letting that hold me back either.
+
+So for you users listening to this, if you want to get onto a social media system
+that has self-service sovereign identity and censorship resistance, I encourage you
+to look into using nostr. You can use nostr today and many thousands of people do.
+As for Mosaic, well, Mosaic is still just an idea, a draft specification, and some code
+that isn't ready yet.
+
+OK.
+
+What specifically does Mosaic provide at the base layer?
+
+Mosaic provides the following:
+  An identity specification, including key management, rollover, subkeys, and
+    revocation.
+  A locator specification, for locating users and servers.
+  A record format for encapsulating application data.
+  A client-server protocol for submitting and fetching select records.
+  General support for application layers
+
+I'll talk now briefly about each of these.
+
+Identities in Mosaic are simply key pairs. They are based on the ed25519 EdDSA
+elliptic curve. Users can simply generate a key pair and start participating. That
+is what I mean when I say that Mosaic uses self-service sovereign identity.
+
+Mosaic also specifies how to bind master keys to subkeys, and Mosaic is designed to
+work with both a master key for user identification and a subkey for signing and
+verification throughout. Records have both public keys embedded in them.
+
+Mosaic also specifies how to revoke and roll over subkeys.
+
+Mosaic does not yet have a means for recovering from a lost or compromised master key.
+But some kind of least-bad recovery of that situation will likely be eventually added.
+The intent is to keep your master key very safe, and to use your subkeys for daily
+activities, generally using one subkey per device.
+
+The Mosaic locator specification is how you go from a public key that you don't know
+anything about, to downloading parts of the person's social media data.  We use the
+Bit-torrent Mainline DHT to jump from an ed25519 public key to a set of server
+public keys. Then we use it again to jump from a server public key to a set of
+server endpoints. Then we connect to one or more of those endpoints and ask for
+the user's data that we are interested in.
+
+At any time, servers can move endpoints. DNS is not necessarily involved, these
+endpoints can be IP addresses and ports, or DNS addresses and ports. They can be
+Tor .onion sites too.
+
+And at any time users can move between servers. They may wish to clone their data
+when they move, but other than that they just update their record saying which
+servers they have moved to. This eliminates the lock-in that allows servers to
+get away with mistreating their users.
+
+The Mosaic Record Format is a binary structure that serves as a header atop a social
+application's payload data. It manages both master public key and device public key,
+hash, signature, timestamp, unique id, semi-unique address (for replacement and/or
+versioning depending on how the application layer wishes to use it), general flags
+for servers to know how the record should be handled, application specific flags,
+tags that add data such as references to people, references to servers, or references
+to other records, and then of course the payload itself.
+
+The Mosaic Client-Server Protocol is a series of binary structured commands for
+uploading and downloading data, including subscribing to data that hasn't even
+arrived yet and receiving it the moment that it does arrive without the necessity of
+polling. Filters are specified that work kind of like a simplified SQL command
+would. The protocol happens over a duplex stream communication. This can be anything,
+but code is being worked on for running directly on QUIC, but also there will be code
+for running on WebSockets on HTTPS mainly to support Tor .onion sites. Since server
+endpoints can be IP addresses, certificates can be self-signed by the server ed25519
+key. The DNS name is not the trustworthy thing, the key pair is. So either self-signed
+or what is called raw public key can be used. In this way, DNS rug-pulls are
+impossible.
+
+Some of the Mosaic general support includes things like following lists (who follows
+who); User profile records that include their name and bio and such;
+flags indicating how a server should handle a record, such as only allowing the author
+to download it, or that it is transient and shouldn't be stored;
+and in general any social application feature that is likely to be shared among
+multiple social applications.
+
+There are just a few more things to cover, and then I'll wrap it up.
+
+Mosaic uses a client-server architecture, as opposed to peer-to-peer.
+The main reason for this is that Mosaic servers are expected to remain online all the
+time. Of course there will be downtimes, but there is an expectation of availability.
+We have fail-over built in, but nonetheless, peer-to-peer generally doesn't provide
+the same expectation of availability. It is also the case that with peer-to-peer
+architectures, hole punching can be difficult and an external stream relay is
+necessary anyways.
+
+Note that mosaic does not provide IP layer privacy. It is not hiding your IP address.
+IP layer privacy is a problem almost entirely orthogonal to social media. Users can
+use VPNs or Tor to achieve IP layer privacy while using Mosaic. Just put Mosaic on top
+of your IP privacy layer, and you are good to go. If IP privacy were designed into
+Mosaic, it would likely be inappropriate or inadequate. By not specifying that layer,
+users can find and utilize the best IP privacy technologies they can, and swap them
+out without requiring any support from the Mosaic layer.  Of course, if any aspect of
+Mosaic layer impedes or defeats IP privacy, then of course Mosaic needs to be
+designed in a way to not do that.
+
+Another issue with sovereign identity is that because anybody can create an account
+and nobody can be censored, that means spammers and scammers cannot be stopped. This
+is actually fine. It just needs to be understood how to deal with these situations.
+For example, one could simply download social media data from users that they know
+and follow, and ignore all the rest like the comments below a blog post.
+Or they could allow comments but only of people that they follow. Or maybe friends
+of friends. Or maybe you use a Bayesian filter to allow comments from strangers that
+pass the Bayesian filter. Maybe you then add a mute list for when something passes
+through the spam filter that you don't want. Email has had this spam problem for ages
+and they have handled it well enough so far... not great, but they are handling it.
+Social media can do strictly better than email because we have a social graph that
+you can infer trust relationships from. Also, clients can punt to the servers, only
+utilizing servers whose administrators keep the server clean of certain kinds of
+content. Labelling also presents itself as a way for to utilize the trust in the
+social graph to identify harmful, misleading, or spammy content, and is a feature
+that can be provided in the base layer. So I'm very optimistic about spam and
+moderation. On nostr it has never been a significant issue... as long as you use
+a good client.
+
+And that's basically Mosaic in a nutshell.
+
+On github I'm working on several repositories currently.
+
+The nostr-next repository that I mentioned earlier is just a dumping ground of
+ideas.
+
+The mosaic-spec repository is a reasonable draft but subject to change. And it will
+still change.
+
+The mosaic-core repository is a rust library that will eventually be tied into many
+languages such as go, python, and javascript. It has core types, records, and
+filters now, but is still probably missing a lot of necessary functionalty and is
+expected to change.
+
+The mosaic-store-lmdb repository is a very efficient storage engine for Mosaic Records
+that is still in development. I feel like I'm just a few days away from it working for
+the first time.
+
+There are no Mosaic clients yet. There are no Mosaic applications built on top of
+Mosaic yet. So these are early days. I'm recording this on the 3rd of June, 2025.
+As time progresses, I may have to come back and re-record this episode to provide
+updated information.
+
+OK. Well, everybody is welcome to contribute and to read, use and otherwise do
+whatever you want with the Mosaic code and spec. It is all 100% open source under
+the MIT license.
+
+So that's it for today. Cheers.
