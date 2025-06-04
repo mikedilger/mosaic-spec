@@ -1,0 +1,156 @@
+
+This is the third recording in a series of recordings on Mosaic.
+
+Today is the 4rd of June, 2025. I'm Mike Dilger.
+
+In this recording I'm going to talk about time and Mosaic timestamps.
+
+What time is it? To answer that question depends on which time standard you are using.
+
+Let me first draw your attention to pixels on a computer screen. I can point to a pixel and ask
+"which pixel is this?"  One person might count pixels from the top-left another person from the
+bottom-left, and give me two different answers. These are two different pixel naming systems,
+giving different names for the exact same pixel.
+
+Well it is the same thing with time. We have different names for the exact same moments in time.
+
+There are numerous time standards. And many of these time standards are realized by other time
+standards. That is, one derives from the other and there is a formula to convert between them.
+
+The most fundamental time standard realization that we humans have today is called International
+Atomic Time, or in French, Temps Atomique International. We use the French for the abbreviation,
+so it is called TAI.
+
+Time is relative. Once we are living on Mars, we are going to have a bit more trouble defining a
+time standard. But for the moment we are all living on the surface of the Earth where time moves at
+the same rate for everybody, or very nearly so, the difference being a function of how much gravity
+you are experiencing, which is mostly a function of your elevation.
+
+We have a bunch of atomic clocks, more than 450 of them, across the surface of the Earth at
+different altitudes, and they all run at slightly different rates. The output from these clocks is
+averaged, and that output realizes the TAI time standard.
+
+Now it would be nice if TAI were expressed in the number of seconds elapsed since an epoch. But it
+isn't. TAI instead is expressed as a Gregorian date and time of day. So to subtract two times in
+TAI you need to understand months of differing numbers of days, and leap years. Hey, it is what it
+is. At least it isn't affected by time zones or daylight savings time!
+
+Now also it would be nice if TAI time were shipped over the Internet to our computers. But it is
+not. Instead we get a different time standard called Coordinated Universal Time, or in French,
+Temps Universel Coordonne, which we oddly abbreviate as UTC even though that doesn't match either
+the English or the French. I guess it was a compromise.
+
+Anyhow, UTC is meant to be used for civil time. And some humans think that civil time should match
+very closely the rotation of the Earth. And so we have this organisation called the International
+Earth Rotation Service and thank God for them. Without them the Earth would stop rotating. And they
+determine when to add leap seconds to the UTC standard. These leap seconds are published at least
+six months in advance, and you can download the list of all the leap seconds that have ever
+happened with any upcoming ones.
+
+UTC like TAI is expressed as a Gregorian Calendar date and a time of day.
+
+What happens in UTC when a leap second occurs, is that it is, for example, December 31, 23:59:59
+and then the next second is named December 31, 23:59:60, and then the next second is named January
+1, 00:00:00. So that last minute of the year was actually 61 seconds long.
+
+But UTC is not discontinuous. Every second is accounted for with unique names. It just has a weird
+naming scheme. And when you want to subtract two UTC times from each other, you need to understand
+and account for not just how long months are, not just leap years, but also leap seconds.
+
+Now unixtime is an epoch time standard. An epoch is a point in time that acts like an origin
+for a coordinate system. Unixtime almost expresses the integer number of seconds that have elapsed
+since January 1, 1970. With Unixtime you don't have to worry about Gregorian date time calculations.
+No more worrying about how long months are, or leap years. Just subtract two integers.
+
+But unixtime fucked up. It isn't actually the number of seconds elapsed. It only counts all the
+seconds that are not leap seconds. It completely ignores leap seconds as if they didn't happen!
+And so what happens is unixtime goes from, for example, 915148800.0, runs up to 915148800.9 and
+then jumps backwards to 915148800.0 again. That is, unixtime 915148800 actually expresses two
+different moments in time with no way to differentiate them and know which second it's actually
+talking about.
+
+This isn't really a problem with leap seconds or UTC. UTC expresses the second as :60. UTC is not
+discontinuous. But unixtime is discontinuous.
+
+I find this error is so egregious that I think we need to define a new modified unixtime. One that
+does account for all the leap seconds. As of this writing we have had 28 leap seconds if you
+include the one on December 31, 1971. This  modified unixtime would basically just be unixtime + 28.
+That is, unixtime plus the number of leap seconds elapsed. With such a time standard, every second
+that has elapsed has a unique name, and to determine how many seconds have elapsed between to
+timestamps you just subtract one from the other and it will always be precisely correct.
+
+But this isn't quite what we are going to use in Mosaic. Hold your horses on that.
+
+Now there is a downside to modified UNIX time. You can't just get unixtime from your computer.
+Because your computer uses the Network Time Protocol to get an NTP timestamp, which follows
+UTC, and then is converted into a unixtime. And it doesn't account for leap seconds. So in order
+to fix it, you have to also download the list of leap seconds and for any unixtime, figure out how
+many leap seconds had elapsed at that point in time and add them.
+
+But I think this downside is worth it for Mosaic. Maybe an embedded operating system would make a
+different choice because it can't download things. But Mosaic is a network protocol, and
+downloading things is core to what Mosaic is. So downloading the leap seconds is really not a big
+ask.
+
+But Mosaic is not using unixtime plus leap seconds. I think higher precision time might be useful
+to some applications.
+
+So let's work out how many bytes we need for a timestamp. Can we store a timestamp in 4 bytes?
+
+Well what we really need at a bare minimum, is to span all of the seconds across the next 50 years
+or so. That would require numbers up to about 1.5 million which is less than the 4 million or so
+numbers you get in a 32 bit number. So yes, we could express timestamps in 4 bytes. But that
+would be at second precision. Fairly course.
+
+To get better precision we have to go beyond 4 bytes. The next largest integer well supported by
+computers is 8 bytes long, a 64-bit number. And 8 bytes is plenty!
+
+If we expressed seconds, we could span 584 billion years. Back to the big bang and 40 times as far
+into the future.
+
+If we expressed milliseconds, we could cover 584 million years. Couldn't reach the big bang, but
+wow still a huge time span.
+
+If we expressed microseconds, we could cover 584 thousand years. That would cover all of human
+history and more future time than we would ever need. Mosaic would not last that long for sure.
+
+If we expressed nanoseconds, we could cover 584 years. Again, more time in the future than Mosaic
+will last for. Not all of human history, but timestamps in the past aren't really necessary for
+Mosaic.
+
+If we expressed picoseconds, we could cover less than a year. Certainly that will not do.
+
+So ... nanoseconds it is.
+
+When then should the epoch be? Well, 584 years is so long that the epoch can remain 1970. I see
+no reason to bump it forward for this.
+
+There is one more concern: The byte ordering. Normally we use little-endian byte order because
+most CPUs use this internally so it is faster on most computers. But in the case of timestamps
+we want them to sort well. If interpreted as raw bytes, little-endian does not sort well. But
+big-endian does. With big-endian you can just sort lexigraphically and it will work. Also, in case
+somebody accidentally uses a signed 64 bit number, it would be nice if this didn't break anything.
+If we can force the sign bit to be 0 then we can avoid all the consequences of that, and this only
+sacrifices about 250 years. We still can reach April 11, 2262. For this minor benefit I think it is
+worth it, because by year 2262 we will not be using Mosaic anymore.
+
+So now we have the Mosaic timestamp standard. In summary,
+
+In a 64-bit signed integer, using big-endian byte ordering, we store the number of nanoseconds that
+actually elapsed since January 1st, 1970. This includes the nanoseconds in leap seconds. We ensure
+that the number is always positive.
+
+To convert from unixtime, you first add the leap seconds (currently 28) and then you multiply by
+1,000,000,000.
+
+To convert back to unixtime, you divide by 1,000,000,000 and subtract the number of leap seconds,
+currently 28.
+
+Times before 1970 cannot be expressed. But this timestamp is meant to timestamp Mosaic records
+which did not exist before 1970.  Times after April 11, 2262 cannot be expressed either.
+
+In closing I should mention that for a long time, Mosaic was defined to use 48-bit integers
+that expressed milliseconds, not 64-bit integers that expressed nanoseconds. But this is being
+changed.
+
+That's it for today. Cheers.
