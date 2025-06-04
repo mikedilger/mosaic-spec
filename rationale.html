@@ -224,9 +224,6 @@ to this page with <a href="#"><sup>rat</sup></a> links.</p>
 <td><a href="#timestamps">Timestamps</a></td>
 </tr>
 <tr>
-<td><a href="#big-endian-reverse-timestamp">Big Endian Reverse Timestamp</a></td>
-</tr>
-<tr>
 <td><a href="#tls">TLS</a></td>
 </tr>
 </tbody>
@@ -413,11 +410,10 @@ to place them before to give them well defined offsets.</p>
 <h3 id="flags">Flags</h3>
 <p>A number of record properties that span applications have been conceived of and we
 provided space to set these.</p>
-<p>We provided separate flags for application-specific usage. These are quicker to look
-up than tag-based or content-based flags.</p>
 <h3 id="duplicate-timestamp">Duplicate Timestamp</h3>
-<p>We have the timestamp twice. We had to duplicate it because the big-endian
-timestamp in the ID is not hashed or signed.</p>
+<p>We have the timestamp twice.</p>
+<p>We have it in the ID so that IDs sort in timestamp order.</p>
+<p>But IDs are not hashed and signed. So we have to duplicate it in the main part of the record.</p>
 <h3 id="tags">Tags</h3>
 <p>Tag values should not be too large as they need to be indexed by relays.</p>
 <p>Constraining the value to 253 bytes allows an entire TLV (with 16-bit type and 8-bit length) to
@@ -441,7 +437,6 @@ it for the EdDSA ed25519 signature, we don't have to waste precious record
 space with that entire long hash.</p>
 <p>By putting the big-endian timestamp at the front of the ID, IDs sort in time
 order and group temporally (for database performance).</p>
-<p>The zeroes in the ID maintain 64-bit alignment.</p>
 <h3 id="address-fields">Address Fields</h3>
 <p>By not including the hash of content, records can be edited and replaced by
 the author (where edits make sense). Application will specify which kind of
@@ -496,21 +491,16 @@ events.</p>
 <hr />
 <h2 id="timestamps">Timestamps</h2>
 <h3 id="leap-seconds">Leap Seconds</h3>
-<p>UTC is a discontinous time scale that is occasionally adjusted by leap seconds.
-Unixtime is derived from UTC and is thus also discontinuous.  Subtracting two
-unixtimes could give a time interval that is off by up to 28 seconds (for
-example when comparing dates before 1 Jan 1972 with today).</p>
-<h3 id="milliseconds">Milliseconds</h3>
-<p>Millisecond unixtimes only take 6 bytes and in 47 bits give us more than
-4000 years before they roll over.</p>
-<h3 id="bit-48">Bit 48</h3>
-<p>The most significant bit of timestamps is set to 0 in case software interprets
-it as a signed integer, to preserve sorting.</p>
-<hr />
-<h2 id="big-endian-reverse-timestamp">Big Endian Reverse Timestamp</h2>
-<p>We prefix the record Id with a big-endian encoded timestamp in reverse time order.
-If software sorts events by ID in a lexographic (or simple binary form), they
-will sort in reverse time order.</p>
+<p>Unixtime is a discontinous time scale that is occasionally adjusted by leap seconds.
+Subtracting two unixtimes could give a time interval that is off by up to 28 seconds
+(for example when comparing dates before 1 Jan 1972 with today).</p>
+<h3 id="nanoseconds">Nanoseconds</h3>
+<p>32 bytes do not provide enough space for sub-second precision. Once you choose to use
+the next larger integer (u64) you get plenty of numeric space. Thus we use it for
+nanosecond precision, even if nobody needs to be that precise.</p>
+<h3 id="big-endian">Big Endian</h3>
+<p>Timestamps are stored in big-endian format so that they sort in time order even when
+they are interpreted as a simple sequence of bytes (lexigraphically).</p>
 <hr />
 <h2 id="tls">TLS</h2>
 <p>We use TLS security because it is heavily researched and state-of-the-art.</p>

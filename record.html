@@ -169,7 +169,6 @@
               
                 <h1 id="record">Record</h1>
 <p><status>PAGE STATUS: early draft</status></p>
-<p>WARNING: THIS FORMAT IS CHANGING AS TIMESTAMPS ARE CHANGING</p>
 <p>All Mosaic persistent data is stored within Record structures (except for
 bootstrap data).</p>
 <h2 id="notation">Notation</h2>
@@ -203,7 +202,7 @@ of a record is 1 mebibyte (1,048,576 bytes).</p>
  56 +-------------------------------+
     | Signature 8/8                 |
  64 +-------------------------------+ &lt;-----|
-    | BE Rev Timestamp       |  0   |
+    | Timestamp                     |
  72 +-------------------------------+       |
     | Hash 1/5                      |       |
  80 +-------------------------------+       |
@@ -235,9 +234,9 @@ of a record is 1 mebibyte (1,048,576 bytes).</p>
 184 +-------------------------------+       |
     | Author public key, 4/4        |       |
 192 +-------------------------------+ &lt;-----|
-    | Flags | Timestamp             |
+    | Timestamp                     |
 200 +-------------------------------+
-    |AppFlgs| LenT  | LenP          |
+    | Flags | LenT  | LenP          |
 208 +-------------------------------+
     | Tags...                       |
     |                   .. +PADDING |
@@ -255,18 +254,16 @@ of a record is 1 mebibyte (1,048,576 bytes).</p>
 produced using the <a href="#construction">construction</a> procedure.</p>
 <h3 id="id">ID</h3>
 <p>A 48 byte ID from <code>[64:112]</code> made up of the following three parts.</p>
-<h4 id="big-endian-reverse-timestamp">Big-endian Reverse Timestamp</h4>
-<p>6 bytes from <code>[64:70]</code></p>
-<p>This is 0x7FFF_FFFF_FFFF minus the timestamp seconds, encoded in big-endian form.
-<a href="rationale.html#big-endian-reverse-timestamp"><sup>ref</sup></a></p>
-<p>This is the first part of the three-part ID.</p>
-<h4 id="zeroes">Zeroes</h4>
-<p>2 bytes of zeroes from <code>[70:72]</code>.</p>
-<p>This is the second part of the three-part ID.</p>
+<h4 id="timestamp">Timestamp</h4>
+<p>8 bytes from <code>[64:72]</code></p>
+<p>This is the big-endian unsigned 64-bit timestamp as described in <a href="timestamps.html">timestamps</a>,
+which represents the number of nanoseconds that have elapsed since 1 January 1970
+including within leap seconds.</p>
+<p>This is the first part of the two-part ID.</p>
 <h4 id="hash">Hash</h4>
 <p>40 bytes at <code>[72:112]</code></p>
 <p>This is the first 40 bytes of the BLAKE3 hash.</p>
-<p>This is the third part of the three-part ID.</p>
+<p>This is the second part of the two-part ID.</p>
 <h3 id="signing-public-key">Signing Public Key</h3>
 <p>32 bytes at <code>[112:144]</code></p>
 <p>This is the public key of the signing keypair, which is usually a subkey under
@@ -282,9 +279,8 @@ kind). They can be created in a number of different ways, depending on the
 application and its purpose:</p>
 <ol>
 <li>They can be generated randomly.</li>
-<li>They can be generated as a big-endian reverse timestamp concatenated
-   with randomly generated data. This is useful when the addresses should
-   sort in time order.</li>
+<li>They can be generated as a timestamp concatenated with randomly generated data.
+   This is useful when the addresses should sort in time order.</li>
 <li>They can be the first 14 bytes of a BLAKE3 hash of a fixed slice
    of bytes. This is useful for applications that require seeking an
    event by a known fixed string of bytes (and known author and kind).</li>
@@ -327,14 +323,12 @@ EdDSA ed25519 keypair.</p>
   reject the record.</p>
 </li>
 </ul>
-<h3 id="timestamp">Timestamp</h3>
-<p>6 bytes at <code>[194:200]</code></p>
-<p>This is a timestamp represented in 6 bytes (48 bits) according to
-<a href="timestamps.html">timestamps</a>.</p>
-<h3 id="appflgs">AppFlgs</h3>
-<p>2 bytes at <code>[200:202]</code></p>
-<p>These are bitflags reserved for use by the specific application based on
-the <a href="#kind">kind</a>.</p>
+<h3 id="timestamp_1">Timestamp</h3>
+<p>8 bytes at <code>[192:200]</code></p>
+<p>This is the big-endian unsigned 64-bit timestamp as described in <a href="timestamps.html">timestamps</a>,
+which represents the number of nanoseconds that have elapsed since 1 January 1970
+including within leap seconds.</p>
+<p>It is repeated in the ID, but this copy gets digitally signed.</p>
 <h3 id="lent">LenT</h3>
 <p>2 bytes at <code>[202:204]</code> representing the length of the tags section in bytes
 as an unsigned integer in little-endian format.</p>
@@ -392,9 +386,7 @@ size minus the header size).</p>
    context string of "Mosaic". NOTE: ed25519 calls for a SHA-512 hash,
    but we use a BLAKE3 hash instead. Place the signature at bytes <code>[0:64]</code>.</li>
 <li>Copy the first 40 bytes of the hash generated in step 2 to <code>[72:112]</code>.</li>
-<li>Write the reverse timestamp (0x7FFF_FFFF_FFFF minus the timestamp seconds)
-   as a 48-bit unsigned big-endian to <code>[64:70]</code>.</li>
-<li>Set bytes 70 and 71 to 0 (if not already).</li>
+<li>Copy the 64-bit timestamp to <code>[64:72]</code>.</li>
 </ol>
 <h1 id="validation">Validation</h1>
 <p>Records MUST be fully validated by clients.</p>
@@ -415,15 +407,10 @@ steps marked CLIENTS ONLY.</p>
    64 bytes of output using BLAKE3's <code>finalize_xof()</code> function.</li>
 <li>Verify the hash: Compare bytes <code>[0:40]</code> of this hash with bytes
    <code>[72:112]</code> of the record. They MUST match.</li>
-<li>Verify the ID timestamp: bytes <code>[64:70]</code> taken as a big-endian
-   48-bit unsigned integer, subtract from 0x7FFF_FFFF_FFFF, and this
-   must equal bytes <code>[194:200]</code> taken as a little-endian unsigned 48-bit
-   integer.</li>
+<li>Verify the ID timestamp: bytes <code>[64:72]</code> must be equal to bytes <code>[192:200]</code>.</li>
 <li>Verify the signature: The signature must be a valid EdDSA ed25519
    signature of the full 64-byte BLAKE3 hash taken in step 6 with the
    signing public key.</li>
-<li>The timestamp and the orig timestamp must be validated according to
-    <a href="timestamps.html">timestamps</a>.</li>
 <li>Bytes 70 and 71 must be 0.</li>
 <li>Reserved flags must be 0.</li>
 <li>CLIENTS ONLY: Application specific validation should be performed.</li>

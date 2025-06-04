@@ -193,11 +193,13 @@ master key are not identical.</p>
  24 +-------------------------------+
     | SUBKEY    4/4                 |
  32 +-------------------------------+
-    |MARKER|RES|REVOC TIMESTAMP     |
+    |MARKER |   RESERVED            |
+ 40 +-------------------------------+
+    |        REVOC TIMESTAMP        |
     +-------------------------------+
 </code></pre>
 <p><code>[0:32]</code> - SUBKEY is the 32-byte subkey</p>
-<p><code>[32:33]</code> - MARKER is 1-byte and is one of the following</p>
+<p><code>[32:34]</code> - MARKER is 2-bytes and is one of the following</p>
 <ul>
 <li>0x0 - ACTIVE_SIGNING_KEY - A Mosaic ed25519 signing key (subkey) in current use</li>
 <li>0x1 - ACTIVE_ENCRYPTION_KEY - A Mosaic X25519 encryption key in current use<ul>
@@ -222,8 +224,8 @@ master key are not identical.</p>
 </ul>
 </li>
 </ul>
-<p><code>[33:34]</code> - RES is 1-byte and is reserved. It MUST be 0.</p>
-<p><code>[34:40]</code> - REVOC TIMESTAMP is 6-bytes and is in the format described in
+<p><code>[34:40]</code> - Bytes 34:40 are reserved and MUST be 0.</p>
+<p><code>[40:48]</code> - REVOC TIMESTAMP is 8-bytes and is in the format described in
 <a href="timestamps.html">timestamps</a>. Timestamp is required for REVOKED ALL and
 REVOKED PAST.  Timestamp is suggested for OUT_OF_USE. Timestamp SHOULD be
 zeroed in all other cases.</p>

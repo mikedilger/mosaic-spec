@@ -169,13 +169,10 @@
               
                 <h1 id="timestamps">Timestamps</h1>
 <p><status>PAGE STATUS: early draft</status></p>
-<p>WARNING: THIS FORMAT IS CHANGING TO 8 BYTES U64 WITH NANOSECOND PRECISION.</p>
 <p>Timestamps are unixtimes, adjusted for leap seconds, expressed in
-<t>milliseconds</t> <a href="rationale.html#milliseconds"><sup>rat</sup></a>
-and encoded into a 48-bit unsigned integer in little-endian format.</p>
-<p>The first bit is 0 <a href="rationale.html#bit-48"><sup>rat</sup></a>.
-Records that have a 1 bit here SHOULD be ignored.</p>
-<p>The next 47 bits represent the number of milliseconds that have actually elapsed
+<t>nanoseconds</t> <a href="rationale.html#nanoseconds"><sup>rat</sup></a>
+and encoded into a 64-bit unsigned integer in big-endian format.</p>
+<p>The integer represents the number of nanoseconds that have actually elapsed
 on the surface of the Earth since the UNIX epoch. The epoch is defined as (these
 definitions are believed to be equivalent):</p>
 <ul>
@@ -189,13 +186,14 @@ definitions are believed to be equivalent):</p>
 </ul>
 </li>
 </ul>
-<p>Timestamps account for all
-<t>leap seconds</t> <a href="rationale.html#leap-seconds"><sup>rat</sup></a>
-unlike unixtime and unlike NTP timestamps
-(both of which pretend that leap seconds did not happen).</p>
-<p>Before 1 Jan 1972, timestamps match unixtime.</p>
+<p>Timestamps account for all <t>leap seconds</t> <a href="rationale.html#leap-seconds"><sup>rat</sup></a>
+unlike unixtime and unlike NTP timestamps (both of which pretend that leap seconds did not
+happen).</p>
+<p>Before 31 Dec 1971 23:59:60, timestamps match unixtime.</p>
 <p>As of this writing (unixtime 1732829887) the current timetstamp which includes
-28 additional leap seconds is 1732829915.</p>
+28 additional leap seconds is 1732829915.  Expressed in nanoseconds it is
+1_732_829_915_000_000_000. As a big-endian 64 bit unsigned integer its binary
+representation is 0x180c_3fa0_73be_ce00.</p>
 <p>Since computers tend to be synchronized with UTC for the time being, your
 software will need to be aware of leap seconds so it can adjust.</p>
 <p>Leap second data is available at the
