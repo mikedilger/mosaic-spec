@@ -206,7 +206,7 @@ Matches all records that contain any of the given tags.
 > **0x80**
 
 Matches all records with a timestamp greater than or equal to
-this value.
+this value. [<sup>rat</sup>](rationale.md#timestamp-ranges)
 
 ```text
             1   2   3   4   4   5   6
@@ -227,7 +227,8 @@ this value.
 
 > **0x81**
 
-Matches all records with a timestamp less than this value.
+Matches all records with a timestamp less than or equal to
+this value. [<sup>rat</sup>](rationale.md#timestamp-ranges)
 
 ```text
             1   2   3   4   4   5   6
@@ -249,7 +250,7 @@ Matches all records with a timestamp less than this value.
 > **0x82**
 
 Matches all records that were received by the server at or later
-than this value.
+than this value. [<sup>rat</sup>](rationale.md#timestamp-ranges)
 
 ```text
             1   2   3   4   4   5   6
@@ -270,8 +271,8 @@ than this value.
 
 > **0x83**
 
-Matches all records that were received by the server before
-this value.
+Matches all records that were received by the server at or before
+this value. [<sup>rat</sup>](rationale.md#timestamp-ranges)
 
 ```text
             1   2   3   4   4   5   6

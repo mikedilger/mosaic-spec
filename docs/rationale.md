@@ -380,6 +380,14 @@ nanosecond precision, even if nobody needs to be that precise.
 Timestamps are stored in big-endian format so that they sort in time order even when
 they are interpreted as a simple sequence of bytes (lexigraphically).
 
+### Timestamp Ranges
+
+Timestamp ranges are inclusive on both ends. This is because they are usually iterated
+backwards (from the newest to the oldest) and if we made the oldest one exclusive (as
+a normal range would do) it would easily suprise many people who would expect the
+until to be the exclusive one. Also, timestamps are fine enough that including one extra
+nanosecond has little practical effect.
+
 ---
 
 ## TLS
