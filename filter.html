@@ -400,7 +400,7 @@ Typically used as part of address lookups.</p>
 <p><strong>0x80</strong></p>
 </blockquote>
 <p>Matches all records with a timestamp greater than or equal to
-this value.</p>
+this value. <a href="rationale.html#timestamp-ranges"><sup>rat</sup></a></p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
@@ -419,7 +419,8 @@ this value.</p>
 <blockquote>
 <p><strong>0x81</strong></p>
 </blockquote>
-<p>Matches all records with a timestamp less than this value.</p>
+<p>Matches all records with a timestamp less than or equal to
+this value. <a href="rationale.html#timestamp-ranges"><sup>rat</sup></a></p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
@@ -439,7 +440,7 @@ this value.</p>
 <p><strong>0x82</strong></p>
 </blockquote>
 <p>Matches all records that were received by the server at or later
-than this value.</p>
+than this value. <a href="rationale.html#timestamp-ranges"><sup>rat</sup></a></p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
@@ -458,8 +459,8 @@ than this value.</p>
 <blockquote>
 <p><strong>0x83</strong></p>
 </blockquote>
-<p>Matches all records that were received by the server before
-this value.</p>
+<p>Matches all records that were received by the server at or before
+this value. <a href="rationale.html#timestamp-ranges"><sup>rat</sup></a></p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+

@@ -501,6 +501,12 @@ nanosecond precision, even if nobody needs to be that precise.</p>
 <h3 id="big-endian">Big Endian</h3>
 <p>Timestamps are stored in big-endian format so that they sort in time order even when
 they are interpreted as a simple sequence of bytes (lexigraphically).</p>
+<h3 id="timestamp-ranges">Timestamp Ranges</h3>
+<p>Timestamp ranges are inclusive on both ends. This is because they are usually iterated
+backwards (from the newest to the oldest) and if we made the oldest one exclusive (as
+a normal range would do) it would easily suprise many people who would expect the
+until to be the exclusive one. Also, timestamps are fine enough that including one extra
+nanosecond has little practical effect.</p>
 <hr />
 <h2 id="tls">TLS</h2>
 <p>We use TLS security because it is heavily researched and state-of-the-art.</p>
