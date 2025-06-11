@@ -1,12 +1,16 @@
-# Reply Comment
+# Reply Comment (kind)
 
 <status>PAGE STATUS: incomplete</status>
 
 ## Kind
 
-Kind = `1052`
+**Applicaton**: Mosaic Social Media
 
-(`4`, `0x00011100`): *Unique*, *Everybody*, *Printable*
+**App Kind**: 2 (Reply Comment)
+
+**Flags**: *Unique*, *Everybody*, *Printable*
+
+Representation = `[0, 0, 0, 0, 1, 0, 2, 28]`
 
 ## Tags
 

@@ -1,25 +1,25 @@
-# Key Schedule Record
+# Key Schedule (kind)
 
 <status>PAGE STATUS: early draft</status>
 
-A key schedule record lists subkey information and revocation information for a
+A Key Schedule record lists subkey information and revocation information for a
 master key.
 
-A key schedule record MUST be considered invalid if it does not conform to this
+A Key Schedule record MUST be considered invalid if it does not conform to this
 specification.
 
-A key schedule record MUST be considered invalid if the signing key and the
+A Key Schedule record MUST be considered invalid if the signing key and the
 master key are not identical.
 
 ## Kind
 
-Kind = `270`
+**Applicaton**: Mosaic Core
 
-* High value: 1
-* Low byte: `0b00001110`  (*Replaceable*, *Everybody*, not *Printable*)
-    * Replaceable: `0x______10`
-    * Everybody: `0x____11__`
-    * Not Printable: `0x___0____`
+**App Kind**: 1 (Key Schedule)
+
+**Flags**: *Replaceable*, *Everybody*, *NotPrintable*
+
+Representation = `[0, 0, 0, 0, 0, 0, 1, 14]`
 
 ## Tags
 

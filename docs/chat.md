@@ -1,12 +1,16 @@
-# Chat Message
+# Chat Message (kind)
 
 <status>PAGE STATUS: early draft</status>
 
 ## Kind
 
-Kind = `1564`
+**Applicaton**: Mosaic Social Media
 
-(`6`, `0x00011100`): *Unique*, *Everybody*, *Printable*
+**App Kind**: 4 (Chat Message)
+
+**Flags**: *Unique*, *Everybody*, *Printable*
+
+Representation = `[0, 0, 0, 0, 1, 0, 4, 28]`
 
 ## Tags
 

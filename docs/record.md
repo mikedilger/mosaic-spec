@@ -158,42 +158,7 @@ The method of creation is determined by the application layer.
 
 #### Kind
 
-8 bytes at `[152:160]`
-
-This is the [kind](kinds.md) of the record which determines the application
-this record is part of, which then determines the nature of the non-core tags
-and the payload. This is represented as a 64-bit unsigned integer in little-endian
-format.
-
-8 bits of this 64-bit unsigned integer have special meanings as defined here.
-Remembering that this integer is in little-endian format, the bytes are laid
-out in this sequence: [7-0, 15-8, 23-16, 31-24, 39-32, 47-40, 55-48, 63-56].
-
-Bits 1 and 0:
-
-* 00 - Unique. All records SHOULD have unique addresses. In the case that multiple
-       records share the same address, all of them must be preserved just like
-       Versioned records are (see bits 11 below)
-* 01 - Ephemeral; Servers should serve this record to current subscribers, but
-       should not save the record nor serve it later to future subscribers.
-* 10 - Replaceable: Among records with the same address, only the one with the
-       latest timestamp should be served by servers.
-* 11 - Versioned: Among records with the same address, all of them remain relevant
-       and should be seen as a version history.
-
-Bits 3 and 2:
-
-* 00 - Author Only: Servers MUST serve this record only to it's author.
-* 01 - Author + Tagged: Servers MUST serve this record only to it's author and the
-       public keys that are tagged in the record.
-* 10 - RESERVED
-* 11 - Everybody: Servers MAY serve this record to anybody.
-
-Bit 4: If on, the contents of this record are considered to be printable.
-
-Bits 7, 6 and 5: RESERVED and MUST be 0
-
-Bits 64-8: Free
+A [kind](kinds.md), represented in 8 bytes at `[152:160]`.
 
 #### Author Public Key
 

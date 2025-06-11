@@ -1,12 +1,16 @@
-# Microblog
+# Microblog Root (kind)
 
 <status>PAGE STATUS: incomplete</status>
 
 ## Kind
 
-kind = `796`
+**Applicaton**: Mosaic Social Media
 
-(`3`, `0x00011100`): *Unique*, *Everybody*, *Printable*
+**App Kind**: 1 (Microblog Root)
+
+**Flags**: *Unique*, *Everybody*, *Printable*
+
+Representation = `[0, 0, 0, 0, 1, 0, 1, 28]`
 
 ## Tags
 

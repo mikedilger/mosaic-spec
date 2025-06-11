@@ -1,12 +1,16 @@
-# Blog Post
+# Blog Post (kind)
 
 <status>PAGE STATUS: early draft</status>
 
 ## Kind
 
-Kind = `1308`
+**Applicaton**: Mosaic Social Media
 
-(`5`, `0x00011100`): *Unique*, *Everybody*, *Printable*
+**App Kind**: 3 (Blog Post)
+
+**Flags**: *Unique*, *Everybody*, *Printable*
+
+Representation = `[0, 0, 0, 0, 1, 0, 3, 28]`
 
 ## Tags
 

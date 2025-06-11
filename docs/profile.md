@@ -1,4 +1,4 @@
-# Profile Record
+# Profile (kind)
 
 <status>PAGE STATUS: early draft</status>
 
@@ -9,9 +9,13 @@ master key are not identical.
 
 ## Kind
 
-kind = `526`
+**Applicaton**: Mosaic Core
 
-(`2`, `0x00001110`): *Replaceable*, *Everybody*, not *Printable*
+**App Kind**: 2 (Profile)
+
+**Flags**: *Replaceable*, *Everybody*, *NotPrintable*
+
+Representation = `[0, 0, 0, 0, 0, 0, 2, 14]`
 
 ## Tags
 
