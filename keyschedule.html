@@ -167,25 +167,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="key-schedule-record">Key Schedule Record</h1>
+                <h1 id="key-schedule-kind">Key Schedule (kind)</h1>
 <p><status>PAGE STATUS: early draft</status></p>
-<p>A key schedule record lists subkey information and revocation information for a
+<p>A Key Schedule record lists subkey information and revocation information for a
 master key.</p>
-<p>A key schedule record MUST be considered invalid if it does not conform to this
+<p>A Key Schedule record MUST be considered invalid if it does not conform to this
 specification.</p>
-<p>A key schedule record MUST be considered invalid if the signing key and the
+<p>A Key Schedule record MUST be considered invalid if the signing key and the
 master key are not identical.</p>
 <h2 id="kind">Kind</h2>
-<p>Kind = <code>270</code></p>
-<ul>
-<li>High value: 1</li>
-<li>Low byte: <code>0b00001110</code>  (<em>Replaceable</em>, <em>Everybody</em>, not <em>Printable</em>)<ul>
-<li>Replaceable: <code>0x______10</code></li>
-<li>Everybody: <code>0x____11__</code></li>
-<li>Not Printable: <code>0x___0____</code></li>
-</ul>
-</li>
-</ul>
+<p><strong>Applicaton</strong>: Mosaic Core</p>
+<p><strong>App Kind</strong>: 1 (Key Schedule)</p>
+<p><strong>Flags</strong>: <em>Replaceable</em>, <em>Everybody</em>, <em>NotPrintable</em></p>
+<p>Representation = <code>[0, 0, 0, 0, 0, 0, 1, 14]</code></p>
 <h2 id="tags">Tags</h2>
 <p>Every subkey listed in a key schedule record must have an associated
 <a href="core_tags.html#subkey">subkey tag</a> listing the subkey.</p>

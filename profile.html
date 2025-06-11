@@ -167,14 +167,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="profile-record">Profile Record</h1>
+                <h1 id="profile-kind">Profile (kind)</h1>
 <p><status>PAGE STATUS: early draft</status></p>
 <p>A profile record contains user profile information.</p>
 <p>A profile record MUST be considered invalid if the signing key and the
 master key are not identical.</p>
 <h2 id="kind">Kind</h2>
-<p>kind = <code>526</code></p>
-<p>(<code>2</code>, <code>0x00001110</code>): <em>Replaceable</em>, <em>Everybody</em>, not <em>Printable</em></p>
+<p><strong>Applicaton</strong>: Mosaic Core</p>
+<p><strong>App Kind</strong>: 2 (Profile)</p>
+<p><strong>Flags</strong>: <em>Replaceable</em>, <em>Everybody</em>, <em>NotPrintable</em></p>
+<p>Representation = <code>[0, 0, 0, 0, 0, 0, 2, 14]</code></p>
 <h2 id="tags">Tags</h2>
 <p>No specific tags are defined.</p>
 <h2 id="payload">Payload</h2>

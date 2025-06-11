@@ -167,78 +167,134 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="record-kinds">Record Kinds</h1>
+                <h1 id="kind">Kind</h1>
 <p><status>PAGE STATUS: Early Draft</status></p>
-<p>Kinds are 8-byte unsigned integers in little-endian format.</p>
-<p>This page is a Registry of kinds, their name, and the standard
-that defines them.  Refer to their definitions in the standards that
-define them.</p>
+<p>The kind of a record determines the application that the record is used by.
+This also determines the nature of the payload.</p>
+<p>Kinds are represented by an 8-byte array of bits, not interpreted as an
+integer.</p>
+<p>A kind can be broken into three parts:</p>
 <table>
 <thead>
 <tr>
-<th>Kind</th>
-<th>Name</th>
-<th>Standard</th>
-<th>Server Used</th>
-<th>Dups</th>
-<th>Read</th>
-<th>Print</th>
+<th>Range</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>270</td>
+<td>Byte 0-4</td>
+<td>Application Identifier</td>
+</tr>
+<tr>
+<td>Byte 5-6</td>
+<td>Differentiation within the Application</td>
+</tr>
+<tr>
+<td>Byte 7</td>
+<td>Bitflags for record handling</td>
+</tr>
+</tbody>
+</table>
+<p>Bitflags are as follows:</p>
+<p>Bits 1 and 0:</p>
+<ul>
+<li>00 - <code>Unique</code>. All records SHOULD have unique addresses. In the case that multiple
+       records share the same address, all of them must be preserved just like
+       Versioned records are (see bits 11 below)</li>
+<li>01 - <code>Ephemeral</code>; Servers should serve this record to current subscribers, but
+       should not save the record nor serve it later to future subscribers.</li>
+<li>10 - <code>Replaceable</code>: Among records with the same address, only the one with the
+       latest timestamp should be served by servers.</li>
+<li>11 - <code>Versioned</code>: Among records with the same address, all of them remain relevant
+       and should be seen as a version history.</li>
+</ul>
+<p>Bits 3 and 2:</p>
+<ul>
+<li>00 - <code>Author Only</code>: Servers MUST serve this record only to it's author.</li>
+<li>01 - <code>Author + Tagged</code>: Servers MUST serve this record only to it's author and the
+       public keys that are tagged in the record.</li>
+<li>10 - RESERVED</li>
+<li>11 - <code>Everybody</code>: Servers MAY serve this record to anybody.</li>
+</ul>
+<p>Bit 4: If on, the contents of this record are considered to be <code>printable</code> (human readable).</p>
+<p>Bits 7, 6 and 5: RESERVED and MUST be 0</p>
+<h2 id="application-registry">Application Registry</h2>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mosaic Core</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Mosaic Social Media</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>External groups may define applications and have their Application ID registered here.</p>
+<h2 id="kind-registry">Kind Registry</h2>
+<p>This only covers Mosaic Core and Mosaic Social Media. Other applications should define
+their internal kinds within their own specifications, and simply register an Application
+ID with Mosaic.</p>
+<table>
+<thead>
+<tr>
+<th>App</th>
+<th>App Kind</th>
+<th>Name</th>
+<th>Flags</th>
+<th>Server Used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core</td>
+<td>1</td>
 <td><a href="keyschedule.html">Key Schedule</a></td>
-<td>Core</td>
+<td>Replace, All, NoPrint</td>
 <td>Author Outbox</td>
-<td>Replace</td>
-<td>All</td>
-<td>No</td>
 </tr>
 <tr>
-<td>526</td>
+<td>Core</td>
+<td>2</td>
 <td><a href="profile.html">Profile</a></td>
-<td>Core</td>
+<td>Replace, All, NoPrint</td>
 <td>Author Outbox</td>
-<td>Replace</td>
-<td>All</td>
-<td>No</td>
 </tr>
 <tr>
-<td>796</td>
+<td>Social Media</td>
+<td>1</td>
 <td><a href="microblog.html">Microblog Root</a></td>
-<td>Social Media</td>
+<td>Unique, All, Print</td>
 <td>Author Outbox</td>
-<td>Unique</td>
-<td>All</td>
-<td>Yes</td>
 </tr>
 <tr>
-<td>1052</td>
+<td>Social Media</td>
+<td>2</td>
 <td><a href="reply_comment.html">Reply Comment</a></td>
-<td>Social Media</td>
+<td>Unique, All, Print</td>
 <td>Author Outbox<br>Parent Author Inbox</td>
-<td>Unique</td>
-<td>All</td>
-<td>Yes</td>
 </tr>
 <tr>
-<td>1308</td>
+<td>Social Media</td>
+<td>3</td>
 <td><a href="blog.html">Blog Post</a></td>
-<td>Social Media</td>
+<td>Unique, All, Print</td>
 <td>Author Outbox</td>
-<td>Unique</td>
-<td>All</td>
-<td>Yes</td>
 </tr>
 <tr>
-<td>1564</td>
-<td><a href="chat.html">Chat Message</a></td>
 <td>Social Media</td>
+<td>4</td>
+<td><a href="chat.html">Chat Message</a></td>
+<td>Unique, All, Print</td>
 <td>Chat Server</td>
-<td>Unique</td>
-<td>All</td>
-<td>Yes</td>
 </tr>
 </tbody>
 </table>
