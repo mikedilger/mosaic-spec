@@ -2,17 +2,17 @@
 
 <status>PAGE STATUS: Early Draft</status>
 
-Kinds are 2-byte unsigned integers in little-endian format.
+Kinds are 8-byte unsigned integers in little-endian format.
 
 This page is a Registry of kinds, their name, and the standard
 that defines them.  Refer to their definitions in the standards that
 define them.
 
-|Kind|Name|Standard|Server Used|
-|----|----|--------|-----------|
-|0x1|Key Schedule|Mosaic Core [Key Schedule](keyschedule.md)|Outbox|
-|0x2|Profile|Mosaic Core [Profile](profile.md)|Outbox|
-|0x3|Microblog Root|Mosaic Social Media [Microblog Root](microblog.md)|Outbox|
-|0x4|Reply Comment|Mosaic Social Media [Reply Comment](reply_comment.md)|Outbox & Parent Author Inbox|
-|0x5|Blog Post|Mosaic Social Media [Blog Post](blog.md)|Outbox|
-|0x6|Chat Message|Mosaic Social Media [Chat Message](chat.md)|Chat Server|
+|Kind|Name|Standard|Server Used|Dups|Read|Print|
+|----|----|--------|-----------|-----------|---------|---------|
+|270|[Key Schedule](keyschedule.md)|Core|Author Outbox|Replace|All|No|
+|526|[Profile](profile.md)|Core |Author Outbox|Replace|All|No|
+|796|[Microblog Root](microblog.md)|Social Media|Author Outbox|Unique|All|Yes|
+|1052|[Reply Comment](reply_comment.md)|Social Media|Author Outbox<br>Parent Author Inbox|Unique|All|Yes|
+|1308|[Blog Post](blog.md)|Social Media|Author Outbox|Unique|All|Yes|
+|1564|[Chat Message](chat.md)|Social Media|Chat Server|Unique|All|Yes|

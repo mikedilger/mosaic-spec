@@ -23,8 +23,8 @@ superceding the older records, but refer to the specific application.
 An address consists of three fields which are contiguous and in order in the
 record layout at `[128:176]` making up 48 bytes.
 
-* Unique address nonce (14 bytes) starting with a 1 bit,
-* The kind (2 bytes),
+* Unique address nonce (8 bytes) starting with a 1 bit,
+* The kind (8 bytes),
 * The the author's public key (32 bytes),
 
 An author can replace a record by creating a new record with the same address,

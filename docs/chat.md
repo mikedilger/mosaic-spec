@@ -1,8 +1,16 @@
-# Chat
+# Chat Message
 
 <status>PAGE STATUS: early draft</status>
 
-Kind = 0x7 - chat message
+## Kind
+
+Kind = `1564`
+
+(`6`, `0x00011100`): *Unique*, *Everybody*, *Printable*
+
+## Tags
+
+This MAY include up to one refer tag, either 0x6 or 0x7.
 
 ## Payload
 
@@ -10,15 +18,7 @@ The payload follows the [Human Readable Content](human_readable_content.md) rule
 
 ## Flags
 
-* 0x01 ZSTD - may be on or off
-* 0x02 FROMAUTHOR - may be on or off
-* 0x04 TORECIPIENTS - may be on or off
-* 0x08 NOBRIDGE - may be on or off
-* 0x10 EPHEMERAL- SHOULD be on
-
-## Tags
-
-This MAY include up to one refer tag, either 0x6 or 0x7.
+There are no special flag restrictions.
 
 ## Server Used
 

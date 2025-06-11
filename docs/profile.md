@@ -4,20 +4,22 @@
 
 A profile record contains user profile information.
 
-A profile record has kind 0x2.
-
 A profile record MUST be considered invalid if the signing key and the
 master key are not identical.
 
-The payload is not [human readable](human_readable_content.md).
+## Kind
+
+kind = `526`
+
+(`2`, `0x00001110`): *Replaceable*, *Everybody*, not *Printable*
 
 ## Tags
 
 No specific tags are defined.
 
-## Content
+## Payload
 
-Content is a [CBOR](https://www.rfc-editor.org/rfc/rfc8949.html) map.
+Payload is a [CBOR](https://www.rfc-editor.org/rfc/rfc8949.html) map.
 All field names are snake-case.
 
 The only required field is `name`.
@@ -47,6 +49,10 @@ The following fields are available:
   defined by [LUD-16](https://github.com/lnurl/luds/blob/luds/16.md)
 
 Additional fields MAY be used.
+
+## Flags
+
+There are no special flag restrictions.
 
 ## Server Used
 

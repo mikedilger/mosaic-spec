@@ -5,13 +5,21 @@
 A key schedule record lists subkey information and revocation information for a
 master key.
 
-A key schedule record has kind `0x1`.
-
 A key schedule record MUST be considered invalid if it does not conform to this
 specification.
 
 A key schedule record MUST be considered invalid if the signing key and the
 master key are not identical.
+
+## Kind
+
+Kind = `270`
+
+* High value: 1
+* Low byte: `0b00001110`  (*Replaceable*, *Everybody*, not *Printable*)
+    * Replaceable: `0x______10`
+    * Everybody: `0x____11__`
+    * Not Printable: `0x___0____`
 
 ## Tags
 

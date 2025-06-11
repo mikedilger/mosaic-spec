@@ -2,7 +2,17 @@
 
 <status>PAGE STATUS: incomplete</status>
 
-Kind = 0x5 - Reply Comment
+## Kind
+
+Kind = `1052`
+
+(`4`, `0x00011100`): *Unique*, *Everybody*, *Printable*
+
+## Tags
+
+This MUST include exactly one reply tag, either 0x2 or 0x3.
+
+This MUST include exactly one root tag, either 0x2 or 0x3.
 
 ## Payload
 
@@ -10,17 +20,7 @@ The payload follows the [Human Readable Content](human_readable_content.md) rule
 
 ## Flags
 
-* 0x01 ZSTD - may be on or off
-* 0x02 FROMAUTHOR - may be on or off to control distribution.
-* 0x04 TORECIPIENTS - may be on or off.
-* 0x08 NOBRIDGE - may be on or off
-* 0x10 EPHEMERAL- MUST be off. Reply comments are not ephemeral.
-
-## Tags
-
-This MUST include exactly one reply tag, either 0x2 or 0x3.
-
-This MUST include exactly one root tag, either 0x2 or 0x3.
+There are no special flag restrictions.
 
 ## Server Used
 

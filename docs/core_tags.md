@@ -68,31 +68,33 @@ specified in their [bootstrap](bootstrap.md) record.
 ```text
       0       2   3          6         8
  0x0  +-------------------------------+ 0
-      |  0x2  |0x35|   0     |  KIND  |
+      |  0x2  |0x3D|   0              |
  0x8  +-------------------------------+ 8
-      | REFERENCE 1/6                 |
+      | KIND                          |
  0x10 +-------------------------------+ 16
-      | REFERENCE 2/6                 |
+      | REFERENCE 1/6                 |
  0x18 +-------------------------------+ 24
-      | REFERENCE 3/6                 |
+      | REFERENCE 2/6                 |
  0x20 +-------------------------------+ 32
-      | REFERENCE 4/6                 |
+      | REFERENCE 3/6                 |
  0x28 +-------------------------------+ 40
-      | REFERENCE 5/6                 |
+      | REFERENCE 4/6                 |
  0x30 +-------------------------------+ 48
-      | REFERENCE 6/6                 |
+      | REFERENCE 5/6                 |
  0x38 +-------------------------------+ 56
+      | REFERENCE 6/6                 |
+ 0x40 +-------------------------------+ 64
 ```
 
 * `[0:2]` - The type 0x2 as a little-endian encoded unsigned integer
-* `[2:3]` - The length 0x35
-* `[3:6]` - Zeroed
-* `[6:8]` - The [kind](kinds.md)
-* `[8:56]` - The reference (48 bytes)
+* `[2:3]` - The length 0x3D
+* `[3:8]` - Zeroed
+* `[8:16]` - The [kind](kinds.md)
+* `[16:64]` - The reference (48 bytes)
 
 This is a reply to another record in a threading sense.
 
-`KIND` is a 2-byte record [kind](kinds.md) indicating the kind of record
+`KIND` is an 8-byte record [kind](kinds.md) indicating the kind of record
 that this one replies to. Replies are application-independent and may
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
@@ -111,32 +113,34 @@ If a record includes this tag, it must also include a
 ```text
       0       2   3          6        8
  0x0  +-------------------------------+ 0
-      |  0x3  |0x35|    0    |  KIND  |
+      |  0x3  |0x3D|    0             |
  0x8  +-------------------------------+ 8
-      | REFERENCE 1/6                 |
+      | KIND                          |
  0x10 +-------------------------------+ 16
-      | REFERENCE 2/6                 |
+      | REFERENCE 1/6                 |
  0x18 +-------------------------------+ 24
-      | REFERENCE 3/6                 |
+      | REFERENCE 2/6                 |
  0x20 +-------------------------------+ 32
-      | REFERENCE 4/6                 |
+      | REFERENCE 3/6                 |
  0x28 +-------------------------------+ 40
-      | REFERENCE 5/6                 |
+      | REFERENCE 4/6                 |
  0x30 +-------------------------------+ 48
-      | REFERENCE 6/6                 |
+      | REFERENCE 5/6                 |
  0x38 +-------------------------------+ 56
+      | REFERENCE 6/6                 |
+ 0x40 +-------------------------------+ 64
 ```
 
 * `[0:2]` - The type 0x3 as a little-endian encoded unsigned integer
 * `[2:3]` - The length 0x35
-* `[3:6]` - Zeroed
-* `[6:8]` - The [kind](kinds.md)
-* `[8:56]` - The reference (48 bytes)
+* `[3:8]` - Zeroed
+* `[8:16]` - The [kind](kinds.md)
+* `[16:64]` - The reference (48 bytes)
 
 This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.
 
-`KIND` is a 2-byte record [kind](kinds.md) indicating the kind of record
+`KIND` is a 8-byte record [kind](kinds.md) indicating the kind of record
 that the root record is. Threads are application-independent and may
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
@@ -239,7 +243,7 @@ This is a mention of a person.
 `PUBLIC_KEY` is the master public key of the person mentioned.
 
 Note that this is different from a [Notify Public Key](#notify-public-key) tag
-which indicates the event should be delivered to that person.  Instead, this
+which indicates the record should be delivered to that person.  Instead, this
 tag indicates that a `@name` for the person should be rendered when rendering
 the content.
 
@@ -283,7 +287,7 @@ This is a mention of a server.
  0x0  +-------------------------------+ 0
       |  0x22 |0x3D| 0|    OFFSET     |
  0x8  +-------------------------------+ 8
-      |     0x0               | KIND  |
+      | KIND                          |
  0x10 +-------------------------------+ 16
       | REFERENCE 1/6                 |
  0x18 +-------------------------------+ 24
@@ -303,13 +307,12 @@ This is a mention of a server.
 * `[2:3]` - The length 0x3D
 * `[3:4]` - Zeroed
 * `[4:8]` - The offset as a little-endian encoded unsigned integer.
-* `[8:14]` - Zeroed
-* `[14:16]` - The [kind](kinds.md) of the quoted record
+* `[8:16]` - The [kind](kinds.md) of the quoted record
 * `[16:64]` - The id (48 bytes) of the quoted record
 
 `OFFSET` is the offset into the content where the mention appears.
 
-`KIND` is a 2-byte record [kind](kinds.md) indicating the kind of record
+`KIND` is a 8-byte record [kind](kinds.md) indicating the kind of record
 that this one replies to. Replies are application-independent and may
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish

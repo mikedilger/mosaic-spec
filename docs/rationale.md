@@ -355,9 +355,9 @@ bound is established, and records prior to that bound can continue to be trusted
 records after that bound can be invalidated.
 
 Secondly, when synchronizing with a relay, clients want to ask for records they
-have not gotten yet. They can use this received-at data to avoid missing events
+have not gotten yet. They can use this received-at data to avoid missing records
 that were timestamped earlier but arrived later than the last time they checked for
-events.
+records.
 
 ---
 

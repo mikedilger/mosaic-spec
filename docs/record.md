@@ -67,7 +67,7 @@ of a record is 1 mebibyte (1,048,576 bytes).
 144 +-------------------------------+ <-----|
     | Unique Address Nonce          |       |
 152 +-------------------------------+       |
-    | Unique Address Nonce  | Kind  |   A   |
+    | Kind                          |   A   |
 160 +-------------------------------+   D   |
     | Author public key, 1/4        |   D   |
 168 +-------------------------------+   R   |
@@ -139,30 +139,61 @@ A 48 byte Address from `[144:192]` made up of the following three parts.
 
 #### Unique Address Nonce
 
-14 bytes at `[144:158]`.  These bytes must start with a 1 bit.
+8 bytes at `[144:152]`.  These bytes must start with a 1 bit.
 
 These bytes make an address unique (within the context of an author and a
 kind). They can be created in a number of different ways, depending on the
 application and its purpose:
 
 1. They can be generated randomly.
-2. They can be generated as a timestamp concatenated with randomly generated data.
+2. They can be a timestamp.
    This is useful when the addresses should sort in time order.
-3. They can be the first 14 bytes of a BLAKE3 hash of a fixed slice
-   of bytes. This is useful for applications that require seeking an
-   event by a known fixed string of bytes (and known author and kind).
-4. They can be copied from a previous event, to replace that event.
+3. They can be the first 8 bytes of a BLAKE3 hash of a fixed slice
+   of bytes. This is useful for applications that require seeking a
+   record by a known fixed string of bytes (with known author and kind).
+4. They can be copied from a previous record, to replace or version that
+   record if the kind is replaceable or versioned.
 
 The method of creation is determined by the application layer.
 
 #### Kind
 
-2 bytes at `[158:160]`
+8 bytes at `[152:160]`
 
 This is the [kind](kinds.md) of the record which determines the application
 this record is part of, which then determines the nature of the non-core tags
-and the payload. This is represented as an unsigned integer in little-endian
+and the payload. This is represented as a 64-bit unsigned integer in little-endian
 format.
+
+8 bits of this 64-bit unsigned integer have special meanings as defined here.
+Remembering that this integer is in little-endian format, the bytes are laid
+out in this sequence: [7-0, 15-8, 23-16, 31-24, 39-32, 47-40, 55-48, 63-56].
+
+Bits 1 and 0:
+
+* 00 - Unique. All records SHOULD have unique addresses. In the case that multiple
+       records share the same address, all of them must be preserved just like
+       Versioned records are (see bits 11 below)
+* 01 - Ephemeral; Servers should serve this record to current subscribers, but
+       should not save the record nor serve it later to future subscribers.
+* 10 - Replaceable: Among records with the same address, only the one with the
+       latest timestamp should be served by servers.
+* 11 - Versioned: Among records with the same address, all of them remain relevant
+       and should be seen as a version history.
+
+Bits 3 and 2:
+
+* 00 - Author Only: Servers MUST serve this record only to it's author.
+* 01 - Author + Tagged: Servers MUST serve this record only to it's author and the
+       public keys that are tagged in the record.
+* 10 - RESERVED
+* 11 - Everybody: Servers MAY serve this record to anybody.
+
+Bit 4: If on, the contents of this record are considered to be printable.
+
+Bits 7, 6 and 5: RESERVED and MUST be 0
+
+Bits 64-8: Free
 
 #### Author Public Key
 
@@ -176,11 +207,7 @@ EdDSA ed25519 keypair.
 2 bytes at `[192:194]`
 
 * `0x0001 ZSTD` - The payload is compressed with Zstd
-* `0x0002 PRINTABLE` - The payload is printable and can be displayed to end users
 * `0x0004 FROM_AUTHOR` - Servers SHOULD only accept the record from the author (requiring authentication)
-* `0x0008 TO_RECIPIENTS` - Servers SHOULD only serve the record to people tagged (requiring authentication)
-* `0x0010 EPHEMERAL` - The record is ephemeral; Servers should serve it to current subscribers and not keep it.
-* `0x0020 EDITABLE` - Among a group of records with the same address, only the latest one is valid, the others SHOULD be deleted or at least not served.
 * `0x0080, 0x0040` - Signature scheme:
     * `00 - EDDSA` - EdDSA ed25519 (default)
     * `01 - RESERVED FOR SECP256K1` - secp256k1 Schnorr signatures (not yet in use)

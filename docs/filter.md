@@ -16,7 +16,7 @@ the same type exists, only the first one counts. Subsequent ones MUST be ignored
 Some <t>filter element</t>s are narrow, meaning they select just a few records among
 many. Other <t>filter element</t>s are wide and select many or even most records.
 <T>Filter</T>s SHOULD include at least one narrow <t>filter element</t> in order
-to narrow down the set of matching events to something reasonable. Software
+to narrow down the set of matching records to something reasonable. Software
 MAY reject <t>filter</t>s that do not comply with this requirement.
 Narrow <t>filter element</t>s have a type number that has the top 4 bits clear (less than 0x80).
 
@@ -140,18 +140,18 @@ Matches all records which are of any one of these kinds.
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x3|len|        0x0        | n |
+    |0x3|len|        0x0            |
  8  +-------------------------------+
-    |  KIND | ...                   |
+    |  KIND ...                     |
  16 +-------------------------------+
+    |  ... additional kinds ...     |
+    +-------------------------------+
 ```
 
 * `[0:1]` - The type 0x3
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words.
-             Some of the length may be padding since kinds are only 2-bytes long.
-* `[2:7]` - Zeroed
-* `[7:8]` - `n`, The number of 2-byte kinds in this filter element
-* `[8:]` - A sequence of `n` 2-byte [kinds](kinds.md) in little-endian format.
+* `[2:8]` - Zeroed
+* `[8:]` - A sequence of `len-1` 8-byte [kinds](kinds.md) in little-endian format.
 
 ## Timestamps
 

@@ -1,8 +1,12 @@
-# Blog
+# Blog Post
 
 <status>PAGE STATUS: early draft</status>
 
-Kind = 0x6 - Blog post
+## Kind
+
+Kind = `1308`
+
+(`5`, `0x00011100`): *Unique*, *Everybody*, *Printable*
 
 ## Tags
 
@@ -16,13 +20,7 @@ The payload follows the [Human Readable Content](human_readable_content.md) rule
 
 ## Flags
 
-* 0x01 ZSTD - may be on or off
-* 0x02 FROMAUTHOR - may be on or off to control distribution.
-* 0x04 TORECIPIENTS - MUST be off. Blogs are public.
-* 0x08 NOBRIDGE - may be on or off
-* 0x10 EPHEMERAL- MUST be off. Blogs are not ephemeral.
-
-## Tags
+There are no special flag restrictions.
 
 ## Server Used
 
