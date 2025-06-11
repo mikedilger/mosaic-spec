@@ -224,7 +224,7 @@ of a record is 1 mebibyte (1,048,576 bytes).</p>
 144 +-------------------------------+ &lt;-----|
     | Unique Address Nonce          |       |
 152 +-------------------------------+       |
-    | Unique Address Nonce  | Kind  |   A   |
+    | Kind                          |   A   |
 160 +-------------------------------+   D   |
     | Author public key, 1/4        |   D   |
 168 +-------------------------------+   R   |
@@ -273,26 +273,53 @@ fashion in the future).</p>
 <p>A 48 byte Address from <code>[144:192]</code> made up of the following three parts.
 <a href="rationale.html#address-fields"><sup>ref</sup></a></p>
 <h4 id="unique-address-nonce">Unique Address Nonce</h4>
-<p>14 bytes at <code>[144:158]</code>.  These bytes must start with a 1 bit.</p>
+<p>8 bytes at <code>[144:152]</code>.  These bytes must start with a 1 bit.</p>
 <p>These bytes make an address unique (within the context of an author and a
 kind). They can be created in a number of different ways, depending on the
 application and its purpose:</p>
 <ol>
 <li>They can be generated randomly.</li>
-<li>They can be generated as a timestamp concatenated with randomly generated data.
+<li>They can be a timestamp.
    This is useful when the addresses should sort in time order.</li>
-<li>They can be the first 14 bytes of a BLAKE3 hash of a fixed slice
-   of bytes. This is useful for applications that require seeking an
-   event by a known fixed string of bytes (and known author and kind).</li>
-<li>They can be copied from a previous event, to replace that event.</li>
+<li>They can be the first 8 bytes of a BLAKE3 hash of a fixed slice
+   of bytes. This is useful for applications that require seeking a
+   record by a known fixed string of bytes (with known author and kind).</li>
+<li>They can be copied from a previous record, to replace or version that
+   record if the kind is replaceable or versioned.</li>
 </ol>
 <p>The method of creation is determined by the application layer.</p>
 <h4 id="kind">Kind</h4>
-<p>2 bytes at <code>[158:160]</code></p>
+<p>8 bytes at <code>[152:160]</code></p>
 <p>This is the <a href="kinds.html">kind</a> of the record which determines the application
 this record is part of, which then determines the nature of the non-core tags
-and the payload. This is represented as an unsigned integer in little-endian
+and the payload. This is represented as a 64-bit unsigned integer in little-endian
 format.</p>
+<p>8 bits of this 64-bit unsigned integer have special meanings as defined here.
+Remembering that this integer is in little-endian format, the bytes are laid
+out in this sequence: [7-0, 15-8, 23-16, 31-24, 39-32, 47-40, 55-48, 63-56].</p>
+<p>Bits 1 and 0:</p>
+<ul>
+<li>00 - Unique. All records SHOULD have unique addresses. In the case that multiple
+       records share the same address, all of them must be preserved just like
+       Versioned records are (see bits 11 below)</li>
+<li>01 - Ephemeral; Servers should serve this record to current subscribers, but
+       should not save the record nor serve it later to future subscribers.</li>
+<li>10 - Replaceable: Among records with the same address, only the one with the
+       latest timestamp should be served by servers.</li>
+<li>11 - Versioned: Among records with the same address, all of them remain relevant
+       and should be seen as a version history.</li>
+</ul>
+<p>Bits 3 and 2:</p>
+<ul>
+<li>00 - Author Only: Servers MUST serve this record only to it's author.</li>
+<li>01 - Author + Tagged: Servers MUST serve this record only to it's author and the
+       public keys that are tagged in the record.</li>
+<li>10 - RESERVED</li>
+<li>11 - Everybody: Servers MAY serve this record to anybody.</li>
+</ul>
+<p>Bit 4: If on, the contents of this record are considered to be printable.</p>
+<p>Bits 7, 6 and 5: RESERVED and MUST be 0</p>
+<p>Bits 64-8: Free</p>
 <h4 id="author-public-key">Author Public Key</h4>
 <p>32 bytes at <code>[160:192]</code></p>
 <p>This is the identity of the author, expressed as a public key from their master
@@ -301,11 +328,7 @@ EdDSA ed25519 keypair.</p>
 <p>2 bytes at <code>[192:194]</code></p>
 <ul>
 <li><code>0x0001 ZSTD</code> - The payload is compressed with Zstd</li>
-<li><code>0x0002 PRINTABLE</code> - The payload is printable and can be displayed to end users</li>
 <li><code>0x0004 FROM_AUTHOR</code> - Servers SHOULD only accept the record from the author (requiring authentication)</li>
-<li><code>0x0008 TO_RECIPIENTS</code> - Servers SHOULD only serve the record to people tagged (requiring authentication)</li>
-<li><code>0x0010 EPHEMERAL</code> - The record is ephemeral; Servers should serve it to current subscribers and not keep it.</li>
-<li><code>0x0020 EDITABLE</code> - Among a group of records with the same address, only the latest one is valid, the others SHOULD be deleted or at least not served.</li>
 <li>
 <p><code>0x0080, 0x0040</code> - Signature scheme:</p>
 <ul>

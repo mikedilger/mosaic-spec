@@ -169,20 +169,16 @@
               
                 <h1 id="reply-comment">Reply Comment</h1>
 <p><status>PAGE STATUS: incomplete</status></p>
-<p>Kind = 0x5 - Reply Comment</p>
-<h2 id="payload">Payload</h2>
-<p>The payload follows the <a href="human_readable_content.html">Human Readable Content</a> rules.</p>
-<h2 id="flags">Flags</h2>
-<ul>
-<li>0x01 ZSTD - may be on or off</li>
-<li>0x02 FROMAUTHOR - may be on or off to control distribution.</li>
-<li>0x04 TORECIPIENTS - may be on or off.</li>
-<li>0x08 NOBRIDGE - may be on or off</li>
-<li>0x10 EPHEMERAL- MUST be off. Reply comments are not ephemeral.</li>
-</ul>
+<h2 id="kind">Kind</h2>
+<p>Kind = <code>1052</code></p>
+<p>(<code>4</code>, <code>0x00011100</code>): <em>Unique</em>, <em>Everybody</em>, <em>Printable</em></p>
 <h2 id="tags">Tags</h2>
 <p>This MUST include exactly one reply tag, either 0x2 or 0x3.</p>
 <p>This MUST include exactly one root tag, either 0x2 or 0x3.</p>
+<h2 id="payload">Payload</h2>
+<p>The payload follows the <a href="human_readable_content.html">Human Readable Content</a> rules.</p>
+<h2 id="flags">Flags</h2>
+<p>There are no special flag restrictions.</p>
 <h2 id="server-used">Server Used</h2>
 <p>These are posted to all of the author's Outbox servers and also to all
 of the parent Record author's Inbox servers.</p>

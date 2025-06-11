@@ -170,14 +170,15 @@
                 <h1 id="profile-record">Profile Record</h1>
 <p><status>PAGE STATUS: early draft</status></p>
 <p>A profile record contains user profile information.</p>
-<p>A profile record has kind 0x2.</p>
 <p>A profile record MUST be considered invalid if the signing key and the
 master key are not identical.</p>
-<p>The payload is not <a href="human_readable_content.html">human readable</a>.</p>
+<h2 id="kind">Kind</h2>
+<p>kind = <code>526</code></p>
+<p>(<code>2</code>, <code>0x00001110</code>): <em>Replaceable</em>, <em>Everybody</em>, not <em>Printable</em></p>
 <h2 id="tags">Tags</h2>
 <p>No specific tags are defined.</p>
-<h2 id="content">Content</h2>
-<p>Content is a <a href="https://www.rfc-editor.org/rfc/rfc8949.html">CBOR</a> map.
+<h2 id="payload">Payload</h2>
+<p>Payload is a <a href="https://www.rfc-editor.org/rfc/rfc8949.html">CBOR</a> map.
 All field names are snake-case.</p>
 <p>The only required field is <code>name</code>.</p>
 <p>The following fields are available:</p>
@@ -205,6 +206,8 @@ All field names are snake-case.</p>
   defined by <a href="https://github.com/lnurl/luds/blob/luds/16.md">LUD-16</a></li>
 </ul>
 <p>Additional fields MAY be used.</p>
+<h2 id="flags">Flags</h2>
+<p>There are no special flag restrictions.</p>
 <h2 id="server-used">Server Used</h2>
 <p>These are posted to all of the author's Outbox servers.</p>
               

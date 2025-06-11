@@ -167,23 +167,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="blog">Blog</h1>
+                <h1 id="blog-post">Blog Post</h1>
 <p><status>PAGE STATUS: early draft</status></p>
-<p>Kind = 0x6 - Blog post</p>
+<h2 id="kind">Kind</h2>
+<p>Kind = <code>1308</code></p>
+<p>(<code>5</code>, <code>0x00011100</code>): <em>Unique</em>, <em>Everybody</em>, <em>Printable</em></p>
 <h2 id="tags">Tags</h2>
 <p>Blogs SHOULD not have the following tags: 0x1, 0x2, 0x3, 0x4, 0x5, 0x6.</p>
 <p>Blogs MAY have 0x7.</p>
 <h2 id="payload">Payload</h2>
 <p>The payload follows the <a href="human_readable_content.html">Human Readable Content</a> rules.</p>
 <h2 id="flags">Flags</h2>
-<ul>
-<li>0x01 ZSTD - may be on or off</li>
-<li>0x02 FROMAUTHOR - may be on or off to control distribution.</li>
-<li>0x04 TORECIPIENTS - MUST be off. Blogs are public.</li>
-<li>0x08 NOBRIDGE - may be on or off</li>
-<li>0x10 EPHEMERAL- MUST be off. Blogs are not ephemeral.</li>
-</ul>
-<h2 id="tags_1">Tags</h2>
+<p>There are no special flag restrictions.</p>
 <h2 id="server-used">Server Used</h2>
 <p>These are posted to all of the author's Outbox servers.</p>
               

@@ -169,7 +169,7 @@
               
                 <h1 id="record-kinds">Record Kinds</h1>
 <p><status>PAGE STATUS: Early Draft</status></p>
-<p>Kinds are 2-byte unsigned integers in little-endian format.</p>
+<p>Kinds are 8-byte unsigned integers in little-endian format.</p>
 <p>This page is a Registry of kinds, their name, and the standard
 that defines them.  Refer to their definitions in the standards that
 define them.</p>
@@ -180,44 +180,65 @@ define them.</p>
 <th>Name</th>
 <th>Standard</th>
 <th>Server Used</th>
+<th>Dups</th>
+<th>Read</th>
+<th>Print</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>0x1</td>
-<td>Key Schedule</td>
-<td>Mosaic Core <a href="keyschedule.html">Key Schedule</a></td>
-<td>Outbox</td>
+<td>270</td>
+<td><a href="keyschedule.html">Key Schedule</a></td>
+<td>Core</td>
+<td>Author Outbox</td>
+<td>Replace</td>
+<td>All</td>
+<td>No</td>
 </tr>
 <tr>
-<td>0x2</td>
-<td>Profile</td>
-<td>Mosaic Core <a href="profile.html">Profile</a></td>
-<td>Outbox</td>
+<td>526</td>
+<td><a href="profile.html">Profile</a></td>
+<td>Core</td>
+<td>Author Outbox</td>
+<td>Replace</td>
+<td>All</td>
+<td>No</td>
 </tr>
 <tr>
-<td>0x3</td>
-<td>Microblog Root</td>
-<td>Mosaic Social Media <a href="microblog.html">Microblog Root</a></td>
-<td>Outbox</td>
+<td>796</td>
+<td><a href="microblog.html">Microblog Root</a></td>
+<td>Social Media</td>
+<td>Author Outbox</td>
+<td>Unique</td>
+<td>All</td>
+<td>Yes</td>
 </tr>
 <tr>
-<td>0x4</td>
-<td>Reply Comment</td>
-<td>Mosaic Social Media <a href="reply_comment.html">Reply Comment</a></td>
-<td>Outbox &amp; Parent Author Inbox</td>
+<td>1052</td>
+<td><a href="reply_comment.html">Reply Comment</a></td>
+<td>Social Media</td>
+<td>Author Outbox<br>Parent Author Inbox</td>
+<td>Unique</td>
+<td>All</td>
+<td>Yes</td>
 </tr>
 <tr>
-<td>0x5</td>
-<td>Blog Post</td>
-<td>Mosaic Social Media <a href="blog.html">Blog Post</a></td>
-<td>Outbox</td>
+<td>1308</td>
+<td><a href="blog.html">Blog Post</a></td>
+<td>Social Media</td>
+<td>Author Outbox</td>
+<td>Unique</td>
+<td>All</td>
+<td>Yes</td>
 </tr>
 <tr>
-<td>0x6</td>
-<td>Chat Message</td>
-<td>Mosaic Social Media <a href="chat.html">Chat Message</a></td>
+<td>1564</td>
+<td><a href="chat.html">Chat Message</a></td>
+<td>Social Media</td>
 <td>Chat Server</td>
+<td>Unique</td>
+<td>All</td>
+<td>Yes</td>
 </tr>
 </tbody>
 </table>

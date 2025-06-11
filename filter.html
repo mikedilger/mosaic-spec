@@ -179,7 +179,7 @@ the same type exists, only the first one counts. Subsequent ones MUST be ignored
 <p>Some <t>filter element</t>s are narrow, meaning they select just a few records among
 many. Other <t>filter element</t>s are wide and select many or even most records.
 <T>Filter</T>s SHOULD include at least one narrow <t>filter element</t> in order
-to narrow down the set of matching events to something reasonable. Software
+to narrow down the set of matching records to something reasonable. Software
 MAY reject <t>filter</t>s that do not comply with this requirement.
 Narrow <t>filter element</t>s have a type number that has the top 4 bits clear (less than 0x80).</p>
 <p>Each <t>filter element</t> contains it's type in the first byte, and a length byte as
@@ -336,18 +336,18 @@ possible given other constraints.</p>
 <pre><code class="language-text">            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    |0x3|len|        0x0        | n |
+    |0x3|len|        0x0            |
  8  +-------------------------------+
-    |  KIND | ...                   |
+    |  KIND ...                     |
  16 +-------------------------------+
+    |  ... additional kinds ...     |
+    +-------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x3</li>
-<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words.
-             Some of the length may be padding since kinds are only 2-bytes long.</li>
-<li><code>[2:7]</code> - Zeroed</li>
-<li><code>[7:8]</code> - <code>n</code>, The number of 2-byte kinds in this filter element</li>
-<li><code>[8:]</code> - A sequence of <code>n</code> 2-byte <a href="kinds.html">kinds</a> in little-endian format.</li>
+<li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words.</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:]</code> - A sequence of <code>len-1</code> 8-byte <a href="kinds.html">kinds</a> in little-endian format.</li>
 </ul>
 <h2 id="timestamps">Timestamps</h2>
 <blockquote>
