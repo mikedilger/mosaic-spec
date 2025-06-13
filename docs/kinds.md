@@ -5,15 +5,14 @@
 The kind of a record determines the application that the record is used by.
 This also determines the nature of the payload.
 
-Kinds are represented by an 8-byte array of bits, not interpreted as an
-integer.
+Kinds are represented by an array of 8 bytes.
 
 A kind can be broken into three parts:
 
 |Range|Meaning|
 |-----|--------|
-|Byte 0-4|Application Identifier|
-|Byte 5-6|Differentiation within the Application|
+|Byte 0-4|Application Identifier, an integer in big-endian format|
+|Byte 5-6|Application-Specific Kind, as integer in big-endian format|
 |Byte 7|Bitflags for record handling|
 
 Bitflags are as follows:
@@ -42,12 +41,13 @@ Bit 4: If on, the contents of this record are considered to be `printable` (huma
 
 Bits 7, 6 and 5: RESERVED and MUST be 0
 
-## Application Registry
+## Application Identifier Registry
 
 | Application |  ID   |
 |-------------|-------|
 | Mosaic Core |     0 |
 | Mosaic Social Media |    1 |
+| Examples |    99 |
 
 External groups may define applications and have their Application ID registered here.
 
