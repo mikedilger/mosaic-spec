@@ -167,8 +167,7 @@
 <p><status>PAGE STATUS: Early Draft</status></p>
 <p>The kind of a record determines the application that the record is used by.
 This also determines the nature of the payload.</p>
-<p>Kinds are represented by an 8-byte array of bits, not interpreted as an
-integer.</p>
+<p>Kinds are represented by an array of 8 bytes.</p>
 <p>A kind can be broken into three parts:</p>
 <table>
 <thead>
@@ -180,11 +179,11 @@ integer.</p>
 <tbody>
 <tr>
 <td>Byte 0-4</td>
-<td>Application Identifier</td>
+<td>Application Identifier, an integer in big-endian format</td>
 </tr>
 <tr>
 <td>Byte 5-6</td>
-<td>Differentiation within the Application</td>
+<td>Application-Specific Kind, as integer in big-endian format</td>
 </tr>
 <tr>
 <td>Byte 7</td>
@@ -215,7 +214,7 @@ integer.</p>
 </ul>
 <p>Bit 4: If on, the contents of this record are considered to be <code>printable</code> (human readable).</p>
 <p>Bits 7, 6 and 5: RESERVED and MUST be 0</p>
-<h2 id="application-registry">Application Registry</h2>
+<h2 id="application-identifier-registry">Application Identifier Registry</h2>
 <table>
 <thead>
 <tr>
@@ -231,6 +230,10 @@ integer.</p>
 <tr>
 <td>Mosaic Social Media</td>
 <td>1</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td>99</td>
 </tr>
 </tbody>
 </table>
