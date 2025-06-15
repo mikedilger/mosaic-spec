@@ -9,6 +9,7 @@ Mosaic Core defines a few core tags in [Core Tags](core_tags.md).
 
 |Tag Type|Name|Standard|
 |--------|----|--------|
+|0x0|PADDING MARKER|This is not a tag, it signifies a padding area|
 |0x1|Notify Public Key|Mosaic [Core Tags](core_tags.md)|
 |0x2|Reply|Mosaic [Core Tags](core_tags.md)|
 |0x3|Root|Mosaic [Core Tags](core_tags.md)|

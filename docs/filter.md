@@ -200,6 +200,12 @@ Matches all records that contain any of the given tags.
 * `[2:8]` - Zeroed
 * `[8:]` - A sequence of [Tags](record.md#tags), each starting with a 2-byte type
            and a 1 byte data length, then up to 253 bytes of data.
+           This MUST be followed by padding that is all zeroes if the end
+           of the last tag does not hit a 64-bit boundary. When parsing,
+           reject anything less than 3 bytes, and if a parsed tag has
+           type 0x0 it is padding rather than a tag.
+
+
 
 ## Since
 
@@ -340,3 +346,7 @@ Matches all records that do NOT contain any of the given tags.
 * `[2:8]` - Zeroed
 * `[8:]` - A sequence of [Tags](record.md#tags), each starting with a 2-byte type
            and a 1 byte data length, then up to 253 bytes of data.
+           This MUST be followed by padding that is all zeroes if the end
+           of the last tag does not hit a 64-bit boundary. When parsing,
+           reject anything less than 3 bytes, and if a parsed tag has
+           type 0x0 it is padding rather than a tag.
