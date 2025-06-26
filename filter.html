@@ -389,7 +389,11 @@ Typically used as part of address lookups.</p>
 <li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
 <li><code>[2:8]</code> - Zeroed</li>
 <li><code>[8:]</code> - A sequence of <a href="record.html#tags">Tags</a>, each starting with a 2-byte type
-           and a 1 byte data length, then up to 253 bytes of data.</li>
+           and a 1 byte data length, then up to 253 bytes of data.
+           This MUST be followed by padding that is all zeroes if the end
+           of the last tag does not hit a 64-bit boundary. When parsing,
+           reject anything less than 3 bytes, and if a parsed tag has
+           type 0x0 it is padding rather than a tag.</li>
 </ul>
 <h2 id="since">Since</h2>
 <blockquote>
@@ -516,7 +520,11 @@ this value. <a href="rationale.html#timestamp-ranges"><sup>rat</sup></a></p>
 <li><code>[1:2]</code> - The length of the <t>filter element</t> in 8-byte words</li>
 <li><code>[2:8]</code> - Zeroed</li>
 <li><code>[8:]</code> - A sequence of <a href="record.html#tags">Tags</a>, each starting with a 2-byte type
-           and a 1 byte data length, then up to 253 bytes of data.</li>
+           and a 1 byte data length, then up to 253 bytes of data.
+           This MUST be followed by padding that is all zeroes if the end
+           of the last tag does not hit a 64-bit boundary. When parsing,
+           reject anything less than 3 bytes, and if a parsed tag has
+           type 0x0 it is padding rather than a tag.</li>
 </ul>
               
             </div>

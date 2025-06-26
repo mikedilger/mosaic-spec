@@ -167,6 +167,10 @@
 <p><status>PAGE STATUS: early draft</status></p>
 <p>Protocol message are not separately digitally signed due to the TLS
 transport and certificate authentication.</p>
+<p>All protocol messages start with the same 4 byte sequence consisting
+of one byte for the type, and three bytes for the full byte length of
+the entire protocol message encoded in little-endian format. This
+allows the protocol to be easily framed within a stream.</p>
 <h2 id="protocol-extensions">Protocol Extensions</h2>
 <p>Protocol extension negotiation is done on a transport-by-transport level.
 For <a href="quic.html">QUIC</a> transport this is done with the initial packet.
@@ -261,18 +265,18 @@ of each type. Following this is the data of the message.</p>
 <pre><code class="language-text">
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x1 | 0x0 | QUERY_ID  |          0x0          |
+    | 0x1 |     LENGTH      | QUERY_ID  |   0x0     |
  8  +-----------------------------------------------+
-    | Mixed IDs or ADDRs ...                        |
+    | Mixed IDs or ADDRs, each one 48 bytes long... |
     | ...                                           |
     +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x1</li>
-<li><code>[1:2]</code> - Zeroed</li>
-<li><code>[2:4]</code> - <code>QUERY_ID</code>, two bytes which should be made up by the client and
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes which should be made up by the client and
   used to associate returned <a href="#record"><code>Record</code></a> responses to this request.</li>
-<li><code>[4:8]</code> - Zeroed</li>
+<li><code>[6:8]</code> - Zeroed</li>
 <li><code>[*]</code> - A sequence of mixed IDs and ADDRs.  Note that ADDRs start
   with a 1 bit, whereas IDs start with a 0 bit, and both of them are 48
   bytes long.</li>
@@ -291,7 +295,7 @@ of each type. Following this is the data of the message.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x2 | 0x0 | QUERY_ID  |         LIMIT         |
+    | 0x2 |     LENGTH      | QUERY_ID  |  LIMIT    |
  8  +-----------------------------------------------+
     | FILTER_LEN|              0x0                  |
 16  +-----------------------------------------------+
@@ -301,10 +305,10 @@ of each type. Following this is the data of the message.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x2</li>
-<li><code>[1:2]</code> - Zeroed</li>
-<li><code>[2:4]</code> - <code>QUERY_ID</code> two bytes which should be made up by the client and used
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:6]</code> - <code>QUERY_ID</code> two bytes which should be made up by the client and used
   to associate returned <a href="#record"><code>Record</code></a> responses to this request.</li>
-<li><code>[4:8]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
+<li><code>[6:8]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.</li>
 <li><code>[8:10]</code> - <code>FILTER_LEN</code> specifies the length of the <code>FILTER</code> in bytes.</li>
@@ -329,7 +333,7 @@ immediately.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x3 | 0x0 | QUERY_ID  |         LIMIT         |
+    | 0x3 |     LENGTH      | QUERY_ID  |   LIMIT   |
  8  +-----------------------------------------------+
     | FILTER_LEN|              0x0                  |
 16  +-----------------------------------------------+
@@ -339,10 +343,10 @@ immediately.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x3</li>
-<li><code>[1:2]</code> - Zeroed</li>
-<li><code>[2:4]</code> - <code>QUERY_ID</code>, two bytes which should be made up by the client and
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes which should be made up by the client and
   used to associate returned <a href="#record"><code>Record</code></a> responses to this request.</li>
-<li><code>[4:8]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
+<li><code>[6:8]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.</li>
 <li><code>[8:10]</code> - <code>FILTER_LEN</code> specifies the length of the <code>FILTER</code> in bytes.</li>
@@ -367,15 +371,16 @@ recent backwards.</p>
 </blockquote>
 <p>This is a client request to close an open subscription query.</p>
 <p>It has the following format:</p>
+<p>GINA</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-     | 0x4 | 0x0 | QUERY_ID |         0x0           |
+    | 0x4 |     LENGTH      | QUERY_ID  |   0x0     |
  8  +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x3</li>
-<li><code>[1:2]</code> - Zeroed</li>
-<li><code>[2:4]</code> - <code>QUERY_ID</code>, two bytes indicating which query should be closed.</li>
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes indicating which query should be closed.</li>
 <li><code>[4:8]</code> - Zeroed</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
@@ -398,10 +403,8 @@ recent backwards.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x5</li>
-<li><code>[1:4]</code> - <code>LENGTH</code> is a 24-bit little-endian length, with a maximum value of
-   the max length of a record (1024576 bytes) and representing the actual
-   length of the subsequent record submitted.</li>
-<li><code>[5:8]</code> - Zeroed</li>
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:8]</code> - Zeroed</li>
 <li><code>[*]</code> - <code>RECORD</code> is the record submitted</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
@@ -418,7 +421,7 @@ recent backwards.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x80| 0x0 | QUERY_ID  | 0x0 |     LENGTH      |
+    | 0x80|     LENGTH      | QUERY_ID  |   0x0     |
  8  +-----------------------------------------------+
     | RECORD ...                                    |
     | ...                                           |
@@ -426,12 +429,9 @@ recent backwards.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x80</li>
-<li><code>[1:2]</code> - Zeroed</li>
-<li><code>[2:4]</code> - <code>QUERY_ID</code> indicates the client query that this record matched.</li>
-<li><code>[4:5]</code> - Zeroed</li>
-<li><code>[5:8]</code> - <code>LENGTH</code> is a 24-bit little-endian length, with a maximum value of
-   the max length of a record (1024576 bytes) and representing the actual
-   length of the subsequent record supplied.</li>
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:6]</code> - <code>QUERY_ID</code> indicates the client query that this record matched.</li>
+<li><code>[6:8]</code> - Zeroed</li>
 <li><code>[*]</code> - <code>RECORD</code> is the returned record.</li>
 </ul>
 <p>This is a server response message in response to <a href="#get"><code>Get</code></a>
@@ -445,14 +445,14 @@ but remains open to serve matching records that subsequently arrive.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x81| 0x0 |  Query_ID |  0x0                  |
+    | 0x81|     LENGTH      |  QUERY_ID |    0x0    |
  8  +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x81</li>
-<li><code>[1:2]</code> - Zeroed</li>
-<li><code>[2:4]</code> - <code>QUERY_ID</code> indicates the client query that is now locally complete.</li>
-<li><code>[4:8]</code> - zeroed</li>
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:6]</code> - <code>QUERY_ID</code> indicates the client query that is now locally complete.</li>
+<li><code>[6:8]</code> - zeroed</li>
 </ul>
 <p>This is a server response message in response to <a href="#subscribe"><code>Subscribe</code></a>.</p>
 <h3 id="query-closed">Query Closed</h3>
@@ -463,12 +463,14 @@ but remains open to serve matching records that subsequently arrive.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x82| CODE|  Query_ID |  0x0                  |
+    | 0x82|     LENGTH      |  Query_ID | CODE| 0x0 |
  8  +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x82</li>
-<li><code>[1:2]</code> - <code>CODE</code> indicates the reason for closure from among the
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:6]</code> - <code>QUERY_ID</code> indicates the client query that is now closed.</li>
+<li><code>[6:7]</code> - <code>CODE</code> indicates the reason for closure from among the
   following defined reasons:<ul>
 <li><code>ON_REQUEST</code>: 0x1 - In response to <a href="#unsubscribe"><code>Unsubscribe</code></a></li>
 <li><code>REJECTED_INVALID</code>: 0x10 - Query was rejected due to being invalid</li>
@@ -485,8 +487,7 @@ but remains open to serve matching records that subsequently arrive.</p>
 <li><code>OTHER</code>: 0xFF - Some other reason</li>
 </ul>
 </li>
-<li><code>[2:4]</code> - <code>QUERY_ID</code> indicates the client query that is now closed.</li>
-<li><code>[4:8]</code> - zeroed</li>
+<li><code>[7:8]</code> - zero</li>
 </ul>
 <h3 id="submission-result">Submission Result</h3>
 <blockquote>
@@ -496,7 +497,7 @@ but remains open to serve matching records that subsequently arrive.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x83|CODE |   0x0                             |
+    | 0x83|     LENGTH      |CODE |      0x0        |
  8  +-----------------------------------------------+
     | ID PREFIX bytes 0..8                          |
 16  +-----------------------------------------------+
@@ -509,7 +510,8 @@ but remains open to serve matching records that subsequently arrive.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x83</li>
-<li><code>[1:2]</code> - <code>CODE</code> which indicates the result of the submission from among the
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:5]</code> - <code>CODE</code> which indicates the result of the submission from among the
   following defined results:<ul>
 <li><code>OK</code>: 0x1 - Record submission was accepted</li>
 <li><code>DUPLICATE</code>: 0x2 - Record is a duplicate. Servers may use this or
@@ -529,7 +531,7 @@ but remains open to serve matching records that subsequently arrive.</p>
 <li><code>OTHER</code>: 0xFF - Some other reason</li>
 </ul>
 </li>
-<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[5:8]</code> - Zeroed</li>
 <li><code>[8:40]</code> - A 32-byte prefix of the 48-byte Id.</li>
 </ul>
               
