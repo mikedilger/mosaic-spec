@@ -5,6 +5,11 @@
 Protocol message are not separately digitally signed due to the TLS
 transport and certificate authentication.
 
+All protocol messages start with the same 4 byte sequence consisting
+of one byte for the type, and three bytes for the full byte length of
+the entire protocol message encoded in little-endian format. This
+allows the protocol to be easily framed within a stream.
+
 ## Protocol Extensions
 
 Protocol extension negotiation is done on a transport-by-transport level.
@@ -70,18 +75,18 @@ It has the following format:
 
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x1 | 0x0 | QUERY_ID  |          0x0          |
+    | 0x1 |     LENGTH      | QUERY_ID  |   0x0     |
  8  +-----------------------------------------------+
-    | Mixed IDs or ADDRs ...                        |
+    | Mixed IDs or ADDRs, each one 48 bytes long... |
     | ...                                           |
     +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x1
-* `[1:2]` - Zeroed
-* `[2:4]` - `QUERY_ID`, two bytes which should be made up by the client and
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:6]` - `QUERY_ID`, two bytes which should be made up by the client and
   used to associate returned [`Record`](#record) responses to this request.
-* `[4:8]` - Zeroed
+* `[6:8]` - Zeroed
 * `[*]` - A sequence of mixed IDs and ADDRs.  Note that ADDRs start
   with a 1 bit, whereas IDs start with a 0 bit, and both of them are 48
   bytes long.
@@ -103,7 +108,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x2 | 0x0 | QUERY_ID  |         LIMIT         |
+    | 0x2 |     LENGTH      | QUERY_ID  |  LIMIT    |
  8  +-----------------------------------------------+
     | FILTER_LEN|              0x0                  |
 16  +-----------------------------------------------+
@@ -113,10 +118,10 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x2
-* `[1:2]` - Zeroed
-* `[2:4]` - `QUERY_ID` two bytes which should be made up by the client and used
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:6]` - `QUERY_ID` two bytes which should be made up by the client and used
   to associate returned [`Record`](#record) responses to this request.
-* `[4:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
+* `[6:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.
 * `[8:10]` - `FILTER_LEN` specifies the length of the `FILTER` in bytes.
@@ -145,7 +150,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x3 | 0x0 | QUERY_ID  |         LIMIT         |
+    | 0x3 |     LENGTH      | QUERY_ID  |   LIMIT   |
  8  +-----------------------------------------------+
     | FILTER_LEN|              0x0                  |
 16  +-----------------------------------------------+
@@ -155,10 +160,10 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x3
-* `[1:2]` - Zeroed
-* `[2:4]` - `QUERY_ID`, two bytes which should be made up by the client and
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:6]` - `QUERY_ID`, two bytes which should be made up by the client and
   used to associate returned [`Record`](#record) responses to this request.
-* `[4:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
+* `[6:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.
 * `[8:10]` - `FILTER_LEN` specifies the length of the `FILTER` in bytes.
@@ -186,16 +191,17 @@ This is a client request to close an open subscription query.
 
 It has the following format:
 
+GINA
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-     | 0x4 | 0x0 | QUERY_ID |         0x0           |
+    | 0x4 |     LENGTH      | QUERY_ID  |   0x0     |
  8  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x3
-* `[1:2]` - Zeroed
-* `[2:4]` - `QUERY_ID`, two bytes indicating which query should be closed.
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:6]` - `QUERY_ID`, two bytes indicating which query should be closed.
 * `[4:8]` - Zeroed
 
 This is a client initiated message. Servers are expected to reply with:
@@ -221,10 +227,8 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x5
-* `[1:4]` - `LENGTH` is a 24-bit little-endian length, with a maximum value of
-   the max length of a record (1024576 bytes) and representing the actual
-   length of the subsequent record submitted.
-* `[5:8]` - Zeroed
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:8]` - Zeroed
 * `[*]` - `RECORD` is the record submitted
 
 This is a client initiated message. Servers are expected to reply with:
@@ -246,7 +250,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x80| 0x0 | QUERY_ID  | 0x0 |     LENGTH      |
+    | 0x80|     LENGTH      | QUERY_ID  |   0x0     |
  8  +-----------------------------------------------+
     | RECORD ...                                    |
 	| ...                                           |
@@ -254,12 +258,9 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x80
-* `[1:2]` - Zeroed
-* `[2:4]` - `QUERY_ID` indicates the client query that this record matched.
-* `[4:5]` - Zeroed
-* `[5:8]` - `LENGTH` is a 24-bit little-endian length, with a maximum value of
-   the max length of a record (1024576 bytes) and representing the actual
-   length of the subsequent record supplied.
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:6]` - `QUERY_ID` indicates the client query that this record matched.
+* `[6:8]` - Zeroed
 * `[*]` - `RECORD` is the returned record.
 
 This is a server response message in response to [`Get`](#get)
@@ -277,14 +278,14 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x81| 0x0 |  Query_ID |  0x0                  |
+    | 0x81|     LENGTH      |  QUERY_ID |    0x0    |
  8  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x81
-* `[1:2]` - Zeroed
-* `[2:4]` - `QUERY_ID` indicates the client query that is now locally complete.
-* `[4:8]` - zeroed
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:6]` - `QUERY_ID` indicates the client query that is now locally complete.
+* `[6:8]` - zeroed
 
 This is a server response message in response to [`Subscribe`](#subscribe).
 
@@ -299,12 +300,14 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x82| CODE|  Query_ID |  0x0                  |
+    | 0x82|     LENGTH      |  Query_ID | CODE| 0x0 |
  8  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x82
-* `[1:2]` - `CODE` indicates the reason for closure from among the
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:6]` - `QUERY_ID` indicates the client query that is now closed.
+* `[6:7]` - `CODE` indicates the reason for closure from among the
   following defined reasons:
     * `ON_REQUEST`: 0x1 - In response to [`Unsubscribe`](#unsubscribe)
     * `REJECTED_INVALID`: 0x10 - Query was rejected due to being invalid
@@ -319,8 +322,8 @@ It has the following format:
     * `SHUTTING_DOWN`: 0x30 - The server is shutting down
     * `INTERNAL_ERROR`: 0xF0 - A server error occured
     * `OTHER`: 0xFF - Some other reason
-* `[2:4]` - `QUERY_ID` indicates the client query that is now closed.
-* `[4:8]` - zeroed
+* `[7:8]` - zero
+
 
 
 ### Submission Result
@@ -334,7 +337,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x83|CODE |   0x0                             |
+    | 0x83|     LENGTH      |CODE |      0x0        |
  8  +-----------------------------------------------+
     | ID PREFIX bytes 0..8                          |
 16  +-----------------------------------------------+
@@ -347,7 +350,8 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x83
-* `[1:2]` - `CODE` which indicates the result of the submission from among the
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:5]` - `CODE` which indicates the result of the submission from among the
   following defined results:
     * `OK`: 0x1 - Record submission was accepted
     * `DUPLICATE`: 0x2 - Record is a duplicate. Servers may use this or
@@ -365,5 +369,5 @@ It has the following format:
        (e.g. an account with the server) which the client user does not have.
     * `INTERNAL_ERROR`: 0xF0 - A server error occured
     * `OTHER`: 0xFF - Some other reason
-* `[2:8]` - Zeroed
+* `[5:8]` - Zeroed
 * `[8:40]` - A 32-byte prefix of the 48-byte Id.
