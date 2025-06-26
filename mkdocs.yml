@@ -1,4 +1,5 @@
 site_name: Mosaic
+version: 0.1.0
 theme:
   name: readthedocs
   locale: en
