@@ -110,8 +110,6 @@ It has the following format:
  0  +-----------------------------------------------+
     | 0x2 |     LENGTH      | QUERY_ID  |  LIMIT    |
  8  +-----------------------------------------------+
-    | FILTER_LEN|              0x0                  |
-16  +-----------------------------------------------+
     | FILTER ...                                    |
 	| ...                                           |
     +-----------------------------------------------+
@@ -124,8 +122,6 @@ It has the following format:
 * `[6:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.
-* `[8:10]` - `FILTER_LEN` specifies the length of the `FILTER` in bytes.
-* `[10:16]` - Zeroed
 * `[*]` - The `FILTER`, see [Filter](filter.md).
 
 This is a client initiated message. Servers are expected to reply with:
@@ -152,8 +148,6 @@ It has the following format:
  0  +-----------------------------------------------+
     | 0x3 |     LENGTH      | QUERY_ID  |   LIMIT   |
  8  +-----------------------------------------------+
-    | FILTER_LEN|              0x0                  |
-16  +-----------------------------------------------+
     | FILTER ...                                    |
 	| ...                                           |
     +-----------------------------------------------+
@@ -166,8 +160,6 @@ It has the following format:
 * `[6:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.
-* `[8:10]` - `FILTER_LEN` specifies the length of the `FILTER` in bytes.
-* `[10:16]` - Zeroed
 * `[*]` - The `FILTER`, see [Filter](filter.md).
 
 This is a client initiated message. Servers are expected to reply with:
