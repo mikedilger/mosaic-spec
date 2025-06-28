@@ -343,6 +343,8 @@ It has the following format:
     * `OK`: 0x1 - Record submission was accepted
     * `DUPLICATE`: 0x2 - Record is a duplicate. Servers may use this or
       they may optionally use `OK` in the same circumstance.
+    * `NO_CONSUMERS`: 0x3 - Ephemeral record had no consumers. Servers may use this or
+      they may optionally use `OK` in the same circumstance.
     * `REJECTED_INVALID`: 0x10 - Record is invalid
     * `REJECTED_TOO_FAST`: 0x12 - Submissions (or messages) are coming too quickly. Slow down.
     * `REJECTED_TEMP_BANNED`: 0x13 - Client is temporarily banned from submisisons.
