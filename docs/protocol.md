@@ -291,7 +291,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x82|     LENGTH      |  Query_ID | CODE| 0x0 |
+    | 0x82|     LENGTH      |  QUERY_ID | CODE| 0x0 |
  8  +-----------------------------------------------+
 ```
 
@@ -300,19 +300,15 @@ It has the following format:
 * `[4:6]` - `QUERY_ID` indicates the client query that is now closed.
 * `[6:7]` - `CODE` indicates the reason for closure from among the
   following defined reasons:
-    * `ON_REQUEST`: 0x1 - In response to [`Unsubscribe`](#unsubscribe)
-    * `REJECTED_INVALID`: 0x10 - Query was rejected due to being invalid
-    * `REJECTED_TOO_OPEN`: 0x11 - Query was rejected due to being too open
-      (scraping too many records)
-    * `REJECTED_TOO_FAST`: 0x12 - Query was rejected due to too many queries
-      (or messages of any type) being submitted recently by this client
-    * `REJECTED_TEMP_BANNED`: 0x13 - Query was rejected due to the client
-       being temporarily banned
-    * `REJECTED_PERM_BANNED`: 0x14 - Query was rejected due to the client
-       being permanently banned
+    * `ON_REQUEST`: 0x1 - Query was closed in response to an [`Unsubscribe`](#unsubscribe) request
+    * `REJECTED_INVALID`: 0x10 - Query is invalid
+    * `REJECTED_TOO_OPEN`: 0x11 - Query is too broad, matching too many records
+    * `REJECTED_TOO_FAST`: 0x12 - Queries (or messages) are coming too quickly. Slow down
+    * `REJECTED_TEMP_BANNED`: 0x13 - Client is temporarily banned from querying
+    * `REJECTED_PERM_BANNED`: 0x14 - Client is permanently banned from querying
     * `SHUTTING_DOWN`: 0x30 - The server is shutting down
-    * `INTERNAL_ERROR`: 0xF0 - A server error occured
-    * `OTHER`: 0xFF - Some other reason
+    * `INTERNAL_ERROR`: 0xF0 - The server has encountered an internal error
+    * `OTHER`: 0xFF - Other reason, or not specified
 * `[7:8]` - zero
 
 
@@ -348,17 +344,12 @@ It has the following format:
     * `DUPLICATE`: 0x2 - Record is a duplicate. Servers may use this or
       they may optionally use `OK` in the same circumstance.
     * `REJECTED_INVALID`: 0x10 - Record is invalid
-    * `REJECTED_TOO_FAST`: 0x12 - Record submission was rejected due to too many
-       submissions (or messages of any type) being made recently by this client
-    * `REJECTED_TEMP_BANNED`: 0x13 - Record submission was rejected due to the
-       client being temporarily banned
-    * `REJECTED_PERM_BANNED`: 0x14 - Record submission was rejected due to the
-       client being permanently banned
-    * `REJECTED_REQUIRES_AUTHN`: 0x15 - Record submission requires authentication
-       but the client is connected anonymously.
-    * `REJECTED_REQUIRES_AUTHZ`: 0x16 - Record submission requires authorization
-       (e.g. an account with the server) which the client user does not have.
-    * `INTERNAL_ERROR`: 0xF0 - A server error occured
-    * `OTHER`: 0xFF - Some other reason
+    * `REJECTED_TOO_FAST`: 0x12 - Submissions (or messages) are coming too quickly. Slow down.
+    * `REJECTED_TEMP_BANNED`: 0x13 - Client is temporarily banned from submisisons.
+    * `REJECTED_PERM_BANNED`: 0x14 - Client is permanently banned from submissions.
+    * `REJECTED_REQUIRES_AUTHN`: 0x15 - Submission requires authentication.
+    * `REJECTED_REQUIRES_AUTHZ`: 0x16 - Submission requires authorization.
+    * `INTERNAL_ERROR`: 0xF0 - The server has encountered an internal error
+    * `OTHER`: 0xFF - Other reason, or not specified
 * `[5:8]` - Zeroed
 * `[8:40]` - A 32-byte prefix of the 48-byte Id.

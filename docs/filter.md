@@ -62,13 +62,13 @@ The following <t>filter element</t>s are defined:
 |0x2|[Signing Keys](#signing-keys)| yes |
 |0x3|[Kinds](#kinds)| yes |
 |0x4|[Timestamps](#timestamps)| yes |
-|0x5|[Includes Tag](#includes-tag)| yes |
+|0x5|[Included Tags](#included-tags)| yes |
 |0x80|[Since](#since)| no |
 |0x81|[Until](#until)| no |
 |0x82|[Received Since](#received-since)| no |
 |0x83|[Received Until](#received-until)| no |
 |0x84|[Exclude](#exclude)| no |
-|0x85|[Excludes Tag](#excludes-tag)| no |
+|0x85|[Excluded Tags](#excluded-tags)| no |
 
 ## Author Keys
 
@@ -179,7 +179,7 @@ Typically used as part of address lookups.
 * `[8:]` - A sequence of 8-byte fields, each being:
     * `[0:8]` - An eight byte [timestamp](timestamps.md).
 
-## Includes Tag
+## Included Tags
 
 > **0x5**
 
@@ -325,7 +325,7 @@ Excludes all records with the given IDs
 * `[2:8]` - Zeroed
 * `[8:]` - A sequence of 32-byte ID prefixes.
 
-## Excludes Tag
+## Excluded Tags
 
 > **0x85**
 
