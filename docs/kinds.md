@@ -41,16 +41,6 @@ Bit 4: If on, the contents of this record are considered to be `printable` (huma
 
 Bits 7, 6 and 5: RESERVED and MUST be 0
 
-## Application Identifier Registry
-
-| Application |  ID   |
-|-------------|-------|
-| Mosaic Core |     0 |
-| Mosaic Social Media |    1 |
-| Examples |    99 |
-
-External groups may define applications and have their Application ID registered here.
-
 ## Kind Registry
 
 This only covers Mosaic Core and Mosaic Social Media. Other applications should define

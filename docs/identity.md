@@ -46,6 +46,10 @@ Subkeys might be deterministically derived from the master secret key, or they
 might not. Nothing in the Mosaic spec requires such, but some implementations
 may make use of this.
 
+## Rollover and Revocation
+
+See [Key Schedule](keyschedule.md)
+
 ## Users versus Servers
 
 Identities are split between Users and Servers.

@@ -52,7 +52,7 @@ unless they are not requesting any extensions.
 
 The following extension names are defined:
 
-* [SYNC](sync_protocol_extension.md)
+* [SYNC](sync.md)
 
 Servers MUST check for an `X-Mosaic-Extensions` header. If one is specified,
 split it's contents on semicolons. Remove all extensions you are unable to
@@ -75,7 +75,7 @@ that relationship). These kinds of activities are not standardized here.
 All messages use websockets binary.
 
 Messages are formed as the binary message protocol specified in
-[protocol](protocol.md). Each message starts with a single byte indicating
+[Protocol messages](messages.md). Each message starts with a single byte indicating
 the type, followed by the data that such type requires.
 
 Clients MUST only send client messages. If a server reads a server message

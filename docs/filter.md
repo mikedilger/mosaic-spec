@@ -2,7 +2,7 @@
 
 <status>PAGE STATUS: early draft</status>
 
-A <t>filter</t> is a binary structure used within the [Core Protocol](protocol.md).
+A <t>filter</t> is a binary structure used within the [Protocol messages](messages.md).
 
 A <t>filter</t> consists of a sequence of <t>filter element</t>s.
 

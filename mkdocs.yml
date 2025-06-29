@@ -7,48 +7,57 @@ theme:
   highlightjs: true
   logo: img/favicon-96x96.png
   custom_dir: custom_theme/
-  titles_only: true
-  navigation_depth: 4
+  titles_only: false
+  navigation_depth: 2
+  show_nav_level: 2
   features:
-    - navigation.expand
+    - navigation.instant
+    - navigation.instant.prefetch
 extra_css:
   - style.css
 use_directory_urls: false
 nav:
-  - Mosaic Introduction: index.md
-  - Status and Development: status.md
-  - Rationale: rationale.md
   - Mosaic Core:
-    - Identity:
-      - Cryptography: cryptography.md
-      - Identity: identity.md
-      - URL: url.md
+    - Introduction: index.md
+    - Status and Development: status.md
+    - Rationale: rationale.md
+    - Identity (Keys): identity.md
+    - Location Service:
       - Bootstrap: bootstrap.md
-    - Record Type:
+      - URL: url.md
+    - Data Formats:
       - Timestamps: timestamps.md
+      - Core Tags: core_tags.md
       - Record Format: record.md
       - Human Readable Content: human_readable_content.md
-      - Core Tags: core_tags.md
-    - References: reference.md
-    - Core Records:
+      - References: reference.md
+    - Client-Server Protocol:
+      - Network architecture: network.md
+      - Transport requirements: transport_requirements.md
+      - Protocol messages: messages.md
+      - Data Types:
+        - Filter: filter.md
+      - Sync: sync.md
+    - Transport layer:
+      - QUIC: quic.md
+      - WebSockets: websockets.md
+    - Accessory:
+      - Human Encodings: human_encodings.md
+      - Encrypted Secret Key: encrypted_secret_key.md
+    - Registries:
+      - Application Registry: applications.md
+      - Record Kind Registry: kinds.md
+      - Tag Type Registry: tag_types.md
+    - Core Application:
       - Key Schedule Record: keyschedule.md
       - Profile Record: profile.md
-    - Protocol:
-      - Filter: filter.md
-      - Core Protocol: protocol.md
-    - Registries:
-      - Tag Type Registry: tag_types.md
-      - Record Kind Registry: kinds.md
-  - Mosaic Accessory:
-    - Human Encodings: human_encodings.md
-  - Mosaic Transport:
-    - QUIC: quic.md
-    - WebSockets: websockets.md
-  - Extensions:
-    - Sync Protocol Extension: sync_protocol_extension.md
-  - Applications:
-    - Mosaic Social media:
-      - Microblogging: microblog.md
-      - Blog: blog.md
-      - Reply Comment: reply_comment.md
-      - Chat: chat.md
+      - Acquaintences and Friends: friends.md
+      - Reporting: reporting.md
+    - Appendices:
+      - Cryptography: cryptography.md
+
+  - Mosaic Social media:
+    - Microblogging: microblog.md
+    - Blog: blog.md
+    - Reply Comment: reply_comment.md
+    - Chat: chat.md

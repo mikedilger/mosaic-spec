@@ -1,4 +1,4 @@
-# Protocol
+# Protocol messages
 
 <status>PAGE STATUS: early draft</status>
 
@@ -19,7 +19,7 @@ For [WebSockets](websockets.md) transport this is done with the
 
 The following extensions have been defined:
 
-* [Sync Protocol Extension](sync_protocol_extension.md)
+* [Sync](sync.md)
 
 ## Asynchronous
 
