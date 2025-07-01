@@ -320,10 +320,11 @@ By recognizing a server by it's key, we can verify server identity directly.
 * We no longer need to trust Certification Authorities, that the DNS to IP address binding
   is correct.
 
-Additionally, servers can now present themselves at multiple transport endpoints.
+Additionally, servers can now present themselves at multiple transport endpoints. They can
+also hop from endpoint to endpoint if they are being actively targetted.
 
 By having a strong form of identification, clients can maintain reliable reputational
-information about servers.
+information about servers even as they move to different endpoints.
 
 ---
 
