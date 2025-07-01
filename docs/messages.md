@@ -57,6 +57,7 @@ of each type. Following this is the data of the message.
 | Server | [Locally Complete](#locally-complete) | 0x81 |
 | Server | [Query Closed](#query-closed) | 0x82 |
 | Server | [Submission Result](#submission-result) | 0x83 |
+| Either | [Unrecognized](#unrecognized) | 0xF0 |
 
 ---
 
@@ -355,3 +356,25 @@ It has the following format:
     * `OTHER`: 0xFF - Other reason, or not specified
 * `[5:8]` - Zeroed
 * `[8:40]` - A 32-byte prefix of the 48-byte Id.
+
+### Unrecognized
+
+> **0xF0**
+
+This is a message indicating that the last message from the peer was not recognized.
+
+When this is received over QUIC transport, the stream should be closed and further messaging
+can occur on other streams.
+
+It has the following format:
+
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0xF0|     LENGTH      |         0x0           |
+ 8  +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0xF0
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:8]` - Zeroed
