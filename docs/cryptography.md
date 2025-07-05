@@ -20,9 +20,9 @@ in a non-standard way. In particular
 * We use ed25519ph, pre-hashed. We substitute [BLAKE3](#hashing-with-blake3) for SHA-512.
 * We provide a context string of "Mosaic".
 * We require very specific public key and signature validation checks. In particular:
-    * Public keys should be rejected if they are one of 8 small order points.
-    * Signatures must be rejected if s is not within the range `0..L-1`.
-    * Signatures must be rejected if R or A are non-canonical
+    * Public keys MUST be rejected if they are one of 8 small order points.
+    * Signatures MUST be rejected if s is not within the range `0..L-1`.
+    * Signatures MUST be rejected if R or A are non-canonical
       (e.g. verify that `|R| >= L` and `|A| >= L`)
     * Always use cofactor verification `(8(S · B) − 8R − 8(h · A) = 0)` not the
       non-cofactor one, even when not in batch mode.
@@ -40,7 +40,7 @@ Notes on how we might do it:
       schedule), which is not ephemeral but may nonetheless be frequently
       rolled over by the recipient.
 
-In order for a user to decrypt on any of their devices, they must share the x25519 public key's
+In order for a user to decrypt on any of their devices, they MUST share the x25519 public key's
 secret to all of their devices. In order to preserve signing security, these keys are separate
 from ed25519 signing keys. See [keyschedule](keyschedule.md) marker 0x2.
 

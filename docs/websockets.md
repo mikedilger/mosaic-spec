@@ -4,18 +4,18 @@
 
 ## TLS
 
-Over WebSockets, Mosaic must use TLS version at least 1.2, preferably
+Over WebSockets, Mosaic MUST use TLS version at least 1.2, preferably
 [TLS 1.3](https://datatracker.ietf.org/doc/html/rfc8446).
 
-TLS should specify the EdDSA signature algorithm, using the ed25519 signing
+TLS MUST specify the EdDSA signature algorithm, using the ed25519 signing
 keys.
 
-TLS certificates shall be either RawPublicKey or self-signed, and use
+TLS certificates SHALL be either RawPublicKey or self-signed, and use
 the ed25519 public key (either the server's master public key or the client's
 signing public key).
 
 Servers SHOULD request client-side certificates if they wish to authenticate
-users. If clients do not provide certificates, they should be considered
+users. If clients do not provide certificates, they are to be considered
 anonymous. Servers MAY present different services depending on whether a user is
 authenticated or not.
 
@@ -27,10 +27,10 @@ Mosaic messages are transported over
 
 ### Sec-WebSocket-Protocol
 
-Clients must present the `Sec-WebSocket-Protocol` header field in the
+Clients MUST present the `Sec-WebSocket-Protocol` header field in the
 handshake with WebSocket with the value `mosaic2024`. If this is not
 presented, a server may either refuse service and close the connection,
-or presume the connection is nostr (if it is dual-stack). It should not
+or presume the connection is nostr (if it is dual-stack). It SHOULD NOT
 presume the connection is Mosaic.
 
 Servers MUST reply with the protocol they have accepted in the same

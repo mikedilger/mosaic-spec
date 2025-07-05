@@ -34,7 +34,7 @@ software will need to be aware of leap seconds so it can adjust.
 
 Leap second data is available at the
 [IANA leap second list](https://data.iana.org/time-zones/data/leap-seconds.list)
-The data should be interpreted as follows:
+The data is to be interpreted as follows:
 
 * The leftmost column is an NTP timestamp. Subtract 2_208_988_800 from it to
   get a unixtime.

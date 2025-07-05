@@ -27,9 +27,14 @@ record layout at `[128:176]` making up 48 bytes.
 * The kind (8 bytes),
 * The the author's public key (32 bytes),
 
-An author can replace a record by creating a new record with the same address,
-in which case the address is copied (the nonce is not randomly generated).
-Replaced records must then contain the same author key and be of the same
-kind, and refer to the same unique address nonce.  They may however be signed
-by a different signing keypair or have their flags modified, their tags
-changed, and their content changed.
+The nonce can be created in a multitude of ways depending on the needs of the
+application
+
+* Randomly
+* As a copy of a previous record's nonce, to replace that record or add a
+  new version
+* As a well-known string, thus making it easy to find a well-known record
+
+Records with the same address MUST necessarily have the same author and kind,
+but they can be signed by a different signing keypair, have modified flags,
+and change their tags and content.

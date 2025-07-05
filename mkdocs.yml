@@ -20,7 +20,6 @@ nav:
   - Introduction:
     - Introduction: index.md
     - Status and Development: status.md
-    - Rationale: rationale.md
   - Identity:
     - Identity: identity.md
   - Location Service:
@@ -38,7 +37,7 @@ nav:
     - Protocol messages: messages.md
     - Filter: filter.md
     - Sync: sync.md
-  - Transport layer:
+  - Transport:
     - QUIC: quic.md
     - WebSockets: websockets.md
   - Accessory:
@@ -53,10 +52,11 @@ nav:
     - Profile Record: profile.md
     - Acquaintences and Friends: friends.md
     - Reporting: reporting.md
-  - Appendices:
-    - Cryptography: cryptography.md
   - "Application: Mosaic Social Media":
     - Microblogging: microblog.md
     - Blog: blog.md
     - Reply Comment: reply_comment.md
     - Chat: chat.md
+  - Appendices:
+    - Cryptography: cryptography.md
+    - Rationale: rationale.md

@@ -27,7 +27,17 @@ to this page with [<sup>rat</sup>](#) links.
 
 ## Binary Records
 
-The record structure could be JSON, CBOR (or BEVE or similar) or Binary.
+The binary record format has been designed for performance and size.
+
+* The on-network format can be identical to a client's or server's on-disk format
+* There is no parsing overhead (JSON parsing, for example, is quite expensive)
+* Signing and verification are in-place and require zero data copies.
+* Fields from the binary record can be accessed directly without deserialization,
+  meaning there is optionally no deserialization or copying needed.
+* Data is aligned to 8-byte boundaries
+* Endian order is well specified
+
+Here is a comparison to JSON and CBOR (or BEVE or similar).
 
 |Encoding|Human Readable|Extensible|Parse Speed|Copy to Sign|Size     |
 |--------|--------------|----------|-----------|------------|---------|
@@ -41,7 +51,9 @@ is needed.
 Other than that, binary is better in all respects.
 
 We argue that extensibility of the main record is sufficiently done via record kinds,
-tags and content, and therefore extensibility is not needed for this structure.
+tags and content, and therefore extensibility is not needed for this structure (nostr
+records have not changed since they were introduced, even though there have been
+reasons to do so, and they are even simpler).
 
 We sacrifice:
 
@@ -53,6 +65,16 @@ We gain:
 * Zero parsing required
 * Zero copying for signing required
 * Smallest size has been achieved
+
+As for human readability, the most cited reason for using JSON, my argument is as follows:
+HTTP that is transported with gzip is binary data. Developers never see the gzipped data,
+all the tools they work with show them the line-oriented HTTP after gunzip. And I'm not
+aware of anybody complaining that gzipped HTTP is binary, not human readable, and therfore
+a bad choice. I believe our situation is a close parallel. Even though this specification
+specifies the binary encoding of everything, developers do not need to see things that
+way (and in fact I may reorganize this specification to separate out the binary encodings).
+Developers are instead expected to deal with code structures, those structures being JSON
+if they are working in JavaScript.
 
 BTW: JSON also has character encoding ambiguities.
 
@@ -78,19 +100,25 @@ We utilize this.
 
 ## Client-Server
 
-Mosaic is client-server, not peer-to-peer.
+Mosaic uses a client-server architecture.
+
+This is because clients and servers serve different roles.
+Clients are an interface to the user, while servers are an interface to shared Internet
+accessible data.
+
+Nothing precludes a client from also being a server, and calling itself a node.
+
+Nothing precludes servers running behind NAT and being hole-punched into, although such
+a mechanism is not provided for currently (Iroh does a bit more than we need and isn't
+AFAIK an open protocol but a single software stack).
 
 Mosaic servers are used in a way that presumes they will be online and available most of
-the time. Mosaic has built-in redundancy across such servers, but nonetheless a machine
+the time. Users functionally declare where their data is, and that "where" needs to be
+available to other users over the Internet most of the time.
+
+Mosaic has built-in redundancy across such servers, but nonetheless a machine
 that is not even intended or capable of being up all the time (such as a phone or
 laptop) makes a poor mosaic server.
-
-Peer to peer architectures work well for situations when nodes do not need to remain
-online. Most social media situations instead seek to be always-on. Mosaic caters to
-the latter.
-
-We opt for a dumb-server smart-client design to put more control into the hands of the
-users.
 
 ---
 
@@ -186,10 +214,15 @@ compatible.
 
 ## Master-Key Subkey
 
-Users need to keep their secret key secure so they don't have their identity stolen. But
-they also need to access their secret key online in order to use the protocol. By splitting
-the keys into a master key and multiple device keys (or subkeys) we can enable very secure
-master key storage and usage without impeding the ability to operate online with subkeys.
+The primary purpose was to allow users to have per-device online keys whil keeping their
+master secret offline.
+
+However this design facilities quite a bit more functionality such as:
+
+* Separate encryption keys
+* Subkeys using alternate cryptosystems (e.g. secp256k1 nostr keys)
+* Subkeys as personas, to post about very different things and let people easily follow only
+  some of what you post.
 
 ---
 
@@ -261,7 +294,7 @@ method of length calculation.
 
 Tags specify a value length not a length of the whole tag. This allows tags of 256 bytes in length
 to be represented (with a value length of 253). Otherwise a tag of such length could not fit
-its length (256) into a single byte. Value lengths > 253 must be considered invalid.
+its length (256) into a single byte. Value lengths > 253 MUST be considered invalid.
 
 Some tag types start with padding in the value in order to better align their data.
 

@@ -11,7 +11,7 @@ following rules.
 * Mosaic URLs MUST contain a **host**. This SHOULD normally be an IP address (either
   IPv4 or IPv6) but it MAY be a DNS name. DNS names are useful primarily when
   using Tor (.onion) or I2P (.i2p), but regular DNS may also be used although this
-  is recommended against since DNS can be censored.
+  is RECOMMENDED against since DNS can be censored.
 * Mosaic URLs MAY contain a **port**. If a port is not provided, then the following
   defaults apply
     * The `mosaic` default port is 1320.

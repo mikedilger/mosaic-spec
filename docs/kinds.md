@@ -20,12 +20,13 @@ Bitflags are as follows:
 Bits 1 and 0:
 
 * 00 - `Unique`. All records SHOULD have unique addresses. In the case that multiple
-       records share the same address, all of them must be preserved just like
+       records share the same address, all of them MUST be preserved just like
        Versioned records are (see bits 11 below)
-* 01 - `Ephemeral`; Servers should serve this record to current subscribers, but
-       should not save the record nor serve it later to future subscribers.
+* 01 - `Ephemeral`; Servers MUST serve this record to current subscribers, but
+       SHOULD NOT save the record nor serve it later to future subscribers.
 * 10 - `Replaceable`: Among records with the same address, only the one with the
-       latest timestamp should be served by servers.
+       latest timestamp MUST be served by servers, and prior records MUST NOT be
+       served.
 * 11 - `Versioned`: Among records with the same address, all of them remain relevant
        and should be seen as a version history.
 

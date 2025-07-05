@@ -7,7 +7,7 @@ A <t>filter</t> is a binary structure used within the [Protocol messages](messag
 A <t>filter</t> consists of a sequence of <t>filter element</t>s.
 
 Each <t>filter element</t> restricts the set of records that the <t>filter</t> matches.
-For a record to pass a <t>filter</t>, it must pass every <t>filter element</t> in the
+For a record to pass a <t>filter</t>, it MUST pass every <t>filter element</t> in the
 <t>filter</t> except as excepted in the next paragraph.
 
 All <t>filter element</t>s SHOULD be unique. If more than one <t>filter element</t> of
@@ -26,7 +26,7 @@ this by 8 to get the length of the <t>filter element</t> in bytes. This means th
 <t>filter element</t>s can be up to 2048 bytes long. If the length byte is 0, the
 <t>filter</t> is invalid and MUST be rejected.
 
-<T>Filter</T>s can be up to 65536 bytes long maximum, but this size may not be quite
+<T>Filter</T>s can be up to 65536 bytes long maximum, but this size is not quite
 possible given other constraints.
 
 

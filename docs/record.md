@@ -139,7 +139,7 @@ A 48 byte Address from `[144:192]` made up of the following three parts.
 
 #### Unique Address Nonce
 
-8 bytes at `[144:152]`.  These bytes must start with a 1 bit.
+8 bytes at `[144:152]`.  These bytes MUST start with a 1 bit.
 
 These bytes make an address unique (within the context of an author and a
 kind). They can be created in a number of different ways, depending on the
@@ -293,25 +293,25 @@ Records MUST be fully validated by clients.
 Records MUST be fully validated by servers upon receipt except for the
 steps marked CLIENTS ONLY.
 
-Validation steps
+Validation steps:
 
 1. The length must be between 208 and 1048576 bytes.
 2. The length must equal 208 + LenTPad + LenPPad.
-3. The Signing public key must be validated according to the
+3. The Signing public key MUST be validated according to the
    [cryptography](cryptography.md) key validation checks.
-4. The Author public key must be validated according to the
+4. The Author public key MUST be validated according to the
    [cryptography](cryptography.md) key validation checks.
-5. CLIENTS ONLY: The Signing public key must be verified to be
+5. CLIENTS ONLY: The Signing public key MUST be verified to be
    a non-revoked subkey of the Author via the Author's
    [bootstrap](bootstrap.md).
 6. Take a BLAKE3 hash of `[112:]`, unkeyed, and extend to
    64 bytes of output using BLAKE3's `finalize_xof()` function.
 7. Verify the hash: Compare bytes `[0:40]` of this hash with bytes
-   `[72:112]` of the record. They MUST match.
+   `[72:112]` of the record. They must match or validation has failed.
 8. Verify the ID timestamp: bytes `[64:72]` must be equal to bytes `[192:200]`.
 9. Verify the signature: The signature must be a valid EdDSA ed25519
    signature of the full 64-byte BLAKE3 hash taken in step 6 with the
    signing public key.
 10. Bytes 70 and 71 must be 0.
 11. Reserved flags must be 0.
-12. CLIENTS ONLY: Application specific validation should be performed.
+12. CLIENTS ONLY: Application specific validation SHOULD be performed.

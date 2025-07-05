@@ -23,7 +23,7 @@ Representation = `[0, 0, 0, 0, 0, 0, 1, 14]`
 
 ## Tags
 
-Every subkey listed in a key schedule record must have an associated
+Every subkey listed in a key schedule record MUST have an associated
 [subkey tag](core_tags.md#subkey) listing the subkey.
 
 ## Payload
@@ -68,7 +68,7 @@ The payload contains a sequence of 40-byte subkey records laid out as follows:
   records either received after the revocation timestamp, or with a timestamp
   after the revocation timestamp, are considered invalid.
 * 0x4F - OUT_OF_USE - Key is no longer in use (but nothing is revoked). This
-  may be used for signing keys or encryption keys.
+  MAY be used for signing keys or encryption keys.
 * 0x80 - ACTIVE_NOSTR_KEY - A nostr secp256k1 subkey
     * This helps support dual-stack software that works with both nostr and
       Mosaic.

@@ -10,21 +10,21 @@ blocking, fewer roundtrips by design, optional out-of-order delivery, and multip
 It also maintains connections when clients switch networks, for example when mobile
 phones switch from WiFi to 4G.
 
-TLS must be version 1.3 only.
+TLS MUST be version 1.3 only.
 
 The QUIC ALPN used by Mosaic is "mosaic".
 
-The self-signed certificate distinguished name hostname must be "mosaic".
+The self-signed certificate distinguished name hostname MUST be "mosaic".
 
-Server-side certificates are required and authenticate the server to the client.
-These must use the ED25519 signature scheme and certificate verifier.
-The certificate verifier must accept self-signed certificates if they are validly
+Server-side certificates are REQUIRED and authenticate the server to the client.
+These MUST use the ED25519 signature scheme and certificate verifier.
+The certificate verifier MUST accept self-signed certificates if they are validly
 signed by the public key within, and interpret that public key to be the Mosaic
 key of the server.
 
-Client-side certificates are optional and authenticate the client to the server.
-These must use the ED25519 signature scheme and certificate verifier.
-The certificate verifier must accept self-signed certificates if they are validly
+Client-side certificates are OPTIONAL and authenticate the client to the server.
+These MUST use the ED25519 signature scheme and certificate verifier.
+The certificate verifier MUST accept self-signed certificates if they are validly
 signed by the public key within, and interpret that public key to be the Mosaic
 key of the user.
 

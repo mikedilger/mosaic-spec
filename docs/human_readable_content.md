@@ -4,10 +4,10 @@ Records kinds which contain payloads of human readable content work as follows.
 
 The payload MUST be a valid UTF-8 encoded string.
 
-Any part of the intended content that is meant to have machine-readable meaning must
-not be in the payload, but instead specified in a content segment tag, which indicates
+Any part of the intended content that is meant to have machine-readable meaning MUST
+NOT be in the payload, but instead specified in a content segment tag, which indicates
 the kind of content, the character (not byte) offset into the payload where this content
-should be rendered, and the value of the content.  Multiple kinds of content segment
+SHOULD be rendered, and the value of the content.  Multiple kinds of content segment
 tags are defined including:
 
 * [Content Segment: User Mention](core_tags.md#content-segment-user-mention) for things like `@user`.

@@ -20,7 +20,7 @@ A user is referenced by the public half of their *master keypair*.
 
 ## Master keys and Subkeys
 
-Users may have subsidiary public keys, known as *subkeys*, *signing keys* or
+Users MAY have subsidiary public keys, known as *subkeys*, *signing keys* or
 *device keys* (these terms being mostly functionally interchangeable).
 
 The purpose of subkeys is for online usage in less secure environments, where
@@ -44,7 +44,7 @@ the master key. These include (presently):
 
 Subkeys might be deterministically derived from the master secret key, or they
 might not. Nothing in the Mosaic spec requires such, but some implementations
-may make use of this.
+MAY make use of this.
 
 ## Rollover and Revocation
 

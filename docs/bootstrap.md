@@ -26,7 +26,7 @@ Limitations:
 
 * Only 1000 bytes can be reliably stored, and some will be used for *bencoding*
   overhead and the salt, leaving us only 983 bytes of usable data.
-* Data must be refreshed periodically otherwise it may be removed after a time.
+* Data SHOULD be refreshed periodically otherwise it may be removed after a time.
   Users are responsible for refreshing data in the Mainline DHT which will
   disappear over time. Mechanisms for this are out of scope for Mosaic Core.
 * Data storage and retrieval may take a few seconds, and should not be done too
@@ -44,7 +44,7 @@ for server bootstraps and `mub25` for user bootstraps.
 ### Sequence Numbers
 
 <t>Sequence numbers</t> [<sup>rat</sup>](rationale.md#sequence-numbers)
-should start at 1 and monotonically increase with each write.
+SHOULD start at 1 and monotonically increase with each write.
 
 ### Rust code
 
@@ -56,7 +56,7 @@ Bootstraps (the data after the bencoded prefix) are UTF-8 valid text up
 to 983 bytes long, and consist of a series of lines separated with a single
 ASCII Line Feed (LF) character (`\n`). Lines MUST not have trailing whitespace.
 
-Two kinds of bootstraps may be stored, based on whether the identity
+Two kinds of bootstraps MAY be stored, based on whether the identity
 represents a server or a user.
 
 
@@ -125,8 +125,8 @@ Encryption is indicated by bit 2 (`1<<2`) in the character. A 1 bit means the
 server is an encryption server.
 
 Bits 5 and 6 are always on. This is an ASCII '0' (48, 0x30). However a `0`
-should never be used as a server usage character as this would indicate no
-server usages, which is invalid as such a line should not exist.
+MUST never be used as a server usage character as this would indicate no
+server usages, which is invalid as such a line MUST NOT exist.
 
 For example, to indicate only outbox usage, use character `1`. To indicate all
 three usages, use `7`.
@@ -163,7 +163,7 @@ Users can change servers and update these bootstrap entries at any time.
 since more redundancy provides strongly diminishing benefit at a linearly
 increasing network traffic cost. Software MUST utilize the first three
 servers of the appropriate kind listed, and MAY tolerate additional servers
-but optionally MAY ignore additional servers.
+but MAY ignore additional servers.
 
 *Minimums*: Users SHOULD have at least one outbox and at least one inbox.
 Users MAY have no encryption servers but they will not be able to receive

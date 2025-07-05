@@ -26,7 +26,7 @@ No specific tags are defined.
 Payload is a [CBOR](https://www.rfc-editor.org/rfc/rfc8949.html) map.
 All field names are snake-case.
 
-The only required field is `name`.
+The field `name` is REQUIRED. All other fields are OPTIONAL.
 
 The following fields are available:
 

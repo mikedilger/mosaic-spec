@@ -24,7 +24,7 @@ The following extensions have been defined:
 ## Asynchronous
 
 All client messages initiate an action, and all server messages are in
-response to client messages (NOTE: this may not apply to Mosaic
+response to client messages (NOTE: this MAY not apply to Mosaic
 extensions). Yet messaging is asychronous and both sides SHOULD be
 prepared to deal with a message sent at any time.
 
@@ -85,7 +85,7 @@ It has the following format:
 
 * `[0:1]` - The type 0x1
 * `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID`, two bytes which should be made up by the client and
+* `[4:6]` - `QUERY_ID`, two bytes which SHOULD be made up by the client and
   used to associate returned [`Record`](#record) responses to this request.
 * `[6:8]` - Zeroed
 * `[*]` - A sequence of mixed IDs and ADDRs.  Note that ADDRs start
@@ -118,7 +118,7 @@ It has the following format:
 
 * `[0:1]` - The type 0x2
 * `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID` two bytes which should be made up by the client and used
+* `[4:6]` - `QUERY_ID` two bytes which SHOULD be made up by the client and used
   to associate returned [`Record`](#record) responses to this request.
 * `[6:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
@@ -156,7 +156,7 @@ It has the following format:
 
 * `[0:1]` - The type 0x3
 * `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID`, two bytes which should be made up by the client and
+* `[4:6]` - `QUERY_ID`, two bytes which SHOULD be made up by the client and
   used to associate returned [`Record`](#record) responses to this request.
 * `[6:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
@@ -193,7 +193,7 @@ It has the following format:
 
 * `[0:1]` - The type 0x3
 * `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID`, two bytes indicating which query should be closed.
+* `[4:6]` - `QUERY_ID`, two bytes indicating which query SHOULD be closed.
 * `[4:8]` - Zeroed
 
 This is a client initiated message. Servers are expected to reply with:
@@ -342,10 +342,10 @@ It has the following format:
 * `[4:5]` - `CODE` which indicates the result of the submission from among the
   following defined results:
     * `OK`: 0x1 - Record submission was accepted
-    * `DUPLICATE`: 0x2 - Record is a duplicate. Servers may use this or
-      they may optionally use `OK` in the same circumstance.
-    * `NO_CONSUMERS`: 0x3 - Ephemeral record had no consumers. Servers may use this or
-      they may optionally use `OK` in the same circumstance.
+    * `DUPLICATE`: 0x2 - Record is a duplicate. Servers MAY use this or
+      they MAY use `OK` in the same circumstance.
+    * `NO_CONSUMERS`: 0x3 - Ephemeral record had no consumers. Servers MAY use this or
+      they MAY use `OK` in the same circumstance.
     * `REJECTED_INVALID`: 0x10 - Record is invalid
     * `REJECTED_TOO_FAST`: 0x12 - Submissions (or messages) are coming too quickly. Slow down.
     * `REJECTED_TEMP_BANNED`: 0x13 - Client is temporarily banned from submisisons.
@@ -363,7 +363,7 @@ It has the following format:
 
 This is a message indicating that the last message from the peer was not recognized.
 
-When this is received over QUIC transport, the stream should be closed and further messaging
+When this is received over QUIC transport, the stream SHOULD be closed and further messaging
 can occur on other streams.
 
 It has the following format:

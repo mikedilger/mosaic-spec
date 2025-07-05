@@ -49,11 +49,11 @@ versions are intended to support it for backwards compatibility.
   implementations.
 * It is ok to do things multiple ways so long as there is *one default*
   that all developers implement, and the rest of the "ways" are truly
-  optional. For example, we can have multiple transports (QUIC, WebSockets)
+  OPTIONAL. For example, we can have multiple transports (QUIC, WebSockets)
   without all the developers needing to move beyond QUIC,
   so long as every implementation implements the QUIC transport.
 * Code that isn't required by everybody should be defined outside of core
-  as an extension, transport, or application, as these are all optional.
+  as an extension, transport, or application, as these are all OPTIONAL.
 
 
 ## Core Library

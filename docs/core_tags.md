@@ -14,7 +14,7 @@ are laid out as follows:
 
 * `[0:2]` - The type
 * `[2:3]` - The length of the tag value, not including the 3 byte header.
-    This must be at most 253.
+    This MUST be at most 253.
 * `[3:]` - The value, which is at most 253 bytes long.
 
 
@@ -95,7 +95,7 @@ specified in their [bootstrap](bootstrap.md) record.
 This is a reply to another record in a threading sense.
 
 `KIND` is an 8-byte record [kind](kinds.md) indicating the kind of record
-that this one replies to. Replies are application-independent and may
+that this one replies to. Replies are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
@@ -103,7 +103,7 @@ to handle.
 `REFERENCE` is a 48-byte [reference](reference.md) to some other record
 indicating which other record this record replies to.
 
-If a record includes this tag, it must also include a
+If a record includes this tag, it MUST also include a
 [Root](#root) tag as well.
 
 ## Root
@@ -141,7 +141,7 @@ This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.
 
 `KIND` is a 8-byte record [kind](kinds.md) indicating the kind of record
-that the root record is. Threads are application-independent and may
+that the root record is. Threads are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
@@ -149,7 +149,7 @@ to handle.
 `REFERENCE` is a 48-byte [reference](reference.md) to some other record
 which is the root of the thread.
 
-If a record includes this tag, it must also include a
+If a record includes this tag, it MUST also include a
 [Reply](#reply) tag as well.
 
 ## Nostr Sister Event
@@ -244,7 +244,7 @@ This is a mention of a person.
 
 Note that this is different from a [Notify Public Key](#notify-public-key) tag
 which indicates the record should be delivered to that person.  Instead, this
-tag indicates that a `@name` for the person should be rendered when rendering
+tag indicates that a `@name` for the person SHOULD be rendered when rendering
 the content.
 
 ## Content Segment: Server Mention
@@ -313,7 +313,7 @@ This is a mention of a server.
 `OFFSET` is the offset into the content where the mention appears.
 
 `KIND` is a 8-byte record [kind](kinds.md) indicating the kind of record
-that this one replies to. Replies are application-independent and may
+that this one replies to. Replies are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.
