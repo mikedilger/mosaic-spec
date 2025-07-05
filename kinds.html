@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -88,7 +86,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -126,11 +124,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -140,6 +133,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -198,12 +198,13 @@ This also determines the nature of the payload.</p>
 <p>Bits 1 and 0:</p>
 <ul>
 <li>00 - <code>Unique</code>. All records SHOULD have unique addresses. In the case that multiple
-       records share the same address, all of them must be preserved just like
+       records share the same address, all of them MUST be preserved just like
        Versioned records are (see bits 11 below)</li>
-<li>01 - <code>Ephemeral</code>; Servers should serve this record to current subscribers, but
-       should not save the record nor serve it later to future subscribers.</li>
+<li>01 - <code>Ephemeral</code>; Servers MUST serve this record to current subscribers, but
+       SHOULD NOT save the record nor serve it later to future subscribers.</li>
 <li>10 - <code>Replaceable</code>: Among records with the same address, only the one with the
-       latest timestamp should be served by servers.</li>
+       latest timestamp MUST be served by servers, and prior records MUST NOT be
+       served.</li>
 <li>11 - <code>Versioned</code>: Among records with the same address, all of them remain relevant
        and should be seen as a version history.</li>
 </ul>

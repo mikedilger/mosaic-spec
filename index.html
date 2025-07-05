@@ -51,8 +51,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -92,7 +90,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -126,11 +124,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -140,6 +133,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -169,23 +169,32 @@
                 <h1 id="mosaic">Mosaic</h1>
 <p><status>PAGE STATUS: early draft</status></p>
 <p>Mosaic is a <em>work in progress</em>.  This specification is incomplete and an early draft.</p>
+<p>When you see a <t>superscript</t> <a href="rationale.html"><sup>rat</sup></a>, the "rat" is a link
+to the rationale behind this. Rationale is kept so we can remember why decisions were
+made, but kept separate to not clutter the specification.</p>
 <h2 id="introduction">Introduction</h2>
 <p>Mosaic is a
 <t>distributed</t> <a href="rationale.html#distributed"><sup>rat</sup></a>
 and
 <t>sovereign</t> <a href="rationale.html#sovereign"><sup>rat</sup></a>
 social application protocol for the Internet.</p>
+<p>Mosaic is meant to be an underlying unopinionated layer.
+Your opinionated social media application rides on top.
+But we have to make some decisions at this layer, so we can't be entirely unopinionated.</p>
+<p><a href="applications.html">Applications</a> are specified separately, but register an application
+ID with Mosaic (or they just choose one randomly). Two applications are defined within
+this spec: <t>Mosaic Core</t> and <t>Mosaic Social Media</t>.</p>
+<p>Whenever multiple options are available (such as transport), a core subset will be
+specified as required for compatibility.</p>
 <p>Mosaic uses a
 <t>client-server</t> <a href="rationale.html#client-server"><sup>rat</sup></a>
-architecture (as opposed to peer-to-peer).</p>
+architecture.</p>
 <p>Mosaic runs over any
 <t>duplex communication</t> <a href="rationale.html#duplex-communication"><sup>rat</sup></a>
 transport protocol that is
 <t>TLS</t> <a href="rationale.html#tls"><sup>rat</sup></a>
-secured such as <t>QUIC</t> <a href="rationale.html#quic"><sup>rat</sup></a>.</p>
-<p>Mosaic does not provide
-<t>IP privacy</t> <a href="rationale.html#no-ip-privacy"><sup>rat</sup></a>
-because this is better provided at a lower network layer.</p>
+secured such as <t>QUIC</t> <a href="rationale.html#quic"><sup>rat</sup></a> or TLS over TCP.
+Mosaic does not need nor utilize the functionality of HTTP.</p>
 <p>Mosaic users generate their own identities as
 <t>EdDSA ed25519</t> <a href="rationale.html#eddsa-ed25519"><sup>rat</sup></a>
 keypairs and Mosaic uses a
@@ -196,11 +205,17 @@ design.</p>
 <t>server identites</t> <a href="rationale.html#server-identities"><sup>rat</sup></a>.</p>
 <p>Mosaic identity and endpoint information is <a href="bootstrap.html">bootstrapped</a> from
 <t>Mainline DHT</t> <a href="rationale.html#mainline-dht"><sup>rat</sup></a></p>
-<p>Mosaic uses the <t>BLAKE3</t> <a href="rationale.html#blake3"><sup>rat</sup></a> hashing function.</p>
-<p>Mosaic <a href="record.html">records</a> are
-<t>binary</t> <a href="rationale.html#binary-records"><sup>rat</sup></a>.</p>
+<p>Mosaic does not provide
+<t>IP privacy</t> <a href="rationale.html#no-ip-privacy"><sup>rat</sup></a>
+because this is an orthogonal concern that is easier to manage if it is decoupled from
+Mosaic and provided by a lower network layer, such as a VPN or Tor.
+But Mosaic should not interfere with IP privacy solutions.</p>
+<p>Mosaic <a href="record.html">records</a> are encoded in a
+<t>binary</t> <a href="rationale.html#binary-records"><sup>rat</sup></a> format within the
+protocol messages themselves.
+So are <a href="filter.html">filters</a> and <a href="messages.html">protocol messages</a>.</p>
 <p>Mosaic <a href="record.html">records</a> are <a href="reference.html">editable</a>
-if an application wants them to be, as all records have (and can be addressed by)
+if the application layer wishes them to be, as all records have (and can be addressed by)
 a unique <a href="reference.html#id-reference">hash-based id</a>
 and a separate <a href="reference.html#address-reference">reusable address</a>.</p>
 <p><a href="timestamps.html">Timestamps</a> <a href="rationale.html#timestamps"><sup>rat</sup></a>
@@ -209,13 +224,24 @@ out to year 2262.</p>
 <p>Clients and Servers
 <t>remember the time that records are received</t>
 <a href="rationale.html#storing-received-at-timestamps"><sup>rat</sup></a>.</p>
-<p>The Mosaic specification is layered with Core, Transport, Extensions, and
-Applications. Only Core and Transport:QUIC are required by all participants.</p>
 <p>Mosaic is an offshoot of <a href="https://github.com/nostr-protocol">nostr</a>.</p>
+<p>Mosaic uses the <t>BLAKE3</t> <a href="rationale.html#blake3"><sup>rat</sup></a> hashing function.</p>
 <h3 id="the-name-mosaic">The name Mosaic</h3>
 <p>No reason. Just a name. Easy to remember and pronounce. A throwback to
 the old NCSA Mosaic browser I suppose. It is not an acronym. We always
 capitalize it even in the middle of a sentence.</p>
+<h3 id="must-should-and-may">MUST, SHOULD, and MAY</h3>
+<p>The capitalized words "MUST", "REQUIRED", "SHALL", "MUST NOT" and
+"SHALL NOT" indicate an absolute requirement in order to be in compliance with this
+specification, and violation means the software does not comply with the Mosaic
+specification.</p>
+<p>The capitalized words "SHOULD", "SHOULD NOT", and "RECOMMENDED" indicate
+strong advice for the default case, but there may be valid exceptions and software
+that does otherwise is not in violation of the specification.</p>
+<p>The capitalized words "MAY" and "OPTIONAL" indicate a choice that is truly
+optional.</p>
+<p>These definitions are differently worded, but are not meant to be functionally different
+from <a href="https://datatracker.ietf.org/doc/html/rfc2119">rfc2119</a>.</p>
               
             </div>
           </div><footer>

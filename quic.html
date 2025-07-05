@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -88,7 +86,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">QUIC</a>
     <ul class="current">
@@ -126,11 +124,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -140,6 +133,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -156,7 +156,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Transport layer</li>
+          <li class="breadcrumb-item">Transport</li>
       <li class="breadcrumb-item active">QUIC</li>
     <li class="wy-breadcrumbs-aside">
     </li>
@@ -174,17 +174,17 @@ provide other than framing. But framing is quite easy.</p>
 blocking, fewer roundtrips by design, optional out-of-order delivery, and multiplexing.
 It also maintains connections when clients switch networks, for example when mobile
 phones switch from WiFi to 4G.</p>
-<p>TLS must be version 1.3 only.</p>
+<p>TLS MUST be version 1.3 only.</p>
 <p>The QUIC ALPN used by Mosaic is "mosaic".</p>
-<p>The self-signed certificate distinguished name hostname must be "mosaic".</p>
-<p>Server-side certificates are required and authenticate the server to the client.
-These must use the ED25519 signature scheme and certificate verifier.
-The certificate verifier must accept self-signed certificates if they are validly
+<p>The self-signed certificate distinguished name hostname MUST be "mosaic".</p>
+<p>Server-side certificates are REQUIRED and authenticate the server to the client.
+These MUST use the ED25519 signature scheme and certificate verifier.
+The certificate verifier MUST accept self-signed certificates if they are validly
 signed by the public key within, and interpret that public key to be the Mosaic
 key of the server.</p>
-<p>Client-side certificates are optional and authenticate the client to the server.
-These must use the ED25519 signature scheme and certificate verifier.
-The certificate verifier must accept self-signed certificates if they are validly
+<p>Client-side certificates are OPTIONAL and authenticate the client to the server.
+These MUST use the ED25519 signature scheme and certificate verifier.
+The certificate verifier MUST accept self-signed certificates if they are validly
 signed by the public key within, and interpret that public key to be the Mosaic
 key of the user.</p>
 <h2 id="streaming-and-framing">Streaming and Framing</h2>

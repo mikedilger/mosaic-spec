@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -90,7 +88,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -124,11 +122,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -138,6 +131,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -167,10 +167,10 @@
                 <h1 id="human-readable-content">Human Readable Content</h1>
 <p>Records kinds which contain payloads of human readable content work as follows.</p>
 <p>The payload MUST be a valid UTF-8 encoded string.</p>
-<p>Any part of the intended content that is meant to have machine-readable meaning must
-not be in the payload, but instead specified in a content segment tag, which indicates
+<p>Any part of the intended content that is meant to have machine-readable meaning MUST
+NOT be in the payload, but instead specified in a content segment tag, which indicates
 the kind of content, the character (not byte) offset into the payload where this content
-should be rendered, and the value of the content.  Multiple kinds of content segment
+SHOULD be rendered, and the value of the content.  Multiple kinds of content segment
 tags are defined including:</p>
 <ul>
 <li><a href="core_tags.html#content-segment-user-mention">Content Segment: User Mention</a> for things like <code>@user</code>.</li>

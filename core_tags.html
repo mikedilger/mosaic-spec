@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -112,7 +110,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -146,11 +144,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -160,6 +153,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -198,7 +198,7 @@ are laid out as follows:</p>
 <ul>
 <li><code>[0:2]</code> - The type</li>
 <li><code>[2:3]</code> - The length of the tag value, not including the 3 byte header.
-    This must be at most 253.</li>
+    This MUST be at most 253.</li>
 <li><code>[3:]</code> - The value, which is at most 253 bytes long.</li>
 </ul>
 <table>
@@ -302,13 +302,13 @@ specified in their <a href="bootstrap.html">bootstrap</a> record.</p>
 </ul>
 <p>This is a reply to another record in a threading sense.</p>
 <p><code>KIND</code> is an 8-byte record <a href="kinds.html">kind</a> indicating the kind of record
-that this one replies to. Replies are application-independent and may
+that this one replies to. Replies are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.</p>
 <p><code>REFERENCE</code> is a 48-byte <a href="reference.html">reference</a> to some other record
 indicating which other record this record replies to.</p>
-<p>If a record includes this tag, it must also include a
+<p>If a record includes this tag, it MUST also include a
 <a href="#root">Root</a> tag as well.</p>
 <h2 id="root">Root</h2>
 <blockquote>
@@ -343,13 +343,13 @@ indicating which other record this record replies to.</p>
 <p>This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.</p>
 <p><code>KIND</code> is a 8-byte record <a href="kinds.html">kind</a> indicating the kind of record
-that the root record is. Threads are application-independent and may
+that the root record is. Threads are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.</p>
 <p><code>REFERENCE</code> is a 48-byte <a href="reference.html">reference</a> to some other record
 which is the root of the thread.</p>
-<p>If a record includes this tag, it must also include a
+<p>If a record includes this tag, it MUST also include a
 <a href="#reply">Reply</a> tag as well.</p>
 <h2 id="nostr-sister-event">Nostr Sister Event</h2>
 <blockquote>
@@ -433,7 +433,7 @@ can look up a subkey to verify it's association to a master key.</p>
 <p><code>PUBLIC_KEY</code> is the master public key of the person mentioned.</p>
 <p>Note that this is different from a <a href="#notify-public-key">Notify Public Key</a> tag
 which indicates the record should be delivered to that person.  Instead, this
-tag indicates that a <code>@name</code> for the person should be rendered when rendering
+tag indicates that a <code>@name</code> for the person SHOULD be rendered when rendering
 the content.</p>
 <h2 id="content-segment-server-mention">Content Segment: Server Mention</h2>
 <blockquote>
@@ -495,7 +495,7 @@ the content.</p>
 </ul>
 <p><code>OFFSET</code> is the offset into the content where the mention appears.</p>
 <p><code>KIND</code> is a 8-byte record <a href="kinds.html">kind</a> indicating the kind of record
-that this one replies to. Replies are application-independent and may
+that this one replies to. Replies are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
 to handle.</p>

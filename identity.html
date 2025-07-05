@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul class="current">
@@ -98,7 +96,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -132,11 +130,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -146,6 +139,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -187,7 +187,7 @@ of the secret half of an <a href="cryptography.html#digital-signature-with-eddsa
 keypair.  This key pair is considered their <em>master keypair</em>.</p>
 <p>A user is referenced by the public half of their <em>master keypair</em>.</p>
 <h2 id="master-keys-and-subkeys">Master keys and Subkeys</h2>
-<p>Users may have subsidiary public keys, known as <em>subkeys</em>, <em>signing keys</em> or
+<p>Users MAY have subsidiary public keys, known as <em>subkeys</em>, <em>signing keys</em> or
 <em>device keys</em> (these terms being mostly functionally interchangeable).</p>
 <p>The purpose of subkeys is for online usage in less secure environments, where
 compromise and revocation do not invalidate the master key identity that the
@@ -207,7 +207,7 @@ the master key. These include (presently):</p>
 </ul>
 <p>Subkeys might be deterministically derived from the master secret key, or they
 might not. Nothing in the Mosaic spec requires such, but some implementations
-may make use of this.</p>
+MAY make use of this.</p>
 <h2 id="rollover-and-revocation">Rollover and Revocation</h2>
 <p>See <a href="keyschedule.html">Key Schedule</a></p>
 <h2 id="users-versus-servers">Users versus Servers</h2>
@@ -218,7 +218,7 @@ servers.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="rationale.html" class="btn btn-neutral float-left" title="Rationale"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="status.html" class="btn btn-neutral float-left" title="Status and Development"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="bootstrap.html" class="btn btn-neutral float-right" title="Bootstrap">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -244,7 +244,7 @@ servers.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="rationale.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="status.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="bootstrap.html" style="color: #fcfcfc">Next &raquo;</a></span>

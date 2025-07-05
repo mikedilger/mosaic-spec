@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -100,7 +98,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -134,11 +132,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -148,6 +141,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -193,7 +193,7 @@ For <a href="websockets.html">WebSockets</a> transport this is done with the
 </ul>
 <h2 id="asynchronous">Asynchronous</h2>
 <p>All client messages initiate an action, and all server messages are in
-response to client messages (NOTE: this may not apply to Mosaic
+response to client messages (NOTE: this MAY not apply to Mosaic
 extensions). Yet messaging is asychronous and both sides SHOULD be
 prepared to deal with a message sent at any time.</p>
 <p>Servers SHOULD not send messages until they receive a message that
@@ -263,6 +263,11 @@ of each type. Following this is the data of the message.</p>
 <td><a href="#submission-result">Submission Result</a></td>
 <td>0x83</td>
 </tr>
+<tr>
+<td>Either</td>
+<td><a href="#unrecognized">Unrecognized</a></td>
+<td>0xF0</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -285,7 +290,7 @@ of each type. Following this is the data of the message.</p>
 <ul>
 <li><code>[0:1]</code> - The type 0x1</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes which should be made up by the client and
+<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes which SHOULD be made up by the client and
   used to associate returned <a href="#record"><code>Record</code></a> responses to this request.</li>
 <li><code>[6:8]</code> - Zeroed</li>
 <li><code>[*]</code> - A sequence of mixed IDs and ADDRs.  Note that ADDRs start
@@ -315,7 +320,7 @@ of each type. Following this is the data of the message.</p>
 <ul>
 <li><code>[0:1]</code> - The type 0x2</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code> two bytes which should be made up by the client and used
+<li><code>[4:6]</code> - <code>QUERY_ID</code> two bytes which SHOULD be made up by the client and used
   to associate returned <a href="#record"><code>Record</code></a> responses to this request.</li>
 <li><code>[6:8]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
@@ -349,7 +354,7 @@ immediately.</p>
 <ul>
 <li><code>[0:1]</code> - The type 0x3</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes which should be made up by the client and
+<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes which SHOULD be made up by the client and
   used to associate returned <a href="#record"><code>Record</code></a> responses to this request.</li>
 <li><code>[6:8]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
@@ -382,7 +387,7 @@ recent backwards.</p>
 <ul>
 <li><code>[0:1]</code> - The type 0x3</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes indicating which query should be closed.</li>
+<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes indicating which query SHOULD be closed.</li>
 <li><code>[4:8]</code> - Zeroed</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
@@ -512,10 +517,10 @@ but remains open to serve matching records that subsequently arrive.</p>
 <li><code>[4:5]</code> - <code>CODE</code> which indicates the result of the submission from among the
   following defined results:<ul>
 <li><code>OK</code>: 0x1 - Record submission was accepted</li>
-<li><code>DUPLICATE</code>: 0x2 - Record is a duplicate. Servers may use this or
-  they may optionally use <code>OK</code> in the same circumstance.</li>
-<li><code>NO_CONSUMERS</code>: 0x3 - Ephemeral record had no consumers. Servers may use this or
-  they may optionally use <code>OK</code> in the same circumstance.</li>
+<li><code>DUPLICATE</code>: 0x2 - Record is a duplicate. Servers MAY use this or
+  they MAY use <code>OK</code> in the same circumstance.</li>
+<li><code>NO_CONSUMERS</code>: 0x3 - Ephemeral record had no consumers. Servers MAY use this or
+  they MAY use <code>OK</code> in the same circumstance.</li>
 <li><code>REJECTED_INVALID</code>: 0x10 - Record is invalid</li>
 <li><code>REJECTED_TOO_FAST</code>: 0x12 - Submissions (or messages) are coming too quickly. Slow down.</li>
 <li><code>REJECTED_TEMP_BANNED</code>: 0x13 - Client is temporarily banned from submisisons.</li>
@@ -528,6 +533,24 @@ but remains open to serve matching records that subsequently arrive.</p>
 </li>
 <li><code>[5:8]</code> - Zeroed</li>
 <li><code>[8:40]</code> - A 32-byte prefix of the 48-byte Id.</li>
+</ul>
+<h3 id="unrecognized">Unrecognized</h3>
+<blockquote>
+<p><strong>0xF0</strong></p>
+</blockquote>
+<p>This is a message indicating that the last message from the peer was not recognized.</p>
+<p>When this is received over QUIC transport, the stream SHOULD be closed and further messaging
+can occur on other streams.</p>
+<p>It has the following format:</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0xF0|     LENGTH      |         0x0           |
+ 8  +-----------------------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0xF0</li>
+<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:8]</code> - Zeroed</li>
 </ul>
               
             </div>

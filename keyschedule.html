@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -88,7 +86,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -132,11 +130,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -146,6 +139,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -186,7 +186,7 @@ master key are not identical.</p>
 <p><strong>Flags</strong>: <em>Replaceable</em>, <em>Everybody</em>, <em>NotPrintable</em></p>
 <p>Representation = <code>[0, 0, 0, 0, 0, 0, 1, 14]</code></p>
 <h2 id="tags">Tags</h2>
-<p>Every subkey listed in a key schedule record must have an associated
+<p>Every subkey listed in a key schedule record MUST have an associated
 <a href="core_tags.html#subkey">subkey tag</a> listing the subkey.</p>
 <h2 id="payload">Payload</h2>
 <p>The payload is not <a href="human_readable_content.html">human readable</a>.</p>
@@ -226,7 +226,7 @@ master key are not identical.</p>
   records either received after the revocation timestamp, or with a timestamp
   after the revocation timestamp, are considered invalid.</li>
 <li>0x4F - OUT_OF_USE - Key is no longer in use (but nothing is revoked). This
-  may be used for signing keys or encryption keys.</li>
+  MAY be used for signing keys or encryption keys.</li>
 <li>0x80 - ACTIVE_NOSTR_KEY - A nostr secp256k1 subkey<ul>
 <li>This helps support dual-stack software that works with both nostr and
   Mosaic.</li>

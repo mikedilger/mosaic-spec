@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -98,7 +96,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -132,11 +130,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -146,6 +139,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -192,7 +192,7 @@ according to <a href="https://www.bittorrent.org/beps/bep_0044.html">BitTorrent 
 <ul>
 <li>Only 1000 bytes can be reliably stored, and some will be used for <em>bencoding</em>
   overhead and the salt, leaving us only 983 bytes of usable data.</li>
-<li>Data must be refreshed periodically otherwise it may be removed after a time.
+<li>Data SHOULD be refreshed periodically otherwise it may be removed after a time.
   Users are responsible for refreshing data in the Mainline DHT which will
   disappear over time. Mechanisms for this are out of scope for Mosaic Core.</li>
 <li>Data storage and retrieval may take a few seconds, and should not be done too
@@ -207,14 +207,14 @@ according to <a href="https://www.bittorrent.org/beps/bep_0044.html">BitTorrent 
 for server bootstraps and <code>mub25</code> for user bootstraps.</p>
 <h3 id="sequence-numbers">Sequence Numbers</h3>
 <p><t>Sequence numbers</t> <a href="rationale.html#sequence-numbers"><sup>rat</sup></a>
-should start at 1 and monotonically increase with each write.</p>
+SHOULD start at 1 and monotonically increase with each write.</p>
 <h3 id="rust-code">Rust code</h3>
 <p>There is a rust library to access this called <a href="https://github.com/pubky/mainline">mainline</a></p>
 <h2 id="bootstrap-format">Bootstrap Format</h2>
 <p>Bootstraps (the data after the bencoded prefix) are UTF-8 valid text up
 to 983 bytes long, and consist of a series of lines separated with a single
 ASCII Line Feed (LF) character (<code>\n</code>). Lines MUST not have trailing whitespace.</p>
-<p>Two kinds of bootstraps may be stored, based on whether the identity
+<p>Two kinds of bootstraps MAY be stored, based on whether the identity
 represents a server or a user.</p>
 <h2 id="server-bootstraps">Server Bootstraps</h2>
 <p>Server bootstraps provide the URLs that a server is available on.</p>
@@ -265,8 +265,8 @@ is an inbox server.</p>
 <p>Encryption is indicated by bit 2 (<code>1&lt;&lt;2</code>) in the character. A 1 bit means the
 server is an encryption server.</p>
 <p>Bits 5 and 6 are always on. This is an ASCII '0' (48, 0x30). However a <code>0</code>
-should never be used as a server usage character as this would indicate no
-server usages, which is invalid as such a line should not exist.</p>
+MUST never be used as a server usage character as this would indicate no
+server usages, which is invalid as such a line MUST NOT exist.</p>
 <p>For example, to indicate only outbox usage, use character <code>1</code>. To indicate all
 three usages, use <code>7</code>.</p>
 <p>Conveniently with this encoding the ASCII number also matches the relavant bits.</p>
@@ -291,7 +291,7 @@ listed. But see below for other limitations on the number of servers.</p>
 since more redundancy provides strongly diminishing benefit at a linearly
 increasing network traffic cost. Software MUST utilize the first three
 servers of the appropriate kind listed, and MAY tolerate additional servers
-but optionally MAY ignore additional servers.</p>
+but MAY ignore additional servers.</p>
 <p><em>Minimums</em>: Users SHOULD have at least one outbox and at least one inbox.
 Users MAY have no encryption servers but they will not be able to receive
 encrypted messages.</p>

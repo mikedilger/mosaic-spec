@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -94,7 +92,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -128,11 +126,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -142,6 +135,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -189,12 +189,17 @@ record layout at <code>[128:176]</code> making up 48 bytes.</p>
 <li>The kind (8 bytes),</li>
 <li>The the author's public key (32 bytes),</li>
 </ul>
-<p>An author can replace a record by creating a new record with the same address,
-in which case the address is copied (the nonce is not randomly generated).
-Replaced records must then contain the same author key and be of the same
-kind, and refer to the same unique address nonce.  They may however be signed
-by a different signing keypair or have their flags modified, their tags
-changed, and their content changed.</p>
+<p>The nonce can be created in a multitude of ways depending on the needs of the
+application</p>
+<ul>
+<li>Randomly</li>
+<li>As a copy of a previous record's nonce, to replace that record or add a
+  new version</li>
+<li>As a well-known string, thus making it easy to find a well-known record</li>
+</ul>
+<p>Records with the same address MUST necessarily have the same author and kind,
+but they can be signed by a different signing keypair, have modified flags,
+and change their tags and content.</p>
               
             </div>
           </div><footer>

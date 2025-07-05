@@ -47,8 +47,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Identity</span></p>
               <ul>
@@ -88,7 +86,7 @@
                   <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Transport layer</span></p>
+              <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
                   </li>
@@ -124,11 +122,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Appendices</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Application: Mosaic Social Media</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="microblog.html">Microblogging</a>
@@ -138,6 +131,13 @@
                   <li class="toctree-l1"><a class="reference internal" href="reply_comment.html">Reply Comment</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Appendices</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="cryptography.html">Cryptography</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a>
                   </li>
               </ul>
       </div>
@@ -170,24 +170,36 @@
 <tr>
 <th>Application</th>
 <th>ID</th>
+<th>Link</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Mosaic Core</td>
 <td>0</td>
+<td>this document</td>
 </tr>
 <tr>
 <td>Mosaic Social Media</td>
 <td>1</td>
+<td>this document</td>
 </tr>
 <tr>
 <td>Examples</td>
 <td>99</td>
+<td>unspecified</td>
 </tr>
 </tbody>
 </table>
-<p>External groups may define applications and have their Application ID registered here.</p>
+<p>Applications are specified separately from Mosaic, except for <t>Mosaic Core</t> and
+<t>Mosaic Social Media</t>.</p>
+<p>Application IDs are 5-byte integers ranging from 0 to 1,099,511,627,776.</p>
+<p>Application IDs outside of this Mosaic spec SHOULD be selected randomly to avoid
+the chance of collision with other applications that have not registered their ID
+with us.</p>
+<p>External groups may define applications and have their Application ID registered here.
+We would appreciate knowing about your application, and listing it here both further
+avoids collision risk, and advertises its availability.</p>
               
             </div>
           </div><footer>
