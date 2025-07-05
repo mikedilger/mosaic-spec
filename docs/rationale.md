@@ -283,20 +283,19 @@ But IDs are not hashed and signed. So we have to duplicate it in the main part o
 
 ### Tags
 
-Tag values should not be too large as they need to be indexed by relays.
+Tag values usually don't need to be very large. However occasionally they do, such as when
+referencing a URL. Thus we wish to have the possibility of very large tags. A two-byte
+length gives us 65,536 bytes which seems like plenty.
 
-Constraining the value to 253 bytes allows an entire TLV (with 16-bit type and 8-bit length) to
-fit within 256 bytes.
+Although tags must be indexed by storage engines, storage engines MAY simply index a fixed
+prefix of a tag rather than the entire thing as indexes do not need to be perfect (records
+which do not actually match can be efficiently removed after the index lookup operation).
 
 While for some tag types a length could be inferred, this is not true in general. Applications
 should not be required to recognize every tag type to look up its known length or type-specific
 method of length calculation.
 
-Tags specify a value length not a length of the whole tag. This allows tags of 256 bytes in length
-to be represented (with a value length of 253). Otherwise a tag of such length could not fit
-its length (256) into a single byte. Value lengths > 253 MUST be considered invalid.
-
-Some tag types start with padding in the value in order to better align their data.
+Some tag types MAY start with padding in the value in order to better align their data.
 
 ---
 

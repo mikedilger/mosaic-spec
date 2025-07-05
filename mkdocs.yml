@@ -27,7 +27,7 @@ nav:
     - URL: url.md
   - Data Formats:
     - Timestamps: timestamps.md
-    - Core Tags: core_tags.md
+    - Tags: tags.md
     - Record Format: record.md
     - Human Readable Content: human_readable_content.md
     - References: reference.md
@@ -51,6 +51,7 @@ nav:
   - "Application: Core":
     - Key Schedule Record: keyschedule.md
     - Profile Record: profile.md
+    - Core Tags: core_tags.md
     - Acquaintences and Friends: friends.md
     - Reporting: reporting.md
   - "Application: Mosaic Social Media":

@@ -234,26 +234,7 @@ calculated as `(LenP + 7) & !7`
 
 Varying bytes at `[208:208+LenT]`
 
-These are searchable key-value tags.
-
-<t>Tags</t> [<sup>ref</sup>](rationale.md#tags) are a maximum of 256 bytes long each.
-
-All tags are searchable on servers. If an application requires unsearchable tags,
-these can be defined within that application's payload.
-
-Tags are laid out as follows:
-
-```text
-0           2               3         256 max
-+-----------+---------------+----------+
-| type      | value_length  | value ...|
-+-----------+---------------+----------+
-```
-
-Each tag has a 2-byte (16 bit) type `[0:2]`, a 1-byte (8 bit) value length `[2:3]`,
-and a value that is at most 253 bytes long `[3:]`.
-
-Tags only have one value.
+These are searchable key-value [tags](tags.md).
 
 The tags section is padded out to 64-bit alignment.
 

@@ -3,7 +3,9 @@
 <status>PAGE STATUS: early draft</status>
 
 Tag types are 2-byte (16-bit) unsigned integers in little-endian format.
-Each application registers their tag types here to prevent collision.
+Each application registers their indexable tag types here to prevent collision.
+
+Applications should manage non-indexable tags within the payload.
 
 Mosaic Core defines a few core tags in [Core Tags](core_tags.md).
 
