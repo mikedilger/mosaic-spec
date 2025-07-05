@@ -33,12 +33,13 @@ nav:
     - References: reference.md
   - Client-Server Protocol:
     - Network architecture: network.md
-    - Transport requirements: transport_requirements.md
     - Protocol messages: messages.md
     - Filter: filter.md
     - Sync: sync.md
   - Transport:
+    - Transports: transports.md
     - QUIC: quic.md
+    - TCP with TLS: tcp.md
     - WebSockets: websockets.md
   - Accessory:
     - Human Encodings: human_encodings.md

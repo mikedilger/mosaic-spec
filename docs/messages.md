@@ -15,7 +15,7 @@ allows the protocol to be easily framed within a stream.
 Protocol extension negotiation is done on a transport-by-transport level.
 For [QUIC](quic.md) transport this is done with the initial packet.
 For [WebSockets](websockets.md) transport this is done with the
-`X-Mosaic-Extensions` header.
+`X-Mosaic-Extensions` header. See the specific transport.
 
 The following extensions have been defined:
 

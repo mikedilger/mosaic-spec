@@ -16,6 +16,9 @@ We store bootstraps in Mainline DHT.
 
 Bootstraps are not [records](record.md). They have their own format.
 
+Bootstrap records MUST always be signed by a master key, never by a subordinate
+key.
+
 ## Mainline DHT
 
 We use <t>Mainline DHT</t> [<sup>rat</sup>](rationale.md#mainline-dht)
@@ -28,13 +31,17 @@ Limitations:
   overhead and the salt, leaving us only 983 bytes of usable data.
 * Data SHOULD be refreshed periodically otherwise it may be removed after a time.
   Users are responsible for refreshing data in the Mainline DHT which will
-  disappear over time. Mechanisms for this are out of scope for Mosaic Core.
+  disappear over time. Mechanisms for this are out of scope for Mosaic Core, but
+  servers MAY offer this service.
 * Data storage and retrieval may take a few seconds, and should not be done too
   frequently. Software SHOULD cache results for at least 2 hours.
-* You need a bootstrap to get started and find peers. `router.utorrent.com`
-  and `router.bittorrent.com` are common but could be targetted in an attack.
-  However, you can find many more or setup your own
+* To use Mainline DHT, you need to start from a bootstrap node. We list some here
+  in the hopes that this helps someone get started, but others exist and you can
+  even set up your own using (for example)
   [bootstrap server](https://github.com/bittorrent/bootstrap-dht).
+    * `router.bittorrent.com` port 6881
+    * `dht.transmissionbt.com` port 6881
+    * `dht.libtorrent.org` port 25401
 
 ### Salt
 
@@ -44,7 +51,7 @@ for server bootstraps and `mub25` for user bootstraps.
 ### Sequence Numbers
 
 <t>Sequence numbers</t> [<sup>rat</sup>](rationale.md#sequence-numbers)
-SHOULD start at 1 and monotonically increase with each write.
+SHOULD start at 1 and MUST monotonically increase with each write.
 
 ### Rust code
 
@@ -83,7 +90,9 @@ mosaic://203.0.113.2:5198
 mosaic://[2001::130F::09C0:876A:130B]
 ```
 
-Servers are expected to operate as their own inbox/outbox and encryption
+Servers MAY list as many endpoints as they desire.
+
+Servers are expected to operate as their own inbox, outbox and encryption
 server. So they do not require the same data as the user bootstrap.
 
 ## User Bootstrap
@@ -103,17 +112,26 @@ This first part is a single character that encodes that kind of usage.
 
 There are three defined server usages:
 
-* **Outbox** - Outbox servers are where users publish public records meant to
-be read by anyone who is following the person's public content.
+* **Outbox** - Outbox servers are where users _publish_ public records meant to
+be read by anyone who wishes to.
 The [key schedule](keyschedule.md) and [profile](profile.md) are published
 here.
 
-* **Inbox** - Inbox servers are where users receive records that reference them,
-and where other users can follow replies to messages created by them.
+* **Inbox** - Inbox servers are where users _receive_ records that reference them,
+and where other users can follow replies to the user's messages which are posted
+here by other people.
 
-* **Encryption** - Encryption servers function like an inbox but handle
+* **Encryption** - Encryption servers function like _inbox_ servers but handle
 private encrypted messages (defined outside of Mosaic core) that only the
 user can read back.
+
+There MAY be other ways to use servers and thus there MAY be other types of server
+usages. However, such other server usages are not published in this bootstrap record.
+Applications can publish a regular record to the users <t>outbox</t> listing additional
+application specific servers as necessary.
+
+If there is a strong case for including additional server usages here in the base
+Mosaic spec, it may be added here prior to the 1.0 freeze.
 
 Outbox is indicated by bit 0 (`1<<0`) in the character. A 1 bit means the
 server is an outbox server.
@@ -124,9 +142,13 @@ is an inbox server.
 Encryption is indicated by bit 2 (`1<<2`) in the character. A 1 bit means the
 server is an encryption server.
 
-Bits 5 and 6 are always on. This is an ASCII '0' (48, 0x30). However a `0`
+Bits 3 and 4 are RESERVED and MUST be 0.
+
+Bits 5 and 6 MUST BE always on. This is an ASCII '0' (48, 0x30). However a `0`
 MUST never be used as a server usage character as this would indicate no
 server usages, which is invalid as such a line MUST NOT exist.
+
+Bits 7 and 8 are RESERVED and MUST be 0.
 
 For example, to indicate only outbox usage, use character `1`. To indicate all
 three usages, use `7`.
@@ -135,7 +157,7 @@ Conveniently with this encoding the ASCII number also matches the relavant bits.
 
 ### Server Key
 
-The second part is the server's public key, encoded according to
+The second part of each line is the server's public key, encoded according to
 [human encodings](human_encodings.md) as a `mopub0`. This are 58 characters
 long.
 
@@ -163,8 +185,8 @@ Users can change servers and update these bootstrap entries at any time.
 since more redundancy provides strongly diminishing benefit at a linearly
 increasing network traffic cost. Software MUST utilize the first three
 servers of the appropriate kind listed, and MAY tolerate additional servers
-but MAY ignore additional servers.
+but MAY also choose to ignore additional servers.
 
-*Minimums*: Users SHOULD have at least one outbox and at least one inbox.
-Users MAY have no encryption servers but they will not be able to receive
-encrypted messages.
+*Minimums*: Users MUST have at least one outbox and at least one inbox.
+Users MAY have no encryption servers, but then they will not be able to
+receive encrypted messages.

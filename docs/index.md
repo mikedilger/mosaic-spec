@@ -14,7 +14,7 @@ Mosaic is a
 <t>distributed</t> [<sup>rat</sup>](rationale.md#distributed)
 and
 <t>sovereign</t> [<sup>rat</sup>](rationale.md#sovereign)
-social application protocol for the Internet.
+social application base-layer specification for the Internet.
 
 Mosaic is meant to be an underlying unopinionated layer.
 Your opinionated social media application rides on top.
@@ -64,8 +64,8 @@ So are [filters](filter.md) and [protocol messages](messages.md).
 
 Mosaic [records](record.md) are [editable](reference.md)
 if the application layer wishes them to be, as all records have (and can be addressed by)
-a unique [hash-based id](reference.md#id-reference)
-and a separate [reusable address](reference.md#address-reference).
+a [reusable address](reference.md#address-reference)
+as well as a unique [hash-based id](reference.md#id-reference).
 
 [Timestamps](timestamps.md) [<sup>rat</sup>](rationale.md#timestamps)
 account for <t>leap seconds</t>, have <t>nanosecond accuracy</t>, and extend

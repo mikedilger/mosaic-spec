@@ -300,6 +300,13 @@ Some tag types start with padding in the value in order to better align their da
 
 ---
 
+## TCP
+
+TCP with TLS 1.3 is a required transport so that servers may operate through UDP-adverse
+situations. It is technically simpler than QUIC and not much of an additional ask.
+
+---
+
 ## References
 
 ### Id Fields

@@ -23,13 +23,17 @@ A user is referenced by the public half of their *master keypair*.
 Users MAY have subsidiary public keys, known as *subkeys*, *signing keys* or
 *device keys* (these terms being mostly functionally interchangeable).
 
-The purpose of subkeys is for online usage in less secure environments, where
+The purpose of subkeys is primarily to facilitate online usage in less secure
+environments without risking exposure of the master key secret, where
 compromise and revocation do not invalidate the master key identity that the
 user is known by.
 
 Subkeys also support alternative algorithms, such as X25519 public keys for
 receiving encrypted information, or secp256k1 keys for backwards compatibility
 with nostr.
+
+Subkeys also enable sub-identities or <b>personas</b> that can be independently
+followed.
 
 Users publish their subkeys in a [key schedule record](keyschedule.md), defined
 within the core records specification.
@@ -42,9 +46,8 @@ the master key. These include (presently):
 * Publishing/modifying a user's [Key Schedule](keyschedule.md) with new keys and/or revocations.
 * Publishing/modifying a user's [Profile](profile.md) record.
 
-Subkeys might be deterministically derived from the master secret key, or they
-might not. Nothing in the Mosaic spec requires such, but some implementations
-MAY make use of this.
+Subkeys MAY be deterministically derived from the master secret key, or they
+MAYt not. Nothing in the Mosaic spec requires such.
 
 ## Rollover and Revocation
 
@@ -57,5 +60,5 @@ Identities are split between Users and Servers.
 Servers provide an infrastructure service. Users rely on the service provided by
 servers.
 
-
-
+The use of a [key schedule record](keyschedule.md) by servers is not yet specified
+and yet to be worked out.
