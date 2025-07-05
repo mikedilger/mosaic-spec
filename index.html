@@ -81,8 +81,6 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="network.html">Network architecture</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="transport_requirements.html">Transport requirements</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="messages.html">Protocol messages</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="filter.html">Filter</a>
@@ -92,7 +90,11 @@
               </ul>
               <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="transports.html">Transports</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="tcp.html">TCP with TLS</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="websockets.html">WebSockets</a>
                   </li>
@@ -177,7 +179,7 @@ made, but kept separate to not clutter the specification.</p>
 <t>distributed</t> <a href="rationale.html#distributed"><sup>rat</sup></a>
 and
 <t>sovereign</t> <a href="rationale.html#sovereign"><sup>rat</sup></a>
-social application protocol for the Internet.</p>
+social application base-layer specification for the Internet.</p>
 <p>Mosaic is meant to be an underlying unopinionated layer.
 Your opinionated social media application rides on top.
 But we have to make some decisions at this layer, so we can't be entirely unopinionated.</p>
@@ -216,8 +218,8 @@ protocol messages themselves.
 So are <a href="filter.html">filters</a> and <a href="messages.html">protocol messages</a>.</p>
 <p>Mosaic <a href="record.html">records</a> are <a href="reference.html">editable</a>
 if the application layer wishes them to be, as all records have (and can be addressed by)
-a unique <a href="reference.html#id-reference">hash-based id</a>
-and a separate <a href="reference.html#address-reference">reusable address</a>.</p>
+a <a href="reference.html#address-reference">reusable address</a>
+as well as a unique <a href="reference.html#id-reference">hash-based id</a>.</p>
 <p><a href="timestamps.html">Timestamps</a> <a href="rationale.html#timestamps"><sup>rat</sup></a>
 account for <t>leap seconds</t>, have <t>nanosecond accuracy</t>, and extend
 out to year 2262.</p>

@@ -77,8 +77,6 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="network.html">Network architecture</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="transport_requirements.html">Transport requirements</a>
-                  </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Protocol messages</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#protocol-extensions">Protocol Extensions</a>
@@ -100,7 +98,11 @@
               </ul>
               <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="transports.html">Transports</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="tcp.html">TCP with TLS</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="websockets.html">WebSockets</a>
                   </li>
@@ -186,7 +188,7 @@ allows the protocol to be easily framed within a stream.</p>
 <p>Protocol extension negotiation is done on a transport-by-transport level.
 For <a href="quic.html">QUIC</a> transport this is done with the initial packet.
 For <a href="websockets.html">WebSockets</a> transport this is done with the
-<code>X-Mosaic-Extensions</code> header.</p>
+<code>X-Mosaic-Extensions</code> header. See the specific transport.</p>
 <p>The following extensions have been defined:</p>
 <ul>
 <li><a href="sync.html">Sync</a></li>
@@ -556,7 +558,7 @@ can occur on other streams.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="transport_requirements.html" class="btn btn-neutral float-left" title="Transport requirements"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="network.html" class="btn btn-neutral float-left" title="Network architecture"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="filter.html" class="btn btn-neutral float-right" title="Filter">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -582,7 +584,7 @@ can occur on other streams.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="transport_requirements.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="network.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="filter.html" style="color: #fcfcfc">Next &raquo;</a></span>

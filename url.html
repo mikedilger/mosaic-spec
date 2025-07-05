@@ -59,6 +59,16 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">URL</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#scheme">Scheme</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#host">Host</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#port">Port</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#path">Path</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#other-url-components">Other URL components</a>
+    </li>
     </ul>
                   </li>
               </ul>
@@ -79,8 +89,6 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="network.html">Network architecture</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="transport_requirements.html">Transport requirements</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="messages.html">Protocol messages</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="filter.html">Filter</a>
@@ -90,7 +98,11 @@
               </ul>
               <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="transports.html">Transports</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="tcp.html">TCP with TLS</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="websockets.html">WebSockets</a>
                   </li>
@@ -168,26 +180,32 @@
 <p><status>PAGE STATUS: early draft</status></p>
 <p>Mosaic servers are located using URLs. Mosaic server URLs are subject to the
 following rules.</p>
+<h2 id="scheme">Scheme</h2>
+<p>Mosaic URLs MUST contain one of the following <strong>scheme</strong>s which indicate which
+transport is used:</p>
 <ul>
-<li>Mosaic URLs MUST contain one of the following <strong>scheme</strong>s:<ul>
 <li><code>mosaic</code> for Mosaic over <a href="quic.html">QUIC</a></li>
-<li><code>wss</code> for Mosaic over <a href="websockets.html">WebSockets</a></li>
+<li><code>mosaictcp</code> for Mosaic over <a href="tcp.html">TCP with TLS</a></li>
+<li><code>mosaicwss</code> for Mosaic over <a href="websockets.html">WebSockets</a></li>
 </ul>
-</li>
-<li>Mosaic URLs MUST contain a <strong>host</strong>. This SHOULD normally be an IP address (either
-  IPv4 or IPv6) but it MAY be a DNS name. DNS names are useful primarily when
-  using Tor (.onion) or I2P (.i2p), but regular DNS may also be used although this
-  is RECOMMENDED against since DNS can be censored.</li>
-<li>Mosaic URLs MAY contain a <strong>port</strong>. If a port is not provided, then the following
-  defaults apply<ul>
-<li>The <code>mosaic</code> default port is 1320.</li>
-<li>The <code>wss</code> default port is 443.</li>
+<h2 id="host">Host</h2>
+<p>Mosaic URLs MUST contain a <strong>host</strong>.</p>
+<p>This SHOULD normally be an IP address (either IPv4 or IPv6) but it MAY be a DNS name.</p>
+<p>Hosts may also be Tor onion sites (specified as a DNS name). When hosts are exposed
+through Tor, the scheme MUST NOT be <code>mosaic</code> since QUIC cannot transit Tor.</p>
+<h2 id="port">Port</h2>
+<p>Mosaic URLs MAY contain a <strong>port</strong>.</p>
+<p>If a port is not provided, then the following defaults apply</p>
+<ul>
+<li>For <code>mosaic</code> the default port is 1320.</li>
+<li>For <code>mosaictcp</code> the default port is 1320.</li>
+<li>For <code>mosaicwss</code> the default port is 443.</li>
 </ul>
-</li>
-<li>Mosaic URLs MUST specify the root path <code>/</code>.</li>
-<li>Mosaic URLs MUST not contain a user, password, query, or fragment section. If any
-  of these is found, software MUST prune such information.</li>
-</ul>
+<h2 id="path">Path</h2>
+<p>Mosaic URLs MUST specify the root path <code>/</code> exactly and no other path.</p>
+<h2 id="other-url-components">Other URL components</h2>
+<p>Mosaic URLs MUST NOT contain a user, password, query, or fragment section.</p>
+<p>If any of these is found, software MUST ignore and MAY prune such information.</p>
               
             </div>
           </div><footer>

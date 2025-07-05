@@ -77,8 +77,6 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="network.html">Network architecture</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="transport_requirements.html">Transport requirements</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="messages.html">Protocol messages</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="filter.html">Filter</a>
@@ -88,7 +86,11 @@
               </ul>
               <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="transports.html">Transports</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="tcp.html">TCP with TLS</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="websockets.html">WebSockets</a>
                   </li>
@@ -158,6 +160,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#quic">QUIC</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#records">Records</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tcp">TCP</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#references">References</a>
     </li>
@@ -488,6 +492,10 @@ method of length calculation.</p>
 to be represented (with a value length of 253). Otherwise a tag of such length could not fit
 its length (256) into a single byte. Value lengths &gt; 253 MUST be considered invalid.</p>
 <p>Some tag types start with padding in the value in order to better align their data.</p>
+<hr />
+<h2 id="tcp">TCP</h2>
+<p>TCP with TLS 1.3 is a required transport so that servers may operate through UDP-adverse
+situations. It is technically simpler than QUIC and not much of an additional ask.</p>
 <hr />
 <h2 id="references">References</h2>
 <h3 id="id-fields">Id Fields</h3>

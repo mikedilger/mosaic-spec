@@ -87,8 +87,6 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="network.html">Network architecture</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="transport_requirements.html">Transport requirements</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="messages.html">Protocol messages</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="filter.html">Filter</a>
@@ -98,7 +96,11 @@
               </ul>
               <p class="caption"><span class="caption-text">Transport</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="transports.html">Transports</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="quic.html">QUIC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="tcp.html">TCP with TLS</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="websockets.html">WebSockets</a>
                   </li>
@@ -189,12 +191,15 @@ keypair.  This key pair is considered their <em>master keypair</em>.</p>
 <h2 id="master-keys-and-subkeys">Master keys and Subkeys</h2>
 <p>Users MAY have subsidiary public keys, known as <em>subkeys</em>, <em>signing keys</em> or
 <em>device keys</em> (these terms being mostly functionally interchangeable).</p>
-<p>The purpose of subkeys is for online usage in less secure environments, where
+<p>The purpose of subkeys is primarily to facilitate online usage in less secure
+environments without risking exposure of the master key secret, where
 compromise and revocation do not invalidate the master key identity that the
 user is known by.</p>
 <p>Subkeys also support alternative algorithms, such as X25519 public keys for
 receiving encrypted information, or secp256k1 keys for backwards compatibility
 with nostr.</p>
+<p>Subkeys also enable sub-identities or <b>personas</b> that can be independently
+followed.</p>
 <p>Users publish their subkeys in a <a href="keyschedule.html">key schedule record</a>, defined
 within the core records specification.</p>
 <p>A limited number of low-frequency operations in Mosaic require a signature from
@@ -205,15 +210,16 @@ the master key. These include (presently):</p>
 <li>Publishing/modifying a user's <a href="keyschedule.html">Key Schedule</a> with new keys and/or revocations.</li>
 <li>Publishing/modifying a user's <a href="profile.html">Profile</a> record.</li>
 </ul>
-<p>Subkeys might be deterministically derived from the master secret key, or they
-might not. Nothing in the Mosaic spec requires such, but some implementations
-MAY make use of this.</p>
+<p>Subkeys MAY be deterministically derived from the master secret key, or they
+MAYt not. Nothing in the Mosaic spec requires such.</p>
 <h2 id="rollover-and-revocation">Rollover and Revocation</h2>
 <p>See <a href="keyschedule.html">Key Schedule</a></p>
 <h2 id="users-versus-servers">Users versus Servers</h2>
 <p>Identities are split between Users and Servers.</p>
 <p>Servers provide an infrastructure service. Users rely on the service provided by
 servers.</p>
+<p>The use of a <a href="keyschedule.html">key schedule record</a> by servers is not yet specified
+and yet to be worked out.</p>
               
             </div>
           </div><footer>
