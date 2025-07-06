@@ -61,34 +61,10 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Data Formats</span></p>
-              <ul class="current">
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" href="timestamps.html">Timestamps</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Core Tags</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#notify-public-key">Notify Public Key</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#reply">Reply</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#root">Root</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#nostr-sister-event">Nostr Sister Event</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#subkey">Subkey</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#content-segment-user-mention">Content Segment: User Mention</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#content-segment-server-mention">Content Segment: Server Mention</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#content-segment-quote">Content Segment: Quote</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#content-segment-url">Content Segment: URL</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#content-segment-image">Content Segment: Image</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#content-segment-video">Content Segment: Video</a>
-    </li>
-    </ul>
+                  <li class="toctree-l1"><a class="reference internal" href="tags.html">Tags</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="record.html">Record Format</a>
                   </li>
@@ -136,10 +112,36 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Application: Core</span></p>
-              <ul>
+              <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="keyschedule.html">Key Schedule Record</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="profile.html">Profile Record</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Core Tags</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#notify-public-key">Notify Public Key</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#reply">Reply</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#root">Root</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#nostr-sister-event">Nostr Sister Event</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#subkey">Subkey</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#content-segment-user-mention">Content Segment: User Mention</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#content-segment-server-mention">Content Segment: Server Mention</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#content-segment-quote">Content Segment: Quote</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#content-segment-url">Content Segment: URL</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#content-segment-image">Content Segment: Image</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#content-segment-video">Content Segment: Video</a>
+    </li>
+    </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="friends.html">Acquaintences and Friends</a>
                   </li>
@@ -178,7 +180,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Data Formats</li>
+          <li class="breadcrumb-item">Application: Core</li>
       <li class="breadcrumb-item active">Core Tags</li>
     <li class="wy-breadcrumbs-aside">
     </li>
@@ -189,20 +191,6 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="mosaic-core-tags">Mosaic Core Tags</h1>
-<p><status>PAGE STATUS: early draft</status></p>
-<p><t>Tags</t> <a href="rationale.html#tags"><sup>rat</sup></a>
-are laid out as follows:</p>
-<pre><code class="language-text">0           2      3         256 max
-+-----------+------+----------+
-| type      | len  | value ...|
-+-----------+------+----------+
-</code></pre>
-<ul>
-<li><code>[0:2]</code> - The type</li>
-<li><code>[2:3]</code> - The length of the tag value, not including the 3 byte header.
-    This MUST be at most 253.</li>
-<li><code>[3:]</code> - The value, which is at most 253 bytes long.</li>
-</ul>
 <table>
 <thead>
 <tr>
@@ -249,9 +237,9 @@ are laid out as follows:</p>
 <blockquote>
 <p><strong>0x1</strong></p>
 </blockquote>
-<pre><code class="language-text">      0       2    3                  8
+<pre><code class="language-text">      0       2       4                  8
  0x0  +-------------------------------+ 0
-      |  0x1  |0x25|       0x0        |
+      |  40   |  0x1  |   zeroed      |
  0x8  +-------------------------------+ 8
       | PUBLIC KEY 1/4                |
  0x10 +-------------------------------+ 16
@@ -263,9 +251,9 @@ are laid out as follows:</p>
  0x28 +-------------------------------+ 40
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x1 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length 0x25</li>
-<li><code>[3:8]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length 40 as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x1 as a little-endian encoded unsigned integer</li>
+<li><code>[4:8]</code> - Zeroed</li>
 <li><code>[8:40]</code> - public key (32 bytes)</li>
 </ul>
 <p>Records with this tag indicate that the record is of interest to the
@@ -276,9 +264,9 @@ specified in their <a href="bootstrap.html">bootstrap</a> record.</p>
 <blockquote>
 <p><strong>0x2</strong></p>
 </blockquote>
-<pre><code class="language-text">      0       2   3          6         8
+<pre><code class="language-text">      0       2      4       6         8
  0x0  +-------------------------------+ 0
-      |  0x2  |0x3D|   0              |
+      |  64   | 0x2  |    zeroed      |
  0x8  +-------------------------------+ 8
       | KIND                          |
  0x10 +-------------------------------+ 16
@@ -296,9 +284,9 @@ specified in their <a href="bootstrap.html">bootstrap</a> record.</p>
  0x40 +-------------------------------+ 64
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x2 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length 0x3D</li>
-<li><code>[3:8]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length 64 as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x2 as a little-endian encoded unsigned integer</li>
+<li><code>[4:8]</code> - Zeroed</li>
 <li><code>[8:16]</code> - The <a href="kinds.html">kind</a></li>
 <li><code>[16:64]</code> - The reference (48 bytes)</li>
 </ul>
@@ -316,9 +304,9 @@ indicating which other record this record replies to.</p>
 <blockquote>
 <p><strong>0x3</strong></p>
 </blockquote>
-<pre><code class="language-text">      0       2   3          6        8
+<pre><code class="language-text">      0       2       4      6        8
  0x0  +-------------------------------+ 0
-      |  0x3  |0x3D|    0             |
+      |  64   |  0x3  |    zeroed     |
  0x8  +-------------------------------+ 8
       | KIND                          |
  0x10 +-------------------------------+ 16
@@ -336,9 +324,9 @@ indicating which other record this record replies to.</p>
  0x40 +-------------------------------+ 64
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x3 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length 0x35</li>
-<li><code>[3:8]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length 64 as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x3 as a little-endian encoded unsigned integer</li>
+<li><code>[4:8]</code> - Zeroed</li>
 <li><code>[8:16]</code> - The <a href="kinds.html">kind</a></li>
 <li><code>[16:64]</code> - The reference (48 bytes)</li>
 </ul>
@@ -357,9 +345,9 @@ which is the root of the thread.</p>
 <blockquote>
 <p><strong>0x8</strong></p>
 </blockquote>
-<pre><code class="language-text">      0       2    3                  8
+<pre><code class="language-text">      0       2       4               8
  0x0  +-------------------------------+ 0
-      |  0x8  |0x25|       0x0        |
+      |  40   |  0x8  |    zeroed     |
  0x8  +-------------------------------+ 8
       | NOSTR ID 1/4                  |
  0x10 +-------------------------------+ 16
@@ -371,9 +359,9 @@ which is the root of the thread.</p>
  0x28 +-------------------------------+ 40
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x8 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length 0x25</li>
-<li><code>[3:8]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length 40 as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x8 as a little-endian encoded unsigned integer</li>
+<li><code>[4:8]</code> - Zeroed</li>
 <li><code>[8:40]</code> - The Nostr ID (32 bytes)</li>
 </ul>
 <p>For dual-stack clients that produce Nostr events alongside Mosaic records,
@@ -385,9 +373,9 @@ hex of the id of its Mosaic sister record.</p>
 <blockquote>
 <p><strong>0x10</strong></p>
 </blockquote>
-<pre><code class="language-text">      0       2    3   4              8
+<pre><code class="language-text">      0       2        4              8
  0x0  +-------------------------------+ 0
-      |  0x10 |0x25|    0x0           |
+      |  40   |  0x10  |    zeroed    |
  0x8  +-------------------------------+ 8
       | PUBLIC SUBKEY 1/4             |
  0x10 +-------------------------------+ 16
@@ -399,9 +387,9 @@ hex of the id of its Mosaic sister record.</p>
  0x28 +-------------------------------+ 40
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x10 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length 0x25</li>
-<li><code>[3:8]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length 40 as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x10 as a little-endian encoded unsigned integer</li>
+<li><code>[4:8]</code> - Zeroed</li>
 <li><code>[8:40]</code> - The subkey public key</li>
 </ul>
 <p>This is used only on <a href="keyschedule.html">key schedule</a> records so that clients
@@ -410,9 +398,9 @@ can look up a subkey to verify it's association to a master key.</p>
 <blockquote>
 <p><strong>0x20</strong></p>
 </blockquote>
-<pre><code class="language-text">      0       2    3   4              8
+<pre><code class="language-text">      0       2        4              8
  0x0  +-------------------------------+ 0
-      |  0x20 |0x25|0x0|   OFFSET     |
+      |  40   |  0x20  |   OFFSET     |
  0x8  +-------------------------------+ 8
       | PUBLIC KEY 1/4                |
  0x10 +-------------------------------+ 16
@@ -424,9 +412,8 @@ can look up a subkey to verify it's association to a master key.</p>
  0x28 +-------------------------------+ 40
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x20 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length 0x25</li>
-<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length 40 as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x20 as a little-endian encoded unsigned integer</li>
 <li><code>[4:8]</code> - The offset as a little-endian encoded unsigned integer.</li>
 <li><code>[8:40]</code> - public key (32 bytes)</li>
 </ul>
@@ -441,9 +428,9 @@ the content.</p>
 <blockquote>
 <p><strong>0x21</strong></p>
 </blockquote>
-<pre><code class="language-text">      0       2    3   4              8
+<pre><code class="language-text">      0       2        4              8
  0x0  +-------------------------------+ 0
-      |  0x21 |0x25|0x0|   OFFSET     |
+      |  40   |  0x21  |   OFFSET     |
  0x8  +-------------------------------+ 8
       | PUBLIC KEY 1/4                |
  0x10 +-------------------------------+ 16
@@ -455,9 +442,8 @@ the content.</p>
  0x28 +-------------------------------+ 40
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x20 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length 0x25</li>
-<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length 40 as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x21 as a little-endian encoded unsigned integer</li>
 <li><code>[4:8]</code> - The offset as a little-endian encoded unsigned integer.</li>
 <li><code>[8:40]</code> - public key (32 bytes)</li>
 </ul>
@@ -468,9 +454,9 @@ the content.</p>
 <blockquote>
 <p><strong>0x22</strong></p>
 </blockquote>
-<pre><code class="language-text">      0       2   3   4               8
+<pre><code class="language-text">      0       2       4               8
  0x0  +-------------------------------+ 0
-      |  0x22 |0x3D| 0|    OFFSET     |
+      |  64   |  0x22  |   OFFSET     |
  0x8  +-------------------------------+ 8
       | KIND                          |
  0x10 +-------------------------------+ 16
@@ -488,9 +474,8 @@ the content.</p>
  0x40 +-------------------------------+ 64
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x22 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length 0x3D</li>
-<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length 64 as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x22 as a little-endian encoded unsigned integer</li>
 <li><code>[4:8]</code> - The offset as a little-endian encoded unsigned integer.</li>
 <li><code>[8:16]</code> - The <a href="kinds.html">kind</a> of the quoted record</li>
 <li><code>[16:64]</code> - The id (48 bytes) of the quoted record</li>
@@ -506,19 +491,18 @@ to handle.</p>
 <blockquote>
 <p><strong>0x24</strong></p>
 </blockquote>
-<pre><code class="language-text">      0       2    3   4              8
+<pre><code class="language-text">      0       2        4              8
  0x0  +-------------------------------+ 0
-      |  0x24 |LEN |0x0|   OFFSET     |
+      |  LEN  |  0x24  |   OFFSET     |
  0x8  +-------------------------------+ 8
       | URL...                        |
       +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x24 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length of the tag (5 + the length of the URL)</li>
-<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length (8 plus the length of the URL) as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x24 as a little-endian encoded unsigned integer</li>
 <li><code>[4:8]</code> - The offset as a little-endian encoded unsigned integer.</li>
-<li><code>[8:]</code> - The URL to be included (up to 248 bytes long)</li>
+<li><code>[8:]</code> - The URL to be included</li>
 </ul>
 <p><code>OFFSET</code> is the offset into the content where the mention appears.</p>
 <p><code>URL</code> is the URL to be inserted at the offset.</p>
@@ -529,15 +513,14 @@ to handle.</p>
 </blockquote>
 <pre><code class="language-text">      0       2    3   4              8
  0x0  +-------------------------------+ 0
-      |  0x25 |LEN |0x0|   OFFSET     |
+      |  LEN  |  0x25  |   OFFSET     |
  0x8  +-------------------------------+ 8
       | URL...                        |
       +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x25 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length of the tag (5 + the length of the URL)</li>
-<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length (8 plus the length of the URL) as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x25 as a little-endian encoded unsigned integer</li>
 <li><code>[4:8]</code> - The offset as a little-endian encoded unsigned integer.</li>
 <li><code>[8:]</code> - The URL to be included (up to 248 bytes long)</li>
 </ul>
@@ -550,15 +533,14 @@ to handle.</p>
 </blockquote>
 <pre><code class="language-text">      0       2    3   4              8
  0x0  +-------------------------------+ 0
-      |  0x26 |LEN |0x0|   OFFSET     |
+      |  LEN  |  0x26  |   OFFSET     |
  0x8  +-------------------------------+ 8
       | URL...                        |
       +-------------------------------+
 </code></pre>
 <ul>
-<li><code>[0:2]</code> - The type 0x26 as a little-endian encoded unsigned integer</li>
-<li><code>[2:3]</code> - The length of the tag (5 + the length of the URL)</li>
-<li><code>[3:4]</code> - Zeroed</li>
+<li><code>[0:2]</code> - The length (8 plus the length of the URL) as a little-endian encoded unsigned integer</li>
+<li><code>[2:4]</code> - The type 0x26 as a little-endian encoded unsigned integer</li>
 <li><code>[4:8]</code> - The offset as a little-endian encoded unsigned integer.</li>
 <li><code>[8:]</code> - The URL to be included (up to 248 bytes long)</li>
 </ul>
@@ -569,8 +551,8 @@ to handle.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="timestamps.html" class="btn btn-neutral float-left" title="Timestamps"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="record.html" class="btn btn-neutral float-right" title="Record Format">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="profile.html" class="btn btn-neutral float-left" title="Profile Record"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="friends.html" class="btn btn-neutral float-right" title="Acquaintences and Friends">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -595,10 +577,10 @@ to handle.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="timestamps.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="profile.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="record.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="friends.html" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

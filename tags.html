@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="img/favicon.ico" />
-    <title>Introduction - Mosaic</title>
+    <title>Tags - Mosaic</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Introduction";
-        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_name = "Tags";
+        var mkdocs_page_input_path = "tags.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -42,12 +42,8 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption"><span class="caption-text">Introduction</span></p>
-              <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Introduction</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a>
-    </li>
-    </ul>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="status.html">Status and Development</a>
                   </li>
@@ -65,10 +61,12 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Data Formats</span></p>
-              <ul>
+              <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="timestamps.html">Timestamps</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="tags.html">Tags</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Tags</a>
+    <ul class="current">
+    </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="record.html">Record Format</a>
                   </li>
@@ -160,8 +158,8 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Introduction</li>
-      <li class="breadcrumb-item active">Introduction</li>
+          <li class="breadcrumb-item">Data Formats</li>
+      <li class="breadcrumb-item active">Tags</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -170,87 +168,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="mosaic">Mosaic</h1>
+                <h1 id="tags">Tags</h1>
 <p><status>PAGE STATUS: early draft</status></p>
-<p>Mosaic is a <em>work in progress</em>.  This specification is incomplete and an early draft.</p>
-<p>When you see a <t>superscript</t> <a href="rationale.html"><sup>rat</sup></a>, the "rat" is a link
-to the rationale behind this. Rationale is kept so we can remember why decisions were
-made, but kept separate to not clutter the specification.</p>
-<h2 id="introduction">Introduction</h2>
-<p>Mosaic is a
-<t>distributed</t> <a href="rationale.html#distributed"><sup>rat</sup></a>
-and
-<t>sovereign</t> <a href="rationale.html#sovereign"><sup>rat</sup></a>
-social application base-layer specification for the Internet.</p>
-<p>Mosaic is meant to be an underlying unopinionated layer.
-Your opinionated social media application rides on top.
-But we have to make some decisions at this layer, so we can't be entirely unopinionated.</p>
-<p><a href="applications.html">Applications</a> are specified separately, but register an application
-ID with Mosaic (or they just choose one randomly). Two applications are defined within
-this spec: <t>Mosaic Core</t> and <t>Mosaic Social Media</t>.</p>
-<p>Whenever multiple options are available (such as transport), a core subset will be
-specified as required for compatibility.</p>
-<p>Mosaic uses a
-<t>client-server</t> <a href="rationale.html#client-server"><sup>rat</sup></a>
-architecture.</p>
-<p>Mosaic runs over any
-<t>duplex communication</t> <a href="rationale.html#duplex-communication"><sup>rat</sup></a>
-transport protocol that is
-<t>TLS</t> <a href="rationale.html#tls"><sup>rat</sup></a>
-secured such as <t>QUIC</t> <a href="rationale.html#quic"><sup>rat</sup></a> or TLS over TCP.
-Mosaic does not need nor utilize the functionality of HTTP.</p>
-<p>Mosaic users generate their own identities as
-<t>EdDSA ed25519</t> <a href="rationale.html#eddsa-ed25519"><sup>rat</sup></a>
-keypairs and Mosaic uses a
-<a href="identity.html#master-keys-and-subkeys">master-key subkey</a>
-<a href="rationale.html#master-key-subkey"><sup>rat</sup></a>
-design.</p>
-<p>Mosaic <a href="identity.html#users-versus-servers">servers</a> have key-based
-<t>server identites</t> <a href="rationale.html#server-identities"><sup>rat</sup></a>.</p>
-<p>Mosaic identity and endpoint information is <a href="bootstrap.html">bootstrapped</a> from
-<t>Mainline DHT</t> <a href="rationale.html#mainline-dht"><sup>rat</sup></a></p>
-<p>Mosaic does not provide
-<t>IP privacy</t> <a href="rationale.html#no-ip-privacy"><sup>rat</sup></a>
-because this is an orthogonal concern that is easier to manage if it is decoupled from
-Mosaic and provided by a lower network layer, such as a VPN or Tor.
-But Mosaic should not interfere with IP privacy solutions.</p>
-<p>Mosaic <a href="record.html">records</a> are encoded in a
-<t>binary</t> <a href="rationale.html#binary-records"><sup>rat</sup></a> format within the
-protocol messages themselves.
-So are <a href="filter.html">filters</a> and <a href="messages.html">protocol messages</a>.</p>
-<p>Mosaic <a href="record.html">records</a> are <a href="reference.html">editable</a>
-if the application layer wishes them to be, as all records have (and can be addressed by)
-a <a href="reference.html#address-reference">reusable address</a>
-as well as a unique <a href="reference.html#id-reference">hash-based id</a>.</p>
-<p><a href="timestamps.html">Timestamps</a> <a href="rationale.html#timestamps"><sup>rat</sup></a>
-account for <t>leap seconds</t>, have <t>nanosecond accuracy</t>, and extend
-out to year 2262.</p>
-<p>Clients and Servers
-<t>remember the time that records are received</t>
-<a href="rationale.html#storing-received-at-timestamps"><sup>rat</sup></a>.</p>
-<p>Mosaic is an offshoot of <a href="https://github.com/nostr-protocol">nostr</a>.</p>
-<p>Mosaic uses the <t>BLAKE3</t> <a href="rationale.html#blake3"><sup>rat</sup></a> hashing function.</p>
-<h3 id="the-name-mosaic">The name Mosaic</h3>
-<p>No reason. Just a name. Easy to remember and pronounce. A throwback to
-the old NCSA Mosaic browser I suppose. It is not an acronym. We always
-capitalize it even in the middle of a sentence.</p>
-<h3 id="must-should-and-may">MUST, SHOULD, and MAY</h3>
-<p>The capitalized words "MUST", "REQUIRED", "SHALL", "MUST NOT" and
-"SHALL NOT" indicate an absolute requirement in order to be in compliance with this
-specification, and violation means the software does not comply with the Mosaic
-specification.</p>
-<p>The capitalized words "SHOULD", "SHOULD NOT", and "RECOMMENDED" indicate
-strong advice for the default case, but there may be valid exceptions and software
-that does otherwise is not in violation of the specification.</p>
-<p>The capitalized words "MAY" and "OPTIONAL" indicate a choice that is truly
-optional.</p>
-<p>These definitions are differently worded, but are not meant to be functionally different
-from <a href="https://datatracker.ietf.org/doc/html/rfc2119">rfc2119</a>.</p>
+<p><t>Tags</t> <a href="rationale.html#tags"><sup>rat</sup></a> contain data that is indexed and searchable.
+All tags are searchable on servers. If an application requires unsearchable tags,
+these can be defined within that application's payload.</p>
+<p>Tags are laid out as follows:</p>
+<pre><code class="language-text">0       2        4         65536 max
++-------+--------+----------+
+| len   | type   | value ...|
++-------+--------+----------+
+</code></pre>
+<ul>
+<li><code>[0:2]</code> - The length of the tag value as a little-endian unsigned integer.
+             This length includes the len and type bytes and thus MUST be
+             at least 4.</li>
+<li><code>[2:4]</code> - The type of the tag</li>
+<li><code>[4:]</code> - The value, which is at most 65,532 bytes long.</li>
+</ul>
+<p>Tag values are generally considered opaque at this layer.</p>
+<p>Unlike nostr, tags do not have multiple value fields. Applications can encode data
+into the 65,532 bytes however they wish. But applications SHOULD expect tags to
+be indexed by their type and some prefix of their value (of unspecified length but
+it SHOULD include at least 32 bytes), so uniqueness SHOULD frontloaded.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="status.html" class="btn btn-neutral float-right" title="Status and Development">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="timestamps.html" class="btn btn-neutral float-left" title="Timestamps"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="record.html" class="btn btn-neutral float-right" title="Record Format">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -275,8 +221,10 @@ from <a href="https://datatracker.ietf.org/doc/html/rfc2119">rfc2119</a>.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
+      <span><a href="timestamps.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
-      <span><a href="status.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+      <span><a href="record.html" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

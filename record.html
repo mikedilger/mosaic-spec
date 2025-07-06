@@ -64,7 +64,7 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="timestamps.html">Timestamps</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="core_tags.html">Core Tags</a>
+                  <li class="toctree-l1"><a class="reference internal" href="tags.html">Tags</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Record Format</a>
     <ul class="current">
@@ -126,6 +126,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="keyschedule.html">Key Schedule Record</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="profile.html">Profile Record</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="core_tags.html">Core Tags</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="friends.html">Acquaintences and Friends</a>
                   </li>
@@ -352,19 +354,7 @@ size minus the header size).</p>
 calculated as <code>(LenP + 7) &amp; !7</code></p>
 <h3 id="tags">Tags</h3>
 <p>Varying bytes at <code>[208:208+LenT]</code></p>
-<p>These are searchable key-value tags.</p>
-<p><t>Tags</t> <a href="rationale.html#tags"><sup>ref</sup></a> are a maximum of 256 bytes long each.</p>
-<p>All tags are searchable on servers. If an application requires unsearchable tags,
-these can be defined within that application's payload.</p>
-<p>Tags are laid out as follows:</p>
-<pre><code class="language-text">0           2               3         256 max
-+-----------+---------------+----------+
-| type      | value_length  | value ...|
-+-----------+---------------+----------+
-</code></pre>
-<p>Each tag has a 2-byte (16 bit) type <code>[0:2]</code>, a 1-byte (8 bit) value length <code>[2:3]</code>,
-and a value that is at most 253 bytes long <code>[3:]</code>.</p>
-<p>Tags only have one value.</p>
+<p>These are searchable key-value <a href="tags.html">tags</a>.</p>
 <p>The tags section is padded out to 64-bit alignment.</p>
 <p>The maximum tags section length is 65536 bytes.</p>
 <p>Tag types are documented at the <a href="tag_types.html">Tag Type Registry</a>
@@ -419,7 +409,7 @@ steps marked CLIENTS ONLY.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="core_tags.html" class="btn btn-neutral float-left" title="Core Tags"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="tags.html" class="btn btn-neutral float-left" title="Tags"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="human_readable_content.html" class="btn btn-neutral float-right" title="Human Readable Content">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -445,7 +435,7 @@ steps marked CLIENTS ONLY.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="core_tags.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="tags.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="human_readable_content.html" style="color: #fcfcfc">Next &raquo;</a></span>

@@ -64,7 +64,7 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="timestamps.html">Timestamps</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="core_tags.html">Core Tags</a>
+                  <li class="toctree-l1"><a class="reference internal" href="tags.html">Tags</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="record.html">Record Format</a>
                   </li>
@@ -119,6 +119,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="profile.html">Profile Record</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="core_tags.html">Core Tags</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="friends.html">Acquaintences and Friends</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting</a>
@@ -169,7 +171,8 @@
                 <h1 id="tag-types">Tag types</h1>
 <p><status>PAGE STATUS: early draft</status></p>
 <p>Tag types are 2-byte (16-bit) unsigned integers in little-endian format.
-Each application registers their tag types here to prevent collision.</p>
+Each application registers their indexable tag types here to prevent collision.</p>
+<p>Applications should manage non-indexable tags within the payload.</p>
 <p>Mosaic Core defines a few core tags in <a href="core_tags.html">Core Tags</a>.</p>
 <table>
 <thead>
