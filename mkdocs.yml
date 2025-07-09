@@ -1,7 +1,7 @@
 site_name: Mosaic
 version: 0.1.0
 theme:
-  name: readthedocs
+  name: material
   locale: en
   include_sidebar: true
   highlightjs: true
@@ -13,6 +13,10 @@ theme:
   features:
     - navigation.instant
     - navigation.instant.prefetch
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
 extra_css:
   - style.css
 use_directory_urls: false
@@ -20,45 +24,47 @@ nav:
   - Introduction:
     - Introduction: index.md
     - Status and Development: status.md
-  - Identity:
-    - Identity: identity.md
-  - Location Service:
-    - Bootstrap: bootstrap.md
-    - URL: url.md
-  - Data Formats:
-    - Timestamps: timestamps.md
-    - Tags: tags.md
-    - Record Format: record.md
-    - Human Readable Content: human_readable_content.md
-    - References: reference.md
-  - Client-Server Protocol:
-    - Network architecture: network.md
-    - Protocol messages: messages.md
-    - Filter: filter.md
-    - Sync: sync.md
-  - Transport:
-    - Transports: transports.md
-    - QUIC: quic.md
-    - TCP with TLS: tcp.md
-    - WebSockets: websockets.md
-  - Accessory:
-    - Human Encodings: human_encodings.md
-    - Encrypted Secret Key: encrypted_secret_key.md
-  - Registries:
-    - Application Registry: applications.md
-    - Record Kind Registry: kinds.md
-    - Tag Type Registry: tag_types.md
-  - "Application: Core":
-    - Key Schedule Record: keyschedule.md
-    - Profile Record: profile.md
-    - Core Tags: core_tags.md
-    - Acquaintences and Friends: friends.md
-    - Reporting: reporting.md
-  - "Application: Mosaic Social Media":
+  - Mosaic Core:
+    - Identity and Location:
+      - Identity: identity.md
+      - Bootstrap: bootstrap.md
+      - URL: url.md
+    - Data Formats:
+      - Timestamps: timestamps.md
+      - Tags: tags.md
+      - Record Format: record.md
+      - Human Readable Content: human_readable_content.md
+      - References: reference.md
+    - Protocol:
+      - Network architecture: network.md
+      - Protocol messages: messages.md
+      - Filter: filter.md
+      - Sync: sync.md
+    - Transports:
+      - Transports: transports.md
+      - QUIC: quic.md
+      - TCP with TLS: tcp.md
+      - WebSockets: websockets.md
+    - Accessory:
+      - Human Encodings: human_encodings.md
+      - Encrypted Secret Key: encrypted_secret_key.md
+    - Core Application:
+      - Key Schedule Record: keyschedule.md
+      - Profile Record: profile.md
+      - Core Tags: core_tags.md
+      - Acquaintences and Friends: friends.md
+      - Reporting: reporting.md
+    - Appendices:
+      - Cryptography: cryptography.md
+      - Rationale: rationale.md
+  - "App: Social Media":
     - Microblogging: microblog.md
     - Blog: blog.md
     - Reply Comment: reply_comment.md
     - Chat: chat.md
-  - Appendices:
-    - Cryptography: cryptography.md
-    - Rationale: rationale.md
+  - Registries:
+    - Application Registry: applications.md
+    - Record Kind Registry: kinds.md
+    - Tag Type Registry: tag_types.md
+
+

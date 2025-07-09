@@ -102,3 +102,7 @@ optional.
 These definitions are differently worded, but are not meant to be functionally different
 from [rfc2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
+### Rendering this specification
+
+This specification is rendered with [mkdocs](https://www.mkdocs.org) using the
+[material](https://squidfunk.github.io/mkdocs-material/) framework.
