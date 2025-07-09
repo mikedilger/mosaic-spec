@@ -248,6 +248,11 @@ of each type. Following this is the data of the message.</p>
 <td>0x5</td>
 </tr>
 <tr>
+<td>Client</td>
+<td><a href="#dht-lookup">DHTLookup</a></td>
+<td>0x6</td>
+</tr>
+<tr>
 <td>Server</td>
 <td><a href="#record">Record</a></td>
 <td>0x80</td>
@@ -266,6 +271,11 @@ of each type. Following this is the data of the message.</p>
 <td>Server</td>
 <td><a href="#submission-result">Submission Result</a></td>
 <td>0x83</td>
+</tr>
+<tr>
+<td>Server</td>
+<td><a href="#dht-response">DHTResponse</a></td>
+<td>0x84</td>
 </tr>
 <tr>
 <td>Either</td>
@@ -423,6 +433,13 @@ recent backwards.</p>
 <li><a href="#submission-result"><code>Submission Result</code></a> with an id prefix matching the record.</li>
 </ul>
 <hr />
+<h3 id="dht-lookup">DHT Lookup</h3>
+<blockquote>
+<p><strong>0x6</strong></p>
+</blockquote>
+<p>Browser-based JavaScript clients cannot do DHT lookups. This requests that the server perform a DHT lookup on behalf of the client</p>
+<p>TBD</p>
+<hr />
 <h2 id="server-messages">Server Messages</h2>
 <h3 id="record">Record</h3>
 <blockquote>
@@ -538,6 +555,12 @@ but remains open to serve matching records that subsequently arrive.</p>
 <li><code>[5:8]</code> - Zeroed</li>
 <li><code>[8:40]</code> - A 32-byte prefix of the 48-byte Id.</li>
 </ul>
+<h3 id="dht-response">DHT Response</h3>
+<blockquote>
+<p><strong>0x84</strong></p>
+</blockquote>
+<p>This is a server response to a <a href="#dht-lookup"><code>DHTLookup</code></a> request.</p>
+<p>TBD</p>
 <h3 id="unrecognized">Unrecognized</h3>
 <blockquote>
 <p><strong>0xF0</strong></p>

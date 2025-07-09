@@ -186,11 +186,11 @@
 </tr>
 <tr>
 <td><a href="tcp.html">TCP with TLS 1.3</a></td>
-<td>Required</td>
+<td>Optional</td>
 </tr>
 <tr>
 <td><a href="websockets.html">WebSockets over https with TLS 1.3</a></td>
-<td>Optional</td>
+<td>Required <a href="rationale.html#websockets"><sup>rat</sup></a></td>
 </tr>
 </tbody>
 </table>
@@ -199,7 +199,7 @@
 the following universally supported transports:</p>
 <ul>
 <li>QUIC</li>
-<li>TCP with TLS 1.3</li>
+<li>Websockets over HTTPS with TLS 1.3</li>
 </ul>
 <p>Any server providing access via an alternate transport MUST also advertise an
 endpoint under at least one universally supported transport.</p>

@@ -199,8 +199,8 @@
 <p>Each <t>filter element</t> restricts the set of records that the <t>filter</t> matches.
 For a record to pass a <t>filter</t>, it MUST pass every <t>filter element</t> in the
 <t>filter</t> except as excepted in the next paragraph.</p>
-<p>All <t>filter element</t>s SHOULD be unique. If more than one <t>filter element</t> of
-the same type exists, only the first one counts. Subsequent ones MUST be ignored.</p>
+<p>Most <t>filter element</t>s SHOULD be unique. If more than one <t>filter element</t> of
+a unique type exists, only the first one counts. Subsequent ones MUST be ignored.</p>
 <p>Some <t>filter element</t>s are narrow, meaning they select just a few records among
 many. Other <t>filter element</t>s are wide and select many or even most records.
 <T>Filter</T>s SHOULD include at least one narrow <t>filter element</t> in order
@@ -239,6 +239,7 @@ possible given other constraints.</p>
 <th>type</th>
 <th>name</th>
 <th>narrow</th>
+<th>unique</th>
 </tr>
 </thead>
 <tbody>
@@ -246,55 +247,66 @@ possible given other constraints.</p>
 <td>0x1</td>
 <td><a href="#author-keys">Author Keys</a></td>
 <td>yes</td>
+<td>yes</td>
 </tr>
 <tr>
 <td>0x2</td>
 <td><a href="#signing-keys">Signing Keys</a></td>
+<td>yes</td>
 <td>yes</td>
 </tr>
 <tr>
 <td>0x3</td>
 <td><a href="#kinds">Kinds</a></td>
 <td>yes</td>
+<td>yes</td>
 </tr>
 <tr>
 <td>0x4</td>
 <td><a href="#timestamps">Timestamps</a></td>
+<td>yes</td>
 <td>yes</td>
 </tr>
 <tr>
 <td>0x5</td>
 <td><a href="#included-tags">Included Tags</a></td>
 <td>yes</td>
+<td>no</td>
 </tr>
 <tr>
 <td>0x80</td>
 <td><a href="#since">Since</a></td>
 <td>no</td>
+<td>yes</td>
 </tr>
 <tr>
 <td>0x81</td>
 <td><a href="#until">Until</a></td>
 <td>no</td>
+<td>yes</td>
 </tr>
 <tr>
 <td>0x82</td>
 <td><a href="#received-since">Received Since</a></td>
 <td>no</td>
+<td>yes</td>
 </tr>
 <tr>
 <td>0x83</td>
 <td><a href="#received-until">Received Until</a></td>
 <td>no</td>
+<td>yes</td>
 </tr>
 <tr>
 <td>0x84</td>
 <td><a href="#exclude">Exclude</a></td>
 <td>no</td>
+<td>yes</td>
 </tr>
 <tr>
 <td>0x85</td>
 <td><a href="#excluded-tags">Excluded Tags</a></td>
+<td>no</td>
 <td>no</td>
 </tr>
 </tbody>

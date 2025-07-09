@@ -177,6 +177,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#tls">TLS</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#websockets">WebSockets</a>
+    </li>
     </ul>
                   </li>
               </ul>
@@ -265,6 +267,9 @@ to this page with <a href="#"><sup>rat</sup></a> links.</p>
 <tr>
 <td><a href="#tls">TLS</a></td>
 </tr>
+<tr>
+<td><a href="#websockets">WebSockets</a></td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -336,16 +341,22 @@ reasons to do so, and they are even simpler).</p>
 <li>Zero copying for signing required</li>
 <li>Smallest size has been achieved</li>
 </ul>
-<p>As for human readability, the most cited reason for using JSON, my argument is as follows:
-HTTP that is transported with gzip is binary data. Developers never see the gzipped data,
-all the tools they work with show them the line-oriented HTTP after gunzip. And I'm not
-aware of anybody complaining that gzipped HTTP is binary, not human readable, and therfore
-a bad choice. I believe our situation is a close parallel. Even though this specification
-specifies the binary encoding of everything, developers do not need to see things that
-way (and in fact I may reorganize this specification to separate out the binary encodings).
-Developers are instead expected to deal with code structures, those structures being JSON
-if they are working in JavaScript.</p>
 <p>BTW: JSON also has character encoding ambiguities.</p>
+<h3 id="human-readability">Human Readability</h3>
+<p>There is a push to use a human-readable format. However, while you can take a
+high performance binary format and make it human-readable, you cannot take a
+human-readable format and make it high performance. So to satisfy the requirements
+of the most number of people, we have to use a high performance binary format
+within the core of the protocol.</p>
+<p>This shouldn't be a big concern. It hasn't been a big concern in other widely adopted
+protocols. For example, HTTP that is transported with gzip is binary data. Developers
+never see the gzipped data, all the tools they work with show them the line-oriented
+HTTP after gunzip. I am not aware of anybody complaining that gzipped HTTP is binary,
+and a bad choice because it is not human readable. I believe our situation is a close
+parallel to this one.</p>
+<p>Even though this specification specifies the binary encoding of everything, developers
+can just use a library that serializes and deserializes into a code structure, and just
+deal with that structure.</p>
 <hr />
 <h2 id="blake3">BLAKE3</h2>
 <p>This is a very fast hash function with 128-bit security. It is even sometimes faster in
@@ -587,6 +598,14 @@ nanosecond has little practical effect.</p>
 <p>But we don't use the X.509 certificates as intended since both client and server are known by
 their public keys, not by DNS names.  Instead we use RawPublicKey or self-signed certificates.</p>
 <p>Clients are authenticated via client-side certificates.</p>
+<hr />
+<h2 id="websockets">WebSockets</h2>
+<p>Browser-based JavaScript (and WASM) clients are bound by tight security policies that do
+not allow TLS manpulation of QUIC connections. Therefore we cannot use TLS authentication
+via self-signed certificates, nor can we expect ed25519 algorithms to be supported by the
+browsers (they are not supported as of this writing by any major browser).</p>
+<p>So for these clients, an alternate form of server-to-client authentication must be devised
+and a WebSocket transport that supports them must be made available.</p>
               
             </div>
           </div><footer>
