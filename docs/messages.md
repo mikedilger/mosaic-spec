@@ -53,10 +53,12 @@ of each type. Following this is the data of the message.
 | Client | [Subscribe](#subscribe) | 0x3 |
 | Client | [Unsubscribe](#unsubscribe) | 0x4 |
 | Client | [Submission](#submission) | 0x5 |
+| Client | [DHTLookup](#dht-lookup) | 0x6 |
 | Server | [Record](#record) | 0x80 |
 | Server | [Locally Complete](#locally-complete) | 0x81 |
 | Server | [Query Closed](#query-closed) | 0x82 |
 | Server | [Submission Result](#submission-result) | 0x83 |
+| Server | [DHTResponse](#dht-response) | 0x84 |
 | Either | [Unrecognized](#unrecognized) | 0xF0 |
 
 ---
@@ -229,6 +231,16 @@ This is a client initiated message. Servers are expected to reply with:
 
 ---
 
+### DHT Lookup
+
+> **0x6**
+
+Browser-based JavaScript clients cannot do DHT lookups. This requests that the server perform a DHT lookup on behalf of the client
+
+TBD
+
+---
+
 ## Server Messages
 
 ### Record
@@ -356,6 +368,14 @@ It has the following format:
     * `OTHER`: 0xFF - Other reason, or not specified
 * `[5:8]` - Zeroed
 * `[8:40]` - A 32-byte prefix of the 48-byte Id.
+
+### DHT Response
+
+> **0x84**
+
+This is a server response to a [`DHTLookup`](#dht-lookup) request.
+
+TBD
 
 ### Unrecognized
 

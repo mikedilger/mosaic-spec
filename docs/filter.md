@@ -10,8 +10,8 @@ Each <t>filter element</t> restricts the set of records that the <t>filter</t> m
 For a record to pass a <t>filter</t>, it MUST pass every <t>filter element</t> in the
 <t>filter</t> except as excepted in the next paragraph.
 
-All <t>filter element</t>s SHOULD be unique. If more than one <t>filter element</t> of
-the same type exists, only the first one counts. Subsequent ones MUST be ignored.
+Most <t>filter element</t>s SHOULD be unique. If more than one <t>filter element</t> of
+a unique type exists, only the first one counts. Subsequent ones MUST be ignored.
 
 Some <t>filter element</t>s are narrow, meaning they select just a few records among
 many. Other <t>filter element</t>s are wide and select many or even most records.
@@ -56,19 +56,19 @@ It is defined as a simple header followed by a contiguous sequence of <t>filter 
 
 The following <t>filter element</t>s are defined:
 
-|type|name|narrow|
-|----|----|------|
-|0x1|[Author Keys](#author-keys)| yes |
-|0x2|[Signing Keys](#signing-keys)| yes |
-|0x3|[Kinds](#kinds)| yes |
-|0x4|[Timestamps](#timestamps)| yes |
-|0x5|[Included Tags](#included-tags)| yes |
-|0x80|[Since](#since)| no |
-|0x81|[Until](#until)| no |
-|0x82|[Received Since](#received-since)| no |
-|0x83|[Received Until](#received-until)| no |
-|0x84|[Exclude](#exclude)| no |
-|0x85|[Excluded Tags](#excluded-tags)| no |
+|type|name|narrow|unique|
+|----|----|------|------|
+|0x1|[Author Keys](#author-keys)| yes | yes |
+|0x2|[Signing Keys](#signing-keys)| yes | yes |
+|0x3|[Kinds](#kinds)| yes | yes |
+|0x4|[Timestamps](#timestamps)| yes | yes |
+|0x5|[Included Tags](#included-tags)| yes | no |
+|0x80|[Since](#since)| no | yes |
+|0x81|[Until](#until)| no | yes |
+|0x82|[Received Since](#received-since)| no | yes |
+|0x83|[Received Until](#received-until)| no | yes |
+|0x84|[Exclude](#exclude)| no | yes |
+|0x85|[Excluded Tags](#excluded-tags)| no | no |
 
 ## Author Keys
 

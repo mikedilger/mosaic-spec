@@ -22,6 +22,7 @@ to this page with [<sup>rat</sup>](#) links.
 | [Storing received-at timestamps](#storing-received-at-timestamps) |
 | [Timestamps](#timestamps) |
 | [TLS](#tls) |
+| [WebSockets](#websockets) |
 
 ---
 
@@ -66,17 +67,26 @@ We gain:
 * Zero copying for signing required
 * Smallest size has been achieved
 
-As for human readability, the most cited reason for using JSON, my argument is as follows:
-HTTP that is transported with gzip is binary data. Developers never see the gzipped data,
-all the tools they work with show them the line-oriented HTTP after gunzip. And I'm not
-aware of anybody complaining that gzipped HTTP is binary, not human readable, and therfore
-a bad choice. I believe our situation is a close parallel. Even though this specification
-specifies the binary encoding of everything, developers do not need to see things that
-way (and in fact I may reorganize this specification to separate out the binary encodings).
-Developers are instead expected to deal with code structures, those structures being JSON
-if they are working in JavaScript.
-
 BTW: JSON also has character encoding ambiguities.
+
+### Human Readability
+
+There is a push to use a human-readable format. However, while you can take a
+high performance binary format and make it human-readable, you cannot take a
+human-readable format and make it high performance. So to satisfy the requirements
+of the most number of people, we have to use a high performance binary format
+within the core of the protocol.
+
+This shouldn't be a big concern. It hasn't been a big concern in other widely adopted
+protocols. For example, HTTP that is transported with gzip is binary data. Developers
+never see the gzipped data, all the tools they work with show them the line-oriented
+HTTP after gunzip. I am not aware of anybody complaining that gzipped HTTP is binary,
+and a bad choice because it is not human readable. I believe our situation is a close
+parallel to this one.
+
+Even though this specification specifies the binary encoding of everything, developers
+can just use a library that serializes and deserializes into a code structure, and just
+deal with that structure.
 
 ---
 
@@ -438,3 +448,15 @@ But we don't use the X.509 certificates as intended since both client and server
 their public keys, not by DNS names.  Instead we use RawPublicKey or self-signed certificates.
 
 Clients are authenticated via client-side certificates.
+
+---
+
+## WebSockets
+
+Browser-based JavaScript (and WASM) clients are bound by tight security policies that do
+not allow TLS manpulation of QUIC connections. Therefore we cannot use TLS authentication
+via self-signed certificates, nor can we expect ed25519 algorithms to be supported by the
+browsers (they are not supported as of this writing by any major browser).
+
+So for these clients, an alternate form of server-to-client authentication must be devised
+and a WebSocket transport that supports them must be made available.
