@@ -5,17 +5,6 @@
 All Mosaic persistent data is stored within Record structures (except for
 bootstrap data).
 
-## Notation
-
-Byte slice notation `[m:n]` indicates the bytes including `m` up to and
-including the byte `n-1` but not including the byte `n`. For example `[8:12]`
-represents bytes 8, 9, 10 and 11.
-
-Byte slices that are missing a beginning such as `[:64]` start at 0.
-
-Byte slices that are missing an ending such as `[112:]` continue until the
-end of the data.
-
 ## Maximum Size
 
 The
@@ -104,7 +93,7 @@ produced using the [construction](#construction) procedure.
 
 ### ID
 
-A 48 byte ID from `[64:112]` made up of the following three parts.
+A 48 byte ID from `[64:112]` made up of the following two parts:
 
 #### Timestamp
 
@@ -130,7 +119,7 @@ This is the second part of the two-part ID.
 
 This is the public key of the signing keypair, which is usually a subkey under
 the author's master keypair (but theoretically could be delegated in some other
-fashion in the future).
+fashion in the future). It could also be the Master key itself.
 
 ### Address
 
@@ -146,7 +135,7 @@ kind). They can be created in a number of different ways, depending on the
 application and its purpose:
 
 1. They can be generated randomly.
-2. They can be a timestamp.
+2. They can be a timestamp, modified with a leading 1 bit.
    This is useful when the addresses should sort in time order.
 3. They can be the first 8 bytes of a BLAKE3 hash of a fixed slice
    of bytes. This is useful for applications that require seeking a
@@ -193,11 +182,11 @@ This is the big-endian unsigned 64-bit timestamp as described in [timestamps](ti
 which represents the number of nanoseconds that have elapsed since 1 January 1970
 including within leap seconds.
 
-It is repeated in the ID, but this copy gets digitally signed.
+It is repeated in the ID, but this copy is digitally signed by being included in the hash.
 
 ### LenT
 
-2 bytes at `[202:204]` representing the length of the tags section in bytes
+2 bytes at `[202:204]` representing the elength of the tags section in bytes
 as an unsigned integer in little-endian format.
 
 This represents the exact length of the tags section, not counting padding
@@ -247,7 +236,8 @@ which includes the defined [Core Tags](core_tags.md).
 
 Varying bytes at `[208+LenTPad:208+LenTPad+LenP].`
 
-Payload is opaque (at this layer of specification) application-specific data.
+Payload is application specific data, and is opaque at this layer of specification,
+except for records defined by the Core Application.
 
 The payload section is padded out to 64-bit alignment.
 

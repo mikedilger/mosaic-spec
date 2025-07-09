@@ -37,27 +37,3 @@ no effort will be made to support their quirks when 1.0 is frozen.
 
 Version 1.0 will be the first stabilized and frozen release. All future
 versions are intended to support it for backwards compatibility.
-
-
-## Principles of Design
-
-* The protocol must be *simple* enough for multiple implementations to
-  be developed, but simplicity is not the only factor.
-* The protocol must be *functional* enough to support a wide range of
-  applications beyond just social media.
-* The protocol should not impede high-performance high-throughput
-  implementations.
-* It is ok to do things multiple ways so long as there is *one default*
-  that all developers implement, and the rest of the "ways" are truly
-  OPTIONAL. For example, we can have multiple transports (QUIC, WebSockets)
-  without all the developers needing to move beyond QUIC,
-  so long as every implementation implements the QUIC transport.
-* Code that isn't required by everybody should be defined outside of core
-  as an extension, transport, or application, as these are all OPTIONAL.
-
-
-## Core Library
-
-This specification is being developed in parallel to a
-[core library](https://github.com/MikeDilger/mosaic-core). The
-findings from development feed back into this specification.

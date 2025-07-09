@@ -85,24 +85,13 @@ No reason. Just a name. Easy to remember and pronounce. A throwback to
 the old NCSA Mosaic browser I suppose. It is not an acronym. We always
 capitalize it even in the middle of a sentence.
 
-### MUST, SHOULD, and MAY
-
-The capitalized words "MUST", "REQUIRED", "SHALL", "MUST NOT" and
-"SHALL NOT" indicate an absolute requirement in order to be in compliance with this
-specification, and violation means the software does not comply with the Mosaic
-specification.
-
-The capitalized words "SHOULD", "SHOULD NOT", and "RECOMMENDED" indicate
-strong advice for the default case, but there may be valid exceptions and software
-that does otherwise is not in violation of the specification.
-
-The capitalized words "MAY" and "OPTIONAL" indicate a choice that is truly
-optional.
-
-These definitions are differently worded, but are not meant to be functionally different
-from [rfc2119](https://datatracker.ietf.org/doc/html/rfc2119).
-
 ### Rendering this specification
 
 This specification is rendered with [mkdocs](https://www.mkdocs.org) using the
 [material](https://squidfunk.github.io/mkdocs-material/) framework.
+
+## Core Library
+
+This specification is being developed in parallel to a
+[core library](https://github.com/MikeDilger/mosaic-core). The
+findings from development feed back into this specification.

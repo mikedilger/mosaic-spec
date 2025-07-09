@@ -16,7 +16,7 @@ We store bootstraps in Mainline DHT.
 
 Bootstraps are not [records](record.md). They have their own format.
 
-Bootstrap records MUST always be signed by a master key, never by a subordinate
+Bootstraps MUST always be signed by a master key, never by a subordinate
 key.
 
 ## Mainline DHT
@@ -34,7 +34,8 @@ Limitations:
   disappear over time. Mechanisms for this are out of scope for Mosaic Core, but
   servers MAY offer this service.
 * Data storage and retrieval may take a few seconds, and should not be done too
-  frequently. Software SHOULD cache results for at least 2 hours.
+  frequently. Software SHOULD cache results for 30 minutes before checking for
+  updates.
 * To use Mainline DHT, you need to start from a bootstrap node. We list some here
   in the hopes that this helps someone get started, but others exist and you can
   even set up your own using (for example)
@@ -61,7 +62,7 @@ There is a rust library to access this called [mainline](https://github.com/pubk
 
 Bootstraps (the data after the bencoded prefix) are UTF-8 valid text up
 to 983 bytes long, and consist of a series of lines separated with a single
-ASCII Line Feed (LF) character (`\n`). Lines MUST not have trailing whitespace.
+ASCII Line Feed (LF) character (`\n`). Lines MUST NOT have trailing whitespace.
 
 Two kinds of bootstraps MAY be stored, based on whether the identity
 represents a server or a user.
@@ -84,8 +85,8 @@ Here is an example server bootstrap:
 
 ```
 S
-wss://myserverlk23lkjsefo8u.onion
-mosaic://203.0.113.1
+mosaicwss://myserverlk23lkjsefo8u.onion
+mosaictcp://203.0.113.1
 mosaic://203.0.113.2:5198
 mosaic://[2001::130F::09C0:876A:130B]
 ```
@@ -126,7 +127,7 @@ private encrypted messages (defined outside of Mosaic core) that only the
 user can read back.
 
 There MAY be other ways to use servers and thus there MAY be other types of server
-usages. However, such other server usages are not published in this bootstrap record.
+usages. However, such other server usages are not published in this bootstrap.
 Applications can publish a regular record to the users <t>outbox</t> listing additional
 application specific servers as necessary.
 
@@ -178,6 +179,9 @@ Based on size limits of 983 bytes, no more than 16 server entries can be
 listed. But see below for other limitations on the number of servers.
 
 Users can change servers and update these bootstrap entries at any time.
+
+Clients should check for updates to bootstrap records if their cached data
+is more than 30 minutes old.
 
 ### Usage of servers and limits on their number
 

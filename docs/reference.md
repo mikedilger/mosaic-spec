@@ -6,6 +6,11 @@ A reference is a pointer from one record to another.
 
 Mosaic defines two kinds of references
 
+## The first bit
+
+References can be distinguished by their first bit. Id references start with a 0 bit,
+whereas address references start with a 1 bit.
+
 ## Id Reference
 
 An <t>id reference</t> is a pointer to an exact record with no provision for

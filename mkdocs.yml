@@ -23,7 +23,9 @@ use_directory_urls: false
 nav:
   - Introduction:
     - Introduction: index.md
+    - Notation: notation.md
     - Status and Development: status.md
+    - Principles of Design: principles.md
   - Mosaic Core:
     - Identity and Location:
       - Identity: identity.md

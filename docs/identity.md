@@ -32,11 +32,8 @@ Subkeys also support alternative algorithms, such as X25519 public keys for
 receiving encrypted information, or secp256k1 keys for backwards compatibility
 with nostr.
 
-Subkeys also enable sub-identities or <b>personas</b> that can be independently
-followed.
-
 Users publish their subkeys in a [key schedule record](keyschedule.md), defined
-within the core records specification.
+within the core application.
 
 A limited number of low-frequency operations in Mosaic require a signature from
 the master key. These include (presently):
@@ -47,7 +44,7 @@ the master key. These include (presently):
 * Publishing/modifying a user's [Profile](profile.md) record.
 
 Subkeys MAY be deterministically derived from the master secret key, or they
-MAYt not. Nothing in the Mosaic spec requires such.
+MAY NOT. Nothing in the Mosaic spec requires such.
 
 ## Rollover and Revocation
 
@@ -61,4 +58,4 @@ Servers provide an infrastructure service. Users rely on the service provided by
 servers.
 
 The use of a [key schedule record](keyschedule.md) by servers is not yet specified
-and yet to be worked out.
+and yet to be worked out. For the moment, servers should use their master key directly.
