@@ -111,20 +111,8 @@ Each line consists of two parts separated by a single ASCII space.
 
 This first part is a single character that encodes that kind of usage.
 
-There are three defined server usages:
-
-* **Outbox** - Outbox servers are where users _publish_ public records meant to
-be read by anyone who wishes to.
-The [key schedule](keyschedule.md) and [profile](profile.md) are published
-here.
-
-* **Inbox** - Inbox servers are where users _receive_ records that reference them,
-and where other users can follow replies to the user's messages which are posted
-here by other people.
-
-* **Encryption** - Encryption servers function like _inbox_ servers but handle
-private encrypted messages (defined outside of Mosaic core) that only the
-user can read back.
+Refer to [Network Architecture](network.md) for the meanings of <t>Outbox</t>,
+<t>Inbox</t> and <t>Encryption</t> servers.
 
 There MAY be other ways to use servers and thus there MAY be other types of server
 usages. However, such other server usages are not published in this bootstrap.

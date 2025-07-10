@@ -48,12 +48,15 @@ of each type. Following this is the data of the message.
 
 | Initiator | Message | Type |
 |-----------|---------|------|
+| Client | [Hello](#hello) | 0x10 |
+| Client | [Hello Auth](#hello-auth) | 0x11 |
 | Client | [Get](#get) | 0x1 |
 | Client | [Query](#query) | 0x2 |
 | Client | [Subscribe](#subscribe) | 0x3 |
 | Client | [Unsubscribe](#unsubscribe) | 0x4 |
 | Client | [Submission](#submission) | 0x5 |
 | Client | [DHTLookup](#dht-lookup) | 0x6 |
+| Server | [Hello Ack](#hello-ack) | 0x90 |
 | Server | [Record](#record) | 0x80 |
 | Server | [Locally Complete](#locally-complete) | 0x81 |
 | Server | [Query Closed](#query-closed) | 0x82 |
@@ -65,9 +68,29 @@ of each type. Following this is the data of the message.
 
 ## Client Messages
 
-### Get
+### Hello
 
-> **0x1**
+NOTE: Some transports send HELLO information out of band. Refer to the transport in
+question:
+
+* [QUIC](quic.md)
+* [TCP](tcp.md)
+* [WebSockets](websockets.md)
+
+TBD
+
+### Hello Auth
+
+NOTE: Some transports send HELLO AUTH information out of band. Refer to the transport in
+question:
+
+* [QUIC](quic.md)
+* [TCP](tcp.md)
+* [WebSockets](websockets.md)
+
+TBD
+
+### Get
 
 This is a query for specific records.
 
@@ -102,8 +125,6 @@ This is a client initiated message. Servers are expected to reply with:
 
 ### Query
 
-> **0x2**
-
 This is a query for records that closes once served.
 
 It has the following format:
@@ -137,8 +158,6 @@ Queries MUST return results in anti-chronological order, from most
 recent backwards.
 
 ### Subscribe
-
-> **0x3**
 
 This is a query for records that is kept open after the initial records are
 served so that newly arriving records that match can be sent to the client
@@ -180,8 +199,6 @@ recent backwards.
 
 ### Unsubscribe
 
-> **0x4**
-
 This is a client request to close an open subscription query.
 
 It has the following format:
@@ -203,8 +220,6 @@ This is a client initiated message. Servers are expected to reply with:
 * [`Query Closed`](#query-closed)
 
 ### Submission
-
-> **0x5**
 
 This is the submission of a record.
 
@@ -229,11 +244,7 @@ This is a client initiated message. Servers are expected to reply with:
 
 * [`Submission Result`](#submission-result) with an id prefix matching the record.
 
----
-
 ### DHT Lookup
-
-> **0x6**
 
 Browser-based JavaScript clients cannot do DHT lookups. This requests that the server perform a DHT lookup on behalf of the client
 
@@ -243,9 +254,18 @@ TBD
 
 ## Server Messages
 
-### Record
+### Hello Ack
 
-> **0x80**
+NOTE: Some transports send HELLO AUTH information out of band. Refer to the transport in
+question:
+
+* [QUIC](quic.md)
+* [TCP](tcp.md)
+* [WebSockets](websockets.md)
+
+TBD
+
+### Record
 
 This is a record returned from a query.
 
@@ -272,8 +292,6 @@ or [`Query`](#query) or [`Subscribe`](#subscribe).
 
 ### Locally Complete
 
-> **0x81**
-
 This is a message indicating that a query has served all matching local records,
 but remains open to serve matching records that subsequently arrive.
 
@@ -294,8 +312,6 @@ It has the following format:
 This is a server response message in response to [`Subscribe`](#subscribe).
 
 ### Query Closed
-
-> **0x82**
 
 This is a message indicating that a query has been closed.
 
@@ -325,10 +341,7 @@ It has the following format:
 * `[7:8]` - zero
 
 
-
 ### Submission Result
-
-> **0x83**
 
 This is a message returning the result of a [Submission](#submission).
 
@@ -371,15 +384,11 @@ It has the following format:
 
 ### DHT Response
 
-> **0x84**
-
 This is a server response to a [`DHTLookup`](#dht-lookup) request.
 
 TBD
 
 ### Unrecognized
-
-> **0xF0**
 
 This is a message indicating that the last message from the peer was not recognized.
 

@@ -35,12 +35,13 @@ nav:
       - Timestamps: timestamps.md
       - Tags: tags.md
       - Record Format: record.md
+      - Filter: filter.md
       - Human Readable Content: human_readable_content.md
       - References: reference.md
     - Protocol:
       - Network architecture: network.md
+      - Protocol: protocol.md
       - Protocol messages: messages.md
-      - Filter: filter.md
       - Sync: sync.md
     - Transports:
       - Transports: transports.md
