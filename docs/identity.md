@@ -1,7 +1,5 @@
 # Identity
 
-<status>PAGE STATUS: early draft</status>
-
 ## Sovereign Identity
 
 Identities in Mosaic are self-created and self-administered.

@@ -1,7 +1,5 @@
 # Cryptography
 
-<status>PAGE STATUS: early draft</status>
-
 ## Hashing with BLAKE3
 
 Mosaic uses BLAKE3 [<sup>rat</sup>](rationale.md#blake3)

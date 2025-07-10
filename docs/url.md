@@ -1,7 +1,5 @@
 # URL
 
-<status>PAGE STATUS: early draft</status>
-
 Mosaic servers are located using URLs. Mosaic server URLs are subject to the
 following rules.
 

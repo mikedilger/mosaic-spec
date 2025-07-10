@@ -1,23 +1,5 @@
 # Status and Development
 
-<status>PAGE STATUS: early draft</status>
-
-## Page statuses
-
-Page statuses move between these states
-
-- TBD
-- Incomplete
-- Early Draft
-- Draft (ready for others to review and comment on)
-- Approved xN (N people have approved)
-- Implemented in core
-- Implemented in core + xN (N implementations are known to exist)
-- Superceded (some other page now supercedes this)
-
-Note that developers are encouraged to comment on and discuss pages in any
-status, they don't have to wait for draft status.
-
 ## Versions and Attribution
 
 Many people are expected to contribute to Mosaic and as a result there are

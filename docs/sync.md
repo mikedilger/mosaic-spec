@@ -1,7 +1,5 @@
 # Mosaic Sync Protocol Extension
 
-<status>PAGE STATUS: incomplete</status>
-
 This extends the protocol with negentropy support.
 
 The following messages are added:

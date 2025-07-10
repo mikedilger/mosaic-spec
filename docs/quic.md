@@ -1,7 +1,5 @@
 # Mosaic over QUIC
 
-<status>PAGE STATUS: Incomplete</status>
-
 ## When to choose QUIC
 
 When a server wishes to be available to high-performance clients, QUIC provides the

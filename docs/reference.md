@@ -1,7 +1,5 @@
 # References
 
-<status>PAGE STATUS: early draft</status>
-
 A reference is a pointer from one record to another.
 
 Mosaic defines two kinds of references

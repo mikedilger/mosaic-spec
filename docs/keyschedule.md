@@ -1,7 +1,5 @@
 # Key Schedule (kind)
 
-<status>PAGE STATUS: early draft</status>
-
 A Key Schedule record lists subkey information and revocation information for a
 master key.
 

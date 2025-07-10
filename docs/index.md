@@ -1,7 +1,5 @@
 # Mosaic
 
-<status>PAGE STATUS: early draft</status>
-
 Mosaic is a *work in progress*.  This specification is incomplete and an early draft.
 
 When you see a <t>superscript</t> [<sup>rat</sup>](rationale.md), the "rat" is a link

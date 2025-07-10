@@ -1,7 +1,5 @@
 # Tags
 
-<status>PAGE STATUS: early draft</status>
-
 <t>Tags</t> [<sup>rat</sup>](rationale.md#tags) contain data that is indexed and searchable.
 All tags are searchable on servers. If an application requires unsearchable tags,
 these can be defined within that application's payload.

@@ -1,7 +1,5 @@
 # Profile (kind)
 
-<status>PAGE STATUS: early draft</status>
-
 A profile record contains user profile information.
 
 A profile record MUST be considered invalid if the signing key and the

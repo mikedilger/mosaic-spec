@@ -1,7 +1,5 @@
 # Bootstrap
 
-<status>PAGE STATUS: early draft</status>
-
 When you first find out about a new public key, you may already know by the
 context if it represents a user or a server. But sometimes you don't even
 know that.  You also may not know what servers this key uses to host it's

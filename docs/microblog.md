@@ -1,7 +1,5 @@
 # Microblog Root (kind)
 
-<status>PAGE STATUS: incomplete</status>
-
 ## Kind
 
 **Applicaton**: Mosaic Social Media

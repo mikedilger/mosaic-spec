@@ -1,7 +1,5 @@
 # Mosaic over Websockets
 
-<status>PAGE STATUS: Incomplete</status>
-
 ## When to choose WebSockets
 
 When a server wishes to be available to web-based clients, it must present at least

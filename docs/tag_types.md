@@ -1,7 +1,5 @@
 # Tag types
 
-<status>PAGE STATUS: early draft</status>
-
 Tag types are 2-byte (16-bit) unsigned integers in little-endian format.
 Each application registers their indexable tag types here to prevent collision.
 

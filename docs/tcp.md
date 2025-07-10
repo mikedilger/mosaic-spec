@@ -1,7 +1,5 @@
 # Mosaic over TCP
 
-<status>PAGE STATUS: Incomplete</status>
-
 ## When to choose TCP
 
 ## TLS

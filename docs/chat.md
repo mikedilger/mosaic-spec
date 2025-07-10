@@ -1,7 +1,5 @@
 # Chat Message (kind)
 
-<status>PAGE STATUS: early draft</status>
-
 ## Kind
 
 **Applicaton**: Mosaic Social Media

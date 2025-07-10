@@ -1,7 +1,5 @@
 # Kind
 
-<status>PAGE STATUS: Early Draft</status>
-
 The kind of a record determines the application that the record is used by.
 This also determines the nature of the payload.
 

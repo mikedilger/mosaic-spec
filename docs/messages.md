@@ -1,7 +1,5 @@
 # Protocol messages
 
-<status>PAGE STATUS: early draft</status>
-
 Protocol message are not separately digitally signed due to the TLS
 transport and certificate authentication.
 

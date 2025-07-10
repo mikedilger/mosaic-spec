@@ -1,7 +1,5 @@
 # Record
 
-<status>PAGE STATUS: early draft</status>
-
 All Mosaic persistent data is stored within Record structures (except for
 bootstrap data).
 

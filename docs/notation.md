@@ -1,7 +1,5 @@
 # Notation
 
-<status>PAGE STATUS: early draft</status>
-
 ## Rationale links
 
 When you see a <t>superscript</t> [<sup>rat</sup>](rationale.md), the "rat" is a link

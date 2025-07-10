@@ -1,7 +1,5 @@
 # Principles of Design
 
-<status>PAGE STATUS: early draft</status>
-
 ## Principles of Design
 
 * The protocol must be *simple* enough for multiple implementations to

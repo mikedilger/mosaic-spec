@@ -1,7 +1,5 @@
 # Timestamps
 
-<status>PAGE STATUS: early draft</status>
-
 Timestamps are unixtimes, adjusted for leap seconds, expressed in
 <t>nanoseconds</t> [<sup>rat</sup>](rationale.md#nanoseconds)
 and encoded into a 64-bit unsigned integer in big-endian format.
