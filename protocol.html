@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="friends.html">
+        <link rel="prev" href="network.html">
       
       
-        <link rel="next" href="cryptography.html">
+        <link rel="next" href="messages.html">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Reporting - Mosaic</title>
+        <title>Protocol - Mosaic</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#reporting" class="md-skip">
+        <a href="#protocol" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Reporting
+              Protocol
             
           </span>
         </div>
@@ -754,6 +754,8 @@
                 
   
   
+    
+  
   
   
     
@@ -763,11 +765,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
         
           
           <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
@@ -782,7 +784,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             Protocol
@@ -815,10 +817,31 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="protocol.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Protocol
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="protocol.html" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -828,6 +851,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hello" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hello-ack" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO ACK
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hello-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO AUTH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subsequent-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subsequent messages
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1115,8 +1194,6 @@
                 
   
   
-    
-  
   
   
     
@@ -1126,11 +1203,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
         
           
           <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
@@ -1145,7 +1222,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_6">
             <span class="md-nav__icon md-icon"></span>
             Core Application
@@ -1244,19 +1321,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="reporting.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="reporting.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1266,7 +1334,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -1644,6 +1711,50 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hello" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hello-ack" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO ACK
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hello-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO AUTH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subsequent-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subsequent messages
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1658,8 +1769,46 @@
 
 
 
-<h1 id="reporting">Reporting</h1>
-<p>TBD</p>
+<h1 id="protocol">Protocol</h1>
+<p>Clients always contact servers. Therefore the initial message always comes from a client.</p>
+<p>Specific encodings depend on the transport. Refer to the transport for details:</p>
+<ul>
+<li><a href="quic.html">QUIC</a></li>
+<li><a href="tcp.html">TCP</a></li>
+<li><a href="websockets.html">WebSockets</a></li>
+</ul>
+<h2 id="hello">HELLO</h2>
+<p>The HELLO message includes the following information:</p>
+<ul>
+<li>The major protocol versions supported by the client</li>
+<li>The application features supported by and requested by the client</li>
+<li>A nonce for the server to sign as part of server authentication</li>
+<li>Whether the client wishes to authenticate, and if so, the client user's public key.</li>
+</ul>
+<h2 id="hello-ack">HELLO ACK</h2>
+<p>In response to the HELLO information, the server next responds with HELLO ACK information
+which includes the following information:</p>
+<ul>
+<li>The major protocol version to use</li>
+<li>The application features to use</li>
+<li>The nonce in HELLO signed by the server keypair</li>
+<li>If the client requested to authenticate, a nonce to challenge the client. In this case,
+  the HELLO AUTH message is required from the client next.</li>
+<li>An optional service URL presented to clients.
+  Servers MAY present a service URL for a website which users can visit in
+  order to manage their relationship with the server (e.g. sign up for an
+  account, make payment, view logs, or anything else that is relevant to
+  that relationship). These kinds of activities are not standardized here.</li>
+</ul>
+<h2 id="hello-auth">HELLO AUTH</h2>
+<p>In case a HELLO AUTH is needed to complete client authentication, it includes the
+following information:</p>
+<ul>
+<li>The nonce in HELLO ACK signed by the client keypair</li>
+</ul>
+<h2 id="subsequent-messages">Subsequent messages</h2>
+<p>After this point, all further communication is client-initiated. See <a href="messages.html">Messages</a>
+for details.</p>
 
 
 

@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="websockets.html">
+        <link rel="prev" href="tcp.html">
       
       
         <link rel="next" href="encrypted_secret_key.html">
@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -639,6 +683,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -752,11 +818,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -774,11 +840,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -887,6 +953,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -914,28 +1002,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1598,8 +1664,10 @@ sharing data between humans and software.</p>
 <p><a href="https://philzimmermann.com/docs/human-oriented-base-32-encoding.txt">zbase32</a> is used for human-oriented rendering of binary data.</p>
 <p>Prefixes are used to specify the type of data being represented:</p>
 <ul>
-<li>Public keys are prefixed with <code>mopub0</code></li>
+<li>Public keys for users are prefixed with <code>mopub0</code></li>
+<li>Public keys for servers are prefixed with <code>mosrv0</code></li>
 <li>Secret keys are prefixed with <code>mosec0</code></li>
+<li>Encrypted secret keys are prefixed with <code>mocryptsec0</code></li>
 <li>References are prefixed with <code>moref0</code></li>
 </ul>
 

@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="network.html">
+        <link rel="prev" href="protocol.html">
       
       
-        <link rel="next" href="filter.html">
+        <link rel="next" href="sync.html">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -639,6 +683,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -751,6 +817,28 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="protocol.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Protocol
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -839,6 +927,24 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#hello" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hello
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hello-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hello Auth
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#get" class="md-nav__link">
     <span class="md-ellipsis">
       Get
@@ -908,6 +1014,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#hello-ack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hello Ack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#record" class="md-nav__link">
     <span class="md-ellipsis">
       Record
@@ -970,28 +1085,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Filter
-    
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1095,6 +1188,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -1122,28 +1237,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1818,6 +1911,24 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#hello" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hello
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hello-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hello Auth
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#get" class="md-nav__link">
     <span class="md-ellipsis">
       Get
@@ -1885,6 +1996,15 @@
   
     <nav class="md-nav" aria-label="Server Messages">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hello-ack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hello Ack
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#record" class="md-nav__link">
@@ -1962,7 +2082,6 @@
 
 
 <h1 id="protocol-messages">Protocol messages</h1>
-<p><status>PAGE STATUS: early draft</status></p>
 <p>Protocol message are not separately digitally signed due to the TLS
 transport and certificate authentication.</p>
 <p>All protocol messages start with the same 4 byte sequence consisting
@@ -2007,6 +2126,16 @@ of each type. Following this is the data of the message.</p>
 <tbody>
 <tr>
 <td>Client</td>
+<td><a href="#hello">Hello</a></td>
+<td>0x10</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#hello-auth">Hello Auth</a></td>
+<td>0x11</td>
+</tr>
+<tr>
+<td>Client</td>
 <td><a href="#get">Get</a></td>
 <td>0x1</td>
 </tr>
@@ -2034,6 +2163,11 @@ of each type. Following this is the data of the message.</p>
 <td>Client</td>
 <td><a href="#dht-lookup">DHTLookup</a></td>
 <td>0x6</td>
+</tr>
+<tr>
+<td>Server</td>
+<td><a href="#hello-ack">Hello Ack</a></td>
+<td>0x90</td>
 </tr>
 <tr>
 <td>Server</td>
@@ -2069,10 +2203,25 @@ of each type. Following this is the data of the message.</p>
 </table>
 <hr />
 <h2 id="client-messages">Client Messages</h2>
+<h3 id="hello">Hello</h3>
+<p>NOTE: Some transports send HELLO information out of band. Refer to the transport in
+question:</p>
+<ul>
+<li><a href="quic.html">QUIC</a></li>
+<li><a href="tcp.html">TCP</a></li>
+<li><a href="websockets.html">WebSockets</a></li>
+</ul>
+<p>TBD</p>
+<h3 id="hello-auth">Hello Auth</h3>
+<p>NOTE: Some transports send HELLO AUTH information out of band. Refer to the transport in
+question:</p>
+<ul>
+<li><a href="quic.html">QUIC</a></li>
+<li><a href="tcp.html">TCP</a></li>
+<li><a href="websockets.html">WebSockets</a></li>
+</ul>
+<p>TBD</p>
 <h3 id="get">Get</h3>
-<blockquote>
-<p><strong>0x1</strong></p>
-</blockquote>
 <p>This is a query for specific records.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">
@@ -2101,9 +2250,6 @@ of each type. Following this is the data of the message.</p>
   <a href="#query-closed"><code>Query Closed</code></a> message.</li>
 </ul>
 <h3 id="query">Query</h3>
-<blockquote>
-<p><strong>0x2</strong></p>
-</blockquote>
 <p>This is a query for records that closes once served.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
@@ -2133,9 +2279,6 @@ of each type. Following this is the data of the message.</p>
 <p>Queries MUST return results in anti-chronological order, from most
 recent backwards.</p>
 <h3 id="subscribe">Subscribe</h3>
-<blockquote>
-<p><strong>0x3</strong></p>
-</blockquote>
 <p>This is a query for records that is kept open after the initial records are
 served so that newly arriving records that match can be sent to the client
 immediately.</p>
@@ -2171,9 +2314,6 @@ immediately.</p>
 <p>Queries MUST return results in anti-chronological order, from most
 recent backwards.</p>
 <h3 id="unsubscribe">Unsubscribe</h3>
-<blockquote>
-<p><strong>0x4</strong></p>
-</blockquote>
 <p>This is a client request to close an open subscription query.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
@@ -2192,9 +2332,6 @@ recent backwards.</p>
 <li><a href="#query-closed"><code>Query Closed</code></a></li>
 </ul>
 <h3 id="submission">Submission</h3>
-<blockquote>
-<p><strong>0x5</strong></p>
-</blockquote>
 <p>This is the submission of a record.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
@@ -2215,19 +2352,21 @@ recent backwards.</p>
 <ul>
 <li><a href="#submission-result"><code>Submission Result</code></a> with an id prefix matching the record.</li>
 </ul>
-<hr />
 <h3 id="dht-lookup">DHT Lookup</h3>
-<blockquote>
-<p><strong>0x6</strong></p>
-</blockquote>
 <p>Browser-based JavaScript clients cannot do DHT lookups. This requests that the server perform a DHT lookup on behalf of the client</p>
 <p>TBD</p>
 <hr />
 <h2 id="server-messages">Server Messages</h2>
+<h3 id="hello-ack">Hello Ack</h3>
+<p>NOTE: Some transports send HELLO AUTH information out of band. Refer to the transport in
+question:</p>
+<ul>
+<li><a href="quic.html">QUIC</a></li>
+<li><a href="tcp.html">TCP</a></li>
+<li><a href="websockets.html">WebSockets</a></li>
+</ul>
+<p>TBD</p>
 <h3 id="record">Record</h3>
-<blockquote>
-<p><strong>0x80</strong></p>
-</blockquote>
 <p>This is a record returned from a query.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
@@ -2248,9 +2387,6 @@ recent backwards.</p>
 <p>This is a server response message in response to <a href="#get"><code>Get</code></a>
 or <a href="#query"><code>Query</code></a> or <a href="#subscribe"><code>Subscribe</code></a>.</p>
 <h3 id="locally-complete">Locally Complete</h3>
-<blockquote>
-<p><strong>0x81</strong></p>
-</blockquote>
 <p>This is a message indicating that a query has served all matching local records,
 but remains open to serve matching records that subsequently arrive.</p>
 <p>It has the following format:</p>
@@ -2267,9 +2403,6 @@ but remains open to serve matching records that subsequently arrive.</p>
 </ul>
 <p>This is a server response message in response to <a href="#subscribe"><code>Subscribe</code></a>.</p>
 <h3 id="query-closed">Query Closed</h3>
-<blockquote>
-<p><strong>0x82</strong></p>
-</blockquote>
 <p>This is a message indicating that a query has been closed.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
@@ -2297,9 +2430,6 @@ but remains open to serve matching records that subsequently arrive.</p>
 <li><code>[7:8]</code> - zero</li>
 </ul>
 <h3 id="submission-result">Submission Result</h3>
-<blockquote>
-<p><strong>0x83</strong></p>
-</blockquote>
 <p>This is a message returning the result of a <a href="#submission">Submission</a>.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
@@ -2339,15 +2469,9 @@ but remains open to serve matching records that subsequently arrive.</p>
 <li><code>[8:40]</code> - A 32-byte prefix of the 48-byte Id.</li>
 </ul>
 <h3 id="dht-response">DHT Response</h3>
-<blockquote>
-<p><strong>0x84</strong></p>
-</blockquote>
 <p>This is a server response to a <a href="#dht-lookup"><code>DHTLookup</code></a> request.</p>
 <p>TBD</p>
 <h3 id="unrecognized">Unrecognized</h3>
-<blockquote>
-<p><strong>0xF0</strong></p>
-</blockquote>
 <p>This is a message indicating that the last message from the peer was not recognized.</p>
 <p>When this is received over QUIC transport, the stream SHOULD be closed and further messaging
 can occur on other streams.</p>

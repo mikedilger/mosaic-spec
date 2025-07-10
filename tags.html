@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -651,6 +695,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -764,11 +830,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -786,11 +852,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -899,6 +965,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -926,28 +1014,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1593,7 +1659,6 @@
 
 
 <h1 id="tags">Tags</h1>
-<p><status>PAGE STATUS: early draft</status></p>
 <p><t>Tags</t> <a href="rationale.html#tags"><sup>rat</sup></a> contain data that is indexed and searchable.
 All tags are searchable on servers. If an application requires unsearchable tags,
 these can be defined within that application's payload.</p>
@@ -1607,14 +1672,16 @@ these can be defined within that application's payload.</p>
 <li><code>[0:2]</code> - The length of the tag value as a little-endian unsigned integer.
              This length includes the len and type bytes and thus MUST be
              at least 4.</li>
-<li><code>[2:4]</code> - The type of the tag</li>
+<li><code>[2:4]</code> - The type of the tag. All tag types are listed in the <a href="tag_types.html">Tag types</a> registry.</li>
 <li><code>[4:]</code> - The value, which is at most 65,532 bytes long.</li>
 </ul>
-<p>Tag values are generally considered opaque at this layer.</p>
-<p>Unlike nostr, tags do not have multiple value fields. Applications can encode data
-into the 65,532 bytes however they wish. But applications SHOULD expect tags to
-be indexed by their type and some prefix of their value (of unspecified length but
-it SHOULD include at least 32 bytes), so uniqueness SHOULD frontloaded.</p>
+<p>Tag values are generally considered opaque at this layer, except for <a href="core_tags.html">Core tags</a> with the Core Application.</p>
+<p>Unlike nostr, tags do not have multiple value fields. Applications can encode multiple
+fields into the 65,532 data bytes however they wish.</p>
+<p>Applications SHOULD expect tags to be indexed by their type and some prefix of their value
+(of unspecified length, but it SHOULD include at least 32 bytes). As a consequence, tags should
+be defined to front-load their unique aspects within the first 32 bytes of their value to
+maximize the effectiveness of indexes.</p>
 
 
 

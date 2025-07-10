@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="tcp.html">
+        <link rel="prev" href="transports.html">
       
       
-        <link rel="next" href="human_encodings.html">
+        <link rel="next" href="quic.html">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -639,6 +683,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -752,11 +818,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -774,11 +840,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -886,50 +952,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="quic.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    QUIC
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tcp.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -981,53 +1003,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tls" class="md-nav__link">
+  <a href="#when-to-choose-websockets" class="md-nav__link">
     <span class="md-ellipsis">
-      TLS
+      When to choose WebSockets
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#websockets" class="md-nav__link">
+  <a href="#websockets-reference" class="md-nav__link">
     <span class="md-ellipsis">
-      WebSockets
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="WebSockets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sec-websocket-protocol" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sec-WebSocket-Protocol
+      WebSockets Reference
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#x-mosaic-extensions" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#tls" class="md-nav__link">
     <span class="md-ellipsis">
-      X-Mosaic-Extensions
+      TLS
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#x-mosaic-service-url" class="md-nav__link">
-    <span class="md-ellipsis">
-      X-Mosaic-Service-Url
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1040,10 +1038,96 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#hello-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO Messages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HELLO Messages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hello" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hello-ack" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO ACK
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hello-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO AUTH
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="quic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    QUIC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tcp.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TCP with TLS
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1676,6 +1760,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#when-to-choose-websockets" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to choose WebSockets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#websockets-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSockets Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tls" class="md-nav__link">
     <span class="md-ellipsis">
       TLS
@@ -1685,37 +1787,46 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#websockets" class="md-nav__link">
+  <a href="#binary" class="md-nav__link">
     <span class="md-ellipsis">
-      WebSockets
+      Binary
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="WebSockets">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hello-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO Messages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HELLO Messages">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sec-websocket-protocol" class="md-nav__link">
+  <a href="#hello" class="md-nav__link">
     <span class="md-ellipsis">
-      Sec-WebSocket-Protocol
+      HELLO
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#x-mosaic-extensions" class="md-nav__link">
+  <a href="#hello-ack" class="md-nav__link">
     <span class="md-ellipsis">
-      X-Mosaic-Extensions
+      HELLO ACK
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#x-mosaic-service-url" class="md-nav__link">
+  <a href="#hello-auth" class="md-nav__link">
     <span class="md-ellipsis">
-      X-Mosaic-Service-Url
+      HELLO AUTH
     </span>
   </a>
   
@@ -1723,15 +1834,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#binary" class="md-nav__link">
-    <span class="md-ellipsis">
-      Binary
-    </span>
-  </a>
   
 </li>
       
@@ -1752,57 +1854,23 @@
 
 
 <h1 id="mosaic-over-websockets">Mosaic over Websockets</h1>
-<p><status>PAGE STATUS: Draft</status></p>
+<h2 id="when-to-choose-websockets">When to choose WebSockets</h2>
+<p>WebSockets is the only working transport available to browser-based clients. In this
+case, users must trust CAs and DNS. Browsers may not allow meddling with their TLS
+implementations.</p>
+<p>WebSockets may also be used over Tor in the Tor browser.</p>
+<p>If a browser-based client is not a requirement, then the other two transports
+(<a href="tcp.html">TCP</a> and <a href="quic.html">QUIC</a>) are superior, each in their own way.</p>
+<h2 id="websockets-reference">WebSockets Reference</h2>
+<p>See the <a href="https://datatracker.ietf.org/doc/html/rfc6455">WebSockets</a> RFC.</p>
 <h2 id="tls">TLS</h2>
 <p>Over WebSockets, Mosaic MUST use TLS version at least 1.2, preferably
 <a href="https://datatracker.ietf.org/doc/html/rfc8446">TLS 1.3</a>.</p>
-<p>TLS MUST specify the EdDSA signature algorithm, using the ed25519 signing
-keys.</p>
-<p>TLS certificates SHALL be either RawPublicKey or self-signed, and use
-the ed25519 public key (either the server's master public key or the client's
-signing public key).</p>
-<p>Servers SHOULD request client-side certificates if they wish to authenticate
-users. If clients do not provide certificates, they are to be considered
-anonymous. Servers MAY present different services depending on whether a user is
-authenticated or not.</p>
-<h2 id="websockets">WebSockets</h2>
-<p>Mosaic messages are transported over
-<a href="https://datatracker.ietf.org/doc/html/rfc6455">WebSockets</a></p>
-<h3 id="sec-websocket-protocol">Sec-WebSocket-Protocol</h3>
-<p>Clients MUST present the <code>Sec-WebSocket-Protocol</code> header field in the
-handshake with WebSocket with the value <code>mosaic2024</code>. If this is not
-presented, a server may either refuse service and close the connection,
-or presume the connection is nostr (if it is dual-stack). It SHOULD NOT
-presume the connection is Mosaic.</p>
-<p>Servers MUST reply with the protocol they have accepted in the same
-header, at this point being only 'mosaic2024'.</p>
-<p>This subprotocol is not (as of this writing) registered with IANA, but does
-not conflict with registered subprotocols.</p>
-<h3 id="x-mosaic-extensions">X-Mosaic-Extensions</h3>
-<p>Clients MAY present an <code>X-Mosiac-Extensions</code> header to specify the extentions
-they support and may wish to use.</p>
-<p>The value of an <code>X-Mosiac-Extensions</code> header is a list of extension names
-separated by semicolons.</p>
-<p>Clients SHOULD NOT present an <code>X-Mosaic-Extensions</code> header in the handshake
-unless they are not requesting any extensions.</p>
-<p>The following extension names are defined:</p>
-<ul>
-<li><a href="sync.html">SYNC</a></li>
-</ul>
-<p>Servers MUST check for an <code>X-Mosaic-Extensions</code> header. If one is specified,
-split it's contents on semicolons. Remove all extensions you are unable to
-service. Join these back together and return an <code>X-Mosaic-Extensions</code>
-header with this string. If that string was empty, use a <code>-</code> instead.</p>
-<p>Clients MUST check for an <code>X-Mosaic-Extensions</code> header during negotiation,
-and configure themselves to use only the extensions that the server returned
-to them, considering <code>-</code> as the empty set.</p>
-<h3 id="x-mosaic-service-url">X-Mosaic-Service-Url</h3>
-<p>Servers MAY present a service URL for a website which users can visit in
-order to manage their relationship with the server (e.g. sign up for an
-account, make payment, view logs, or anything else that is relevant to
-that relationship). These kinds of activities are not standardized here.</p>
+<p>TLS certificates must be issued by Certificate Authorites commonly trusted
+by browsers. This is so that web-based clients can access the server.</p>
+<p>Client-side certificates are not used.</p>
 <h2 id="binary">Binary</h2>
-<p>All messages use websockets binary.</p>
+<p>All messages (outside of HELLO messages described below) use websockets binary.</p>
 <p>Messages are formed as the binary message protocol specified in
 <a href="messages.html">Protocol messages</a>. Each message starts with a single byte indicating
 the type, followed by the data that such type requires.</p>
@@ -1810,6 +1878,33 @@ the type, followed by the data that such type requires.</p>
 from a client, it SHOULD disconnect.</p>
 <p>Servers MUST only send server messages. If a client reads a client message
 from a server, it SHOULD disconnect.</p>
+<h2 id="hello-messages">HELLO Messages</h2>
+<p><code>HELLO</code>, <code>HELLO ACK</code> and <code>HELLO AUTH</code> are handled over the WebSockets transport in the following fashion:</p>
+<h3 id="hello">HELLO</h3>
+<p>HELLO information is encoded into HTTP headers within the upgrade request.</p>
+<p>The <code>Sec-WebSocket-Protocol</code> header MUST be present and set to <code>mosaic2025</code>.
+If this is not presented, a server may either refuse service and close the connection,
+or presume the connection is nostr (if it is dual-stack). It SHOULD NOT
+presume the connection is Mosaic.</p>
+<p><code>X-Mosaic-Versions</code> is a comma-separated list of major version numbers supported by the client.</p>
+<p><code>X-Mosaic-Features</code> is a comma-separated list of application features suppored by and requested
+by the client.</p>
+<p><code>X-Mosaic-Authenticate-As</code> is a <a href="human_encodings.html">mopub0</a> encoded public key of the client's user, only if the client wishes to authenticate.</p>
+<p><code>X-Mosaic-Server-Authenticate-Nonce</code> is a ASCII nonce string.</p>
+<h3 id="hello-ack">HELLO ACK</h3>
+<p>The <code>Sec-WebSocket-Protocol</code> header MUST be present and set to <code>mosaic2025</code>.
+If this is not presented, a client may either refuse service and close the connection,
+or presume the connection is nostr (if it is dual-stack). It SHOULD NOT
+presume the connection is Mosaic.</p>
+<p>HELLO ACK information is also encoded into HTTP headers within the upgrade response.</p>
+<p><code>X-Mosaic-Version</code> is the single major version number decided by the server. It MUST be present in the <code>X-Mosaic-Versions</code> from the HELLO message.</p>
+<p><code>X-Mosaic-Features-Accepted</code> is a comma-separated list of application features accepted by the server.</p>
+<p><code>X-Mosaic-Server-Authentication</code> is a base64 encoded ed25519 signature of the nonce provided in the HELLO messag <code>X-Mosaic-Server-Authenticate-Nonce</code> header.</p>
+<p><code>X-Mosaic-Client-Authenticate-Nonce</code> is a server-generated nonce for the client to authenticate with, only in the case that the HELLO message contained a <code>X-Mosaic-Authenticate-As</code> header.</p>
+<p><code>X-Mosaic-Service-Url</code> is an optional service URL that servers may present to
+clients.</p>
+<h3 id="hello-auth">HELLO AUTH</h3>
+<p>This MUST is sent by the client as the first WebSocket binary message. See <a href="messages.html">Messages</a>.</p>
 
 
 

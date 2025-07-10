@@ -12,7 +12,7 @@
         <link rel="prev" href="reference.html">
       
       
-        <link rel="next" href="messages.html">
+        <link rel="next" href="protocol.html">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#network" class="md-skip">
+        <a href="#network-architecture" class="md-skip">
           Skip to content
         </a>
       
@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -639,6 +683,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -741,6 +807,18 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Network architecture
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="network.html" class="md-nav__link md-nav__link--active">
         
   
@@ -752,6 +830,107 @@
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clients
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Servers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#server-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server Roles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Server Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#outbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outbox
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inbox
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encryption
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="protocol.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Protocol
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -769,28 +948,6 @@
   
   <span class="md-ellipsis">
     Protocol messages
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Filter
     
   </span>
   
@@ -899,6 +1056,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -926,28 +1105,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1578,6 +1735,74 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clients
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Servers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#server-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server Roles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Server Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#outbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outbox
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inbox
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encryption
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1592,8 +1817,62 @@
 
 
 
-<h1 id="network">Network</h1>
-<p>TBD</p>
+<h1 id="network-architecture">Network Architecture</h1>
+<h2 id="clients">Clients</h2>
+<p>Mosaic clients are meant to serve users, and thus sit on user-operated notes, often
+phones or desktops or laptops. They may be behind a NAT gateways, or indeed multiple
+layers of NAT gateways. Mosaic clients initiate connections to servers, and never the
+reverse.</p>
+<h2 id="servers">Servers</h2>
+<p>Mosaic servers are meant to remain online and reliable, and SHOULD be accessible from
+the broader Internet.</p>
+<p>Servers not accessible from the broader Internet, either because they are behind NAT
+gateways, or because they operate from a Tor onion site domain, are NOT suitable for
+<t>inbox</t>, <t>outbox</t> or <t>encryption</t> roles, but they MAY serve other
+applications.</p>
+<h2 id="server-roles">Server Roles</h2>
+<p>Servers fulfilling certain kinds of roles must meet the requirements of those roles.
+Servers can (and often do) serve many or even all server roles.</p>
+<h3 id="outbox">Outbox</h3>
+<p>Outbox servers are where users <em>publish</em> public records meant to be read by anyone who wishes to.</p>
+<p>Servers fulfilling an Outbox role are subject to the following:</p>
+<ul>
+<li>They MUST be broadly accessible from the Internet, not behind NAT, and not running
+  from a Tor onion site.</li>
+<li>They SHOULD have a high level of uptime.</li>
+<li>They MUST accept messages from the users that they are serving, except where abuse prevention
+  is concerned.</li>
+<li>They MUST deliver such messages to anybody who requests them without requiring
+  authentication and without requiring payment.</li>
+</ul>
+<h3 id="inbox">Inbox</h3>
+<p>Inbox servers are where users <em>receive</em> records that reference them, and where other users can
+follow replies to the user's messages which are posted here by other people.</p>
+<p>Servers fulfilling an Inbox role are subject to the following:</p>
+<ul>
+<li>They MUST be broadly accessible from the Internet, not behind NAT, and not running
+  from a Tor onion site.</li>
+<li>They SHOULD have a high level of uptime.</li>
+<li>They MUST accept messages from strangers, except where abuse prevention is concerned,
+  without requiring authentication and without requiring payment.</li>
+<li>They MUST serve messages to the intended recpients after requiring authentication.</li>
+<li>They SHOULD serve messages to anybody without requiring authentication and without requiring
+  payment.</li>
+<li>They MAY withhold serving messages prior to abuse prevention and moderation.</li>
+</ul>
+<h3 id="encryption">Encryption</h3>
+<p>Encryption servers function like <em>inbox</em> servers but handle private encrypted messages (defined
+outside of Mosaic core) that only the user can read back.</p>
+<p>Servers fulfilling an Encryption role are subject to the following:</p>
+<ul>
+<li>They MUST be broadly accessible from the Internet, not behind NAT, and not running
+  from a Tor onion site.</li>
+<li>They SHOULD have a high level of uptime.</li>
+<li>They MUST accept messages from strangers, except where abuse prevention is concerned,
+  without requiring authentication and without requiring payment.</li>
+<li>They MUST serve messages to the intended recpients after requiring authentication.</li>
+<li>They MUST NOT deliver messages to anybody other than the indended recipient.</li>
+</ul>
 
 
 

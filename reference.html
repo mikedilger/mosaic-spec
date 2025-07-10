@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -641,6 +685,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -709,6 +775,15 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-first-bit" class="md-nav__link">
+    <span class="md-ellipsis">
+      The first bit
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#id-reference" class="md-nav__link">
@@ -813,11 +888,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -835,11 +910,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -948,6 +1023,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -975,28 +1072,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1634,6 +1709,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#the-first-bit" class="md-nav__link">
+    <span class="md-ellipsis">
+      The first bit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#id-reference" class="md-nav__link">
     <span class="md-ellipsis">
       Id Reference
@@ -1668,9 +1752,11 @@
 
 
 <h1 id="references">References</h1>
-<p><status>PAGE STATUS: early draft</status></p>
 <p>A reference is a pointer from one record to another.</p>
 <p>Mosaic defines two kinds of references</p>
+<h2 id="the-first-bit">The first bit</h2>
+<p>References can be distinguished by their first bit. Id references start with a 0 bit,
+whereas address references start with a 1 bit.</p>
 <h2 id="id-reference">Id Reference</h2>
 <p>An <t>id reference</t> is a pointer to an exact record with no provision for
 replacement or edits. It contains some <em>hash</em> of the message making it

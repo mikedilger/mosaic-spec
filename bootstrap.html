@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -793,6 +837,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -906,11 +972,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -928,11 +994,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -1041,6 +1107,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -1068,28 +1156,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1854,7 +1920,6 @@
 
 
 <h1 id="bootstrap">Bootstrap</h1>
-<p><status>PAGE STATUS: early draft</status></p>
 <p>When you first find out about a new public key, you may already know by the
 context if it represents a user or a server. But sometimes you don't even
 know that.  You also may not know what servers this key uses to host it's
@@ -1865,7 +1930,7 @@ it is available at.</p>
 this kind of information.</p>
 <p>We store bootstraps in Mainline DHT.</p>
 <p>Bootstraps are not <a href="record.html">records</a>. They have their own format.</p>
-<p>Bootstrap records MUST always be signed by a master key, never by a subordinate
+<p>Bootstraps MUST always be signed by a master key, never by a subordinate
 key.</p>
 <h2 id="mainline-dht">Mainline DHT</h2>
 <p>We use <t>Mainline DHT</t> <a href="rationale.html#mainline-dht"><sup>rat</sup></a>
@@ -1880,7 +1945,8 @@ according to <a href="https://www.bittorrent.org/beps/bep_0044.html">BitTorrent 
   disappear over time. Mechanisms for this are out of scope for Mosaic Core, but
   servers MAY offer this service.</li>
 <li>Data storage and retrieval may take a few seconds, and should not be done too
-  frequently. Software SHOULD cache results for at least 2 hours.</li>
+  frequently. Software SHOULD cache results for 30 minutes before checking for
+  updates.</li>
 <li>To use Mainline DHT, you need to start from a bootstrap node. We list some here
   in the hopes that this helps someone get started, but others exist and you can
   even set up your own using (for example)
@@ -1902,7 +1968,7 @@ SHOULD start at 1 and MUST monotonically increase with each write.</p>
 <h2 id="bootstrap-format">Bootstrap Format</h2>
 <p>Bootstraps (the data after the bencoded prefix) are UTF-8 valid text up
 to 983 bytes long, and consist of a series of lines separated with a single
-ASCII Line Feed (LF) character (<code>\n</code>). Lines MUST not have trailing whitespace.</p>
+ASCII Line Feed (LF) character (<code>\n</code>). Lines MUST NOT have trailing whitespace.</p>
 <p>Two kinds of bootstraps MAY be stored, based on whether the identity
 represents a server or a user.</p>
 <h2 id="server-bootstraps">Server Bootstraps</h2>
@@ -1914,8 +1980,8 @@ entries are preferred by the server to later ones.</p>
 the server can be accessed.</p>
 <p>Here is an example server bootstrap:</p>
 <pre><code>S
-wss://myserverlk23lkjsefo8u.onion
-mosaic://203.0.113.1
+mosaicwss://myserverlk23lkjsefo8u.onion
+mosaictcp://203.0.113.1
 mosaic://203.0.113.2:5198
 mosaic://[2001::130F::09C0:876A:130B]
 </code></pre>
@@ -1930,27 +1996,10 @@ preferred by the user to later ones.</p>
 <p>Each line consists of two parts separated by a single ASCII space.</p>
 <h3 id="server-usage-character">Server Usage Character</h3>
 <p>This first part is a single character that encodes that kind of usage.</p>
-<p>There are three defined server usages:</p>
-<ul>
-<li>
-<p><strong>Outbox</strong> - Outbox servers are where users <em>publish</em> public records meant to
-be read by anyone who wishes to.
-The <a href="keyschedule.html">key schedule</a> and <a href="profile.html">profile</a> are published
-here.</p>
-</li>
-<li>
-<p><strong>Inbox</strong> - Inbox servers are where users <em>receive</em> records that reference them,
-and where other users can follow replies to the user's messages which are posted
-here by other people.</p>
-</li>
-<li>
-<p><strong>Encryption</strong> - Encryption servers function like <em>inbox</em> servers but handle
-private encrypted messages (defined outside of Mosaic core) that only the
-user can read back.</p>
-</li>
-</ul>
+<p>Refer to <a href="network.html">Network Architecture</a> for the meanings of <t>Outbox</t>,
+<t>Inbox</t> and <t>Encryption</t> servers.</p>
 <p>There MAY be other ways to use servers and thus there MAY be other types of server
-usages. However, such other server usages are not published in this bootstrap record.
+usages. However, such other server usages are not published in this bootstrap.
 Applications can publish a regular record to the users <t>outbox</t> listing additional
 application specific servers as necessary.</p>
 <p>If there is a strong case for including additional server usages here in the base
@@ -1985,6 +2034,8 @@ long.</p>
 <p>Based on size limits of 983 bytes, no more than 16 server entries can be
 listed. But see below for other limitations on the number of servers.</p>
 <p>Users can change servers and update these bootstrap entries at any time.</p>
+<p>Clients should check for updates to bootstrap records if their cached data
+is more than 30 minutes old.</p>
 <h3 id="usage-of-servers-and-limits-on-their-number">Usage of servers and limits on their number</h3>
 <p><em>Maximums</em>: Users SHOULD list no more than 3 redundant servers of any kind,
 since more redundancy provides strongly diminishing benefit at a linearly

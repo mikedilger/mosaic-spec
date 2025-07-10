@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="status.html">
+        <link rel="prev" href="principles.html">
       
       
         <link rel="next" href="bootstrap.html">
@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -718,6 +762,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -831,11 +897,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -853,11 +919,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -966,6 +1032,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -993,28 +1081,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1704,7 +1770,6 @@
 
 
 <h1 id="identity">Identity</h1>
-<p><status>PAGE STATUS: early draft</status></p>
 <h2 id="sovereign-identity">Sovereign Identity</h2>
 <p>Identities in Mosaic are self-created and self-administered.
 This requires each end user and server to securely manage their secret key material.
@@ -1727,10 +1792,8 @@ user is known by.</p>
 <p>Subkeys also support alternative algorithms, such as X25519 public keys for
 receiving encrypted information, or secp256k1 keys for backwards compatibility
 with nostr.</p>
-<p>Subkeys also enable sub-identities or <b>personas</b> that can be independently
-followed.</p>
 <p>Users publish their subkeys in a <a href="keyschedule.html">key schedule record</a>, defined
-within the core records specification.</p>
+within the core application.</p>
 <p>A limited number of low-frequency operations in Mosaic require a signature from
 the master key. These include (presently):</p>
 <ul>
@@ -1740,7 +1803,7 @@ the master key. These include (presently):</p>
 <li>Publishing/modifying a user's <a href="profile.html">Profile</a> record.</li>
 </ul>
 <p>Subkeys MAY be deterministically derived from the master secret key, or they
-MAYt not. Nothing in the Mosaic spec requires such.</p>
+MAY NOT. Nothing in the Mosaic spec requires such.</p>
 <h2 id="rollover-and-revocation">Rollover and Revocation</h2>
 <p>See <a href="keyschedule.html">Key Schedule</a></p>
 <h2 id="users-versus-servers">Users versus Servers</h2>
@@ -1748,7 +1811,7 @@ MAYt not. Nothing in the Mosaic spec requires such.</p>
 <p>Servers provide an infrastructure service. Users rely on the service provided by
 servers.</p>
 <p>The use of a <a href="keyschedule.html">key schedule record</a> by servers is not yet specified
-and yet to be worked out.</p>
+and yet to be worked out. For the moment, servers should use their master key directly.</p>
 
 
 

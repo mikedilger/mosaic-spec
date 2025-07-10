@@ -12,7 +12,7 @@
         <link rel="prev" href="tags.html">
       
       
-        <link rel="next" href="human_readable_content.html">
+        <link rel="next" href="filter.html">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -667,15 +711,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#notation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#maximum-size" class="md-nav__link">
     <span class="md-ellipsis">
       Maximum Size
@@ -901,6 +936,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -1014,11 +1071,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -1036,11 +1093,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -1149,6 +1206,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -1176,28 +1255,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1835,15 +1892,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#notation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#maximum-size" class="md-nav__link">
     <span class="md-ellipsis">
       Maximum Size
@@ -2070,16 +2118,8 @@
 
 
 <h1 id="record">Record</h1>
-<p><status>PAGE STATUS: early draft</status></p>
 <p>All Mosaic persistent data is stored within Record structures (except for
 bootstrap data).</p>
-<h2 id="notation">Notation</h2>
-<p>Byte slice notation <code>[m:n]</code> indicates the bytes including <code>m</code> up to and
-including the byte <code>n-1</code> but not including the byte <code>n</code>. For example <code>[8:12]</code>
-represents bytes 8, 9, 10 and 11.</p>
-<p>Byte slices that are missing a beginning such as <code>[:64]</code> start at 0.</p>
-<p>Byte slices that are missing an ending such as <code>[112:]</code> continue until the
-end of the data.</p>
 <h2 id="maximum-size">Maximum Size</h2>
 <p>The
 <t>maximum size</t> <a href="rationale.html#maximum-size"><sup>rat</sup></a>
@@ -2155,7 +2195,7 @@ of a record is 1 mebibyte (1,048,576 bytes).</p>
 <p>The signature field is the EdDSA ed25519ph signature of the record
 produced using the <a href="#construction">construction</a> procedure.</p>
 <h3 id="id">ID</h3>
-<p>A 48 byte ID from <code>[64:112]</code> made up of the following three parts.</p>
+<p>A 48 byte ID from <code>[64:112]</code> made up of the following two parts:</p>
 <h4 id="timestamp">Timestamp</h4>
 <p>8 bytes from <code>[64:72]</code></p>
 <p>This is the big-endian unsigned 64-bit timestamp as described in <a href="timestamps.html">timestamps</a>,
@@ -2170,7 +2210,7 @@ including within leap seconds.</p>
 <p>32 bytes at <code>[112:144]</code></p>
 <p>This is the public key of the signing keypair, which is usually a subkey under
 the author's master keypair (but theoretically could be delegated in some other
-fashion in the future).</p>
+fashion in the future). It could also be the Master key itself.</p>
 <h3 id="address">Address</h3>
 <p>A 48 byte Address from <code>[144:192]</code> made up of the following three parts.
 <a href="rationale.html#address-fields"><sup>ref</sup></a></p>
@@ -2181,7 +2221,7 @@ kind). They can be created in a number of different ways, depending on the
 application and its purpose:</p>
 <ol>
 <li>They can be generated randomly.</li>
-<li>They can be a timestamp.
+<li>They can be a timestamp, modified with a leading 1 bit.
    This is useful when the addresses should sort in time order.</li>
 <li>They can be the first 8 bytes of a BLAKE3 hash of a fixed slice
    of bytes. This is useful for applications that require seeking a
@@ -2223,9 +2263,9 @@ EdDSA ed25519 keypair.</p>
 <p>This is the big-endian unsigned 64-bit timestamp as described in <a href="timestamps.html">timestamps</a>,
 which represents the number of nanoseconds that have elapsed since 1 January 1970
 including within leap seconds.</p>
-<p>It is repeated in the ID, but this copy gets digitally signed.</p>
+<p>It is repeated in the ID, but this copy is digitally signed by being included in the hash.</p>
 <h3 id="lent">LenT</h3>
-<p>2 bytes at <code>[202:204]</code> representing the length of the tags section in bytes
+<p>2 bytes at <code>[202:204]</code> representing the elength of the tags section in bytes
 as an unsigned integer in little-endian format.</p>
 <p>This represents the exact length of the tags section, not counting padding
 at the end to achieve 64-bit alignment.</p>
@@ -2254,7 +2294,8 @@ calculated as <code>(LenP + 7) &amp; !7</code></p>
 which includes the defined <a href="core_tags.html">Core Tags</a>.</p>
 <h3 id="payload">Payload</h3>
 <p>Varying bytes at <code>[208+LenTPad:208+LenTPad+LenP].</code></p>
-<p>Payload is opaque (at this layer of specification) application-specific data.</p>
+<p>Payload is application specific data, and is opaque at this layer of specification,
+except for records defined by the Core Application.</p>
 <p>The payload section is padded out to 64-bit alignment.</p>
 <p>The maximum payload section length is 1_048_384 bytes (which is the maximum record
 size minus the header size).</p>

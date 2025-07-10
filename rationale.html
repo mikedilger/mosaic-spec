@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -639,6 +683,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -752,11 +818,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -774,11 +840,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -887,6 +953,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -914,28 +1002,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1318,6 +1384,15 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-rtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      0-RTT
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#binary-records" class="md-nav__link">
@@ -1943,6 +2018,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#0-rtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      0-RTT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#binary-records" class="md-nav__link">
     <span class="md-ellipsis">
       Binary Records
@@ -2296,6 +2380,9 @@ to this page with <a href="#"><sup>rat</sup></a> links.</p>
 </thead>
 <tbody>
 <tr>
+<td><a href="#0-rtt">0-RTT</a></td>
+</tr>
+<tr>
 <td><a href="#binary-records">Binary Records</a></td>
 </tr>
 <tr>
@@ -2351,6 +2438,16 @@ to this page with <a href="#"><sup>rat</sup></a> links.</p>
 </tr>
 </tbody>
 </table>
+<hr />
+<h2 id="0-rtt">0-RTT</h2>
+<p>The QUIC transport could have used 0-RTT for higher performance, but 0-RTT has
+multiple downsides:</p>
+<ul>
+<li>Requests MUST be idempotent because they are replayable</li>
+<li>Endpoints can be used in attack amplification, as the remote hasn't proven it
+  controls the IP address it claims.</li>
+<li>There is no forward secrecy.</li>
+</ul>
 <hr />
 <h2 id="binary-records">Binary Records</h2>
 <p>The binary record format has been designed for performance and size.</p>
@@ -2547,14 +2644,17 @@ layer just for Mosaic since Mosaic can run on top of an already existing general
 <hr />
 <h2 id="quic">QUIC</h2>
 <p>HTTP has a lot of baggage. WebSockets layers on top of that.</p>
-<p>What we really need is size-unrestricted datagrams within TLS.  QUIC
+<p>What we fundamentally need is size-unrestricted datagrams within TLS.  QUIC
 gives us that if we do our own framing within a QUIC stream.</p>
 <p>QUIC is widely deployed due to its use in HTTP 1.3. QUIC is also much
 faster due to fewer roundtrips and no head-of-line blocking, while
 taking care of TLS, multiplexed streams, congestion control and other
 details that we would not dare to reimplement.</p>
-<p>The only concern would be if the port is not opened, and in this case
-a server can run on UDP port 443 (even though it is not speaking HTTP).</p>
+<p>QUIC also allows us to use ed25519 keys within TLS and get better assurance
+for a client that it is talking to the right server.</p>
+<p>However QUIC with modified TLS characteristics is unlikely to work in a browser
+based client. And QUIC does not work over Tor which is TCP based. Thus we
+must support other transports.</p>
 <hr />
 <h2 id="records">Records</h2>
 <h3 id="maximum-size">Maximum Size</h3>
@@ -2674,17 +2774,21 @@ nanosecond has little practical effect.</p>
 <hr />
 <h2 id="tls">TLS</h2>
 <p>We use TLS security because it is heavily researched and state-of-the-art.</p>
-<p>But we don't use the X.509 certificates as intended since both client and server are known by
-their public keys, not by DNS names.  Instead we use RawPublicKey or self-signed certificates.</p>
-<p>Clients are authenticated via client-side certificates.</p>
+<p>This next section applies to QUIC and TCP, but not to WebSockets where browsers
+will enforce security policies.</p>
+<p>In the QUIC and TCP transports we don't use the X.509 certificates as intended since both
+client and server are known by their public keys, not by DNS names.  Instead we use
+RawPublicKey or self-signed certificates. Clients are authenticated via client-side
+certificates.</p>
 <hr />
 <h2 id="websockets">WebSockets</h2>
 <p>Browser-based JavaScript (and WASM) clients are bound by tight security policies that do
 not allow TLS manpulation of QUIC connections. Therefore we cannot use TLS authentication
 via self-signed certificates, nor can we expect ed25519 algorithms to be supported by the
 browsers (they are not supported as of this writing by any major browser).</p>
-<p>So for these clients, an alternate form of server-to-client authentication must be devised
-and a WebSocket transport that supports them must be made available.</p>
+<p>Additionally, QUIC based on UDP does not work over Tor which is based on TCP.</p>
+<p>So for these clients, an alternate form of server-to-client authentication must be made
+available, and the WebSocket transport fits this bill.</p>
 
 
 

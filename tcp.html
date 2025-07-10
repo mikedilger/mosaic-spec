@@ -12,7 +12,7 @@
         <link rel="prev" href="quic.html">
       
       
-        <link rel="next" href="websockets.html">
+        <link rel="next" href="human_encodings.html">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tcp" class="md-skip">
+        <a href="#mosaic-over-tcp" class="md-skip">
           Skip to content
         </a>
       
@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -639,6 +683,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -752,11 +818,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -774,11 +840,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -889,6 +955,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -920,6 +1008,18 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    TCP with TLS
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="tcp.html" class="md-nav__link md-nav__link--active">
         
   
@@ -931,28 +1031,52 @@
 
       </a>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
         
-  
-  <span class="md-ellipsis">
-    WebSockets
-    
-  </span>
-  
 
-      </a>
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-choose-tcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to choose TCP
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      TLS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hello-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO Messages
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1578,6 +1702,41 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-choose-tcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to choose TCP
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      TLS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hello-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      HELLO Messages
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1592,8 +1751,29 @@
 
 
 
-<h1 id="tcp">TCP</h1>
-<p>TBD</p>
+<h1 id="mosaic-over-tcp">Mosaic over TCP</h1>
+<h2 id="when-to-choose-tcp">When to choose TCP</h2>
+<p>TCP is the best transport in cases where a user wishes to have a high degree of privacy
+and also a high degree of censorship resistance, because TCP can be used through Tor,
+and also the TCP implementation does not rely on CAs or DNS.</p>
+<p>However the TCP transport does not work in browser-based clients, in which case only
+the <a href="websockets.html">WebSockets</a> transport will suffice.
+It is also not as high-performance as the <a href="quic.html">QUIC</a> transport.</p>
+<h2 id="tls">TLS</h2>
+<p>Over TCP, Mosaic MUST use TLS version at least 1.2, preferably
+<a href="https://datatracker.ietf.org/doc/html/rfc8446">TLS 1.3</a>.</p>
+<p>TLS MUST specify the EdDSA signature algorithm, using the ed25519 signing
+keys.</p>
+<p>TLS certificates SHALL be either RawPublicKey or self-signed, and use
+the ed25519 public key (either the server's master public key or the client's
+signing public key).</p>
+<p>Servers SHOULD request client-side certificates if they wish to authenticate
+users. If clients do not provide certificates, they are to be considered
+anonymous. Servers MAY present different services depending on whether a user is
+authenticated or not.</p>
+<h2 id="hello-messages">HELLO Messages</h2>
+<p><code>HELLO</code>, <code>HELLO ACK</code> and <code>HELLO AUTH</code> are handled over the TCP transport as normal
+<a href="messages.html">Messages</a>. <a href="rationale.html#0-rtt"><sup>rat</sup></a></p>
 
 
 

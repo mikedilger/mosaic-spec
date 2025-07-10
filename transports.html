@@ -12,7 +12,7 @@
         <link rel="prev" href="sync.html">
       
       
-        <link rel="next" href="quic.html">
+        <link rel="next" href="websockets.html">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -348,11 +348,55 @@
   
   
     <li class="md-nav__item">
+      <a href="notation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Status and Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="principles.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Principles of Design
     
   </span>
   
@@ -639,6 +683,28 @@
   
   
     <li class="md-nav__item">
+      <a href="filter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="human_readable_content.html" class="md-nav__link">
         
   
@@ -752,11 +818,11 @@
   
   
     <li class="md-nav__item">
-      <a href="messages.html" class="md-nav__link">
+      <a href="protocol.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Protocol messages
+    Protocol
     
   </span>
   
@@ -774,11 +840,11 @@
   
   
     <li class="md-nav__item">
-      <a href="filter.html" class="md-nav__link">
+      <a href="messages.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Filter
+    Protocol messages
     
   </span>
   
@@ -939,6 +1005,28 @@
   
   
     <li class="md-nav__item">
+      <a href="websockets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSockets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="quic.html" class="md-nav__link">
         
   
@@ -966,28 +1054,6 @@
   
   <span class="md-ellipsis">
     TCP with TLS
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="websockets.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    WebSockets
     
   </span>
   
@@ -1650,38 +1716,50 @@
 
 
 <h1 id="transports">Transports</h1>
-<p>The following transports are defined:</p>
+<p>Mosaic defines three transports with the following characteristics:</p>
 <table>
 <thead>
 <tr>
 <th>Transport</th>
-<th>Requirement</th>
+<th>Required</th>
+<th>Browser clients</th>
+<th>Tor support</th>
+<th>Trust</th>
+<th>Performance</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="quic.html">QUIC</a></td>
-<td>Required <a href="rationale.html#quic"><sup>rat</sup></a></td>
-</tr>
-<tr>
-<td><a href="tcp.html">TCP with TLS 1.3</a></td>
-<td>Optional</td>
-</tr>
-<tr>
-<td><a href="websockets.html">WebSockets over https with TLS 1.3</a></td>
+<td><a href="websockets.html">WebSockets</a></td>
 <td>Required <a href="rationale.html#websockets"><sup>rat</sup></a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Relies on CAs and DNS</td>
+<td>Lowest</td>
+</tr>
+<tr>
+<td><a href="quic.html">QUIC</a></td>
+<td>Optional <a href="rationale.html#quic"><sup>rat</sup></a></td>
+<td>No</td>
+<td>No</td>
+<td>None</td>
+<td>Highest</td>
+</tr>
+<tr>
+<td><a href="tcp.html">TCP</a></td>
+<td>Optional</td>
+<td>No</td>
+<td>Yes</td>
+<td>None</td>
+<td>Medium-Low</td>
 </tr>
 </tbody>
 </table>
 <h2 id="transport-requirements">Transport Requirements</h2>
-<p>For compatibility purposes, all Mosaic clients and servers MUST be able to communicate over
-the following universally supported transports:</p>
-<ul>
-<li>QUIC</li>
-<li>Websockets over HTTPS with TLS 1.3</li>
-</ul>
-<p>Any server providing access via an alternate transport MUST also advertise an
-endpoint under at least one universally supported transport.</p>
+<p>For compatibility purposes, all Mosaic servers and clients MUST be able to communicate over
+Websockets over HTTPS. Every Mosaic server MUST advertise at least one Websockets over HTTPS
+endpoint. This requirement is in place to support browser-based clients, so that every
+server can be contacted by every client.</p>
 
 
 
