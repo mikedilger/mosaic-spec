@@ -2,13 +2,17 @@
 
 ## When to choose QUIC
 
-When a server wishes to be available to high-performance clients, QUIC provides the
-highest performance option.
+The QUIC transport is the highest performance option.
+Most significantly, QUIC has fewer roundtrips by design.
+But it also head-of-line blocking, has optional out-of-order delivery (Mosaic does
+not utilize this), and supports multiplexing. It also maintains connections when
+clients switch networks, for example when mobile phones switch from WiFi to 4G.
 
-QUIC brings a lot of performance and usability benefits such as avoiding head-of-line
-blocking, fewer roundtrips by design, optional out-of-order delivery, and multiplexing.
-It also maintains connections when clients switch networks, for example when mobile
-phones switch from WiFi to 4G.
+QUIC cannot be used by browser-based clients. Browser-based clients must use the
+[WebSockets](websockets.md) transport.
+
+QUIC cannot be used over Tor. Privacy-conscious users may prefer to use the
+[TCP](tcp.md) transport over Tor.
 
 ## QUIC reference
 
@@ -60,17 +64,5 @@ Messages are framed based on their prefix of 1 type byte and 3 length bytes.
 
 ## HELLO Messages
 
-`HELLO`, `HELLO ACK` and `HELLO AUTH` are handled over the QUIC transport in the
-following fashion:
-
-### HELLO
-
-TBD
-
-### HELLO ACK
-
-TBD
-
-### HELLO AUTH
-
-TBD
+`HELLO`, `HELLO ACK` and `HELLO AUTH` are handled over the QUIC transport as normal
+[Messages](messages.md). [<sup>rat</sup>](rationale.md#0-rtt)

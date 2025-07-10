@@ -5,6 +5,7 @@ to this page with [<sup>rat</sup>](#) links.
 
 | Contents |
 |----------|
+| [0-RTT](#0-rtt) |
 | [Binary Records](#binary-records) |
 | [BLAKE3](#blake3) |
 | [Client-Server](#client-server) |
@@ -23,6 +24,18 @@ to this page with [<sup>rat</sup>](#) links.
 | [Timestamps](#timestamps) |
 | [TLS](#tls) |
 | [WebSockets](#websockets) |
+
+---
+
+## 0-RTT
+
+The QUIC transport could have used 0-RTT for higher performance, but 0-RTT has
+multiple downsides:
+
+* Requests MUST be idempotent because they are replayable
+* Endpoints can be used in attack amplification, as the remote hasn't proven it
+  controls the IP address it claims.
+* There is no forward secrecy.
 
 ---
 
@@ -249,7 +262,7 @@ layer just for Mosaic since Mosaic can run on top of an already existing general
 
 HTTP has a lot of baggage. WebSockets layers on top of that.
 
-What we really need is size-unrestricted datagrams within TLS.  QUIC
+What we fundamentally need is size-unrestricted datagrams within TLS.  QUIC
 gives us that if we do our own framing within a QUIC stream.
 
 QUIC is widely deployed due to its use in HTTP 1.3. QUIC is also much
@@ -257,8 +270,12 @@ faster due to fewer roundtrips and no head-of-line blocking, while
 taking care of TLS, multiplexed streams, congestion control and other
 details that we would not dare to reimplement.
 
-The only concern would be if the port is not opened, and in this case
-a server can run on UDP port 443 (even though it is not speaking HTTP).
+QUIC also allows us to use ed25519 keys within TLS and get better assurance
+for a client that it is talking to the right server.
+
+However QUIC with modified TLS characteristics is unlikely to work in a browser
+based client. And QUIC does not work over Tor which is TCP based. Thus we
+must support other transports.
 
 ---
 
@@ -444,10 +461,13 @@ nanosecond has little practical effect.
 
 We use TLS security because it is heavily researched and state-of-the-art.
 
-But we don't use the X.509 certificates as intended since both client and server are known by
-their public keys, not by DNS names.  Instead we use RawPublicKey or self-signed certificates.
+This next section applies to QUIC and TCP, but not to WebSockets where browsers
+will enforce security policies.
 
-Clients are authenticated via client-side certificates.
+In the QUIC and TCP transports we don't use the X.509 certificates as intended since both
+client and server are known by their public keys, not by DNS names.  Instead we use
+RawPublicKey or self-signed certificates. Clients are authenticated via client-side
+certificates.
 
 ---
 
@@ -458,5 +478,7 @@ not allow TLS manpulation of QUIC connections. Therefore we cannot use TLS authe
 via self-signed certificates, nor can we expect ed25519 algorithms to be supported by the
 browsers (they are not supported as of this writing by any major browser).
 
-So for these clients, an alternate form of server-to-client authentication must be devised
-and a WebSocket transport that supports them must be made available.
+Additionally, QUIC based on UDP does not work over Tor which is based on TCP.
+
+So for these clients, an alternate form of server-to-client authentication must be made
+available, and the WebSocket transport fits this bill.

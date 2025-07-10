@@ -45,9 +45,9 @@ nav:
       - Sync: sync.md
     - Transports:
       - Transports: transports.md
+      - WebSockets: websockets.md
       - QUIC: quic.md
       - TCP with TLS: tcp.md
-      - WebSockets: websockets.md
     - Accessory:
       - Human Encodings: human_encodings.md
       - Encrypted Secret Key: encrypted_secret_key.md

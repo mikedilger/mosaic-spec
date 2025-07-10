@@ -2,6 +2,14 @@
 
 ## When to choose TCP
 
+TCP is the best transport in cases where a user wishes to have a high degree of privacy
+and also a high degree of censorship resistance, because TCP can be used through Tor,
+and also the TCP implementation does not rely on CAs or DNS.
+
+However the TCP transport does not work in browser-based clients, in which case only
+the [WebSockets](websockets.md) transport will suffice.
+It is also not as high-performance as the [QUIC](quic.md) transport.
+
 ## TLS
 
 Over TCP, Mosaic MUST use TLS version at least 1.2, preferably
@@ -21,16 +29,5 @@ authenticated or not.
 
 ## HELLO Messages
 
-`HELLO`, `HELLO ACK` and `HELLO AUTH` are handled over the TCP transport in the following fashion:
-
-### HELLO
-
-TBD
-
-### HELLO ACK
-
-TBD
-
-### HELLO AUTH
-
-TBD
+`HELLO`, `HELLO ACK` and `HELLO AUTH` are handled over the TCP transport as normal
+[Messages](messages.md). [<sup>rat</sup>](rationale.md#0-rtt)

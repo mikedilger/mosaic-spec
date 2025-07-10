@@ -1,20 +1,16 @@
 # Transports
 
-The following transports are defined:
+Mosaic defines three transports with the following characteristics:
 
-| Transport | Requirement |
-|-----------|-------------|
-| [QUIC](quic.md)   | Required [<sup>rat</sup>](rationale.md#quic) |
-| [TCP with TLS 1.3](tcp.md) | Optional |
-| [WebSockets over https with TLS 1.3](websockets.md) | Required [<sup>rat</sup>](rationale.md#websockets) |
+| Transport | Required | Browser clients | Tor support | Trust | Performance |
+|-----------|----------|-----------------|-------------|-------|-------------|
+| [WebSockets](websockets.md) | Required [<sup>rat</sup>](rationale.md#websockets) | Yes | Yes | Relies on CAs and DNS | Lowest |
+| [QUIC](quic.md)   | Optional [<sup>rat</sup>](rationale.md#quic) | No | No | None | Highest |
+| [TCP](tcp.md) | Optional | No | Yes | None | Medium-Low |
 
 ## Transport Requirements
 
-For compatibility purposes, all Mosaic clients and servers MUST be able to communicate over
-the following universally supported transports:
-
-* QUIC
-* Websockets over HTTPS with TLS 1.3
-
-Any server providing access via an alternate transport MUST also advertise an
-endpoint under at least one universally supported transport.
+For compatibility purposes, all Mosaic servers and clients MUST be able to communicate over
+Websockets over HTTPS. Every Mosaic server MUST advertise at least one Websockets over HTTPS
+endpoint. This requirement is in place to support browser-based clients, so that every
+server can be contacted by every client.

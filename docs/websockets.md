@@ -2,9 +2,14 @@
 
 ## When to choose WebSockets
 
-When a server wishes to be available to web-based clients, it must present at least
-one endpoint over WebSockets as this is the only transport that web-based clients
-can reliably access.
+WebSockets is the only working transport available to browser-based clients. In this
+case, users must trust CAs and DNS. Browsers may not allow meddling with their TLS
+implementations.
+
+WebSockets may also be used over Tor in the Tor browser.
+
+If a browser-based client is not a requirement, then the other two transports
+([TCP](tcp.md) and [QUIC](quic.md)) are superior, each in their own way.
 
 ## WebSockets Reference
 
