@@ -7,6 +7,8 @@ sharing data between humans and software.
 
 Prefixes are used to specify the type of data being represented:
 
-* Public keys are prefixed with `mopub0`
+* Public keys for users are prefixed with `mopub0`
+* Public keys for servers are prefixed with `mosrv0`
 * Secret keys are prefixed with `mosec0`
+* Encrypted secret keys are prefixed with `mocryptsec0`
 * References are prefixed with `moref0`
