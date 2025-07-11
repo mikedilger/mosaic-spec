@@ -25,6 +25,6 @@ Unlike nostr, tags do not have multiple value fields. Applications can encode mu
 fields into the 65,532 data bytes however they wish.
 
 Applications SHOULD expect tags to be indexed by their type and some prefix of their value
-(of unspecified length, but it SHOULD include at least 32 bytes). As a consequence, tags should
-be defined to front-load their unique aspects within the first 32 bytes of their value to
-maximize the effectiveness of indexes.
+(of unspecified length, but it SHOULD include at least 22 bytes including the type). As a
+consequence, tags should be defined to front-load their unique aspects within the first
+20 bytes of their value to maximize the effectiveness of indexes.

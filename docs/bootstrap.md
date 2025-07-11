@@ -27,13 +27,14 @@ Limitations:
 
 * Only 1000 bytes can be reliably stored, and some will be used for *bencoding*
   overhead and the salt, leaving us only 983 bytes of usable data.
-* Data SHOULD be refreshed periodically otherwise it may be removed after a time.
-  Users are responsible for refreshing data in the Mainline DHT which will
-  disappear over time. Mechanisms for this are out of scope for Mosaic Core, but
-  servers MAY offer this service.
+* Data SHOULD be refreshed every hour, as it MAY expire in 2 hours.
+  Users are responsible for arranging for their data to be periodically refreshed
+  in the Mainline DHT, which will otherwise disappear over time. Services and
+  mechanisms for this are out of scope for Mosaic Core, but servers MAY offer such
+  a service.
 * Data storage and retrieval may take a few seconds, and should not be done too
-  frequently. Software SHOULD cache results for 30 minutes before checking for
-  updates.
+  frequently. Software SHOULD cache results for at least 30 minutes before checking
+  for updates.
 * To use Mainline DHT, you need to start from a bootstrap node. We list some here
   in the hopes that this helps someone get started, but others exist and you can
   even set up your own using (for example)
