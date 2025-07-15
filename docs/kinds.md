@@ -12,9 +12,9 @@ A kind can be broken into three parts:
 
 |Range|Meaning|
 |-----|--------|
-|Byte 0-4|Application Identifier, an integer in big-endian format|
-|Byte 5-6|Application-Specific Kind, as integer in big-endian format|
-|Byte 7|Bitflags for record handling|
+|Byte 0-3|Application Identifier, 32-bit unsigned integer in big-endian format|
+|Byte 4-5|Application-Specific Kind, 16-bit unsigned integer in big-endian format|
+|Byte 6-7|Bitflags for record handling|
 
 Bitflags are as follows:
 
@@ -41,7 +41,7 @@ Bits 3 and 2:
 
 Bit 4: If on, the contents of this record are considered to be `printable` (human readable).
 
-Bits 7, 6 and 5: RESERVED and MUST be 0
+Bits 15-5: RESERVED and MUST be 0
 
 ## Kind Registry
 

@@ -11,13 +11,13 @@ master key are not identical.
 
 ## Kind
 
-**Applicaton**: Mosaic Core
+**Applicaton**: 0 (Mosaic Core)
 
 **App Kind**: 1 (Key Schedule)
 
-**Flags**: *Replaceable*, *Everybody*, *NotPrintable*
+**Flags**: 0x0003 = *Replaceable*, *Everybody*, *NotPrintable*
 
-Representation = `[0, 0, 0, 0, 0, 0, 1, 14]`
+Reprsentation = 0x0000_0000_0001_000e
 
 ## Tags
 

@@ -9,7 +9,7 @@
 Applications are specified separately from Mosaic, except for <t>Mosaic Core</t> and
 <t>Mosaic Social Media</t>.
 
-Application IDs are 5-byte integers ranging from 0 to 1,099,511,627,776.
+Application IDs are 4-byte unsigned integers.
 
 Application IDs outside of this Mosaic spec SHOULD be selected randomly to avoid
 the chance of collision with other applications that have not registered their ID

@@ -7,13 +7,13 @@ master key are not identical.
 
 ## Kind
 
-**Applicaton**: Mosaic Core
+**Applicaton**: 0 (Mosaic Core)
 
 **App Kind**: 2 (Profile)
 
-**Flags**: *Replaceable*, *Everybody*, *NotPrintable*
+**Flags**: 0x000e = *Replaceable*, *Everybody*, *NotPrintable*
 
-Representation = `[0, 0, 0, 0, 0, 0, 2, 14]`
+Representation = 0x0000_0000_0002_000e
 
 ## Tags
 

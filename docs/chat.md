@@ -6,9 +6,9 @@
 
 **App Kind**: 4 (Chat Message)
 
-**Flags**: *Unique*, *Everybody*, *Printable*
+**Flags**: 0x001c = *Unique*, *Everybody*, *Printable*
 
-Representation = `[0, 0, 0, 0, 1, 0, 4, 28]`
+Representation = 0x0000_0001_0004_001c
 
 ## Tags
 

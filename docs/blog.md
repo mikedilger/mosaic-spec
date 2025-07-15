@@ -2,13 +2,13 @@
 
 ## Kind
 
-**Applicaton**: Mosaic Social Media
+**Applicaton**: 1 (Mosaic Social Media)
 
 **App Kind**: 3 (Blog Post)
 
-**Flags**: *Unique*, *Everybody*, *Printable*
+**Flags**: 0x001c = *Unique*, *Everybody*, *Printable*
 
-Representation = `[0, 0, 0, 0, 1, 0, 3, 28]`
+Representation = 0x0000_0001_0003_001c
 
 ## Tags
 
