@@ -1,5 +1,13 @@
 # Transports
 
+NOTICE: Once WebTransport matures further, we may swap it in for WebSockets because it
+would be strictly better:
+
+* QUIC, if available, with fallback to HTTP/2 (thus Tor can work)
+* serverCertificateHashes (to avoid trust in DNS and CAs)
+
+NOTICE: Development is proceeding with QUIC first.
+
 Mosaic defines three transports with the following characteristics:
 
 | Transport | Required | Browser clients | Tor support | Trust | Performance |

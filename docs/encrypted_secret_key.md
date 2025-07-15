@@ -39,7 +39,7 @@ SHOULD be zeroed and MUST be discarded after use and not stored or reused for an
 
 `SECRET_KEY` = The secret key to be encrypted, as 32 bytes (not as human readable mosec0).
 
-`XOR_OUTPUT` = `xor(SYMMETRIC_KEY, SECRET_KEY)`
+`XOR_OUTPUT` = `xor(SYMMETRIC_KEY, SECRET_KEY)` [<sup>rat</sup>](rationale.md#xor)
 
 `VERSION_NUMBER_BYTE` = 0x01
 

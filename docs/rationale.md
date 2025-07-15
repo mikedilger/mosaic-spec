@@ -24,6 +24,7 @@ to this page with [<sup>rat</sup>](#) links.
 | [Timestamps](#timestamps) |
 | [TLS](#tls) |
 | [WebSockets](#websockets) |
+| [XOR](#xor) |
 
 ---
 
@@ -482,3 +483,18 @@ Additionally, QUIC based on UDP does not work over Tor which is based on TCP.
 
 So for these clients, an alternate form of server-to-client authentication must be made
 available, and the WebSocket transport fits this bill.
+
+---
+
+## XOR
+
+We use XOR within the Encrypted Secret Key algorithm. XOR is very efficient. But XOR
+is dangerous if used incorrectly. We think it is ok for the following reasons, but will
+change the algorithm if it can be shown to be weak:
+
+* The symmetric key is random.
+* The symmetric key is non-deterministic (not even by the password since we use a salt).
+* The symmetric key is the full length of the data being encrypted (not repeated).
+* The data being encrypted is short (32 bytes) and random, and not subject to frequency
+  analysis.
+* There is no known-plaintext attack possible, so the malleability is not relevant.

@@ -5,6 +5,9 @@ This also determines the nature of the payload.
 
 Kinds are represented by an array of 8 bytes.
 
+In printable context, kinds are represented as an unsigned 64-bit integer in
+big-endian format.
+
 A kind can be broken into three parts:
 
 |Range|Meaning|
