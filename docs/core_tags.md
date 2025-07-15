@@ -71,12 +71,12 @@ specified in their [bootstrap](bootstrap.md) record.
 * `[0:2]` - The length 64 as a little-endian encoded unsigned integer
 * `[2:4]` - The type 0x2 as a little-endian encoded unsigned integer
 * `[4:8]` - Zeroed
-* `[8:16]` - The [kind](kinds.md)
+* `[8:16]` - The [kind](kind.md)
 * `[16:64]` - The reference (48 bytes)
 
 This is a reply to another record in a threading sense.
 
-`KIND` is an 8-byte record [kind](kinds.md) indicating the kind of record
+`KIND` is an 8-byte record [kind](kind.md) indicating the kind of record
 that this one replies to. Replies are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
@@ -116,13 +116,13 @@ If a record includes this tag, it MUST also include a
 * `[0:2]` - The length 64 as a little-endian encoded unsigned integer
 * `[2:4]` - The type 0x3 as a little-endian encoded unsigned integer
 * `[4:8]` - Zeroed
-* `[8:16]` - The [kind](kinds.md)
+* `[8:16]` - The [kind](kind.md)
 * `[16:64]` - The reference (48 bytes)
 
 This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.
 
-`KIND` is a 8-byte record [kind](kinds.md) indicating the kind of record
+`KIND` is a 8-byte record [kind](kind.md) indicating the kind of record
 that the root record is. Threads are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
@@ -286,12 +286,12 @@ This is a mention of a server.
 * `[0:2]` - The length 64 as a little-endian encoded unsigned integer
 * `[2:4]` - The type 0x22 as a little-endian encoded unsigned integer
 * `[4:8]` - The offset as a little-endian encoded unsigned integer.
-* `[8:16]` - The [kind](kinds.md) of the quoted record
+* `[8:16]` - The [kind](kind.md) of the quoted record
 * `[16:64]` - The id (48 bytes) of the quoted record
 
 `OFFSET` is the offset into the content where the mention appears.
 
-`KIND` is a 8-byte record [kind](kinds.md) indicating the kind of record
+`KIND` is a 8-byte record [kind](kind.md) indicating the kind of record
 that this one replies to. Replies are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish

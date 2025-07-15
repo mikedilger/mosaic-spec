@@ -145,7 +145,7 @@ The method of creation is determined by the application layer.
 
 #### Kind
 
-A [kind](kinds.md), represented in 8 bytes at `[152:160]`.
+A [kind](kind.md), represented in 8 bytes at `[152:160]`.
 
 #### Author Public Key
 

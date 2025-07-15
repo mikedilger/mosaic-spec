@@ -149,7 +149,7 @@ Matches all records which are of any one of these kinds.
 * `[0:1]` - The type 0x3
 * `[1:2]` - The length of the <t>filter element</t> in 8-byte words.
 * `[2:8]` - Zeroed
-* `[8:]` - A sequence of `len-1` 8-byte [kinds](kinds.md) in little-endian format.
+* `[8:]` - A sequence of `len-1` 8-byte [kinds](kind.md) in little-endian format.
 
 ## Timestamps
 

@@ -33,6 +33,7 @@ nav:
       - URL: url.md
     - Data Formats:
       - Timestamps: timestamps.md
+      - Kind: kind.md
       - Tags: tags.md
       - Record Format: record.md
       - Filter: filter.md
