@@ -1721,6 +1721,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#xor" class="md-nav__link">
+    <span class="md-ellipsis">
+      XOR
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2353,6 +2362,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#xor" class="md-nav__link">
+    <span class="md-ellipsis">
+      XOR
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2435,6 +2453,9 @@ to this page with <a href="#"><sup>rat</sup></a> links.</p>
 </tr>
 <tr>
 <td><a href="#websockets">WebSockets</a></td>
+</tr>
+<tr>
+<td><a href="#xor">XOR</a></td>
 </tr>
 </tbody>
 </table>
@@ -2789,6 +2810,19 @@ browsers (they are not supported as of this writing by any major browser).</p>
 <p>Additionally, QUIC based on UDP does not work over Tor which is based on TCP.</p>
 <p>So for these clients, an alternate form of server-to-client authentication must be made
 available, and the WebSocket transport fits this bill.</p>
+<hr />
+<h2 id="xor">XOR</h2>
+<p>We use XOR within the Encrypted Secret Key algorithm. XOR is very efficient. But XOR
+is dangerous if used incorrectly. We think it is ok for the following reasons, but will
+change the algorithm if it can be shown to be weak:</p>
+<ul>
+<li>The symmetric key is random.</li>
+<li>The symmetric key is non-deterministic (not even by the password since we use a salt).</li>
+<li>The symmetric key is the full length of the data being encrypted (not repeated).</li>
+<li>The data being encrypted is short (32 bytes) and random, and not subject to frequency
+  analysis.</li>
+<li>There is no known-plaintext attack possible, so the malleability is not relevant.</li>
+</ul>
 
 
 

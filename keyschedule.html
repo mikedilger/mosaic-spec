@@ -1777,10 +1777,10 @@ specification.</p>
 <p>A Key Schedule record MUST be considered invalid if the signing key and the
 master key are not identical.</p>
 <h2 id="kind">Kind</h2>
-<p><strong>Applicaton</strong>: Mosaic Core</p>
+<p><strong>Applicaton</strong>: 0 (Mosaic Core)</p>
 <p><strong>App Kind</strong>: 1 (Key Schedule)</p>
-<p><strong>Flags</strong>: <em>Replaceable</em>, <em>Everybody</em>, <em>NotPrintable</em></p>
-<p>Representation = <code>[0, 0, 0, 0, 0, 0, 1, 14]</code></p>
+<p><strong>Flags</strong>: 0x0003 = <em>Replaceable</em>, <em>Everybody</em>, <em>NotPrintable</em></p>
+<p>Reprsentation = 0x0000_0000_0001_000e</p>
 <h2 id="tags">Tags</h2>
 <p>Every subkey listed in a key schedule record MUST have an associated
 <a href="core_tags.html#subkey">subkey tag</a> listing the subkey.</p>

@@ -1716,6 +1716,13 @@
 
 
 <h1 id="transports">Transports</h1>
+<p>NOTICE: Once WebTransport matures further, we may swap it in for WebSockets because it
+would be strictly better:</p>
+<ul>
+<li>QUIC, if available, with fallback to HTTP/2 (thus Tor can work)</li>
+<li>serverCertificateHashes (to avoid trust in DNS and CAs)</li>
+</ul>
+<p>NOTICE: Development is proceeding with QUIC first.</p>
 <p>Mosaic defines three transports with the following characteristics:</p>
 <table>
 <thead>
