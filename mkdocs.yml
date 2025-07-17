@@ -63,8 +63,8 @@ nav:
       - Rationale: rationale.md
   - "App: Social Media":
     - Microblogging: microblog.md
-    - Blog: blog.md
     - Reply Comment: reply_comment.md
+    - Blog: blog.md
     - Chat: chat.md
   - Registries:
     - Application Registry: applications.md
