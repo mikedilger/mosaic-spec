@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="messages.html">
+        <link rel="prev" href="timestamps.html">
       
       
-        <link rel="next" href="transports.html">
+        <link rel="next" href="tags.html">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Sync - Mosaic</title>
+        <title>Kind - Mosaic</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mosaic-sync-protocol-extension" class="md-skip">
+        <a href="#kind" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Sync
+              Kind
             
           </span>
         </div>
@@ -575,6 +575,8 @@
                 
   
   
+    
+  
   
   
     
@@ -584,11 +586,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
@@ -603,7 +605,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             Data Formats
@@ -636,10 +638,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="kind.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="kind.html" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -649,6 +660,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -776,8 +788,6 @@
                 
   
   
-    
-  
   
   
     
@@ -787,11 +797,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
         
           
           <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
@@ -806,7 +816,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             Protocol
@@ -883,31 +893,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Sync
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="sync.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="sync.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -917,101 +906,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#client-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client messages
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Client messages">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sync-init" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Init
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sync-data" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Data
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sync-close" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Close
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#server-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Server messages
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Server messages">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sync-data_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Data
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sync-error" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Error
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1772,89 +1666,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#client-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client messages
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Client messages">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sync-init" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Init
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sync-data" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Data
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sync-close" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Close
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#server-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Server messages
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Server messages">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sync-data_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Data
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sync-error" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync Error
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1869,36 +1680,58 @@
 
 
 
-<h1 id="mosaic-sync-protocol-extension">Mosaic Sync Protocol Extension</h1>
-<p>This extends the protocol with negentropy support.</p>
-<p>The following messages are added:</p>
-<h2 id="client-messages">Client messages</h2>
-<h3 id="sync-init">Sync Init</h3>
-<blockquote>
-<p><strong>0x10</strong></p>
-</blockquote>
-<p>This is the initialization of a negentropy sync of records</p>
-<h3 id="sync-data">Sync Data</h3>
-<blockquote>
-<p><strong>0x11</strong></p>
-</blockquote>
-<p>This is a data packet within a negentropy sync of records</p>
-<h3 id="sync-close">Sync Close</h3>
-<blockquote>
-<p><strong>0x12</strong></p>
-</blockquote>
-<p>This is the closing of a negentropy sync of records</p>
-<h2 id="server-messages">Server messages</h2>
-<h3 id="sync-data_1">Sync Data</h3>
-<blockquote>
-<p><strong>0x91</strong></p>
-</blockquote>
-<p>This is a data packet within a negentropy sync of records</p>
-<h3 id="sync-error">Sync Error</h3>
-<blockquote>
-<p><strong>0x93</strong></p>
-</blockquote>
-<p>This is an indication that negentropy sync has failed</p>
+<h1 id="kind">Kind</h1>
+<p>The kind of a record determines the application that the record is used by.
+This also determines the nature of the payload.</p>
+<p>Kinds are represented by an array of 8 bytes, equivalent to a 64-bit unsigned
+integer in big endian format.</p>
+<p>A kind can be broken into three parts:</p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Byte 0-3</td>
+<td>Application Identifier, 32-bit unsigned integer in big-endian format</td>
+</tr>
+<tr>
+<td>Byte 4-5</td>
+<td>Application-Specific Kind, 16-bit unsigned integer in big-endian format</td>
+</tr>
+<tr>
+<td>Byte 6-7</td>
+<td>Bitflags for record handling</td>
+</tr>
+</tbody>
+</table>
+<p>Bitflags are as follows:</p>
+<p>Bits 1 and 0:</p>
+<ul>
+<li>00 - <code>Unique</code>. All records SHOULD have unique addresses. In the case that multiple
+       records share the same address, all of them MUST be preserved just like
+       Versioned records are (see bits 11 below)</li>
+<li>01 - <code>Ephemeral</code>; Servers MUST serve this record to current subscribers, but
+       SHOULD NOT save the record nor serve it later to future subscribers.</li>
+<li>10 - <code>Replaceable</code>: Among records with the same address, only the one with the
+       latest timestamp MUST be served by servers, and prior records MUST NOT be
+       served.</li>
+<li>11 - <code>Versioned</code>: Among records with the same address, all of them remain relevant
+       and should be seen as a version history.</li>
+</ul>
+<p>Bits 3 and 2:</p>
+<ul>
+<li>00 - <code>Author Only</code>: Servers MUST serve this record only to it's author.</li>
+<li>01 - <code>Author + Tagged</code>: Servers MUST serve this record only to it's author and the
+       public keys that are tagged in the record.</li>
+<li>10 - RESERVED</li>
+<li>11 - <code>Everybody</code>: Servers MAY serve this record to anybody.</li>
+</ul>
+<p>Bit 4: If on, the contents of this record are considered to be <code>printable</code> (human readable).</p>
+<p>Bits 15-5: RESERVED and MUST be 0</p>
 
 
 

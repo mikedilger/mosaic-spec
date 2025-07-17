@@ -639,6 +639,28 @@
   
   
     <li class="md-nav__item">
+      <a href="kind.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kind
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="tags.html" class="md-nav__link">
         
   
@@ -1576,11 +1598,11 @@
   
   
     <li class="md-nav__item">
-      <a href="blog.html" class="md-nav__link">
+      <a href="reply_comment.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Blog
+    Reply Comment
     
   </span>
   
@@ -1598,11 +1620,11 @@
   
   
     <li class="md-nav__item">
-      <a href="reply_comment.html" class="md-nav__link">
+      <a href="blog.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Reply Comment
+    Blog
     
   </span>
   
@@ -1992,11 +2014,11 @@ specified in their <a href="bootstrap.html">bootstrap</a> record.</p>
 <li><code>[0:2]</code> - The length 64 as a little-endian encoded unsigned integer</li>
 <li><code>[2:4]</code> - The type 0x2 as a little-endian encoded unsigned integer</li>
 <li><code>[4:8]</code> - Zeroed</li>
-<li><code>[8:16]</code> - The <a href="kinds.html">kind</a></li>
+<li><code>[8:16]</code> - The <a href="kind.html">kind</a></li>
 <li><code>[16:64]</code> - The reference (48 bytes)</li>
 </ul>
 <p>This is a reply to another record in a threading sense.</p>
-<p><code>KIND</code> is an 8-byte record <a href="kinds.html">kind</a> indicating the kind of record
+<p><code>KIND</code> is an 8-byte record <a href="kind.html">kind</a> indicating the kind of record
 that this one replies to. Replies are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
@@ -2032,12 +2054,12 @@ indicating which other record this record replies to.</p>
 <li><code>[0:2]</code> - The length 64 as a little-endian encoded unsigned integer</li>
 <li><code>[2:4]</code> - The type 0x3 as a little-endian encoded unsigned integer</li>
 <li><code>[4:8]</code> - Zeroed</li>
-<li><code>[8:16]</code> - The <a href="kinds.html">kind</a></li>
+<li><code>[8:16]</code> - The <a href="kind.html">kind</a></li>
 <li><code>[16:64]</code> - The reference (48 bytes)</li>
 </ul>
 <p>This indicates the root of the reply thread. This is to support loading
 an entire thread in one round trip.</p>
-<p><code>KIND</code> is a 8-byte record <a href="kinds.html">kind</a> indicating the kind of record
+<p><code>KIND</code> is a 8-byte record <a href="kind.html">kind</a> indicating the kind of record
 that the root record is. Threads are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
@@ -2182,11 +2204,11 @@ the content.</p>
 <li><code>[0:2]</code> - The length 64 as a little-endian encoded unsigned integer</li>
 <li><code>[2:4]</code> - The type 0x22 as a little-endian encoded unsigned integer</li>
 <li><code>[4:8]</code> - The offset as a little-endian encoded unsigned integer.</li>
-<li><code>[8:16]</code> - The <a href="kinds.html">kind</a> of the quoted record</li>
+<li><code>[8:16]</code> - The <a href="kind.html">kind</a> of the quoted record</li>
 <li><code>[16:64]</code> - The id (48 bytes) of the quoted record</li>
 </ul>
 <p><code>OFFSET</code> is the offset into the content where the mention appears.</p>
-<p><code>KIND</code> is a 8-byte record <a href="kinds.html">kind</a> indicating the kind of record
+<p><code>KIND</code> is a 8-byte record <a href="kind.html">kind</a> indicating the kind of record
 that this one replies to. Replies are application-independent and MAY
 reference records of any type. This information is provided to prevent
 lookup of records of kinds that software is not able to or does not wish
