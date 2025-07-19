@@ -40,18 +40,22 @@ more time and more memory, and offer better protection. 18 is a reasonable defau
 
 `SALT` = 16 random bytes
 
-`SYMMETRIC_KEY` = `scrypt(password=PASSWORD, salt=SALT, log_n=LOG_N_BYTE, r=8, p=1, dkLen=36)`
+`SYMMETRIC_KEY` = `scrypt(password=PASSWORD, salt=SALT, log_n=LOG_N_BYTE, r=8, p=1, dkLen=40)`
 
-The symmetric key output should be 36 bytes long (the `dkLen`). This symmetric encryption key is
+The symmetric key output should be 40 bytes long (the `dkLen`). This symmetric encryption key is
 temporary and SHOULD be zeroed and MUST be discarded after use and not stored or reused for any
 other purpose.
 
+`RAND4` = Four random bytes
+
 `CHECKBYTES` = `[0xb9, 0x60, 0xa1, 0xe2]`
 
-`CHECKED_SECRET_KEY` = `CONCAT(SECRET_KEY, CHECKBYTES)`
+`RANDOMIZED_CHECKBYTES` = `xor(RAND4, CHECKBYTES)`
 
-This value is temporary and SHOULD be zero and MUST be discarded after use and not stored or reused
-for any other purpose.
+`CHECKED_SECRET_KEY` = `CONCAT(SECRET_KEY, RAND4, RANDOMIZED_CHECKBYTES)`
+
+This value is temporary and SHOULD be zeroed and MUST be discarded after use and not stored or
+reused for any other purpose.
 
 `XOR_OUTPUT` = `xor(SYMMETRIC_KEY, CHECKED_SECRET_KEY)` [<sup>rat</sup>](rationale.md#xor)
 
@@ -101,8 +105,12 @@ other purpose.
 This value is temporary and SHOULD be zero and MUST be discarded after use and not stored or reused
 for any other purpose.
 
-`CHECKBYTES` = `CHECKED_SECRET_KEY[32..36]`
+`RAND4` = `CHECKED_SECRET_KEY[32..36]`
 
-Verify these equal `[0xb9, 0x60, 0xa1, 0xe2]`. If not, presume the password was incorrect.
+`RANDOMIZED_CHECKBYTES` = `CHECKED_SECRET_KEY[36..40]`
+
+`CHECKBYTES` = `xor(RAND4, RANDOMIZED_CHECKBYTES)`
+
+Verify that these equal `[0xb9, 0x60, 0xa1, 0xe2]`. If not, presume the password was incorrect.
 
 `SECRET_KEY` = `CHECKED_SECRET_KEY[0..32]`
