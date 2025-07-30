@@ -1,12 +1,11 @@
 # Record
 
-All Mosaic persistent data is stored within Record structures (except for
-bootstrap data).
+All Mosaic data is stored within Record structures (except for
+bootstrap data and protocol messages).
 
 ## Maximum Size
 
-The
-<t>maximum size</t> [<sup>rat</sup>](rationale.md#maximum-size)
+The <t>maximum size</t> [<sup>rat</sup>](rationale.md#maximum-size)
 of a record is 1 mebibyte (1,048,576 bytes).
 
 ## Layout
@@ -15,118 +14,97 @@ of a record is 1 mebibyte (1,048,576 bytes).
 ```text
             1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
- 0  +-------------------------------+
-    | Signature 1/8                 |
- 8  +-------------------------------+
-    | Signature 2/8                 |
- 16 +-------------------------------+
-    | Signature 3/8                 |
- 24 +-------------------------------+
-    | Signature 4/8                 |
- 32 +-------------------------------+
-    | Signature 5/8                 |
- 40 +-------------------------------+
-    | Signature 6/8                 |
- 48 +-------------------------------+
-    | Signature 7/8                 |
- 56 +-------------------------------+
-    | Signature 8/8                 |
- 64 +-------------------------------+ <-----|
-    | Timestamp                     |
- 72 +-------------------------------+       |
+  0 +-------------------------------+ <-----|
+    | Timestamp                     |       |
+  8 +-------------------------------+       |
     | Hash 1/5                      |       |
- 80 +-------------------------------+       |
+ 16 +-------------------------------+       |
     | Hash 2/5                      |  I    |
- 88 +-------------------------------+  D    |
+ 24 +-------------------------------+  D    |
     | Hash 3/5                      |       |
- 96 +-------------------------------+       |
+ 32 +-------------------------------+       |
     | Hash 4/5                      |       |
-104 +-------------------------------+       |
+ 40 +-------------------------------+       |
     | Hash 5/5                      |       |
-112 +-------------------------------+ <-----|
-    | Signing public key, 1/4       |
-120 +-------------------------------+
-    | Signing public key, 2/4       |
-128 +-------------------------------+
-    | Signing public key, 3/4       |
-136 +-------------------------------+
-    | Signing public key, 4/4       |
-144 +-------------------------------+ <-----|
-    | Unique Address Nonce          |       |
-152 +-------------------------------+       |
-    | Kind                          |   A   |
-160 +-------------------------------+   D   |
-    | Author public key, 1/4        |   D   |
-168 +-------------------------------+   R   |
-    | Author public key, 2/4        |   E   |
-176 +-------------------------------+   S   |
-    | Author public key, 3/4        |   S   |
-184 +-------------------------------+       |
-    | Author public key, 4/4        |       |
-192 +-------------------------------+ <-----|
-    | Timestamp                     |
-200 +-------------------------------+
-    | Flags | LenT  | LenP          |
-208 +-------------------------------+
-    | Tags...                       |
+ 48 +-------------------------------+ <-----|<--|
+    | Unique Address Nonce          |       |   |
+ 56 +-------------------------------+       |   |
+    | Kind                          |   A   |   |
+ 64 +-------------------------------+   D   |   |
+    | Author public key, 1/4        |   D   |   |
+ 72 +-------------------------------+   R   |   |
+    | Author public key, 2/4        |   E   |   |
+ 80 +-------------------------------+   S   |   |
+    | Author public key, 3/4        |   S   |   |
+ 88 +-------------------------------+       | D |
+    | Author public key, 4/4        |       | A |
+ 96 +-------------------------------+ <-----| T |
+    | Signing public key, 1/4       |         A |
+104 +-------------------------------+           |
+    | Signing public key, 2/4       |         S |
+112 +-------------------------------+         E |
+    | Signing public key, 3/4       |         C |
+120 +-------------------------------+         T |
+    | Signing public key, 4/4       |         I |
+128 +-------------------------------+         O |
+    | Timestamp                     |         N |
+136 +-------------------------------+           |
+    | Flags                         |           |
+144 +-------------------------------+           |
+    | LenT  | LenS  | Len P         |           |
+152 +-------------------------------+           |
+    | Tags...                       |           |
+    |                   .. +PADDING |           |
+  ? +-------------------------------+           |
+    | Payload ...                   |           |
+    |                   .. +PADDING |           |
+  ? +-------------------------------+<----------|
+    | Signature ...                 |
     |                   .. +PADDING |
-  ? +-------------------------------+
-    | Payload ...                   |
-    |                   .. +PADDING |
-  ? +-------------------------------+
+    +-------------------------------+
 ```
 
 [Rationale](rationale.md#layout)
 
-## Fields
+## Sections and Fields
 
-Records contain the following fields.
+Records contain the following sections and fields.
 
-### Signature
-
-64 bytes at `[0:64]`
-
-The signature field is the EdDSA ed25519ph signature of the record
-produced using the [construction](#construction) procedure.
+---
 
 ### ID
 
-A 48 byte ID from `[64:112]` made up of the following two parts:
+A 48 byte ID from `[0:48]` made up of the following two parts:
 
 #### Timestamp
 
-8 bytes from `[64:72]`
+8 bytes from `[0:8]`
 
 This is the big-endian unsigned 64-bit timestamp as described in [timestamps](timestamps.md),
 which represents the number of nanoseconds that have elapsed since 1 January 1970
 including within leap seconds.
 
-This is the first part of the two-part ID.
-
 #### Hash
 
-40 bytes at `[72:112]`
+40 bytes at `[8:48]`
 
-This is the first 40 bytes of the BLAKE3 hash.
+This is the first 40 bytes of the BLAKE3 hash of the data section ([48:152+LenT+LenP]).
 
-This is the second part of the two-part ID.
+---
 
-### Signing Public Key
+### Data Section
 
-32 bytes at `[112:144]`
+After the ID comes the data section which contains everything else except the
+digital signature.
 
-This is the public key of the signing keypair, which is usually a subkey under
-the author's master keypair (but theoretically could be delegated in some other
-fashion in the future). It could also be the Master key itself.
+#### Address
 
-### Address
-
-A 48 byte Address from `[144:192]` made up of the following three parts.
+A 48 byte Address from `[48:96]` made up of the following three parts.
 [<sup>ref</sup>](rationale.md#address-fields)
 
-#### Unique Address Nonce
+##### Unique Address Nonce
 
-8 bytes at `[144:152]`.  These bytes MUST start with a 1 bit.
+8 bytes at `[48:56]`. These bytes MUST start with a 1 bit.
 
 These bytes make an address unique (within the context of an author and a
 kind). They can be created in a number of different ways, depending on the
@@ -143,83 +121,120 @@ application and its purpose:
 
 The method of creation is determined by the application layer.
 
-#### Kind
+##### Kind
 
-A [kind](kind.md), represented in 8 bytes at `[152:160]`.
+A [kind](kind.md), represented in 8 bytes at `[56:64]`.
 
-#### Author Public Key
+##### Author Public Key
 
-32 bytes at `[160:192]`
+32 bytes at `[64:96]`
 
-This is the identity of the author, expressed as a public key from their master
-EdDSA ed25519 keypair.
+This is the identity of the author expressed as their master key.
 
-### Flags
+For ed25519 and secp256k1 it is the master key public key itself.
 
-2 bytes at `[192:194]`
+For post-quantum cryptosystems with larger public keys, it is a 32 byte BLAKE3
+hash of the public key.
 
-* `0x0001 ZSTD` - The payload is compressed with Zstd
-* `0x0004 FROM_AUTHOR` - Servers SHOULD only accept the record from the author (requiring authentication)
-* `0x0080, 0x0040` - Signature scheme:
-    * `00 - EDDSA` - EdDSA ed25519 (default)
-    * `01 - RESERVED FOR SECP256K1` - secp256k1 Schnorr signatures (not yet in use)
-    * `10 - RESERVED`
-    * `11 - RESERVED`
-    * NOTE: This only affects the signing key and the signature. The hash is
-      always created with BLAKE3, and the master key is always EdDSA
-      ed25519.
+#### Signing Public Key
 
-* All other bits - RESERVED and MUST be 0. If any of the reserved bits are 1, software MUST
-  reject the record.
+32 bytes at `[96:128]`
 
-### Timestamp
+This is the public key of the signing keypair.
 
-8 bytes at `[192:200]`
+The signing keypair is usually a subkey under the author's master keypair, but
+theoretically could be delegated in some other fashion in the future.  For
+some records, it is the master public key itself.
+
+For post-quantum cryptosystems with larger public keys, it is a 32 byte BLAKE3
+hash of the signing key.
+
+#### Timestamp
+
+8 bytes at `[128:136]`
 
 This is the big-endian unsigned 64-bit timestamp as described in [timestamps](timestamps.md),
 which represents the number of nanoseconds that have elapsed since 1 January 1970
 including within leap seconds.
 
-It is repeated in the ID, but this copy is digitally signed by being included in the hash.
+It is repeated in the ID, but this copy is digitally signed by being included in the data
+section and thus hashed, whereas the timestamp in the ID is not hashed or signed and is there
+for sorting purposes.
 
-### LenT
+#### Flags
 
-2 bytes at `[202:204]` representing the elength of the tags section in bytes
-as an unsigned integer in little-endian format.
+8 bytes at `[136:144]` with the following meanings:
 
-This represents the exact length of the tags section, not counting padding
-at the end to achieve 64-bit alignment.
+* Byte 0:  Cryptosystem byte
+    * bits 0-3 indicate the master key cryptosystem
+        * 0 represents the ed25519 cryptosystem
+        * 1 represents the secp256k1 cryptosystem with standard mosaic signature
+        * 2 represents the secp256k1 cryptosystem using nostr's signature scheme where
+          the data is layed out in JSON and signed according to
+          nostr [NIP-01](https://github.com/nostr-protocol/nips/blob/master/01.md).
+          See TBD for details of how to embed a nostr event into Mosaic.
+        * Other values are currently RESERVED
+    * bits 4-7 indicate the signing key cryptosystem, using the same value definitions as for the master key.
+* Byte 1:  Various Flags
+    * bit 0: `ZSTD` - If 1, the payload is compressed with Zstd
+    * bit 1: RESERVED
+    * bit 2: `FROM_AUTHOR` - If 1, servers SHOULD only accept the record from the author (requiring authentication)
+    * bit 3-5: RESERVED
+* Bytes 2-7: RESERVED
+
+All reserved bits SHOULD be 0.
+If any reserved bits in bytes 0-3 are set, software MUST reject the record.
+If any reserved bits in bytes 4-7 are set, software SHOULD ignore them and accept the record.
+
+#### LenT
+
+2 bytes at `[144:146]` representing the exact length of the tags section in bytes
+(not counting padding) as an unsigned integer in little-endian format.
 
 The maximum tags section length is 65536 bytes.
 
-#### LenTPad
+##### LenTPad
 
-This is NOT included in the record, it is calculated.
+This value is NOT included in the record, it is calculated.
 
 The length of the tags section including padding is called `LenTPad` and is
 calculated as `(LenT + 7) & !7`
 
-### LenP
+#### LenS
 
-4 bytes at `[204:208]` representing the length of the payload section in
-bytes as an unsigned integer in little-endian format.
+2 bytes at `[146:148]` representing the exact length of the signature section in bytes
+(not counting padding) as an unsigned integer in little-endian format.
 
-This represents the exact length of the payload section, not counting padding
-at the end to achieve 64-bit alignment.
+The maximum signature section length is 65536 bytes.
 
-The maximum payload section length is 1_048_384 bytes (which is the maximum record
-size minus the header size).
+For ed25519 and secp256k1 cryptosystems, the signature section will be 64 bytes long.
+For post-quantum schemes, the signature length will depend on the precise scheme.
 
-#### LenPPad
+##### LenSPad
+
+This value is NOT included in the record, it is calculated.
+
+The length of the signature section including padding is called `LenSPad` and is
+calculated as `(LenS + 7) & !7`
+
+#### LenP
+
+4 bytes at `[148:152]` representing the exact length of the payload section in bytes
+(not counting padding) as an unsigned integer in little-endian format.
+
+The maximum payload section length is whatever fits such that the entire record
+remains within 1,048,576 bytes.
+
+##### LenPPad
 
 This is NOT included in the record, it is calculated.
 
 The length of the payload section including padding is called `LenPPad` and is
 calculated as `(LenP + 7) & !7`
 
-### Tags
+#### Tags
 
-Varying bytes at `[208:208+LenT]`
+Varying bytes at `[152:152+LenT]`
 
 These are searchable key-value [tags](tags.md).
 
@@ -230,9 +245,9 @@ The maximum tags section length is 65536 bytes.
 Tag types are documented at the [Tag Type Registry](tag_types.md)
 which includes the defined [Core Tags](core_tags.md).
 
-### Payload
+#### Payload
 
-Varying bytes at `[208+LenTPad:208+LenTPad+LenP].`
+Varying bytes at `[152+LenTPad:152+LenTPad+LenP].`
 
 Payload is application specific data, and is opaque at this layer of specification,
 except for records defined by the Core Application.
@@ -242,18 +257,38 @@ The payload section is padded out to 64-bit alignment.
 The maximum payload section length is 1_048_384 bytes (which is the maximum record
 size minus the header size).
 
+### Signature
+
+Varying bytes at `[152+LenTPad+LenPPad:152+LenTPad+LenPPad+LenS].`
+
+This is the signature of the full hash of the data section, produced according to the
+cryptosystem and the [construction](#construction) procedure.
+
 # Construction
 
-1. Fill in all the data from `[112:]`.
-2. Take a BLAKE3 hash of `[112:]`, unkeyed, and extend to 64 bytes
-   of output using BLAKE3's `finalize_xof()` function. This does not
-   directly go into the record.
-3. Generate EdDSA ed25519ph pre-hashed signature of the 512-bit hash
-   generated in step 2 using the Signing secret key, and providing the
-   context string of "Mosaic". NOTE: ed25519 calls for a SHA-512 hash,
-   but we use a BLAKE3 hash instead. Place the signature at bytes `[0:64]`.
-4. Copy the first 40 bytes of the hash generated in step 2 to `[72:112]`.
-5. Copy the 64-bit timestamp to `[64:72]`.
+## Fill in the Data Section
+
+Fill in the data section from `[48:152+LenTPad+LenPPad]`.
+
+LenS should be a constant determined from the cryptosystem of the signing key.
+
+## Hash the Data Section
+
+Take a BLAKE3 hash of the data section from `[48:152+LenTPad+LenPPad]`,
+unkeyed, and extend this to 64 bytes of output using BLAKE3's
+`finalize_xof()` function. This 64 byte (512-bit) hash does not directly
+go into the record.
+
+## Create and Attach a signature
+
+Generate pre-hashed signature of the 64 byte (512-bit) BLAKE3 hash
+generated in step 2 using the Signing secret key, according to its
+cryptosystem. Place the signature into the signature section.
+
+## Fill in the ID
+
+* Copy the first 40 bytes of the hash generated earlier to `[8:48]`.
+* Copy the 64-bit timestamp from `[128:136]` to `[0:8]`.
 
 # Validation
 
@@ -264,23 +299,24 @@ steps marked CLIENTS ONLY.
 
 Validation steps:
 
-1. The length must be between 208 and 1048576 bytes.
-2. The length must equal 208 + LenTPad + LenPPad.
-3. The Signing public key MUST be validated according to the
+1. The length must be between 152 and 1048576 bytes.
+2. The length must equal 152 + LenTPad + LenPPad + LenSPad.
+3. LenS must be correct for the cryptosystem specified by the flags
+4. The Signing public key MUST be validated according to the
    [cryptography](cryptography.md) key validation checks.
-4. The Author public key MUST be validated according to the
+5. The Author public key MUST be validated according to the
    [cryptography](cryptography.md) key validation checks.
-5. CLIENTS ONLY: The Signing public key MUST be verified to be
+6. CLIENTS ONLY: The Signing public key MUST be verified to be
    a non-revoked subkey of the Author via the Author's
    [bootstrap](bootstrap.md).
-6. Take a BLAKE3 hash of `[112:]`, unkeyed, and extend to
-   64 bytes of output using BLAKE3's `finalize_xof()` function.
-7. Verify the hash: Compare bytes `[0:40]` of this hash with bytes
-   `[72:112]` of the record. They must match or validation has failed.
-8. Verify the ID timestamp: bytes `[64:72]` must be equal to bytes `[192:200]`.
-9. Verify the signature: The signature must be a valid EdDSA ed25519
-   signature of the full 64-byte BLAKE3 hash taken in step 6 with the
-   signing public key.
-10. Bytes 70 and 71 must be 0.
-11. Reserved flags must be 0.
+7. Take a BLAKE3 hash of the data section from `[48:152+LenTPad+LenPPad]`,
+   unkeyed, and extend this to 64 bytes of output using BLAKE3's
+   `finalize_xof()` function.
+8. Verify the hash: Compare bytes `[0:40]` of this hash with bytes
+   `[8:48]` of the record. They must match or validation has failed.
+9. Verify the ID timestamp: bytes `[0:8]` must be equal to bytes `[128:136]`.
+10. Verify the signature: The signature must be valid for the cryptosystem
+    specified in the flags for the signing key.
+11. Reserved flags in flag bytes 4-7 must be 0, or else the record should
+    be rejected.
 12. CLIENTS ONLY: Application specific validation SHOULD be performed.

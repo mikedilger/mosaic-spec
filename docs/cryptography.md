@@ -25,6 +25,10 @@ in a non-standard way. In particular
     * Always use cofactor verification `(8(S · B) − 8R − 8(h · A) = 0)` not the
       non-cofactor one, even when not in batch mode.
 
+## Secp256k1
+
+TBD
+
 ## Encryption
 
 Encryption is NOT YET DEFINED at the Mosaic Core level, but may be in the future.

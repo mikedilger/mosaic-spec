@@ -4,6 +4,7 @@
 |-------------|-------|------|
 | Mosaic Core |     0 | this document |
 | Mosaic Social Media |    1 | this document |
+| Embedded Nostr |    2 | TBD |
 | Examples |    99 | unspecified |
 
 Applications are specified separately from Mosaic, except for <t>Mosaic Core</t> and
