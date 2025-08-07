@@ -2,7 +2,7 @@
 
 When you first find out about a new public key, you may already know by the
 context if it represents a user or a server. But sometimes you don't even
-know that. You also may not know what servers this key uses to host it's
+know that.  You also may not know what servers this key uses to host it's
 [key schedule](keyschedule.md) and [profile](profile.md) information, or which
 it uses to publish its records or receive messages, or if a server, which URLs
 it is available at.
@@ -10,25 +10,64 @@ it is available at.
 Bootstraps are public digitally signed records designed to let you acquire
 this kind of information.
 
-For ed25519 identities, We store bootstraps in Mainline DHT.  For secp256k1,
-the solution remains TBD.
+We store bootstraps in Mainline DHT.
 
 Bootstraps are not [records](record.md). They have their own format.
 
 Bootstraps MUST always be signed by a master key, never by a subordinate
 key.
 
+## Mainline DHT
+
+We use <t>Mainline DHT</t> [<sup>rat</sup>](rationale.md#mainline-dht)
+to store mutable data signed under an ed25519 signature
+according to [BitTorrent BEP 0044](https://www.bittorrent.org/beps/bep_0044.html).
+
+Limitations:
+
+* Only 1000 bytes can be reliably stored, and some will be used for *bencoding*
+  overhead and the salt, leaving us only 983 bytes of usable data.
+* Data SHOULD be refreshed every hour, as it MAY expire in 2 hours.
+  Users are responsible for arranging for their data to be periodically refreshed
+  in the Mainline DHT, which will otherwise disappear over time. Services and
+  mechanisms for this are out of scope for Mosaic Core, but servers MAY offer such
+  a service.
+* Data storage and retrieval may take a few seconds, and should not be done too
+  frequently. Software SHOULD cache results for at least 30 minutes before checking
+  for updates.
+* To use Mainline DHT, you need to start from a bootstrap node. We list some here
+  in the hopes that this helps someone get started, but others exist and you can
+  even set up your own using (for example)
+  [bootstrap server](https://github.com/bittorrent/bootstrap-dht).
+    * `router.bittorrent.com` port 6881
+    * `dht.transmissionbt.com` port 6881
+    * `dht.libtorrent.org` port 25401
+
+### Salt
+
+We use a <t>salt</t> [<sup>rat</sup>](rationale.md#salt)  of `msb24`
+for server bootstraps and `mub25` for user bootstraps.
+
+### Sequence Numbers
+
+<t>Sequence numbers</t> [<sup>rat</sup>](rationale.md#sequence-numbers)
+SHOULD start at 1 and MUST monotonically increase with each write.
+
+### Rust code
+
+There is a rust library to access this called [mainline](https://github.com/pubky/mainline)
+
 ## Bootstrap Format
 
-Bootstraps are UTF-8 valid text up to 983 [<sup>rat</sup>](rationale.md#bootstrap-length)
-bytes long, and consist of a series of
-lines separated with a single ASCII Line Feed (LF) character (`\n`). Lines
-MUST NOT have trailing whitespace.
+Bootstraps (the data after the bencoded prefix) are UTF-8 valid text up
+to 983 bytes long, and consist of a series of lines separated with a single
+ASCII Line Feed (LF) character (`\n`). Lines MUST NOT have trailing whitespace.
 
 Two kinds of bootstraps MAY be stored, based on whether the identity
 represents a server or a user.
 
-### Server Bootstraps
+
+## Server Bootstraps
 
 Server bootstraps provide the URLs that a server is available on.
 
@@ -56,7 +95,7 @@ Servers MAY list as many endpoints as they desire.
 Servers are expected to operate as their own inbox, outbox and encryption
 server. So they do not require the same data as the user bootstrap.
 
-### User Bootstrap
+## User Bootstrap
 
 User bootstraps specify servers that the user uses, and how the user uses them.
 
@@ -67,7 +106,7 @@ A user bootstrap starts with the line `U`.
 
 Each line consists of two parts separated by a single ASCII space.
 
-#### Server Usage Character
+### Server Usage Character
 
 This first part is a single character that encodes that kind of usage.
 
@@ -104,22 +143,23 @@ three usages, use `7`.
 
 Conveniently with this encoding the ASCII number also matches the relavant bits.
 
-#### Server Key
+### Server Key
 
 The second part of each line is the server's public key, encoded according to
-[human encodings](human_encodings.md) as a `mosrv0`. This are 58 characters
+[human encodings](human_encodings.md) as a `mopub0`. This are 58 characters
 long.
 
-#### Example
+### Example
 
 Here is an example user bootstrap:
 
 ```
 U
-1 mosrv0naeu8zzpu4g9g8jwqkpsrxoje5gwtwzh7bxzkek51mkwbe7x3oqo
-3 mosrv04fapk8fyyuoxjuwjwp5cmnuaqtoc519jsmz7qnzjp6r73ect966o
-2 mosrv09drnk9atpgk75qkhchyxn63nr7qzd1nfzxr8hk1xw8fd4xsznodo
-6 mosrv041wfk1mo87xzt8uazdng9dhhcz9ypzernfyeznhg7me7y9nsjkxy
+1 mopub0naeu8zzpu4g9g8jwqkpsrxoje5gwtwzh7bxzkek51mkwbe7x3oqo
+3 mopub04fapk8fyyuoxjuwjwp5cmnuaqtoc519jsmz7qnzjp6r73ect966o
+2 mopub09drnk9atpgk75qkhchyxn63nr7qzd1nfzxr8hk1xw8fd4xsznodo
+3 mopub0oemxqrm9mq16krm73n8au5ykerakcppkuzosrdu7im3h1bzhdnay
+6 mopub041wfk1mo87xzt8uazdng9dhhcz9ypzernfyeznhg7me7y9nsjkxy
 ```
 
 Based on size limits of 983 bytes, no more than 16 server entries can be
@@ -127,10 +167,10 @@ listed. But see below for other limitations on the number of servers.
 
 Users can change servers and update these bootstrap entries at any time.
 
-Clients SHOULD check for updates to bootstrap records if their cached data
-is more than an hour old.
+Clients should check for updates to bootstrap records if their cached data
+is more than 30 minutes old.
 
-#### Usage of servers and limits on their number
+### Usage of servers and limits on their number
 
 *Maximums*: Users SHOULD list no more than 3 redundant servers of any kind,
 since more redundancy provides strongly diminishing benefit at a linearly
@@ -141,47 +181,3 @@ but MAY also choose to ignore additional servers.
 *Minimums*: Users MUST have at least one outbox and at least one inbox.
 Users MAY have no encryption servers, but then they will not be able to
 receive encrypted messages.
-
-## Bootstrap Distribution
-
-### ed25519 master keypairs
-
-We use <t>Mainline DHT</t> [<sup>rat</sup>](rationale.md#mainline-dht)
-to store mutable data signed under an ed25519 signature
-according to [BitTorrent BEP 0044](https://www.bittorrent.org/beps/bep_0044.html).
-
-Limitations:
-
-* Data SHOULD be refreshed every hour, as it MAY expire in 2 hours.
-  Users are responsible for arranging for their data to be periodically refreshed
-  in the Mainline DHT, which will otherwise disappear over time. Services and
-  mechanisms for this are out of scope for Mosaic Core, but servers MAY offer such
-  a service.
-* Data storage and retrieval may take a few seconds, and should not be done too
-  frequently. Software SHOULD cache results for at least 30 minutes before checking
-  for updates.
-* To use Mainline DHT, you need to start from a bootstrap node. We list some here
-  in the hopes that this helps someone get started, but others exist and you can
-  even set up your own using (for example)
-  [bootstrap server](https://github.com/bittorrent/bootstrap-dht).
-    * `router.bittorrent.com` port 6881
-    * `dht.transmissionbt.com` port 6881
-    * `dht.libtorrent.org` port 25401
-
-#### Salt
-
-We use a <t>salt</t> [<sup>rat</sup>](rationale.md#salt)  of `msb24`
-for server bootstraps and `mub25` for user bootstraps.
-
-#### Sequence Numbers
-
-<t>Sequence numbers</t> [<sup>rat</sup>](rationale.md#sequence-numbers)
-SHOULD start at 1 and MUST monotonically increase with each write.
-
-#### Rust code
-
-There is a rust library to access this called [mainline](https://github.com/pubky/mainline)
-
-### secp256k1 master keypairs
-
-The distribution solution for this cryptosystem remains TBD.

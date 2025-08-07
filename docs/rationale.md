@@ -8,7 +8,6 @@ to this page with [<sup>rat</sup>](#) links.
 | [0-RTT](#0-rtt) |
 | [Binary Records](#binary-records) |
 | [BLAKE3](#blake3) |
-| [Bootstrap Length](#bootstrap-length) |
 | [Client-Server](#client-server) |
 | [Distributed](#distributed) |
 | [Duplex Communication](#duplex-communication) |
@@ -120,14 +119,6 @@ is good enough for that purpose.
 
 In BLAKE3, hashes are variable size, and smaller outputs are prefixes of longer outputs.
 We utilize this.
-
----
-
-## Bootstrap Length
-
-Bootstraps are limited to 983 characters because ed25519 bootstraps are stored in the
-bittorrent mainline (Kademlia) DHT which limits records to 1000 bytes, which includes
-the salt, prefix and bencoding overhead.
 
 ---
 

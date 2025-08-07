@@ -13,7 +13,3 @@ t {
 not {
     text-decoration: overline;
 }
-
-.md-typeset table:not([class]) th {
-    min-width: 2rem;
-}

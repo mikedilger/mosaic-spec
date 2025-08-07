@@ -13,4 +13,3 @@ ID with Mosaic.
 |Social Media| 2 |[Reply Comment](reply_comment.md)|Unique, All, Print |Author Outbox<br>Parent Author Inbox|
 |Social Media| 3 |[Blog Post](blog.md)|Unique, All, Print |Author Outbox|
 |Social Media| 4 |[Chat Message](chat.md)|Unique, All, Print |Chat Server|
-|Embedded Nostr|nostr kind|An embedded nostr message|TBD|TBD|
