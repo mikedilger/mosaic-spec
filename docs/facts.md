@@ -22,13 +22,23 @@ subset will be specified as required for compatibility.
 
 Mosaic uses a
 <t>client-server</t> [<sup>rat</sup>](rationale.md#client-server)
-architecture.
+protocol architecture.
+Records are simply stored and retrieved on select servers, there is no routing.
+Mosaic is fully capable of peer-to-peer deployments by having servers optionally
+run by peers (e.g. self-hosting).
+
+Mosaic does not provide
+<t>IP privacy</t> [<sup>rat</sup>](rationale.md#no-ip-privacy)
+because this is an orthogonal concern that is easier to manage if it is decoupled from
+Mosaic and provided by a lower network layer, such as a VPN or Tor.
+But Mosaic should not interfere with IP privacy solutions.
 
 Mosaic runs over any
 <t>duplex communication</t> [<sup>rat</sup>](rationale.md#duplex-communication)
 transport protocol that is
 <t>TLS</t> [<sup>rat</sup>](rationale.md#tls)
-secured such as <t>QUIC</t> [<sup>rat</sup>](rationale.md#quic) or TLS over TCP.
+secured such as <t>QUIC</t> [<sup>rat</sup>](rationale.md#quic) or TLS over TCP,
+but requires WebSockets at a minimum for interoperability.
 
 Mosaic users generate their own identities as digital signature cryptosystem
 keypairs and Mosaic uses a
@@ -43,12 +53,6 @@ key-based
 
 Mosaic identity and endpoint information is [bootstrapped](bootstrap.md) from
 <t>Mainline DHT</t> [<sup>rat</sup>](rationale.md#mainline-dht).
-
-Mosaic does not provide
-<t>IP privacy</t> [<sup>rat</sup>](rationale.md#no-ip-privacy)
-because this is an orthogonal concern that is easier to manage if it is decoupled from
-Mosaic and provided by a lower network layer, such as a VPN or Tor.
-But Mosaic should not interfere with IP privacy solutions.
 
 Mosaic [records](record.md) are encoded in a
 <t>binary</t> [<sup>rat</sup>](rationale.md#binary-records) format within the

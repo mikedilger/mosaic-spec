@@ -46,6 +46,8 @@ new problems that commercial solutions bring to the table:
   run the platforms and can (and do) ban users at a whim.
 * There are legal agreements which are usually rather onerous.
 * Anonymity is often not well supported.
+* Users have little guarantee that the service they are using will continue to operate in a
+  fashion they are happy with.
 
 ### Respect for Users
 
@@ -112,7 +114,7 @@ using multiple service providers for redundancy, and keeping a backup of your da
 Mosaic makes it straightforward to have multiple service providers.
 
 And since Mosaic is an open protocol, anybody can stand up a server. That means users can
-self-host their own server.
+self-host their own server. In such a circumstance, Mosaic becomes peer-to-peer.
 
 Because nobody can control what a server does other than the server's operator, users must be
 judicious about which servers they choose to use, and clients (which act on behalf of users)
@@ -122,9 +124,7 @@ user can be alerted to the situation and take the appropriate action.
 Just like with webservers, there is no limit to how many Mosaic servers can exist (nostr has
 already thousands), and we expect that everybody can find a server willing to hosts their
 records, or at the very least, stand up their own server to do it. Servers need only be
-Internet accessible; they don't need to be in data centers. While Mosaic is defined as a
-client-server protocol, nothing stops this from being deployed in a peer-to-peer fashion.
-That is, clients can also behave as servers if they are coded as such.
+Internet accessible; they don't need to be in data centers.
 
 ### Advertising your Service Providers
 
