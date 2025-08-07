@@ -1,12 +1,11 @@
 # Record
 
-All Mosaic persistent data is stored within Record structures (except for
-bootstrap data).
+All Mosaic data is stored within Record structures (except for
+bootstrap data and protocol messages).
 
 ## Maximum Size
 
-The
-<t>maximum size</t> [<sup>rat</sup>](rationale.md#maximum-size)
+The <t>maximum size</t> [<sup>rat</sup>](rationale.md#maximum-size)
 of a record is 1 mebibyte (1,048,576 bytes).
 
 ## Layout

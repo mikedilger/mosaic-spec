@@ -10,11 +10,11 @@ NOTICE: Development is proceeding with QUIC first.
 
 Mosaic defines three transports with the following characteristics:
 
-| Transport | Required | Browser clients | Tor support | Trust | Performance |
-|-----------|----------|-----------------|-------------|-------|-------------|
-| [WebSockets](websockets.md) | Required [<sup>rat</sup>](rationale.md#websockets) | Yes | Yes | Relies on CAs and DNS | Lowest |
-| [QUIC](quic.md)   | Optional [<sup>rat</sup>](rationale.md#quic) | No | No | None | Highest |
-| [TCP](tcp.md) | Optional | No | Yes | None | Medium-Low |
+| Transport | URL Scheme | Required | Browser clients | Tor | Trust | Perf |
+|-----------|------------|----------|-----------------|-----|-------|------|
+| [WebSockets](websockets.md) | mosaicwss | Required<br>[<sup>rat</sup>](rationale.md#websockets) | Yes | Yes | Relies on CAs and DNS | Lowest |
+| [QUIC](quic.md)   | mosaic | Optional<br>[<sup>rat</sup>](rationale.md#quic) | No | No | None | Highest |
+| [TCP](tcp.md) | mosaictcp | Optional | No | Yes | None | Med-Low |
 
 ## Transport Requirements
 

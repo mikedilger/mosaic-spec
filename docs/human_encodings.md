@@ -11,9 +11,11 @@ about it.
 
 Prefixes are used to specify the type of data being represented:
 
-* Public keys for users are prefixed with `mopub0`
-* Public keys for servers are prefixed with `mosrv0`
-* Secret keys are prefixed with `mosec0`
-* Encrypted secret keys are prefixed with `mocryptsec0`
-* References are prefixed with `moref0`
-* Records are prefixed with `morecord0`
+| Data                         | prefix |
+|------------------------------|--------|
+| public key, user             | mopub0 |
+| public key, server           | mosrv0 |
+| secret key                   | mosec0 |
+| encrypted secret key         | mocryptsec0 |
+| References                   | moref0 |
+| Records                      | morecord0 |
