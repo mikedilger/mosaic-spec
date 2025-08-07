@@ -694,13 +694,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ed25519-master-keypairs" class="md-nav__link">
+  <a href="#master-keypairs" class="md-nav__link">
     <span class="md-ellipsis">
-      ed25519 master keypairs
+      Master keypairs
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ed25519 master keypairs">
+    <nav class="md-nav" aria-label="Master keypairs">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -732,15 +732,6 @@
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#secp256k1-master-keypairs" class="md-nav__link">
-    <span class="md-ellipsis">
-      secp256k1 master keypairs
-    </span>
-  </a>
   
 </li>
         
@@ -1963,13 +1954,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ed25519-master-keypairs" class="md-nav__link">
+  <a href="#master-keypairs" class="md-nav__link">
     <span class="md-ellipsis">
-      ed25519 master keypairs
+      Master keypairs
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ed25519 master keypairs">
+    <nav class="md-nav" aria-label="Master keypairs">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2004,15 +1995,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#secp256k1-master-keypairs" class="md-nav__link">
-    <span class="md-ellipsis">
-      secp256k1 master keypairs
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -2043,8 +2025,7 @@ it uses to publish its records or receive messages, or if a server, which URLs
 it is available at.</p>
 <p>Bootstraps are public digitally signed records designed to let you acquire
 this kind of information.</p>
-<p>For ed25519 identities, We store bootstraps in Mainline DHT.  For secp256k1,
-the solution remains TBD.</p>
+<p>We store bootstraps in Mainline DHT.</p>
 <p>Bootstraps are not <a href="record.html">records</a>. They have their own format.</p>
 <p>Bootstraps MUST always be signed by a master key, never by a subordinate
 key.</p>
@@ -2129,7 +2110,7 @@ but MAY also choose to ignore additional servers.</p>
 Users MAY have no encryption servers, but then they will not be able to
 receive encrypted messages.</p>
 <h2 id="bootstrap-distribution">Bootstrap Distribution</h2>
-<h3 id="ed25519-master-keypairs">ed25519 master keypairs</h3>
+<h3 id="master-keypairs">Master keypairs</h3>
 <p>We use <t>Mainline DHT</t> <a href="rationale.html#mainline-dht"><sup>rat</sup></a>
 to store mutable data signed under an ed25519 signature
 according to <a href="https://www.bittorrent.org/beps/bep_0044.html">BitTorrent BEP 0044</a>.</p>
@@ -2161,8 +2142,6 @@ for server bootstraps and <code>mub25</code> for user bootstraps.</p>
 SHOULD start at 1 and MUST monotonically increase with each write.</p>
 <h4 id="rust-code">Rust code</h4>
 <p>There is a rust library to access this called <a href="https://github.com/pubky/mainline">mainline</a></p>
-<h3 id="secp256k1-master-keypairs">secp256k1 master keypairs</h3>
-<p>The distribution solution for this cryptosystem remains TBD.</p>
 
 
 
@@ -2200,7 +2179,7 @@ SHOULD start at 1 and MUST monotonically increase with each write.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.1.0</i>
+        <i>Mike Dilger edition, version 0.1.1</i>
       </div>
     </div>
   </div>

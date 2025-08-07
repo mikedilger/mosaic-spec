@@ -596,27 +596,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#digital-signature-cryptosystems" class="md-nav__link">
-    <span class="md-ellipsis">
-      Digital Signature Cryptosystems
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#server-identities" class="md-nav__link">
     <span class="md-ellipsis">
       Server Identities
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#types-of-identity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Types of Identity
     </span>
   </a>
   
@@ -1800,27 +1782,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#digital-signature-cryptosystems" class="md-nav__link">
-    <span class="md-ellipsis">
-      Digital Signature Cryptosystems
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#server-identities" class="md-nav__link">
     <span class="md-ellipsis">
       Server Identities
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#types-of-identity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Types of Identity
     </span>
   </a>
   
@@ -1862,67 +1826,26 @@
 
 <h1 id="identity">Identity</h1>
 <h2 id="sovereign-identity">Sovereign Identity</h2>
-<p>Identities in Mosaic are self-created and self-administered.</p>
-<p>This requires each entity (user or server) to securely manage their own
-secret key material. Convenient methods for doing so are outside of the
-scope of Mosaic.</p>
+<p>Identities in Mosaic are self-created and self-administered.
+This requires each end user and server to securely manage their secret key material.
+Convenient methods for doing so are outside of the scope of Mosaic.</p>
 <p>An identity is defined to be the entity with knowledge of the secret half
-of a digital signature cryptosystem signing keypair.</p>
-<p>This identifying keypair is herein called their <t>master keypair</t>.</p>
+of an <a href="cryptography.html#digital-signature-with-eddsa-ed25519">EdDSA</a> keypair.</p>
+<p>This identifying keypair is considered their <t>master keypair</t>.</p>
 <p>An entity (user or server) is referenced by the public half of their
 <t>master keypair</t>.</p>
-<h2 id="digital-signature-cryptosystems">Digital Signature Cryptosystems</h2>
-<p>Mosaic core currently supports two cryptosystems, and a third is expected in the
-future:</p>
-<ul>
-<li>
-<p><t>ed25519</t>: This is the default and recommended cryptosystem for new users.</p>
-</li>
-<li>
-<p><t>secp256k1</t> This cryptosystem is provided for backwards compatibility with nostr.</p>
-</li>
-</ul>
 <h2 id="server-identities">Server Identities</h2>
 <p>In Mosaic, servers have identities similar to how users have identities.</p>
-<p>However, the options for servers are limited. Servers must use the <t>ed25519</t>
-cryptosystem, and servers may not have subkeys but rather must use their master
-keypair directly.</p>
-<h2 id="types-of-identity">Types of Identity</h2>
-<table>
-<thead>
-<tr>
-<th>Entity</th>
-<th>Cryptosystem</th>
-<th>Subkeys</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>User</td>
-<td>ed25519</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>User</td>
-<td>secp256k1</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>Server</td>
-<td>ed25519</td>
-<td>No</td>
-</tr>
-</tbody>
-</table>
 <h2 id="master-keys-and-subkeys">Master keys and Subkeys</h2>
 <p>Users MAY have subsidiary public keys, known as <t>subkeys</t>, <t>signing keys</t> or
 <t>device keys</t> (these terms being mostly functionally interchangeable).</p>
-<p><t>subkeys</t> can use either cryptosystem for digital signature, or go beyond this
-and serve other purposes such as encryption. Cryptosystems for encryption remain TBD.</p>
 <p>The purpose of subkeys is primarily to facilitate online usage in less secure
 environments without risking exposure of the master key secret, where
 compromise and revocation do not invalidate the master key identity that the
 user is known by.</p>
+<p>Subkeys also support alternative algorithms, such as X25519 public keys for
+receiving encrypted information, or secp256k1 keys for backwards compatibility
+with nostr.</p>
 <p>Users publish their subkeys in a <a href="keyschedule.html">key schedule record</a>, defined
 within the core application.</p>
 <p>A limited number of low-frequency operations in Mosaic require a signature from
@@ -1939,6 +1862,8 @@ from the master secret key. How subkeys are generated is out of scope.</p>
 <p>Subkeys can be rolled over (marked "out of use") or revoked. Revocation can apply from
 a particular timestamp, or it can cover all records signed with the keypair.</p>
 <p>See <a href="keyschedule.html">Key Schedule</a> for more details.</p>
+<p>The use of a <a href="keyschedule.html">key schedule record</a> by servers is not yet specified
+and yet to be worked out. For the moment, servers should use their master key directly.</p>
 <p>Currently master keys cannot be revoked, and loss of a master key is catastrophic.</p>
 
 
@@ -1977,7 +1902,7 @@ a particular timestamp, or it can cover all records signed with the keypair.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.1.0</i>
+        <i>Mike Dilger edition, version 0.1.1</i>
       </div>
     </div>
   </div>

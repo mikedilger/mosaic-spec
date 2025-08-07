@@ -1925,6 +1925,8 @@ new problems that commercial solutions bring to the table:</p>
   run the platforms and can (and do) ban users at a whim.</li>
 <li>There are legal agreements which are usually rather onerous.</li>
 <li>Anonymity is often not well supported.</li>
+<li>Users have little guarantee that the service they are using will continue to operate in a
+  fashion they are happy with.</li>
 </ul>
 <h3 id="respect-for-users">Respect for Users</h3>
 <p>Mosaic on the other hand is created by the users and for the users. It is our philosophy
@@ -1979,7 +1981,7 @@ banned them, they could lose access to their data. This is solvable in multiple 
 using multiple service providers for redundancy, and keeping a backup of your data locally.</p>
 <p>Mosaic makes it straightforward to have multiple service providers.</p>
 <p>And since Mosaic is an open protocol, anybody can stand up a server. That means users can
-self-host their own server.</p>
+self-host their own server. In such a circumstance, Mosaic becomes peer-to-peer.</p>
 <p>Because nobody can control what a server does other than the server's operator, users must be
 judicious about which servers they choose to use, and clients (which act on behalf of users)
 should automatically detect when servers are failing to meet the user's needs, so that the
@@ -1987,18 +1989,9 @@ user can be alerted to the situation and take the appropriate action.</p>
 <p>Just like with webservers, there is no limit to how many Mosaic servers can exist (nostr has
 already thousands), and we expect that everybody can find a server willing to hosts their
 records, or at the very least, stand up their own server to do it. Servers need only be
-Internet accessible; they don't need to be in data centers. While Mosaic is defined as a
-client-server protocol, nothing stops this from being deployed in a peer-to-peer fashion.
-That is, clients can also behave as servers if they are coded as such.</p>
+Internet accessible; they don't need to be in data centers.</p>
 <h3 id="advertising-your-service-providers">Advertising your Service Providers</h3>
-<p>How a user advertises which service providers they use is a technical matter which depends
-on the cryptosystem they select for their master keypair, and is discussed in detail in the
-specification.</p>
-<p>In short, users can choose either the ed25519 cryptosystem and advertise their servers
-in the bittorrent mainline (Kademlia) DHT, or they can use the secp256k1 cryptosystem
-and advertise their servers in some other way TBD. This second option is provided for
-backwards compatibility with nostr. In the future we expect a third post-quantum option
-to become available.</p>
+<p>Users advertise their service providers in the bittorrent mainline (Kademlia) DHT.</p>
 
 
 
@@ -2036,7 +2029,7 @@ to become available.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.1.0</i>
+        <i>Mike Dilger edition, version 0.1.1</i>
       </div>
     </div>
   </div>
