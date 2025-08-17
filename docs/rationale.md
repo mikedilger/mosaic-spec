@@ -302,8 +302,11 @@ Record layout provides a compromise between being tightly packed and providing 6
 alignment of fields.
 
 All data that needs hashing is contigous so that no data needs to be copied in order to produce
-the hash. The hash-based id and signature could have appeared before or after, and we have chosen
-to place them before to give them well defined offsets.
+the hash.
+
+ID and Signature do not need signing so need to be at the beginning or the end. Signature
+may be of various lengths as cryptosystems are added (especially post-quantum ones) so it
+goes to the end.
 
 ### Flags
 
