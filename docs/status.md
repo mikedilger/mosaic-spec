@@ -9,13 +9,15 @@ bottom of every page. Other Mosaic contributors can fork this and maintain
 their own editions. The community will eventually settle on something
 because people want to be compatible.
 
-Version 0.1 is a pre-feature-complete version, developed by Mike Dilger.
+Version numbers have MAJOR.MINOR.PATCH format which carry the following meaning:
 
-Starting from version 0.2, all pre-1.0 versions will be feature-complete but
-not stabilized or frozen. Feedback from the community will be applied as
-the draft standard improves from this community feedback. During this time,
-deployments should be considered experimental as they will likely break and
-no effort will be made to support their quirks when 1.0 is frozen.
+- **MAJOR**: This is a breaking change. Software should support all major versions.
+- **MINOR**: Functionality has changed. But this is not a breaking change.
+- **PATCH**: Something has changed, but it is not a functional change.
 
-Version 1.0 will be the first stabilized and frozen release. All future
+Major Version 0 is pre-release. There will be a long series of breaking changes
+in version 0 without updating the major version from 0.  Any deployments should
+be for testing purposes, be considered provisional and expect breaking changes.
+
+Version 1.x will be the first stabilized and frozen release. All future
 versions are intended to support it for backwards compatibility.

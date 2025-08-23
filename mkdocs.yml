@@ -1,5 +1,5 @@
 site_name: Mosaic
-version: 0.1.2
+version: 0.2.0
 theme:
   name: material
   locale: en
