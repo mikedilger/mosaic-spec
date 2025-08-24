@@ -1904,8 +1904,9 @@ works just fine over a single stream.</p>
 from which the request came down.</p>
 <p>Messages are framed based on their prefix of 1 type byte and 3 length bytes.</p>
 <h2 id="hello-messages">HELLO Messages</h2>
-<p><code>HELLO</code>, <code>HELLO ACK</code> and <code>HELLO AUTH</code> are handled over the QUIC transport as normal
-<a href="messages.html">Messages</a>. <a href="rationale.html#0-rtt"><sup>rat</sup></a></p>
+<p><code>HELLO</code> and <code>HELLO ACK</code> are handled over the QUIC transport as normal
+<a href="messages.html">Messages</a>. <a href="rationale.html#0-rtt"><sup>rat</sup></a>  <code>HELLO AUTH</code> is
+invalid under the QUIC transport since authentication is done at the TLS layer.</p>
 
 
 
@@ -1943,7 +1944,7 @@ from which the request came down.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.2.0</i>
+        <i>Mike Dilger edition, version 0.3.0</i>
       </div>
     </div>
   </div>
