@@ -64,5 +64,6 @@ Messages are framed based on their prefix of 1 type byte and 3 length bytes.
 
 ## HELLO Messages
 
-`HELLO`, `HELLO ACK` and `HELLO AUTH` are handled over the QUIC transport as normal
-[Messages](messages.md). [<sup>rat</sup>](rationale.md#0-rtt)
+`HELLO` and `HELLO ACK` are handled over the QUIC transport as normal
+[Messages](messages.md). [<sup>rat</sup>](rationale.md#0-rtt)  `HELLO AUTH` is
+invalid under the QUIC transport since authentication is done at the TLS layer.

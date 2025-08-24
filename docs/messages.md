@@ -68,23 +68,37 @@ of each type. Following this is the data of the message.
 
 ### Hello
 
-NOTE: Some transports send HELLO information out of band. Refer to the transport in
-question:
+NOTE: [WebSockets](websockets.md) sends HELLO information out of band and does
+not utilize this message.
 
-* [QUIC](quic.md)
-* [TCP](tcp.md)
-* [WebSockets](websockets.md)
+This is the initial message sent from the client to the server. It specifies
+the highest Mosaic version that the client supports, as well as the applications
+that the client is requesting to utilize.
 
-TBD
+It has the following format:
+
+
+```text
+
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x10|     LENGTH      | MOSAIC_MAJOR_VERSION  |
+ 8  +-----------------------------------------------+
+    | APP_ID                | ...                   |
+    +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0x10
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:8]` - The highest Mosaic major version number that the client supports, in little-endian format
+* `[*]` - A sequence of 32-bit [Application](applications.md) IDs that the client wishes to use, in little-endian format
+
+This is a client initiated message. Servers are expected to reply with [Hello Ack](#hello-ack).
 
 ### Hello Auth
 
-NOTE: Some transports send HELLO AUTH information out of band. Refer to the transport in
-question:
-
-* [QUIC](quic.md)
-* [TCP](tcp.md)
-* [WebSockets](websockets.md)
+Only WebSockets utilizes this message.
+[QUIC](quic.md) and [TCP](tcp.md) handle authentication at the TLS layer.
 
 TBD
 
@@ -254,14 +268,29 @@ TBD
 
 ### Hello Ack
 
-NOTE: Some transports send HELLO AUTH information out of band. Refer to the transport in
-question:
+NOTE: [WebSockets](websockets.md) sends HELLO ACK information out of band and does
+not utilize this message.
 
-* [QUIC](quic.md)
-* [TCP](tcp.md)
-* [WebSockets](websockets.md)
+This is a reply to the client [`Hello`](#hello) message. It includes the highest
+Mosaic version that both parties support, as well as all of the application IDs
+that the client requested which the server can support.
 
-TBD
+It has the following format:
+
+```text
+
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x90|     LENGTH      | MOSAIC_MAJOR_VERSION  |
+ 8  +-----------------------------------------------+
+    | APP_ID                | ...                   |
+    +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0x90
+* `[1:4]` - The byte length of this message, in little-endian format
+* `[4:8]` - The highest Mosaic major version number that both the server and the client supports, in little-endian format
+* `[*]` - A sequence of 32-bit [Application](applications.md) IDs that the client requested and that the server can also support, in little-endian format
 
 ### Record
 
