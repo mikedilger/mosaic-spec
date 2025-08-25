@@ -82,7 +82,7 @@ It has the following format:
 
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x10|     LENGTH      | MOSAIC_MAJOR_VERSION  |
+    | 0x10|     LENGTH      | ZEROED    | MOSAIC_MAJOR_VERSION  |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
@@ -90,7 +90,8 @@ It has the following format:
 
 * `[0:1]` - The type 0x10
 * `[1:4]` - The byte length of this message, in little-endian format
-* `[4:8]` - The highest Mosaic major version number that the client supports, in little-endian format
+* `[4:6]` - Zeroed
+* `[6:8]` - `MOSAIC_MAJOR_VERSION` - The highest Mosaic major version number that the client supports, in little-endian format
 * `[*]` - A sequence of 32-bit [Application](applications.md) IDs that the client wishes to use, in little-endian format
 
 This is a client initiated message. Servers are expected to reply with [Hello Ack](#hello-ack).
@@ -282,7 +283,7 @@ It has the following format:
 
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x90|     LENGTH      | MOSAIC_MAJOR_VERSION  |
+    | 0x90|     LENGTH      | CODE|     | MOSAIC_MAJOR_VERSION  |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
@@ -290,7 +291,11 @@ It has the following format:
 
 * `[0:1]` - The type 0x90
 * `[1:4]` - The byte length of this message, in little-endian format
-* `[4:8]` - The highest Mosaic major version number that both the server and the client supports, in little-endian format
+* `[4:5]` - `CODE` indicates a possible Hello Error condition:
+    * 0 - No Error
+    * 1 - Unexpected Hello: Client has already issued a Hello previously.
+* `[5:6]` - Zeroed
+* `[6:8]` - `MOSAIC_MAJOR_VERSION` - The highest Mosaic major version number that both the server and the client supports, in little-endian format
 * `[*]` - A sequence of 32-bit [Application](applications.md) IDs that the client requested and that the server can also support, in little-endian format
 
 ### Record
