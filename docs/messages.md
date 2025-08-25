@@ -207,7 +207,8 @@ This is a client initiated message. Servers are expected to reply with:
 * a [`Query Closed`](#query-closed) message if the query could not be served.
 
 Queries MUST return results in anti-chronological order, from most
-recent backwards.
+recent backwards, up until `Locally Complete` is served, after which point
+they return records as they come in.
 
 ### Unsubscribe
 
@@ -294,7 +295,7 @@ It has the following format:
 
 ### Record
 
-This is a record returned from a query.
+This is a record returned from a query (`Get`, `Query`, or `Subscribe`).
 
 It has the following format:
 
