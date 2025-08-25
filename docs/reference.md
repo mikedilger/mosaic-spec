@@ -13,7 +13,7 @@ whereas address references start with a 1 bit.
 
 An <t>id reference</t> is a pointer to an exact record with no provision for
 replacement or edits. It contains some *hash* of the message making it
-unique. See [record](record.md) for the Id field.
+unique. See [record](record.md) for the Id field at `[0:48]`.
 
 ## Address Reference
 
@@ -24,7 +24,7 @@ replacements, often (and by default presumably) with the most recent record
 superceding the older records, but refer to the specific application.
 
 An address consists of three fields which are contiguous and in order in the
-record layout at `[128:176]` making up 48 bytes.
+record layout at `[48:96]` making up 48 bytes.
 
 * Unique address nonce (8 bytes) starting with a 1 bit,
 * The kind (8 bytes),
