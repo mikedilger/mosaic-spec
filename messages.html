@@ -2268,7 +2268,7 @@ that the client is requesting to utilize.</p>
 <pre><code class="language-text">
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x10|     LENGTH      | MOSAIC_MAJOR_VERSION  |
+    | 0x10|     LENGTH      | ZEROED    | MOSAIC_MAJOR_VERSION  |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
@@ -2276,7 +2276,8 @@ that the client is requesting to utilize.</p>
 <ul>
 <li><code>[0:1]</code> - The type 0x10</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:8]</code> - The highest Mosaic major version number that the client supports, in little-endian format</li>
+<li><code>[4:6]</code> - Zeroed</li>
+<li><code>[6:8]</code> - The highest Mosaic major version number that the client supports, in little-endian format</li>
 <li><code>[*]</code> - A sequence of 32-bit <a href="applications.html">Application</a> IDs that the client wishes to use, in little-endian format</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with <a href="#hello-ack">Hello Ack</a>.</p>
@@ -2375,7 +2376,8 @@ immediately.</p>
 <li>a <a href="#query-closed"><code>Query Closed</code></a> message if the query could not be served.</li>
 </ul>
 <p>Queries MUST return results in anti-chronological order, from most
-recent backwards.</p>
+recent backwards, up until <code>Locally Complete</code> is served, after which point
+they return records as they come in.</p>
 <h3 id="unsubscribe">Unsubscribe</h3>
 <p>This is a client request to close an open subscription query.</p>
 <p>It has the following format:</p>
@@ -2430,7 +2432,7 @@ that the client requested which the server can support.</p>
 <pre><code class="language-text">
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x90|     LENGTH      | MOSAIC_MAJOR_VERSION  |
+    | 0x90|     LENGTH      | CODE|     | MOSAIC_MAJOR_VERSION  |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
@@ -2438,11 +2440,15 @@ that the client requested which the server can support.</p>
 <ul>
 <li><code>[0:1]</code> - The type 0x90</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[4:5]</code> - <code>CODE</code> indicates a possible Hello Error condition:<ul>
+<li>0 - Unexpected Hello: Client has already issued a Hello previously.</li>
+</ul>
+</li>
 <li><code>[4:8]</code> - The highest Mosaic major version number that both the server and the client supports, in little-endian format</li>
 <li><code>[*]</code> - A sequence of 32-bit <a href="applications.html">Application</a> IDs that the client requested and that the server can also support, in little-endian format</li>
 </ul>
 <h3 id="record">Record</h3>
-<p>This is a record returned from a query.</p>
+<p>This is a record returned from a query (<code>Get</code>, <code>Query</code>, or <code>Subscribe</code>).</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
@@ -2598,7 +2604,7 @@ can occur on other streams.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.3.0</i>
+        <i>Mike Dilger edition, version 0.4.0</i>
       </div>
     </div>
   </div>
