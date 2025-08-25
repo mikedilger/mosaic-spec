@@ -2441,7 +2441,8 @@ that the client requested which the server can support.</p>
 <li><code>[0:1]</code> - The type 0x90</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
 <li><code>[4:5]</code> - <code>CODE</code> indicates a possible Hello Error condition:<ul>
-<li>0 - Unexpected Hello: Client has already issued a Hello previously.</li>
+<li>0 - No Error</li>
+<li>1 - Unexpected Hello: Client has already issued a Hello previously.</li>
 </ul>
 </li>
 <li><code>[5:6]</code> - Zeroed</li>
