@@ -28,7 +28,7 @@ Every subkey listed in a key schedule record MUST have an associated
 
 The payload is not [human readable](human_readable_content.md).
 
-The payload contains a sequence of 40-byte subkey records laid out as follows:
+The payload contains a sequence of 48-byte subkey records laid out as follows:
 
 ```
             1   2   3   4   4   5   6
@@ -45,6 +45,9 @@ The payload contains a sequence of 40-byte subkey records laid out as follows:
     |MARKER |   RESERVED            |
  40 +-------------------------------+
     |        REVOC TIMESTAMP        |
+ 48 +-------------------------------+
+    | ...                           |
+    |                           ... |
     +-------------------------------+
 ```
 
