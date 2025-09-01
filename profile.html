@@ -1854,34 +1854,39 @@ master key are not identical.</p>
 <h2 id="tags">Tags</h2>
 <p>No specific tags are defined.</p>
 <h2 id="payload">Payload</h2>
-<p>Payload is a <a href="https://www.rfc-editor.org/rfc/rfc8949.html">CBOR</a> map.
-All field names are snake-case.</p>
+<p>Payload is a <a href="https://www.rfc-editor.org/rfc/rfc8949.html">CBOR</a> Map.
+All field names (map keys) are snake-case Text.</p>
 <p>The field <code>name</code> is REQUIRED. All other fields are OPTIONAL.</p>
 <p>The following fields are available:</p>
 <ul>
-<li><code>name</code> - (REQUIRED) this is the user's name, used for <code>@name</code> tagging,
+<li><code>name</code> - (Text, REQUIRED) this is the user's name, used for <code>@name</code> tagging,
   containing only typeable ASCII characters. These cannot be guaranteed
   to be unique. Users are encouraged to choose names that are uncommon
   if not unique. Clients are encouraged to provide a way for users to
   disambiguate name collisions such as via a
   <a href="https://en.wikipedia.org/wiki/Petname">Petname</a> system,
   which is out of scope of this specification.</li>
-<li><code>display_name</code> - this is a name for display purposes which can contain
+<li><code>display_name</code> - (Text) this is a name for display purposes which can contain
   any sort of UTF-8 character. Clients are encouraged to also display
   <code>name</code> so that users can tag them with <code>@name</code> syntax.</li>
-<li><code>about</code> - This is prose where the user can describe themself.</li>
-<li><code>avatar</code> - This is a URL to an avatar (e.g. a profile picture) in a
-  standard format (PNG, JPEG, SVG, WebP, GIF, BMP or ICO) expected to be
-  dimensionally square and no bigger than 512x512.</li>
-<li><code>website</code> - This is a URL to the user's website.</li>
-<li><code>banner</code> - This is a URL to a background picture in a standard format
-  (PNG, JPEG, SVG, WebP, GIF, BMP or ICO) expected to be of size 1024x768</li>
-<li><code>org</code> - A boolean designating that this profile represents an organisation</li>
-<li><code>bot</code> - A boolean designating that this profile is a bot</li>
-<li><code>lud16</code> - This is a lightning payment address
+<li><code>about</code> - (Text) This is prose where the user can describe themself.</li>
+<li><code>avatar</code> - (Bytes) This is an avatar image in the WebP image format.
+  Animated WebP is allowed.
+  It MUST be no larger than 320 pixels in either dimension.
+  It SHOULD be dimensionally square.
+  Note that clients MAY crop the image into a circle when displaying it.
+  <a href="rationale.html#avatar"><sup>rat</sup></a>.</li>
+<li><code>website</code> - (Text) This is a URL to the user's website.</li>
+<li><code>banner</code> - (Bytes) This is an image in WebP image format.
+  It MUST be no larger than 1280 wide, and it MUST be no larger than 720 high.</li>
+<li><code>org</code> - (Boolean) A boolean designating that this profile represents an organisation</li>
+<li><code>bot</code> - (Boolean) A boolean designating that this profile is a bot</li>
+<li><code>lud16</code> - (Text) This is a lightning payment address
   defined by <a href="https://github.com/lnurl/luds/blob/luds/16.md">LUD-16</a></li>
 </ul>
 <p>Additional fields MAY be used.</p>
+<p>Note that the The maximum record size is one megabyte, and that the profile data
+must fit within this one megabyte, including the binary images.</p>
 <h2 id="flags">Flags</h2>
 <p>There are no special flag restrictions.</p>
 <h2 id="server-used">Server Used</h2>
@@ -1923,7 +1928,7 @@ All field names are snake-case.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.4.0</i>
+        <i>Mike Dilger edition, version 0.6.0</i>
       </div>
     </div>
   </div>

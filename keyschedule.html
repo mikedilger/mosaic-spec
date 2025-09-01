@@ -1841,7 +1841,7 @@ master key are not identical.</p>
 <a href="core_tags.html#subkey">subkey tag</a> listing the subkey.</p>
 <h2 id="payload">Payload</h2>
 <p>The payload is not <a href="human_readable_content.html">human readable</a>.</p>
-<p>The payload contains a sequence of 40-byte subkey records laid out as follows:</p>
+<p>The payload contains a sequence of 48-byte subkey records laid out as follows:</p>
 <pre><code>            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
@@ -1856,6 +1856,9 @@ master key are not identical.</p>
     |MARKER |   RESERVED            |
  40 +-------------------------------+
     |        REVOC TIMESTAMP        |
+ 48 +-------------------------------+
+    | ...                           |
+    |                           ... |
     +-------------------------------+
 </code></pre>
 <p><code>[0:32]</code> - SUBKEY is the 32-byte subkey</p>
@@ -1928,7 +1931,7 @@ zeroed in all other cases.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.4.0</i>
+        <i>Mike Dilger edition, version 0.6.0</i>
       </div>
     </div>
   </div>

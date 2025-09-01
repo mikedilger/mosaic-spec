@@ -1053,6 +1053,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#blob-submission" class="md-nav__link">
+    <span class="md-ellipsis">
+      BLOB Submission
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blob-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      BLOB Get
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1117,6 +1135,24 @@
   <a href="#dht-response" class="md-nav__link">
     <span class="md-ellipsis">
       DHT Response
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blob-submission-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      BLOB Submission Result
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blob-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      BLOB Result
     </span>
   </a>
   
@@ -2037,6 +2073,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#blob-submission" class="md-nav__link">
+    <span class="md-ellipsis">
+      BLOB Submission
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blob-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      BLOB Get
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2101,6 +2155,24 @@
   <a href="#dht-response" class="md-nav__link">
     <span class="md-ellipsis">
       DHT Response
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blob-submission-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      BLOB Submission Result
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blob-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      BLOB Result
     </span>
   </a>
   
@@ -2216,8 +2288,18 @@ of each type. Following this is the data of the message.</p>
 </tr>
 <tr>
 <td>Client</td>
-<td><a href="#dht-lookup">DHTLookup</a></td>
+<td><a href="#dht-lookup">DHT Lookup</a></td>
 <td>0x6</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#blob-submission">BLOB Submission</a></td>
+<td>0x7</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#blob-get">BLOB Get</a></td>
+<td>0x8</td>
 </tr>
 <tr>
 <td>Server</td>
@@ -2246,8 +2328,18 @@ of each type. Following this is the data of the message.</p>
 </tr>
 <tr>
 <td>Server</td>
-<td><a href="#dht-response">DHTResponse</a></td>
+<td><a href="#dht-response">DHT Response</a></td>
 <td>0x84</td>
+</tr>
+<tr>
+<td>Server</td>
+<td><a href="#blob-submission-result">BLOB Submission Result</a></td>
+<td>0x85</td>
+</tr>
+<tr>
+<td>Server</td>
+<td><a href="#blob-result">BLOB Result</a></td>
+<td>0x86</td>
 </tr>
 <tr>
 <td>Either</td>
@@ -2420,6 +2512,55 @@ they return records as they come in.</p>
 <h3 id="dht-lookup">DHT Lookup</h3>
 <p>Browser-based JavaScript clients cannot do DHT lookups. This requests that the server perform a DHT lookup on behalf of the client</p>
 <p>TBD</p>
+<h3 id="blob-submission">BLOB Submission</h3>
+<p>A BLOB is a Binary Large OBject. This message submits a BLOB to the server for storage and later
+retrieval.</p>
+<p>It has the following format:</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x7 |  0  |              LENGTH               |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+    | ...                                           |
+56  +-----------------------------------------------+
+    | BLOB ...                                      |
+    |                                          ...  |
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x7</li>
+<li><code>[1:2]</code> - Zero</li>
+<li><code>[2:8]</code> - The length of the binary data in little-endian format.</li>
+<li><code>[8:56]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
+<li><code>[56:]</code> - The binary data</li>
+</ul>
+<p>This is a client initiated message. Servers are expected to reply with:</p>
+<ul>
+<li><a href="#blob-submission-result"><code>BLOB Submission Result</code></a> with a hash matching the record.</li>
+</ul>
+<p>Servers MAY require authentication and MAY remember who submitted which BLOBs. Servers may limit
+the size of submitted BLOBs. Servers MAY provide some means for deleting BLOBs no longer in use.
+Servers MAY delete BLOBs that violate server policy. These issues are currently out of scope of
+this spec.</p>
+<h3 id="blob-get">BLOB Get</h3>
+<p>A BLOB is a Binary Large OBject. This message requests retrieval of a BLOB</p>
+<p>It has the following format:</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x8 |                 ZEROED                  |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+    | ...                                           |
+56  +-----------------------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x8</li>
+<li><code>[1:8]</code> - Zeroed</li>
+<li><code>[8:56]</code> - the 256-bit BLAKE3 hash of the BLOB.</li>
+</ul>
+<p>This is a client initiated message. Servers are expected to reply with:</p>
+<ul>
+<li><a href="#blob-result"><code>BLOB Result</code></a> containing the BLOB or an error.</li>
+</ul>
 <hr />
 <h2 id="server-messages">Server Messages</h2>
 <h3 id="hello-ack">Hello Ack</h3>
@@ -2552,8 +2693,63 @@ but remains open to serve matching records that subsequently arrive.</p>
 <li><code>[8:40]</code> - A 32-byte prefix of the 48-byte Id.</li>
 </ul>
 <h3 id="dht-response">DHT Response</h3>
-<p>This is a server response to a <a href="#dht-lookup"><code>DHTLookup</code></a> request.</p>
+<p>This is a server response to a <a href="#dht-lookup"><code>DHT Lookup</code></a> request.</p>
 <p>TBD</p>
+<h3 id="blob-submission-result">BLOB Submission Result</h3>
+<p>This is a server response to a <a href="#blob-submission"><code>BLOB Submission</code></a> request.</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x85|RESULT|           ZEROED                 |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+    | ...                                           |
+56  +-----------------------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x85</li>
+<li><code>[1:2]</code> - The result, one of:<ul>
+<li>1 - Accepted and Stored</li>
+<li>128 - Unauthorized</li>
+<li>129 - Too Large</li>
+<li>253 - Temporary Server Error - try again later</li>
+<li>254 - Persistent Server Error - likely to be an error every time</li>
+<li>255 - General Server Error - a server error that doesn't know
+        if it is temporary or persistent</li>
+</ul>
+</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:56]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
+</ul>
+<h3 id="blob-result">BLOB Result</h3>
+<p>This is a server response to a <a href="#blob-get"><code>BLOB Get</code></a> request returning the BLOB
+or an error condition.</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x86|RESULT|            LENGTH                |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+    | ...                                           |
+56  +-----------------------------------------------+
+    | BLOB ...                                      |
+    |                                          ...  |
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x86\</li>
+<li><code>[1:2]</code> - The result, one of:<ul>
+<li>1 - OK (blob is attached)</li>
+<li>128 - Unauthorized</li>
+<li>130 - Not found</li>
+<li>253 - Temporary Server Error - try again later</li>
+<li>254 - Persistent Server Error - likely to be an error every time</li>
+<li>255 - General Server Error - a server error that doesn't know
+        if it is temporary or persistent</li>
+</ul>
+</li>
+<li><code>[2:8]</code> - The length of the binary data in little-endian format.
+        If the result was not 1, this should be 0.</li>
+<li><code>[8:56]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
+<li><code>[56:]</code> - The binary data, only if the result is 1.</li>
+</ul>
 <h3 id="unrecognized">Unrecognized</h3>
 <p>This is a message indicating that the last message from the peer was not recognized.</p>
 <p>When this is received over QUIC transport, the stream SHOULD be closed and further messaging
@@ -2606,7 +2802,7 @@ can occur on other streams.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.4.0</i>
+        <i>Mike Dilger edition, version 0.6.0</i>
       </div>
     </div>
   </div>
