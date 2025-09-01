@@ -6,6 +6,7 @@ to this page with [<sup>rat</sup>](#) links.
 | Contents |
 |----------|
 | [0-RTT](#0-rtt) |
+| [Avatar](#avatar) |
 | [Binary Records](#binary-records) |
 | [BLAKE3](#blake3) |
 | [Bootstrap Length](#bootstrap-length) |
@@ -38,6 +39,21 @@ multiple downsides:
 * Endpoints can be used in attack amplification, as the remote hasn't proven it
   controls the IP address it claims.
 * There is no forward secrecy.
+
+---
+
+## Avatar
+
+We only support WebP because :
+
+* WebP is a modern replacement that is meant to replace JPEG, PNG and GIF by being
+  better in nearly all ways, especially in terms of data size, and also it supports
+  animation.
+* Clients only need to handle one kind of image
+
+We limit the size because:
+
+* There are few situations where an avatar will be rendered larger than 320x320.
 
 ---
 
