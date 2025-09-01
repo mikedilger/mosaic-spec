@@ -53,13 +53,17 @@ of each type. Following this is the data of the message.
 | Client | [Subscribe](#subscribe) | 0x3 |
 | Client | [Unsubscribe](#unsubscribe) | 0x4 |
 | Client | [Submission](#submission) | 0x5 |
-| Client | [DHTLookup](#dht-lookup) | 0x6 |
+| Client | [DHT Lookup](#dht-lookup) | 0x6 |
+| Client | [BLOB Submission](#blob-submission) | 0x7 |
+| Client | [BLOB Get](#blob-get) | 0x8 |
 | Server | [Hello Ack](#hello-ack) | 0x90 |
 | Server | [Record](#record) | 0x80 |
 | Server | [Locally Complete](#locally-complete) | 0x81 |
 | Server | [Query Closed](#query-closed) | 0x82 |
 | Server | [Submission Result](#submission-result) | 0x83 |
-| Server | [DHTResponse](#dht-response) | 0x84 |
+| Server | [DHT Response](#dht-response) | 0x84 |
+| Server | [BLOB Submission Result](#blob-submission-result) | 0x85 |
+| Server | [BLOB Result](#blob-result) | 0x86 |
 | Either | [Unrecognized](#unrecognized) | 0xF0 |
 
 ---
@@ -264,6 +268,64 @@ Browser-based JavaScript clients cannot do DHT lookups. This requests that the s
 
 TBD
 
+### BLOB Submission
+
+A BLOB is a Binary Large OBject. This message submits a BLOB to the server for storage and later
+retrieval.
+
+It has the following format:
+
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x7 |  0  |              LENGTH               |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+	| ...                                           |
+56  +-----------------------------------------------+
+    | BLOB ...                                      |
+    |                                          ...  |
+```
+
+* `[0:1]` - The type 0x7
+* `[1:2]` - Zero
+* `[2:8]` - The length of the binary data in little-endian format.
+* `[8:56]` - the 256-bit BLAKE3 hash of the binary data.
+* `[56:]` - The binary data
+
+This is a client initiated message. Servers are expected to reply with:
+
+* [`BLOB Submission Result`](#blob-submission-result) with a hash matching the record.
+
+Servers MAY require authentication and MAY remember who submitted which BLOBs. Servers may limit
+the size of submitted BLOBs. Servers MAY provide some means for deleting BLOBs no longer in use.
+Servers MAY delete BLOBs that violate server policy. These issues are currently out of scope of
+this spec.
+
+### BLOB Get
+
+A BLOB is a Binary Large OBject. This message requests retrieval of a BLOB
+
+It has the following format:
+
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x8 |                 ZEROED                  |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+	| ...                                           |
+56  +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0x8
+* `[1:8]` - Zeroed
+* `[8:56]` - the 256-bit BLAKE3 hash of the BLOB.
+
+This is a client initiated message. Servers are expected to reply with:
+
+* [`BLOB Result`](#blob-result) containing the BLOB or an error.
+
 ---
 
 ## Server Messages
@@ -417,9 +479,66 @@ It has the following format:
 
 ### DHT Response
 
-This is a server response to a [`DHTLookup`](#dht-lookup) request.
+This is a server response to a [`DHT Lookup`](#dht-lookup) request.
 
 TBD
+
+### BLOB Submission Result
+
+This is a server response to a [`BLOB Submission`](#blob-submission) request.
+
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x85|RESULT|           ZEROED                 |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+	| ...                                           |
+56  +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0x85
+* `[1:2]` - The result, one of:
+    * 1 - Accepted and Stored
+    * 128 - Unauthorized
+    * 129 - Too Large
+    * 253 - Temporary Server Error - try again later
+    * 254 - Persistent Server Error - likely to be an error every time
+    * 255 - General Server Error - a server error that doesn't know
+            if it is temporary or persistent
+* `[2:8]` - Zeroed
+* `[8:56]` - the 256-bit BLAKE3 hash of the binary data.
+
+### BLOB Result
+
+This is a server response to a [`BLOB Get`](#blob-get) request returning the BLOB
+or an error condition.
+
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x86|RESULT|            LENGTH                |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+	| ...                                           |
+56  +-----------------------------------------------+
+    | BLOB ...                                      |
+    |                                          ...  |
+```
+
+* `[0:1]` - The type 0x86\
+* `[1:2]` - The result, one of:
+    * 1 - OK (blob is attached)
+    * 128 - Unauthorized
+    * 130 - Not found
+    * 253 - Temporary Server Error - try again later
+    * 254 - Persistent Server Error - likely to be an error every time
+    * 255 - General Server Error - a server error that doesn't know
+            if it is temporary or persistent
+* `[2:8]` - The length of the binary data in little-endian format.
+        If the result was not 1, this should be 0.
+* `[8:56]` - the 256-bit BLAKE3 hash of the binary data.
+* `[56:]` - The binary data, only if the result is 1.
 
 ### Unrecognized
 
