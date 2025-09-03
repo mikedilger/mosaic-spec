@@ -1286,6 +1286,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Payload">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subkey-attestation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subkey Attestation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption-key-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encryption Key Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1357,11 +1381,11 @@
   
   
     <li class="md-nav__item">
-      <a href="friends.html" class="md-nav__link">
+      <a href="contacts.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Acquaintences and Friends
+    Contact List
     
   </span>
   
@@ -1797,6 +1821,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Payload">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subkey-attestation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subkey Attestation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption-key-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encryption Key Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1841,29 +1889,27 @@ master key are not identical.</p>
 <a href="core_tags.html#subkey">subkey tag</a> listing the subkey.</p>
 <h2 id="payload">Payload</h2>
 <p>The payload is not <a href="human_readable_content.html">human readable</a>.</p>
-<p>The payload contains a sequence of 48-byte subkey records laid out as follows:</p>
+<p>The payload contains a sequence of records as follows:</p>
 <pre><code>            1   2   3   4   4   5   6
     0   8   6   4   2   0   8   6   4
  0  +-------------------------------+
-    | SUBKEY    1/4                 |
+    |KIND|0 |   LEN | MARKER| Zeroed|
  8  +-------------------------------+
-    | SUBKEY    2/4                 |
+    |  REVOC TIMESTAMP or ZEROES    |
  16 +-------------------------------+
-    | SUBKEY    3/4                 |
- 24 +-------------------------------+
-    | SUBKEY    4/4                 |
- 32 +-------------------------------+
-    |MARKER |   RESERVED            |
- 40 +-------------------------------+
-    |        REVOC TIMESTAMP        |
- 48 +-------------------------------+
-    | ...                           |
-    |                           ... |
+    | DATA ...                      |
+    | DATA ...                  ... |
     +-------------------------------+
 </code></pre>
-<p><code>[0:32]</code> - SUBKEY is the 32-byte subkey</p>
-<p><code>[32:34]</code> - MARKER is 2-bytes and is one of the following</p>
 <ul>
+<li><code>[0:1]</code> - Kind which must be one of:<ul>
+<li>1 - Subkey Attestation</li>
+<li>2 - Encryption Key Data</li>
+</ul>
+</li>
+<li><code>[1:2]</code> - Zero</li>
+<li><code>[2:4]</code> - Length of this record in bytes, as a little-endian 16-bit integer.</li>
+<li><code>[4:6]</code> - MARKER is 2-bytes and is one of the following<ul>
 <li>0x0 - ACTIVE_SIGNING_KEY - A Mosaic ed25519 signing key (subkey) in current use</li>
 <li>0x1 - ACTIVE_ENCRYPTION_KEY - A Mosaic X25519 encryption key in current use<ul>
 <li>These keys are used for receiving encrypted data only, not for signing.</li>
@@ -1872,8 +1918,10 @@ master key are not identical.</p>
   from the signing keys, it limits the damage from compromise.</li>
 </ul>
 </li>
+</ul>
+</li>
 <li>0x40 - REVOKED_ALL - All records signed by the key are to be considered
-  invalid.</li>
+      invalid.<ul>
 <li>0x41 - REVOKED_PAST - Records signed by the key that were received prior to
   the revocation timestamp (based on when it was received by software and NOT
   based on the date inside of the record) are still considered valid; however,
@@ -1887,13 +1935,94 @@ master key are not identical.</p>
 </ul>
 </li>
 </ul>
-<p><code>[34:40]</code> - Bytes 34:40 are reserved and MUST be 0.</p>
-<p><code>[40:48]</code> - REVOC TIMESTAMP is 8-bytes and is in the format described in
-<a href="timestamps.html">timestamps</a>. Timestamp is required for REVOKED ALL and
-REVOKED PAST.  Timestamp is suggested for OUT_OF_USE. Timestamp SHOULD be
-zeroed in all other cases.</p>
+</li>
+<li><code>[6:8]</code> - Zeroed</li>
+<li><code>[8:16]</code> - REVOC TIMESTAMP is 8-bytes and is in the format described in
+    <a href="timestamps.html">timestamps</a>. Timestamp is required for REVOKED ALL and
+    REVOKED PAST.  Timestamp is suggested for OUT_OF_USE. Timestamp SHOULD be
+    zeroed in all other cases (which is the same as the minimum timestamp).</li>
+<li><code>[16:]</code> - The data, either a Subkey Attestation (if kind is 1) or an Encryption
+   Key Data block (if kind is 2).</li>
+</ul>
+<h3 id="subkey-attestation">Subkey Attestation</h3>
+<p>A Subkey Attestation is a assertion signed by a signing subkey indicating
+that the key considers itself a subkey of a masterkey. It is formatted as
+follows:</p>
+<pre><code>            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    | 2c| 28| 98| f5| 8b|ALG| LenS  |
+ 8  +-------------------------------+
+    | SUBKEY    1/4                 |
+ 16 +-------------------------------+
+    | SUBKEY    2/4                 |
+ 24 +-------------------------------+
+    | SUBKEY    3/4                 |
+ 32 +-------------------------------+
+    | SUBKEY    4/4                 |
+ 40 +-------------------------------+
+    | MASTERKEY 1/4                 |
+ 48 +-------------------------------+
+    | MASTERKEY 2/4                 |
+ 56 +-------------------------------+
+    | MASTERKEY 3/4                 |
+ 64 +-------------------------------+
+    | MASTERKEY 4/4                 |
+ 72 +-------------------------------+
+    | Signature                 ... |
+    |                           ... |
+    +-------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:5]</code> - The hex characters 0x2C, 0x28, 0x98, 0xF5, 0x8B</li>
+<li><code>[5:6]</code> - A byte indicating the signature algorithm:<ul>
+<li>0 - ed25519 EdDSA</li>
+<li>1 - Secp256k1</li>
+<li>other - RESERVED</li>
+</ul>
+</li>
+<li><code>[6:8]</code> - Two bytes representing the length of the signature in bytes
+    as an unsigned integer in little-endian format.
+    Currently this must be 64 for all defined signature schemes.</li>
+<li><code>[8:40]</code> - The subkey</li>
+<li><code>[40:72]</code> - The master key</li>
+<li><code>[72:]</code> - The signature over bytes <code>[0:72]</code> using the signature
+    algorithm specified in <code>[5:6]</code> with the subkey specified at
+    <code>[8:40]</code>. If the signature length is not a multiple of 8, it
+    should be padded with 0s until the next multiple of 8.</li>
+</ul>
+<h3 id="encryption-key-data">Encryption Key Data</h3>
+<p>Encryption Key Data is a block of data describing an encryption key. Note that
+encryption keys cannot produce signatures and thus cannot attest that they belong
+to any particular master key.</p>
+<p>It is formatted as follows:</p>
+<pre><code>            1   2   3   4   4   5   6
+    0   8   6   4   2   0   8   6   4
+ 0  +-------------------------------+
+    | d6| da| f0| bd| 33|ALG| zero  |
+ 8  +-------------------------------+
+    | SUBKEY    1/4                 |
+ 16 +-------------------------------+
+    | SUBKEY    2/4                 |
+ 24 +-------------------------------+
+    | SUBKEY    3/4                 |
+ 32 +-------------------------------+
+    | SUBKEY    4/4                 |
+ 40 +-------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:5]</code> - The hex characters 0xD6, 0xDA, 0xF0, 0xBD, 0x33</li>
+<li><code>[5:6]</code> - A byte indicating the encryption algorithm:<ul>
+<li>0 - x25519 ECDH</li>
+<li>1 - Secp256k1 ECDH</li>
+<li>other - RESERVED</li>
+</ul>
+</li>
+<li><code>[6:8]</code> - Zeroed</li>
+<li><code>[8:40]</code> - The subkey</li>
+</ul>
 <h2 id="server-used">Server Used</h2>
-<p>These are posted to all of the author's Outbox servers.</p>
+<p>Key Schedule records are to be posted to all of the author's Outbox servers.</p>
 
 
 
@@ -1931,7 +2060,7 @@ zeroed in all other cases.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.6.0</i>
+        <i>Mike Dilger edition, version 0.8.0</i>
       </div>
     </div>
   </div>

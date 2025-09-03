@@ -945,15 +945,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#protocol-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Protocol Extensions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#asynchronous" class="md-nav__link">
     <span class="md-ellipsis">
       Asynchronous
@@ -1045,9 +1036,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dht-lookup" class="md-nav__link">
+  <a href="#blob-get" class="md-nav__link">
     <span class="md-ellipsis">
-      DHT Lookup
+      BLOB Get
     </span>
   </a>
   
@@ -1063,9 +1054,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#blob-get" class="md-nav__link">
+  <a href="#dht-lookup" class="md-nav__link">
     <span class="md-ellipsis">
-      BLOB Get
+      DHT Lookup
     </span>
   </a>
   
@@ -1090,6 +1081,15 @@
   <a href="#hello-ack" class="md-nav__link">
     <span class="md-ellipsis">
       Hello Ack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#closing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Closing
     </span>
   </a>
   
@@ -1132,9 +1132,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dht-response" class="md-nav__link">
+  <a href="#blob-result" class="md-nav__link">
     <span class="md-ellipsis">
-      DHT Response
+      BLOB Result
     </span>
   </a>
   
@@ -1150,9 +1150,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#blob-result" class="md-nav__link">
+  <a href="#dht-response" class="md-nav__link">
     <span class="md-ellipsis">
-      BLOB Result
+      DHT Response
     </span>
   </a>
   
@@ -1169,6 +1169,24 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result Codes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protocol-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Protocol Extensions
+    </span>
+  </a>
   
 </li>
       
@@ -1549,11 +1567,11 @@
   
   
     <li class="md-nav__item">
-      <a href="friends.html" class="md-nav__link">
+      <a href="contacts.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Acquaintences and Friends
+    Contact List
     
   </span>
   
@@ -1965,15 +1983,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#protocol-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Protocol Extensions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#asynchronous" class="md-nav__link">
     <span class="md-ellipsis">
       Asynchronous
@@ -2065,9 +2074,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dht-lookup" class="md-nav__link">
+  <a href="#blob-get" class="md-nav__link">
     <span class="md-ellipsis">
-      DHT Lookup
+      BLOB Get
     </span>
   </a>
   
@@ -2083,9 +2092,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#blob-get" class="md-nav__link">
+  <a href="#dht-lookup" class="md-nav__link">
     <span class="md-ellipsis">
-      BLOB Get
+      DHT Lookup
     </span>
   </a>
   
@@ -2110,6 +2119,15 @@
   <a href="#hello-ack" class="md-nav__link">
     <span class="md-ellipsis">
       Hello Ack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#closing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Closing
     </span>
   </a>
   
@@ -2152,9 +2170,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dht-response" class="md-nav__link">
+  <a href="#blob-result" class="md-nav__link">
     <span class="md-ellipsis">
-      DHT Response
+      BLOB Result
     </span>
   </a>
   
@@ -2170,9 +2188,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#blob-result" class="md-nav__link">
+  <a href="#dht-response" class="md-nav__link">
     <span class="md-ellipsis">
-      BLOB Result
+      DHT Response
     </span>
   </a>
   
@@ -2189,6 +2207,24 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result Codes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protocol-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Protocol Extensions
+    </span>
+  </a>
   
 </li>
       
@@ -2215,15 +2251,6 @@ transport and certificate authentication.</p>
 of one byte for the type, and three bytes for the full byte length of
 the entire protocol message encoded in little-endian format. This
 allows the protocol to be easily framed within a stream.</p>
-<h2 id="protocol-extensions">Protocol Extensions</h2>
-<p>Protocol extension negotiation is done on a transport-by-transport level.
-For <a href="quic.html">QUIC</a> transport this is done with the initial packet.
-For <a href="websockets.html">WebSockets</a> transport this is done with the
-<code>X-Mosaic-Extensions</code> header. See the specific transport.</p>
-<p>The following extensions have been defined:</p>
-<ul>
-<li><a href="sync.html">Sync</a></li>
-</ul>
 <h2 id="asynchronous">Asynchronous</h2>
 <p>All client messages initiate an action, and all server messages are in
 response to client messages (NOTE: this MAY not apply to Mosaic
@@ -2257,9 +2284,24 @@ of each type. Following this is the data of the message.</p>
 <td>0x10</td>
 </tr>
 <tr>
+<td>Server</td>
+<td><a href="#hello-ack">Hello Ack</a></td>
+<td>0x90</td>
+</tr>
+<tr>
 <td>Client</td>
 <td><a href="#hello-auth">Hello Auth</a></td>
 <td>0x11</td>
+</tr>
+<tr>
+<td>Server</td>
+<td><a href="#closing">Closing</a></td>
+<td>0xFE</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>Client</td>
@@ -2277,36 +2319,6 @@ of each type. Following this is the data of the message.</p>
 <td>0x3</td>
 </tr>
 <tr>
-<td>Client</td>
-<td><a href="#unsubscribe">Unsubscribe</a></td>
-<td>0x4</td>
-</tr>
-<tr>
-<td>Client</td>
-<td><a href="#submission">Submission</a></td>
-<td>0x5</td>
-</tr>
-<tr>
-<td>Client</td>
-<td><a href="#dht-lookup">DHT Lookup</a></td>
-<td>0x6</td>
-</tr>
-<tr>
-<td>Client</td>
-<td><a href="#blob-submission">BLOB Submission</a></td>
-<td>0x7</td>
-</tr>
-<tr>
-<td>Client</td>
-<td><a href="#blob-get">BLOB Get</a></td>
-<td>0x8</td>
-</tr>
-<tr>
-<td>Server</td>
-<td><a href="#hello-ack">Hello Ack</a></td>
-<td>0x90</td>
-</tr>
-<tr>
 <td>Server</td>
 <td><a href="#record">Record</a></td>
 <td>0x80</td>
@@ -2317,9 +2329,24 @@ of each type. Following this is the data of the message.</p>
 <td>0x81</td>
 </tr>
 <tr>
+<td>Client</td>
+<td><a href="#unsubscribe">Unsubscribe</a></td>
+<td>0x4</td>
+</tr>
+<tr>
 <td>Server</td>
 <td><a href="#query-closed">Query Closed</a></td>
 <td>0x82</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#submission">Submission</a></td>
+<td>0x5</td>
 </tr>
 <tr>
 <td>Server</td>
@@ -2327,9 +2354,24 @@ of each type. Following this is the data of the message.</p>
 <td>0x83</td>
 </tr>
 <tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#blob-get">BLOB Get</a></td>
+<td>0x8</td>
+</tr>
+<tr>
 <td>Server</td>
-<td><a href="#dht-response">DHT Response</a></td>
-<td>0x84</td>
+<td><a href="#blob-result">BLOB Result</a></td>
+<td>0x86</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#blob-submission">BLOB Submission</a></td>
+<td>0x7</td>
 </tr>
 <tr>
 <td>Server</td>
@@ -2337,9 +2379,24 @@ of each type. Following this is the data of the message.</p>
 <td>0x85</td>
 </tr>
 <tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#dht-lookup">DHT Lookup</a></td>
+<td>0x6</td>
+</tr>
+<tr>
 <td>Server</td>
-<td><a href="#blob-result">BLOB Result</a></td>
-<td>0x86</td>
+<td><a href="#dht-response">DHT Response</a></td>
+<td>0x84</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>Either</td>
@@ -2509,9 +2566,26 @@ they return records as they come in.</p>
 <ul>
 <li><a href="#submission-result"><code>Submission Result</code></a> with an id prefix matching the record.</li>
 </ul>
-<h3 id="dht-lookup">DHT Lookup</h3>
-<p>Browser-based JavaScript clients cannot do DHT lookups. This requests that the server perform a DHT lookup on behalf of the client</p>
-<p>TBD</p>
+<h3 id="blob-get">BLOB Get</h3>
+<p>A BLOB is a Binary Large OBject. This message requests retrieval of a BLOB</p>
+<p>It has the following format:</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x8 |                 ZEROED                  |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+    | ...                                           |
+40  +-----------------------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x8</li>
+<li><code>[1:8]</code> - Zeroed</li>
+<li><code>[8:40]</code> - the 256-bit BLAKE3 hash of the BLOB.</li>
+</ul>
+<p>This is a client initiated message. Servers are expected to reply with:</p>
+<ul>
+<li><a href="#blob-result"><code>BLOB Result</code></a> containing the BLOB or an error.</li>
+</ul>
 <h3 id="blob-submission">BLOB Submission</h3>
 <p>A BLOB is a Binary Large OBject. This message submits a BLOB to the server for storage and later
 retrieval.</p>
@@ -2522,7 +2596,7 @@ retrieval.</p>
  8  +-----------------------------------------------+
     | HASH   ...                                    |
     | ...                                           |
-56  +-----------------------------------------------+
+40  +-----------------------------------------------+
     | BLOB ...                                      |
     |                                          ...  |
 </code></pre>
@@ -2530,8 +2604,8 @@ retrieval.</p>
 <li><code>[0:1]</code> - The type 0x7</li>
 <li><code>[1:2]</code> - Zero</li>
 <li><code>[2:8]</code> - The length of the binary data in little-endian format.</li>
-<li><code>[8:56]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
-<li><code>[56:]</code> - The binary data</li>
+<li><code>[8:40]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
+<li><code>[40:]</code> - The binary data</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
 <ul>
@@ -2541,26 +2615,10 @@ retrieval.</p>
 the size of submitted BLOBs. Servers MAY provide some means for deleting BLOBs no longer in use.
 Servers MAY delete BLOBs that violate server policy. These issues are currently out of scope of
 this spec.</p>
-<h3 id="blob-get">BLOB Get</h3>
-<p>A BLOB is a Binary Large OBject. This message requests retrieval of a BLOB</p>
-<p>It has the following format:</p>
-<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
- 0  +-----------------------------------------------+
-    | 0x8 |                 ZEROED                  |
- 8  +-----------------------------------------------+
-    | HASH   ...                                    |
-    | ...                                           |
-56  +-----------------------------------------------+
-</code></pre>
-<ul>
-<li><code>[0:1]</code> - The type 0x8</li>
-<li><code>[1:8]</code> - Zeroed</li>
-<li><code>[8:56]</code> - the 256-bit BLAKE3 hash of the BLOB.</li>
-</ul>
-<p>This is a client initiated message. Servers are expected to reply with:</p>
-<ul>
-<li><a href="#blob-result"><code>BLOB Result</code></a> containing the BLOB or an error.</li>
-</ul>
+<h3 id="dht-lookup">DHT Lookup</h3>
+<p>This requests that the server perform a DHT lookup on behalf of the client.
+<a href="rationale.html#dht-lookup-by-server"><sup>rat</sup></a></p>
+<p>TBD</p>
 <hr />
 <h2 id="server-messages">Server Messages</h2>
 <h3 id="hello-ack">Hello Ack</h3>
@@ -2573,7 +2631,7 @@ that the client requested which the server can support.</p>
 <pre><code class="language-text">
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x90|     LENGTH      | CODE|     | MOSAIC_MAJOR_VERSION  |
+    | 0x90|     LENGTH      |RESULT|    | MOSAIC_MAJOR_VERSION  |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
@@ -2581,14 +2639,28 @@ that the client requested which the server can support.</p>
 <ul>
 <li><code>[0:1]</code> - The type 0x90</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:5]</code> - <code>CODE</code> indicates a possible Hello Error condition:<ul>
-<li>0 - No Error</li>
-<li>1 - Unexpected Hello: Client has already issued a Hello previously.</li>
-</ul>
-</li>
+<li><code>[4:5]</code> - <code>RESULT</code> indicates the result, typically SUCCESS but
+  possibly DUPLICATE. Servers should refrain from using errors or rejections
+  in this result and instead if necessary issue a <a href="#closing">Closing</a> message.</li>
 <li><code>[5:6]</code> - Zeroed</li>
-<li><code>[6:8]</code> - <code>MOSAIC_MAJOR_VERSION</code> - The highest Mosaic major version number that both the server and the client supports, in little-endian format</li>
-<li><code>[*]</code> - A sequence of 32-bit <a href="applications.html">Application</a> IDs that the client requested and that the server can also support, in little-endian format</li>
+<li><code>[6:8]</code> - <code>MOSAIC_MAJOR_VERSION</code> - The highest Mosaic major version number
+  that both the server and the client supports, in little-endian format</li>
+<li><code>[*]</code> - A sequence of 32-bit <a href="applications.html">Application</a> IDs that the client
+  requested and that the server can also support, in little-endian format</li>
+</ul>
+<h3 id="closing">Closing</h3>
+<p>This is a server message indicating that the server is closing the connection.
+It is not necessarily in response to any client message, but could be sent
+in response to any client message.</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0xFE|RESULT|           ZEROED                 |
+ 8  +-----------------------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0xFE</li>
+<li><code>[1:2]</code> - Result Code giving the reason. See <a href="#result-codes">Result Codes</a>.</li>
+<li><code>[2:8]</code> - Zeroed</li>
 </ul>
 <h3 id="record">Record</h3>
 <p>This is a record returned from a query (<code>Get</code>, <code>Query</code>, or <code>Subscribe</code>).</p>
@@ -2631,26 +2703,15 @@ but remains open to serve matching records that subsequently arrive.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x82|     LENGTH      |  QUERY_ID | CODE| 0x0 |
+    | 0x82|     LENGTH      |  QUERY_ID |RESULT| 0x0|
  8  +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x82</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
 <li><code>[4:6]</code> - <code>QUERY_ID</code> indicates the client query that is now closed.</li>
-<li><code>[6:7]</code> - <code>CODE</code> indicates the reason for closure from among the
-  following defined reasons:<ul>
-<li><code>ON_REQUEST</code>: 0x1 - Query was closed in response to an <a href="#unsubscribe"><code>Unsubscribe</code></a> request</li>
-<li><code>REJECTED_INVALID</code>: 0x10 - Query is invalid</li>
-<li><code>REJECTED_TOO_OPEN</code>: 0x11 - Query is too broad, matching too many records</li>
-<li><code>REJECTED_TOO_FAST</code>: 0x12 - Queries (or messages) are coming too quickly. Slow down</li>
-<li><code>REJECTED_TEMP_BANNED</code>: 0x13 - Client is temporarily banned from querying</li>
-<li><code>REJECTED_PERM_BANNED</code>: 0x14 - Client is permanently banned from querying</li>
-<li><code>SHUTTING_DOWN</code>: 0x30 - The server is shutting down</li>
-<li><code>INTERNAL_ERROR</code>: 0xF0 - The server has encountered an internal error</li>
-<li><code>OTHER</code>: 0xFF - Other reason, or not specified</li>
-</ul>
-</li>
+<li><code>[6:7]</code> - <code>RESULT</code> indicates the reason for closure.
+  See <a href="#result-codes">Result Codes</a>.</li>
 <li><code>[7:8]</code> - zero</li>
 </ul>
 <h3 id="submission-result">Submission Result</h3>
@@ -2658,7 +2719,7 @@ but remains open to serve matching records that subsequently arrive.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x83|     LENGTH      |CODE |      0x0        |
+    | 0x83|     LENGTH      |RESULT|     0x0        |
  8  +-----------------------------------------------+
     | ID PREFIX bytes 0..8                          |
 16  +-----------------------------------------------+
@@ -2672,53 +2733,10 @@ but remains open to serve matching records that subsequently arrive.</p>
 <ul>
 <li><code>[0:1]</code> - The type 0x83</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:5]</code> - <code>CODE</code> which indicates the result of the submission from among the
-  following defined results:<ul>
-<li><code>OK</code>: 0x1 - Record submission was accepted</li>
-<li><code>DUPLICATE</code>: 0x2 - Record is a duplicate. Servers MAY use this or
-  they MAY use <code>OK</code> in the same circumstance.</li>
-<li><code>NO_CONSUMERS</code>: 0x3 - Ephemeral record had no consumers. Servers MAY use this or
-  they MAY use <code>OK</code> in the same circumstance.</li>
-<li><code>REJECTED_INVALID</code>: 0x10 - Record is invalid</li>
-<li><code>REJECTED_TOO_FAST</code>: 0x12 - Submissions (or messages) are coming too quickly. Slow down.</li>
-<li><code>REJECTED_TEMP_BANNED</code>: 0x13 - Client is temporarily banned from submisisons.</li>
-<li><code>REJECTED_PERM_BANNED</code>: 0x14 - Client is permanently banned from submissions.</li>
-<li><code>REJECTED_REQUIRES_AUTHN</code>: 0x15 - Submission requires authentication.</li>
-<li><code>REJECTED_REQUIRES_AUTHZ</code>: 0x16 - Submission requires authorization.</li>
-<li><code>INTERNAL_ERROR</code>: 0xF0 - The server has encountered an internal error</li>
-<li><code>OTHER</code>: 0xFF - Other reason, or not specified</li>
-</ul>
-</li>
+<li><code>[4:5]</code> - <code>RESULT</code> which indicates the result of the submission.
+  See <a href="#result-codes">Result Codes</a>.</li>
 <li><code>[5:8]</code> - Zeroed</li>
 <li><code>[8:40]</code> - A 32-byte prefix of the 48-byte Id.</li>
-</ul>
-<h3 id="dht-response">DHT Response</h3>
-<p>This is a server response to a <a href="#dht-lookup"><code>DHT Lookup</code></a> request.</p>
-<p>TBD</p>
-<h3 id="blob-submission-result">BLOB Submission Result</h3>
-<p>This is a server response to a <a href="#blob-submission"><code>BLOB Submission</code></a> request.</p>
-<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
- 0  +-----------------------------------------------+
-    | 0x85|RESULT|           ZEROED                 |
- 8  +-----------------------------------------------+
-    | HASH   ...                                    |
-    | ...                                           |
-56  +-----------------------------------------------+
-</code></pre>
-<ul>
-<li><code>[0:1]</code> - The type 0x85</li>
-<li><code>[1:2]</code> - The result, one of:<ul>
-<li>1 - Accepted and Stored</li>
-<li>128 - Unauthorized</li>
-<li>129 - Too Large</li>
-<li>253 - Temporary Server Error - try again later</li>
-<li>254 - Persistent Server Error - likely to be an error every time</li>
-<li>255 - General Server Error - a server error that doesn't know
-        if it is temporary or persistent</li>
-</ul>
-</li>
-<li><code>[2:8]</code> - Zeroed</li>
-<li><code>[8:56]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
 </ul>
 <h3 id="blob-result">BLOB Result</h3>
 <p>This is a server response to a <a href="#blob-get"><code>BLOB Get</code></a> request returning the BLOB
@@ -2729,27 +2747,38 @@ or an error condition.</p>
  8  +-----------------------------------------------+
     | HASH   ...                                    |
     | ...                                           |
-56  +-----------------------------------------------+
+40  +-----------------------------------------------+
     | BLOB ...                                      |
     |                                          ...  |
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x86\</li>
-<li><code>[1:2]</code> - The result, one of:<ul>
-<li>1 - OK (blob is attached)</li>
-<li>128 - Unauthorized</li>
-<li>130 - Not found</li>
-<li>253 - Temporary Server Error - try again later</li>
-<li>254 - Persistent Server Error - likely to be an error every time</li>
-<li>255 - General Server Error - a server error that doesn't know
-        if it is temporary or persistent</li>
-</ul>
-</li>
+<li><code>[1:2]</code> - The result of the blob get request.
+  See <a href="#result-codes">Result Codes</a>.</li>
 <li><code>[2:8]</code> - The length of the binary data in little-endian format.
-        If the result was not 1, this should be 0.</li>
-<li><code>[8:56]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
-<li><code>[56:]</code> - The binary data, only if the result is 1.</li>
+        If the result was not a success, this should be 0.</li>
+<li><code>[8:40]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
+<li><code>[40:]</code> - The binary data if the request was successful.</li>
 </ul>
+<h3 id="blob-submission-result">BLOB Submission Result</h3>
+<p>This is a server response to a <a href="#blob-submission"><code>BLOB Submission</code></a> request.</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x85|RESULT|           ZEROED                 |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+    | ...                                           |
+40  +-----------------------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x85</li>
+<li><code>[1:2]</code> - The result. See <a href="#result-codes">Result Codes</a>.</li>
+<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[8:40]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
+</ul>
+<h3 id="dht-response">DHT Response</h3>
+<p>This is a server response to a <a href="#dht-lookup"><code>DHT Lookup</code></a> request.</p>
+<p>TBD</p>
 <h3 id="unrecognized">Unrecognized</h3>
 <p>This is a message indicating that the last message from the peer was not recognized.</p>
 <p>When this is received over QUIC transport, the stream SHOULD be closed and further messaging
@@ -2764,6 +2793,56 @@ can occur on other streams.</p>
 <li><code>[0:1]</code> - The type 0xF0</li>
 <li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
 <li><code>[4:8]</code> - Zeroed</li>
+</ul>
+<h2 id="result-codes">Result Codes</h2>
+<p>Multiple protocol messages contain a 1-byte result code. The definition
+of these codes is shared between message types and defined here.</p>
+<ul>
+<li>0 - <code>UNDEFINED</code> - This result code is not defined. It should not be used.</li>
+</ul>
+<p>Successes:</p>
+<ul>
+<li>1 - <code>SUCCESS</code> - Generic success message</li>
+<li>2 - <code>ACCEPTED</code> - Accepted a submission</li>
+<li>3 - <code>DUPLICATE</code> - A record submitted is a duplicate of an existing record.</li>
+<li>4 - <code>NO_CONSUMERS</code> - Ephemeral record had no consumers.</li>
+</ul>
+<p>Failures:</p>
+<ul>
+<li>16 - <code>NOT_FOUND</code> - Record or BLOB was not found</li>
+</ul>
+<p>User Errors:</p>
+<ul>
+<li>32 - <code>REQUIRES_AUTHENTICATION</code> - Rejected as the request requires authentication</li>
+<li>33 - <code>UNAUTHORIZED</code> - Rejected as the pubkey is not authorized for the action</li>
+<li>36 - <code>INVALID</code> - Request was invalid</li>
+<li>37 - <code>TOO_OPEN</code> - A Query or Subscribe was too open, potentially
+        matching too many records</li>
+<li>38 - <code>TOO_LARGE</code> - The submission was too large</li>
+<li>39 - <code>TOO_FAST</code> - Requests are coming in too fast from this client, or of this type.</li>
+</ul>
+<p>User Rejections:</p>
+<ul>
+<li>48 - <code>IP_TEMP_BANNED</code> - IP address is temporarily banned</li>
+<li>49 - <code>IP_PERM_BANNED</code> - IP address is permanently banned</li>
+<li>50 - <code>PUBKEY_TEMP_BANNED</code> - Pubkey is temporarily banned</li>
+<li>51 - <code>PUBKEY_PERM_BANNED</code> - Pubkey is permanently banned</li>
+</ul>
+<p>Server errors:</p>
+<ul>
+<li>64 - <code>SHUTTING_DOWN</code> - Server is shutting down</li>
+<li>65 - <code>TEMPORARY ERROR</code> - Temporary server error</li>
+<li>66 - <code>PERSISTENT ERROR</code> - Persistent server error</li>
+<li>67 - <code>GENERAL ERROR</code> - General server error</li>
+</ul>
+<h2 id="protocol-extensions">Protocol Extensions</h2>
+<p>Protocol extension negotiation is done on a transport-by-transport level.
+For <a href="quic.html">QUIC</a> transport this is done with the initial packet.
+For <a href="websockets.html">WebSockets</a> transport this is done with the
+<code>X-Mosaic-Extensions</code> header. See the specific transport.</p>
+<p>The following extensions have been defined:</p>
+<ul>
+<li><a href="sync.html">Sync</a></li>
 </ul>
 
 
@@ -2802,7 +2881,7 @@ can occur on other streams.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.6.0</i>
+        <i>Mike Dilger edition, version 0.8.0</i>
       </div>
     </div>
   </div>

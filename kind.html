@@ -1290,11 +1290,11 @@
   
   
     <li class="md-nav__item">
-      <a href="friends.html" class="md-nav__link">
+      <a href="contacts.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Acquaintences and Friends
+    Contact List
     
   </span>
   
@@ -1751,7 +1751,8 @@ integer in big endian format.</p>
        SHOULD NOT save the record nor serve it later to future subscribers.</li>
 <li>10 - <code>Replaceable</code>: Among records with the same address, only the one with the
        latest timestamp MUST be served by servers, and prior records MUST NOT be
-       served.</li>
+       served. Note that servers must verify subkey-masterkey relationships in order
+       to allow one subkey to replace an event created by a different subkey.</li>
 <li>11 - <code>Versioned</code>: Among records with the same address, all of them remain relevant
        and should be seen as a version history.</li>
 </ul>
@@ -1802,7 +1803,7 @@ integer in big endian format.</p>
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.6.0</i>
+        <i>Mike Dilger edition, version 0.8.0</i>
       </div>
     </div>
   </div>
