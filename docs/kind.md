@@ -25,7 +25,8 @@ Bits 1 and 0:
        SHOULD NOT save the record nor serve it later to future subscribers.
 * 10 - `Replaceable`: Among records with the same address, only the one with the
        latest timestamp MUST be served by servers, and prior records MUST NOT be
-       served.
+       served. Note that servers must verify subkey-masterkey relationships in order
+       to allow one subkey to replace an event created by a different subkey.
 * 11 - `Versioned`: Among records with the same address, all of them remain relevant
        and should be seen as a version history.
 

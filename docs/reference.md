@@ -41,3 +41,6 @@ application
 Records with the same address MUST necessarily have the same author and kind,
 but they can be signed by a different signing keypair, have modified flags,
 and change their tags and content.
+
+Note that servers must verify subkey-masterkey relationships in order to allow
+one subkey to replace an event created by a different subkey.
