@@ -1,5 +1,5 @@
 site_name: Mosaic
-version: 0.7.0
+version: 0.7.1
 theme:
   name: material
   locale: en
@@ -58,7 +58,7 @@ nav:
       - Key Schedule Record: keyschedule.md
       - Profile Record: profile.md
       - Core Tags: core_tags.md
-      - Acquaintences and Friends: friends.md
+      - Contact List: contacts.md
       - Reporting: reporting.md
     - Appendices:
       - Cryptography: cryptography.md
