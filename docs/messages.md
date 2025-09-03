@@ -8,17 +8,6 @@ of one byte for the type, and three bytes for the full byte length of
 the entire protocol message encoded in little-endian format. This
 allows the protocol to be easily framed within a stream.
 
-## Protocol Extensions
-
-Protocol extension negotiation is done on a transport-by-transport level.
-For [QUIC](quic.md) transport this is done with the initial packet.
-For [WebSockets](websockets.md) transport this is done with the
-`X-Mosaic-Extensions` header. See the specific transport.
-
-The following extensions have been defined:
-
-* [Sync](sync.md)
-
 ## Asynchronous
 
 All client messages initiate an action, and all server messages are in
@@ -47,23 +36,29 @@ of each type. Following this is the data of the message.
 | Initiator | Message | Type |
 |-----------|---------|------|
 | Client | [Hello](#hello) | 0x10 |
+| Server | [Hello Ack](#hello-ack) | 0x90 |
 | Client | [Hello Auth](#hello-auth) | 0x11 |
+| Server | [Closing](#closing) | 0xFE |
+|        |            |     |
 | Client | [Get](#get) | 0x1 |
 | Client | [Query](#query) | 0x2 |
 | Client | [Subscribe](#subscribe) | 0x3 |
-| Client | [Unsubscribe](#unsubscribe) | 0x4 |
-| Client | [Submission](#submission) | 0x5 |
-| Client | [DHT Lookup](#dht-lookup) | 0x6 |
-| Client | [BLOB Submission](#blob-submission) | 0x7 |
-| Client | [BLOB Get](#blob-get) | 0x8 |
-| Server | [Hello Ack](#hello-ack) | 0x90 |
 | Server | [Record](#record) | 0x80 |
 | Server | [Locally Complete](#locally-complete) | 0x81 |
+| Client | [Unsubscribe](#unsubscribe) | 0x4 |
 | Server | [Query Closed](#query-closed) | 0x82 |
+|        |            |     |
+| Client | [Submission](#submission) | 0x5 |
 | Server | [Submission Result](#submission-result) | 0x83 |
-| Server | [DHT Response](#dht-response) | 0x84 |
-| Server | [BLOB Submission Result](#blob-submission-result) | 0x85 |
+|        |            |     |
+| Client | [BLOB Get](#blob-get) | 0x8 |
 | Server | [BLOB Result](#blob-result) | 0x86 |
+| Client | [BLOB Submission](#blob-submission) | 0x7 |
+| Server | [BLOB Submission Result](#blob-submission-result) | 0x85 |
+|        |            |     |
+| Client | [DHT Lookup](#dht-lookup) | 0x6 |
+| Server | [DHT Response](#dht-response) | 0x84 |
+|        |            |     |
 | Either | [Unrecognized](#unrecognized) | 0xF0 |
 
 ---
@@ -262,11 +257,29 @@ This is a client initiated message. Servers are expected to reply with:
 
 * [`Submission Result`](#submission-result) with an id prefix matching the record.
 
-### DHT Lookup
+### BLOB Get
 
-Browser-based JavaScript clients cannot do DHT lookups. This requests that the server perform a DHT lookup on behalf of the client
+A BLOB is a Binary Large OBject. This message requests retrieval of a BLOB
 
-TBD
+It has the following format:
+
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x8 |                 ZEROED                  |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+	| ...                                           |
+40  +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0x8
+* `[1:8]` - Zeroed
+* `[8:40]` - the 256-bit BLAKE3 hash of the BLOB.
+
+This is a client initiated message. Servers are expected to reply with:
+
+* [`BLOB Result`](#blob-result) containing the BLOB or an error.
 
 ### BLOB Submission
 
@@ -282,7 +295,7 @@ It has the following format:
  8  +-----------------------------------------------+
     | HASH   ...                                    |
 	| ...                                           |
-56  +-----------------------------------------------+
+40  +-----------------------------------------------+
     | BLOB ...                                      |
     |                                          ...  |
 ```
@@ -290,8 +303,8 @@ It has the following format:
 * `[0:1]` - The type 0x7
 * `[1:2]` - Zero
 * `[2:8]` - The length of the binary data in little-endian format.
-* `[8:56]` - the 256-bit BLAKE3 hash of the binary data.
-* `[56:]` - The binary data
+* `[8:40]` - the 256-bit BLAKE3 hash of the binary data.
+* `[40:]` - The binary data
 
 This is a client initiated message. Servers are expected to reply with:
 
@@ -302,29 +315,12 @@ the size of submitted BLOBs. Servers MAY provide some means for deleting BLOBs n
 Servers MAY delete BLOBs that violate server policy. These issues are currently out of scope of
 this spec.
 
-### BLOB Get
+### DHT Lookup
 
-A BLOB is a Binary Large OBject. This message requests retrieval of a BLOB
+This requests that the server perform a DHT lookup on behalf of the client.
+[<sup>rat</sup>](rationale.md#dht-lookup-by-server)
 
-It has the following format:
-
-```text
-    0     1     2     3     4     5     6     7     8
- 0  +-----------------------------------------------+
-    | 0x8 |                 ZEROED                  |
- 8  +-----------------------------------------------+
-    | HASH   ...                                    |
-	| ...                                           |
-56  +-----------------------------------------------+
-```
-
-* `[0:1]` - The type 0x8
-* `[1:8]` - Zeroed
-* `[8:56]` - the 256-bit BLAKE3 hash of the BLOB.
-
-This is a client initiated message. Servers are expected to reply with:
-
-* [`BLOB Result`](#blob-result) containing the BLOB or an error.
+TBD
 
 ---
 
@@ -345,7 +341,7 @@ It has the following format:
 
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x90|     LENGTH      | CODE|     | MOSAIC_MAJOR_VERSION  |
+    | 0x90|     LENGTH      |RESULT|    | MOSAIC_MAJOR_VERSION  |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
@@ -353,12 +349,31 @@ It has the following format:
 
 * `[0:1]` - The type 0x90
 * `[1:4]` - The byte length of this message, in little-endian format
-* `[4:5]` - `CODE` indicates a possible Hello Error condition:
-    * 0 - No Error
-    * 1 - Unexpected Hello: Client has already issued a Hello previously.
+* `[4:5]` - `RESULT` indicates the result, typically SUCCESS but
+  possibly DUPLICATE. Servers should refrain from using errors or rejections
+  in this result and instead if necessary issue a [Closing](#closing) message.
 * `[5:6]` - Zeroed
-* `[6:8]` - `MOSAIC_MAJOR_VERSION` - The highest Mosaic major version number that both the server and the client supports, in little-endian format
-* `[*]` - A sequence of 32-bit [Application](applications.md) IDs that the client requested and that the server can also support, in little-endian format
+* `[6:8]` - `MOSAIC_MAJOR_VERSION` - The highest Mosaic major version number
+  that both the server and the client supports, in little-endian format
+* `[*]` - A sequence of 32-bit [Application](applications.md) IDs that the client
+  requested and that the server can also support, in little-endian format
+
+### Closing
+
+This is a server message indicating that the server is closing the connection.
+It is not necessarily in response to any client message, but could be sent
+in response to any client message.
+
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0xFE|RESULT|           ZEROED                 |
+ 8  +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0xFE
+* `[1:2]` - Result Code giving the reason. See [Result Codes](#result-codes).
+* `[2:8]` - Zeroed
 
 ### Record
 
@@ -415,24 +430,15 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x82|     LENGTH      |  QUERY_ID | CODE| 0x0 |
+    | 0x82|     LENGTH      |  QUERY_ID |RESULT| 0x0|
  8  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x82
 * `[1:4]` - The byte length of this message, in little-endian format
 * `[4:6]` - `QUERY_ID` indicates the client query that is now closed.
-* `[6:7]` - `CODE` indicates the reason for closure from among the
-  following defined reasons:
-    * `ON_REQUEST`: 0x1 - Query was closed in response to an [`Unsubscribe`](#unsubscribe) request
-    * `REJECTED_INVALID`: 0x10 - Query is invalid
-    * `REJECTED_TOO_OPEN`: 0x11 - Query is too broad, matching too many records
-    * `REJECTED_TOO_FAST`: 0x12 - Queries (or messages) are coming too quickly. Slow down
-    * `REJECTED_TEMP_BANNED`: 0x13 - Client is temporarily banned from querying
-    * `REJECTED_PERM_BANNED`: 0x14 - Client is permanently banned from querying
-    * `SHUTTING_DOWN`: 0x30 - The server is shutting down
-    * `INTERNAL_ERROR`: 0xF0 - The server has encountered an internal error
-    * `OTHER`: 0xFF - Other reason, or not specified
+* `[6:7]` - `RESULT` indicates the reason for closure.
+  See [Result Codes](#result-codes).
 * `[7:8]` - zero
 
 
@@ -445,7 +451,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x83|     LENGTH      |CODE |      0x0        |
+    | 0x83|     LENGTH      |RESULT|     0x0        |
  8  +-----------------------------------------------+
     | ID PREFIX bytes 0..8                          |
 16  +-----------------------------------------------+
@@ -459,55 +465,10 @@ It has the following format:
 
 * `[0:1]` - The type 0x83
 * `[1:4]` - The byte length of this message, in little-endian format
-* `[4:5]` - `CODE` which indicates the result of the submission from among the
-  following defined results:
-    * `OK`: 0x1 - Record submission was accepted
-    * `DUPLICATE`: 0x2 - Record is a duplicate. Servers MAY use this or
-      they MAY use `OK` in the same circumstance.
-    * `NO_CONSUMERS`: 0x3 - Ephemeral record had no consumers. Servers MAY use this or
-      they MAY use `OK` in the same circumstance.
-    * `REJECTED_INVALID`: 0x10 - Record is invalid
-    * `REJECTED_TOO_FAST`: 0x12 - Submissions (or messages) are coming too quickly. Slow down.
-    * `REJECTED_TEMP_BANNED`: 0x13 - Client is temporarily banned from submisisons.
-    * `REJECTED_PERM_BANNED`: 0x14 - Client is permanently banned from submissions.
-    * `REJECTED_REQUIRES_AUTHN`: 0x15 - Submission requires authentication.
-    * `REJECTED_REQUIRES_AUTHZ`: 0x16 - Submission requires authorization.
-    * `INTERNAL_ERROR`: 0xF0 - The server has encountered an internal error
-    * `OTHER`: 0xFF - Other reason, or not specified
+* `[4:5]` - `RESULT` which indicates the result of the submission.
+  See [Result Codes](#result-codes).
 * `[5:8]` - Zeroed
 * `[8:40]` - A 32-byte prefix of the 48-byte Id.
-
-### DHT Response
-
-This is a server response to a [`DHT Lookup`](#dht-lookup) request.
-
-TBD
-
-### BLOB Submission Result
-
-This is a server response to a [`BLOB Submission`](#blob-submission) request.
-
-```text
-    0     1     2     3     4     5     6     7     8
- 0  +-----------------------------------------------+
-    | 0x85|RESULT|           ZEROED                 |
- 8  +-----------------------------------------------+
-    | HASH   ...                                    |
-	| ...                                           |
-56  +-----------------------------------------------+
-```
-
-* `[0:1]` - The type 0x85
-* `[1:2]` - The result, one of:
-    * 1 - Accepted and Stored
-    * 128 - Unauthorized
-    * 129 - Too Large
-    * 253 - Temporary Server Error - try again later
-    * 254 - Persistent Server Error - likely to be an error every time
-    * 255 - General Server Error - a server error that doesn't know
-            if it is temporary or persistent
-* `[2:8]` - Zeroed
-* `[8:56]` - the 256-bit BLAKE3 hash of the binary data.
 
 ### BLOB Result
 
@@ -521,24 +482,43 @@ or an error condition.
  8  +-----------------------------------------------+
     | HASH   ...                                    |
 	| ...                                           |
-56  +-----------------------------------------------+
+40  +-----------------------------------------------+
     | BLOB ...                                      |
     |                                          ...  |
 ```
 
 * `[0:1]` - The type 0x86\
-* `[1:2]` - The result, one of:
-    * 1 - OK (blob is attached)
-    * 128 - Unauthorized
-    * 130 - Not found
-    * 253 - Temporary Server Error - try again later
-    * 254 - Persistent Server Error - likely to be an error every time
-    * 255 - General Server Error - a server error that doesn't know
-            if it is temporary or persistent
+* `[1:2]` - The result of the blob get request.
+  See [Result Codes](#result-codes).
 * `[2:8]` - The length of the binary data in little-endian format.
-        If the result was not 1, this should be 0.
-* `[8:56]` - the 256-bit BLAKE3 hash of the binary data.
-* `[56:]` - The binary data, only if the result is 1.
+        If the result was not a success, this should be 0.
+* `[8:40]` - the 256-bit BLAKE3 hash of the binary data.
+* `[40:]` - The binary data if the request was successful.
+
+### BLOB Submission Result
+
+This is a server response to a [`BLOB Submission`](#blob-submission) request.
+
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x85|RESULT|           ZEROED                 |
+ 8  +-----------------------------------------------+
+    | HASH   ...                                    |
+	| ...                                           |
+40  +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0x85
+* `[1:2]` - The result. See [Result Codes](#result-codes).
+* `[2:8]` - Zeroed
+* `[8:40]` - the 256-bit BLAKE3 hash of the binary data.
+
+### DHT Response
+
+This is a server response to a [`DHT Lookup`](#dht-lookup) request.
+
+TBD
 
 ### Unrecognized
 
@@ -559,3 +539,57 @@ It has the following format:
 * `[0:1]` - The type 0xF0
 * `[1:4]` - The byte length of this message, in little-endian format
 * `[4:8]` - Zeroed
+
+## Result Codes
+
+Multiple protocol messages contain a 1-byte result code. The definition
+of these codes is shared between message types and defined here.
+
+* 0 - `UNDEFINED` - This result code is not defined. It should not be used.
+
+Successes:
+
+* 1 - `SUCCESS` - Generic success message
+* 2 - `ACCEPTED` - Accepted a submission
+* 3 - `DUPLICATE` - A record submitted is a duplicate of an existing record.
+* 4 - `NO_CONSUMERS` - Ephemeral record had no consumers.
+
+Failures:
+
+* 16 - `NOT_FOUND` - Record or BLOB was not found
+
+User Errors:
+
+* 32 - `REQUIRES_AUTHENTICATION` - Rejected as the request requires authentication
+* 33 - `UNAUTHORIZED` - Rejected as the pubkey is not authorized for the action
+* 36 - `INVALID` - Request was invalid
+* 37 - `TOO_OPEN` - A Query or Subscribe was too open, potentially
+        matching too many records
+* 38 - `TOO_LARGE` - The submission was too large
+* 39 - `TOO_FAST` - Requests are coming in too fast from this client, or of this type.
+
+User Rejections:
+
+* 48 - `IP_TEMP_BANNED` - IP address is temporarily banned
+* 49 - `IP_PERM_BANNED` - IP address is permanently banned
+* 50 - `PUBKEY_TEMP_BANNED` - Pubkey is temporarily banned
+* 51 - `PUBKEY_PERM_BANNED` - Pubkey is permanently banned
+
+Server errors:
+
+* 64 - `SHUTTING_DOWN` - Server is shutting down
+* 65 - `TEMPORARY ERROR` - Temporary server error
+* 66 - `PERSISTENT ERROR` - Persistent server error
+* 67 - `GENERAL ERROR` - General server error
+
+## Protocol Extensions
+
+Protocol extension negotiation is done on a transport-by-transport level.
+For [QUIC](quic.md) transport this is done with the initial packet.
+For [WebSockets](websockets.md) transport this is done with the
+`X-Mosaic-Extensions` header. See the specific transport.
+
+The following extensions have been defined:
+
+* [Sync](sync.md)
+

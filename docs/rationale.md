@@ -11,6 +11,7 @@ to this page with [<sup>rat</sup>](#) links.
 | [BLAKE3](#blake3) |
 | [Bootstrap Length](#bootstrap-length) |
 | [Client-Server](#client-server) |
+| [DHT Lookup By Server](#dht-lookup-by-server)|
 | [Distributed](#distributed) |
 | [Duplex Communication](#duplex-communication) |
 | [EdDSA ed25519](#eddsa-ed25519) |
@@ -168,6 +169,12 @@ available to other users over the Internet most of the time.
 Mosaic has built-in redundancy across such servers, but nonetheless a machine
 that is not even intended or capable of being up all the time (such as a phone or
 laptop) makes a poor mosaic server.
+
+---
+
+## DHT Lookup By Server
+
+Browser-based JavaScript clients cannot do DHT lookups.
 
 ---
 
