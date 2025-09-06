@@ -61,6 +61,22 @@ of each type. Following this is the data of the message.
 |        |            |     |
 | Either | [Unrecognized](#unrecognized) | 0xF0 |
 
+
+All messages share the following fields:
+
+```
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    |  T  |                 |         LENGTH        |
+ 8  +-----------------------------------------------+
+```
+
+* `[0:1]` - The message Type
+* `[4:8]` - The byte length of this message, in little-endian format
+
+
+The 4-byte length limits the maximum message to 4 GB.
+
 ---
 
 ## Client Messages
@@ -81,17 +97,19 @@ It has the following format:
 
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x10|     LENGTH      | ZEROED    | MOSAIC_MAJOR_VERSION  |
+    | 0x10|     0     | MV  |        LENGTH         |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x10
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - Zeroed
-* `[6:8]` - `MOSAIC_MAJOR_VERSION` - The highest Mosaic major version number that the client supports, in little-endian format
-* `[*]` - A sequence of 32-bit [Application](applications.md) IDs that the client wishes to use, in little-endian format
+* `[1:3]` - Zeroed
+* `[3:4]` - `MOSAIC_MAJOR_VERSION` - The highest Mosaic major version number that the
+  client supports, in little-endian format.
+* `[4:8]` - The byte length of this message, in little-endian format.
+* `[8:]` - A sequence of 32-bit [Application](applications.md) IDs that the client wishes to use,
+  in little-endian format
 
 This is a client initiated message. Servers are expected to reply with [Hello Ack](#hello-ack).
 
@@ -113,7 +131,7 @@ It has the following format:
 
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x1 |     LENGTH      | QUERY_ID  |   0x0     |
+    | 0x1 |  0  | QUERY_ID  |        LENGTH         |
  8  +-----------------------------------------------+
     | Mixed IDs or ADDRs, each one 48 bytes long... |
     | ...                                           |
@@ -121,11 +139,11 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x1
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID`, two bytes which SHOULD be made up by the client and
+* `[1:2]` - Zeroed
+* `[2:4]` - `QUERY_ID`, two bytes which SHOULD be made up by the client and
   used to associate returned [`Record`](#record) responses to this request.
-* `[6:8]` - Zeroed
-* `[*]` - A sequence of mixed IDs and ADDRs.  Note that ADDRs start
+* `[4:8]` - The byte length of this message, in little-endian format.
+* `[8:]` - A sequence of mixed IDs and ADDRs.  Note that ADDRs start
   with a 1 bit, whereas IDs start with a 0 bit, and both of them are 48
   bytes long.
 
@@ -144,21 +162,24 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x2 |     LENGTH      | QUERY_ID  |  LIMIT    |
+    | 0x2 |  0  | QUERY_ID  |        LENGTH         |
  8  +-----------------------------------------------+
-    | FILTER ...                                    |
-	| ...                                           |
+    |   LIMIT   |                0                  |
+16  +-----------------------------------------------+
+	|  FILTER...                                    |
     +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x2
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID` two bytes which SHOULD be made up by the client and used
+* `[1:2]` - Zeroed
+* `[2:4]` - `QUERY_ID` two bytes which SHOULD be made up by the client and used
   to associate returned [`Record`](#record) responses to this request.
-* `[6:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
+* `[4:8]` - The byte length of this message, in little-endian format.
+* `[8:10]` - `LIMIT`, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.
-* `[*]` - The `FILTER`, see [Filter](filter.md).
+* `[10:16]` - Zeroed
+* `[16:]` - The `FILTER`, see [Filter](filter.md).
 
 This is a client initiated message. Servers are expected to reply with:
 
@@ -180,21 +201,24 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x3 |     LENGTH      | QUERY_ID  |   LIMIT   |
+    | 0x3 |  0  |  QUERY_ID |       LENGTH          |
  8  +-----------------------------------------------+
+    |   LIMIT   |                0                  |
+16  +-----------------------------------------------+
     | FILTER ...                                    |
-	| ...                                           |
     +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x3
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID`, two bytes which SHOULD be made up by the client and
+* `[1:2]` - Zeroed
+* `[2:4]` - `QUERY_ID`, two bytes which SHOULD be made up by the client and
   used to associate returned [`Record`](#record) responses to this request.
-* `[6:8]` - `LIMIT`, an unsigned integer in little-endian format, specifies
+* `[4:8]` - The byte length of this message, in little-endian format.
+* `[8:10]` - `LIMIT`, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.
-* `[*]` - The `FILTER`, see [Filter](filter.md).
+* `[10:16]` - Zeroed
+* `[16:]` - The `FILTER`, see [Filter](filter.md).
 
 This is a client initiated message. Servers are expected to reply with:
 
@@ -219,14 +243,14 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x4 |     LENGTH      | QUERY_ID  |   0x0     |
+    | 0x4 |  0  |  QUERY_ID |        LENGTH         |
  8  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x3
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID`, two bytes indicating which query SHOULD be closed.
-* `[4:8]` - Zeroed
+* `[1:2]` - Zeroed
+* `[2:4]` - `QUERY_ID`, two bytes indicating which query SHOULD be closed.
+* `[4:8]` - The byte length of this message, in little-endian format
 
 This is a client initiated message. Servers are expected to reply with:
 
@@ -241,7 +265,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x5 |    LENGTH       |          0x0          |
+    | 0x5 |         0       |        LENGTH         |
  8  +-----------------------------------------------+
     | RECORD ...                                    |
 	| ...                                           |
@@ -249,9 +273,9 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x5
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:8]` - Zeroed
-* `[*]` - `RECORD` is the record submitted
+* `[1:4]` - Zeroed
+* `[4:8]` - The byte length of this message, in little-endian format
+* `[8:]` - `RECORD` is the record submitted
 
 This is a client initiated message. Servers are expected to reply with:
 
@@ -266,7 +290,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x8 |                 ZEROED                  |
+    | 0x8 |        0        |        LENGTH         |
  8  +-----------------------------------------------+
     | HASH   ...                                    |
 	| ...                                           |
@@ -274,7 +298,8 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x8
-* `[1:8]` - Zeroed
+* `[1:4]` - Zeroed
+* `[4:8]` - The byte length of this message, in little-endian format
 * `[8:40]` - the 256-bit BLAKE3 hash of the BLOB.
 
 This is a client initiated message. Servers are expected to reply with:
@@ -291,7 +316,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x7 |  0  |              LENGTH               |
+    | 0x7 |        0        |        LENGTH         |
  8  +-----------------------------------------------+
     | HASH   ...                                    |
 	| ...                                           |
@@ -301,10 +326,14 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x7
-* `[1:2]` - Zero
-* `[2:8]` - The length of the binary data in little-endian format.
+* `[1:4]` - Zero
+* `[4:8]` - The byte length of this message, in little-endian format
 * `[8:40]` - the 256-bit BLAKE3 hash of the binary data.
 * `[40:]` - The binary data
+
+The length of the binary data is (LENGTH - 40) with a maximum
+length of 4,294,967,256 (just shy of 4 GB). Larger blobs may be
+supported in the future using a sequence of messages to send parts.
 
 This is a client initiated message. Servers are expected to reply with:
 
@@ -320,7 +349,29 @@ this spec.
 This requests that the server perform a DHT lookup on behalf of the client.
 [<sup>rat</sup>](rationale.md#dht-lookup-by-server)
 
-TBD
+It has the following format:
+
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x6 |SERV |     0     |        LENGTH         |
+ 8  +-----------------------------------------------+
+    | PUBKEY ...                                    |
+    |                                          ...  |
+40  +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0x7
+* `[1:2]` - Which kind of DHT lookup to do:
+    0 - User Bootstrap (`mub25`)
+    1 - Server Bootstrap (`msb24`)
+* `[2:4]` - Zeroed
+* `[4:8]` - The byte length of this message, in little-endian format
+* `[8:40]` - The public key to lookup
+
+This is a client initiated message. Servers are expected to reply with:
+
+* [`DHT Response`](#dht-response) containing the bootstrap record or an error.
 
 ---
 
@@ -341,21 +392,21 @@ It has the following format:
 
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x90|     LENGTH      |RESULT|    | MOSAIC_MAJOR_VERSION  |
+    | 0x90| RSLT|  0  | MV  |        LENGTH         |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x90
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:5]` - `RESULT` indicates the result, typically SUCCESS but
+* `[1:2]` - `RSLT` indicates the result, typically SUCCESS but
   possibly DUPLICATE. Servers should refrain from using errors or rejections
   in this result and instead if necessary issue a [Closing](#closing) message.
-* `[5:6]` - Zeroed
-* `[6:8]` - `MOSAIC_MAJOR_VERSION` - The highest Mosaic major version number
+* `[2:3]` - Zeroed
+* `[3:4]` - `MOSAIC_MAJOR_VERSION` - The highest Mosaic major version number
   that both the server and the client supports, in little-endian format
-* `[*]` - A sequence of 32-bit [Application](applications.md) IDs that the client
+* `[4:8]` - The byte length of this message, in little-endian format
+* `[8:]` - A sequence of 32-bit [Application](applications.md) IDs that the client
   requested and that the server can also support, in little-endian format
 
 ### Closing
@@ -367,13 +418,14 @@ in response to any client message.
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0xFE|RESULT|           ZEROED                 |
+    | 0xFE| RSLT|     0     |        LENGTH         |
  8  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0xFE
 * `[1:2]` - Result Code giving the reason. See [Result Codes](#result-codes).
-* `[2:8]` - Zeroed
+* `[2:4]` - Zeroed
+* `[4:8]` - The byte length of this message, in little-endian format
 
 ### Record
 
@@ -384,7 +436,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x80|     LENGTH      | QUERY_ID  |   0x0     |
+    | 0x80|  0  | QUERY_ID  |         LENGTH        |
  8  +-----------------------------------------------+
     | RECORD ...                                    |
 	| ...                                           |
@@ -392,10 +444,10 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x80
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID` indicates the client query that this record matched.
-* `[6:8]` - Zeroed
-* `[*]` - `RECORD` is the returned record.
+* `[1:2]` - Zeroed
+* `[2:4]` - `QUERY_ID` indicates the client query that this record matched.
+* `[4:8]` - The byte length of this message, in little-endian format
+* `[8:]` - `RECORD` is the returned record.
 
 This is a server response message in response to [`Get`](#get)
 or [`Query`](#query) or [`Subscribe`](#subscribe).
@@ -410,16 +462,14 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x81|     LENGTH      |  QUERY_ID |    0x0    |
+    | 0x81|  0  |  QUERY_ID |        LENGTH         |
  8  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x81
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID` indicates the client query that is now locally complete.
-* `[6:8]` - zeroed
-
-This is a server response message in response to [`Subscribe`](#subscribe).
+* `[1:2]` - Zeroed
+* `[2:4]` - `QUERY_ID` indicates the client query that is now locally complete.
+* `[4:8]` - The byte length of this message, in little-endian format
 
 ### Query Closed
 
@@ -430,17 +480,15 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x82|     LENGTH      |  QUERY_ID |RESULT| 0x0|
+    | 0x82| RSLT|  QUERY_ID |        LENGTH         |
  8  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0x82
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:6]` - `QUERY_ID` indicates the client query that is now closed.
-* `[6:7]` - `RESULT` indicates the reason for closure.
+* `[1:2]` - `RESULT` indicates the reason for closure.
+* `[2:4]` - `QUERY_ID` indicates the client query that is now closed.
   See [Result Codes](#result-codes).
-* `[7:8]` - zero
-
+* `[4:8]` - The byte length of this message, in little-endian format
 
 ### Submission Result
 
@@ -451,7 +499,7 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x83|     LENGTH      |RESULT|     0x0        |
+    | 0x83| RSLT|     0     |        LENGTH         |
  8  +-----------------------------------------------+
     | ID PREFIX bytes 0..8                          |
 16  +-----------------------------------------------+
@@ -464,10 +512,10 @@ It has the following format:
 ```
 
 * `[0:1]` - The type 0x83
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:5]` - `RESULT` which indicates the result of the submission.
+* `[1:2]` - `RESULT` which indicates the result of the submission.
   See [Result Codes](#result-codes).
-* `[5:8]` - Zeroed
+* `[2:4]` - Zeroed
+* `[4:8]` - The byte length of this message, in little-endian format
 * `[8:40]` - A 32-byte prefix of the 48-byte Id.
 
 ### BLOB Result
@@ -478,7 +526,7 @@ or an error condition.
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x86|RESULT|            LENGTH                |
+    | 0x86| RSLT|     0     |        LENGTH         |
  8  +-----------------------------------------------+
     | HASH   ...                                    |
 	| ...                                           |
@@ -487,11 +535,11 @@ or an error condition.
     |                                          ...  |
 ```
 
-* `[0:1]` - The type 0x86\
+* `[0:1]` - The type 0x86
 * `[1:2]` - The result of the blob get request.
   See [Result Codes](#result-codes).
-* `[2:8]` - The length of the binary data in little-endian format.
-        If the result was not a success, this should be 0.
+* `[2:4]` - Zeroed
+* `[4:8]` - The byte length of this message, in little-endian format
 * `[8:40]` - the 256-bit BLAKE3 hash of the binary data.
 * `[40:]` - The binary data if the request was successful.
 
@@ -502,7 +550,7 @@ This is a server response to a [`BLOB Submission`](#blob-submission) request.
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x85|RESULT|           ZEROED                 |
+    | 0x85| RSLT|     0     |        LENGTH         |
  8  +-----------------------------------------------+
     | HASH   ...                                    |
 	| ...                                           |
@@ -511,14 +559,29 @@ This is a server response to a [`BLOB Submission`](#blob-submission) request.
 
 * `[0:1]` - The type 0x85
 * `[1:2]` - The result. See [Result Codes](#result-codes).
-* `[2:8]` - Zeroed
+* `[2:4]` - Zeroed
+* `[4:8]` - The byte length of this message, in little-endian format
 * `[8:40]` - the 256-bit BLAKE3 hash of the binary data.
 
 ### DHT Response
 
 This is a server response to a [`DHT Lookup`](#dht-lookup) request.
 
-TBD
+```text
+    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x84| RSLT|     0     |        LENGTH         |
+ 8  +-----------------------------------------------+
+    | DHT DATA ...                                  |
+    |                                           ... |
+    +-----------------------------------------------+
+```
+
+* `[0:1]` - The type 0x84
+* `[1:2]` - The result. See [Result Codes](#result-codes).
+* `[2:4]` - Zeroed
+* `[4:8]` - The byte length of this message, in little-endian format
+* `[8:]` - The DHT data (unparsed) on success.
 
 ### Unrecognized
 
@@ -532,13 +595,13 @@ It has the following format:
 ```text
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0xF0|     LENGTH      |         0x0           |
+    | 0xF0|        0        |        LENGTH         |
  8  +-----------------------------------------------+
 ```
 
 * `[0:1]` - The type 0xF0
-* `[1:4]` - The byte length of this message, in little-endian format
-* `[4:8]` - Zeroed
+* `[1:4]` - Zeroed
+* `[4:8]` - The byte length of this message, in little-endian format
 
 ## Result Codes
 
