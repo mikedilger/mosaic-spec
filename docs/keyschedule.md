@@ -56,7 +56,7 @@ The payload contains a sequence of records as follows:
         * Generally the secretkey for encryption is distributed to every device
           that needs the ability to view encrypted data. Being a separate subkey
           from the signing keys, it limits the damage from compromise.
-   * 0x40 - REVOKED_ALL - All records signed by the key are to be considered
+    * 0x40 - REVOKED_ALL - All records signed by the key are to be considered
       invalid.
     * 0x41 - REVOKED_PAST - Records signed by the key that were received prior to
       the revocation timestamp (based on when it was received by software and NOT
