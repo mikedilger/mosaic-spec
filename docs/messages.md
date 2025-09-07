@@ -36,29 +36,26 @@ of each type. Following this is the data of the message.
 | Initiator | Message | Type |
 |-----------|---------|------|
 | Client | [Hello](#hello) | 0x10 |
-| Server | [Hello Ack](#hello-ack) | 0x90 |
 | Client | [Hello Auth](#hello-auth) | 0x11 |
-| Server | [Closing](#closing) | 0xFE |
-|        |            |     |
 | Client | [Get](#get) | 0x1 |
 | Client | [Query](#query) | 0x2 |
 | Client | [Subscribe](#subscribe) | 0x3 |
+| Client | [Unsubscribe](#unsubscribe) | 0x4 |
+| Client | [Submission](#submission) | 0x5 |
+| Client | [BLOB Get](#blob-get) | 0x8 |
+| Client | [BLOB Submission](#blob-submission) | 0x7 |
+| Client | [DHT Lookup](#dht-lookup) | 0x6 |
+|        |    |    |
+| Server | [Hello Ack](#hello-ack) | 0x90 |
+| Server | [Closing](#closing) | 0xFE |
 | Server | [Record](#record) | 0x80 |
 | Server | [Locally Complete](#locally-complete) | 0x81 |
-| Client | [Unsubscribe](#unsubscribe) | 0x4 |
 | Server | [Query Closed](#query-closed) | 0x82 |
-|        |            |     |
-| Client | [Submission](#submission) | 0x5 |
 | Server | [Submission Result](#submission-result) | 0x83 |
-|        |            |     |
-| Client | [BLOB Get](#blob-get) | 0x8 |
 | Server | [BLOB Result](#blob-result) | 0x86 |
-| Client | [BLOB Submission](#blob-submission) | 0x7 |
 | Server | [BLOB Submission Result](#blob-submission-result) | 0x85 |
-|        |            |     |
-| Client | [DHT Lookup](#dht-lookup) | 0x6 |
 | Server | [DHT Response](#dht-response) | 0x84 |
-|        |            |     |
+|        |    |    |
 | Either | [Unrecognized](#unrecognized) | 0xF0 |
 
 
