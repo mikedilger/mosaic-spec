@@ -2284,24 +2284,9 @@ of each type. Following this is the data of the message.</p>
 <td>0x10</td>
 </tr>
 <tr>
-<td>Server</td>
-<td><a href="#hello-ack">Hello Ack</a></td>
-<td>0x90</td>
-</tr>
-<tr>
 <td>Client</td>
 <td><a href="#hello-auth">Hello Auth</a></td>
 <td>0x11</td>
-</tr>
-<tr>
-<td>Server</td>
-<td><a href="#closing">Closing</a></td>
-<td>0xFE</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td>Client</td>
@@ -2319,6 +2304,46 @@ of each type. Following this is the data of the message.</p>
 <td>0x3</td>
 </tr>
 <tr>
+<td>Client</td>
+<td><a href="#unsubscribe">Unsubscribe</a></td>
+<td>0x4</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#submission">Submission</a></td>
+<td>0x5</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#blob-get">BLOB Get</a></td>
+<td>0x8</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#blob-submission">BLOB Submission</a></td>
+<td>0x7</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="#dht-lookup">DHT Lookup</a></td>
+<td>0x6</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Server</td>
+<td><a href="#hello-ack">Hello Ack</a></td>
+<td>0x90</td>
+</tr>
+<tr>
+<td>Server</td>
+<td><a href="#closing">Closing</a></td>
+<td>0xFE</td>
+</tr>
+<tr>
 <td>Server</td>
 <td><a href="#record">Record</a></td>
 <td>0x80</td>
@@ -2329,24 +2354,9 @@ of each type. Following this is the data of the message.</p>
 <td>0x81</td>
 </tr>
 <tr>
-<td>Client</td>
-<td><a href="#unsubscribe">Unsubscribe</a></td>
-<td>0x4</td>
-</tr>
-<tr>
 <td>Server</td>
 <td><a href="#query-closed">Query Closed</a></td>
 <td>0x82</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Client</td>
-<td><a href="#submission">Submission</a></td>
-<td>0x5</td>
 </tr>
 <tr>
 <td>Server</td>
@@ -2354,39 +2364,14 @@ of each type. Following this is the data of the message.</p>
 <td>0x83</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Client</td>
-<td><a href="#blob-get">BLOB Get</a></td>
-<td>0x8</td>
-</tr>
-<tr>
 <td>Server</td>
 <td><a href="#blob-result">BLOB Result</a></td>
 <td>0x86</td>
 </tr>
 <tr>
-<td>Client</td>
-<td><a href="#blob-submission">BLOB Submission</a></td>
-<td>0x7</td>
-</tr>
-<tr>
 <td>Server</td>
 <td><a href="#blob-submission-result">BLOB Submission Result</a></td>
 <td>0x85</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Client</td>
-<td><a href="#dht-lookup">DHT Lookup</a></td>
-<td>0x6</td>
 </tr>
 <tr>
 <td>Server</td>
@@ -2405,6 +2390,17 @@ of each type. Following this is the data of the message.</p>
 </tr>
 </tbody>
 </table>
+<p>All messages share the following fields:</p>
+<pre><code>    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    |  T  |                 |         LENGTH        |
+ 8  +-----------------------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The message Type</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
+</ul>
+<p>The 4-byte length limits the maximum message to 4 GB.</p>
 <hr />
 <h2 id="client-messages">Client Messages</h2>
 <h3 id="hello">Hello</h3>
@@ -2417,17 +2413,19 @@ that the client is requesting to utilize.</p>
 <pre><code class="language-text">
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x10|     LENGTH      | ZEROED    | MOSAIC_MAJOR_VERSION  |
+    | 0x10|     0     | MV  |        LENGTH         |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x10</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - Zeroed</li>
-<li><code>[6:8]</code> - <code>MOSAIC_MAJOR_VERSION</code> - The highest Mosaic major version number that the client supports, in little-endian format</li>
-<li><code>[*]</code> - A sequence of 32-bit <a href="applications.html">Application</a> IDs that the client wishes to use, in little-endian format</li>
+<li><code>[1:3]</code> - Zeroed</li>
+<li><code>[3:4]</code> - <code>MOSAIC_MAJOR_VERSION</code> - The highest Mosaic major version number that the
+  client supports, in little-endian format.</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format.</li>
+<li><code>[8:]</code> - A sequence of 32-bit <a href="applications.html">Application</a> IDs that the client wishes to use,
+  in little-endian format</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with <a href="#hello-ack">Hello Ack</a>.</p>
 <h3 id="hello-auth">Hello Auth</h3>
@@ -2440,7 +2438,7 @@ that the client is requesting to utilize.</p>
 <pre><code class="language-text">
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x1 |     LENGTH      | QUERY_ID  |   0x0     |
+    | 0x1 |  0  | QUERY_ID  |        LENGTH         |
  8  +-----------------------------------------------+
     | Mixed IDs or ADDRs, each one 48 bytes long... |
     | ...                                           |
@@ -2448,11 +2446,11 @@ that the client is requesting to utilize.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x1</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes which SHOULD be made up by the client and
+<li><code>[1:2]</code> - Zeroed</li>
+<li><code>[2:4]</code> - <code>QUERY_ID</code>, two bytes which SHOULD be made up by the client and
   used to associate returned <a href="#record"><code>Record</code></a> responses to this request.</li>
-<li><code>[6:8]</code> - Zeroed</li>
-<li><code>[*]</code> - A sequence of mixed IDs and ADDRs.  Note that ADDRs start
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format.</li>
+<li><code>[8:]</code> - A sequence of mixed IDs and ADDRs.  Note that ADDRs start
   with a 1 bit, whereas IDs start with a 0 bit, and both of them are 48
   bytes long.</li>
 </ul>
@@ -2467,21 +2465,24 @@ that the client is requesting to utilize.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x2 |     LENGTH      | QUERY_ID  |  LIMIT    |
+    | 0x2 |  0  | QUERY_ID  |        LENGTH         |
  8  +-----------------------------------------------+
-    | FILTER ...                                    |
-    | ...                                           |
+    |   LIMIT   |                0                  |
+16  +-----------------------------------------------+
+    |  FILTER...                                    |
     +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x2</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code> two bytes which SHOULD be made up by the client and used
+<li><code>[1:2]</code> - Zeroed</li>
+<li><code>[2:4]</code> - <code>QUERY_ID</code> two bytes which SHOULD be made up by the client and used
   to associate returned <a href="#record"><code>Record</code></a> responses to this request.</li>
-<li><code>[6:8]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format.</li>
+<li><code>[8:10]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.</li>
-<li><code>[*]</code> - The <code>FILTER</code>, see <a href="filter.html">Filter</a>.</li>
+<li><code>[10:16]</code> - Zeroed</li>
+<li><code>[16:]</code> - The <code>FILTER</code>, see <a href="filter.html">Filter</a>.</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
 <ul>
@@ -2498,21 +2499,24 @@ immediately.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x3 |     LENGTH      | QUERY_ID  |   LIMIT   |
+    | 0x3 |  0  |  QUERY_ID |       LENGTH          |
  8  +-----------------------------------------------+
+    |   LIMIT   |                0                  |
+16  +-----------------------------------------------+
     | FILTER ...                                    |
-    | ...                                           |
     +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x3</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes which SHOULD be made up by the client and
+<li><code>[1:2]</code> - Zeroed</li>
+<li><code>[2:4]</code> - <code>QUERY_ID</code>, two bytes which SHOULD be made up by the client and
   used to associate returned <a href="#record"><code>Record</code></a> responses to this request.</li>
-<li><code>[6:8]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format.</li>
+<li><code>[8:10]</code> - <code>LIMIT</code>, an unsigned integer in little-endian format, specifies
   the maximum number of responses that the client wishes to receive.  A value
   of 0 indicates unlimited.</li>
-<li><code>[*]</code> - The <code>FILTER</code>, see <a href="filter.html">Filter</a>.</li>
+<li><code>[10:16]</code> - Zeroed</li>
+<li><code>[16:]</code> - The <code>FILTER</code>, see <a href="filter.html">Filter</a>.</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
 <ul>
@@ -2532,14 +2536,14 @@ they return records as they come in.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x4 |     LENGTH      | QUERY_ID  |   0x0     |
+    | 0x4 |  0  |  QUERY_ID |        LENGTH         |
  8  +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x3</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code>, two bytes indicating which query SHOULD be closed.</li>
-<li><code>[4:8]</code> - Zeroed</li>
+<li><code>[1:2]</code> - Zeroed</li>
+<li><code>[2:4]</code> - <code>QUERY_ID</code>, two bytes indicating which query SHOULD be closed.</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
 <ul>
@@ -2550,7 +2554,7 @@ they return records as they come in.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x5 |    LENGTH       |          0x0          |
+    | 0x5 |         0       |        LENGTH         |
  8  +-----------------------------------------------+
     | RECORD ...                                    |
     | ...                                           |
@@ -2558,9 +2562,9 @@ they return records as they come in.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x5</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:8]</code> - Zeroed</li>
-<li><code>[*]</code> - <code>RECORD</code> is the record submitted</li>
+<li><code>[1:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[8:]</code> - <code>RECORD</code> is the record submitted</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
 <ul>
@@ -2571,7 +2575,7 @@ they return records as they come in.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x8 |                 ZEROED                  |
+    | 0x8 |        0        |        LENGTH         |
  8  +-----------------------------------------------+
     | HASH   ...                                    |
     | ...                                           |
@@ -2579,7 +2583,8 @@ they return records as they come in.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x8</li>
-<li><code>[1:8]</code> - Zeroed</li>
+<li><code>[1:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 <li><code>[8:40]</code> - the 256-bit BLAKE3 hash of the BLOB.</li>
 </ul>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
@@ -2592,7 +2597,7 @@ retrieval.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x7 |  0  |              LENGTH               |
+    | 0x7 |        0        |        LENGTH         |
  8  +-----------------------------------------------+
     | HASH   ...                                    |
     | ...                                           |
@@ -2602,11 +2607,14 @@ retrieval.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x7</li>
-<li><code>[1:2]</code> - Zero</li>
-<li><code>[2:8]</code> - The length of the binary data in little-endian format.</li>
+<li><code>[1:4]</code> - Zero</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 <li><code>[8:40]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
 <li><code>[40:]</code> - The binary data</li>
 </ul>
+<p>The length of the binary data is (LENGTH - 40) with a maximum
+length of 4,294,967,256 (just shy of 4 GB). Larger blobs may be
+supported in the future using a sequence of messages to send parts.</p>
 <p>This is a client initiated message. Servers are expected to reply with:</p>
 <ul>
 <li><a href="#blob-submission-result"><code>BLOB Submission Result</code></a> with a hash matching the record.</li>
@@ -2618,7 +2626,28 @@ this spec.</p>
 <h3 id="dht-lookup">DHT Lookup</h3>
 <p>This requests that the server perform a DHT lookup on behalf of the client.
 <a href="rationale.html#dht-lookup-by-server"><sup>rat</sup></a></p>
-<p>TBD</p>
+<p>It has the following format:</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x6 |SERV |     0     |        LENGTH         |
+ 8  +-----------------------------------------------+
+    | PUBKEY ...                                    |
+    |                                          ...  |
+40  +-----------------------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x7</li>
+<li><code>[1:2]</code> - Which kind of DHT lookup to do:
+    0 - User Bootstrap (<code>mub25</code>)
+    1 - Server Bootstrap (<code>msb24</code>)</li>
+<li><code>[2:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[8:40]</code> - The public key to lookup</li>
+</ul>
+<p>This is a client initiated message. Servers are expected to reply with:</p>
+<ul>
+<li><a href="#dht-response"><code>DHT Response</code></a> containing the bootstrap record or an error.</li>
+</ul>
 <hr />
 <h2 id="server-messages">Server Messages</h2>
 <h3 id="hello-ack">Hello Ack</h3>
@@ -2631,21 +2660,21 @@ that the client requested which the server can support.</p>
 <pre><code class="language-text">
     0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x90|     LENGTH      |RESULT|    | MOSAIC_MAJOR_VERSION  |
+    | 0x90| RSLT|  0  | MV  |        LENGTH         |
  8  +-----------------------------------------------+
     | APP_ID                | ...                   |
     +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x90</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:5]</code> - <code>RESULT</code> indicates the result, typically SUCCESS but
+<li><code>[1:2]</code> - <code>RSLT</code> indicates the result, typically SUCCESS but
   possibly DUPLICATE. Servers should refrain from using errors or rejections
   in this result and instead if necessary issue a <a href="#closing">Closing</a> message.</li>
-<li><code>[5:6]</code> - Zeroed</li>
-<li><code>[6:8]</code> - <code>MOSAIC_MAJOR_VERSION</code> - The highest Mosaic major version number
+<li><code>[2:3]</code> - Zeroed</li>
+<li><code>[3:4]</code> - <code>MOSAIC_MAJOR_VERSION</code> - The highest Mosaic major version number
   that both the server and the client supports, in little-endian format</li>
-<li><code>[*]</code> - A sequence of 32-bit <a href="applications.html">Application</a> IDs that the client
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[8:]</code> - A sequence of 32-bit <a href="applications.html">Application</a> IDs that the client
   requested and that the server can also support, in little-endian format</li>
 </ul>
 <h3 id="closing">Closing</h3>
@@ -2654,20 +2683,21 @@ It is not necessarily in response to any client message, but could be sent
 in response to any client message.</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0xFE|RESULT|           ZEROED                 |
+    | 0xFE| RSLT|     0     |        LENGTH         |
  8  +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0xFE</li>
 <li><code>[1:2]</code> - Result Code giving the reason. See <a href="#result-codes">Result Codes</a>.</li>
-<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[2:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 </ul>
 <h3 id="record">Record</h3>
 <p>This is a record returned from a query (<code>Get</code>, <code>Query</code>, or <code>Subscribe</code>).</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x80|     LENGTH      | QUERY_ID  |   0x0     |
+    | 0x80|  0  | QUERY_ID  |         LENGTH        |
  8  +-----------------------------------------------+
     | RECORD ...                                    |
     | ...                                           |
@@ -2675,10 +2705,10 @@ in response to any client message.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x80</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code> indicates the client query that this record matched.</li>
-<li><code>[6:8]</code> - Zeroed</li>
-<li><code>[*]</code> - <code>RECORD</code> is the returned record.</li>
+<li><code>[1:2]</code> - Zeroed</li>
+<li><code>[2:4]</code> - <code>QUERY_ID</code> indicates the client query that this record matched.</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[8:]</code> - <code>RECORD</code> is the returned record.</li>
 </ul>
 <p>This is a server response message in response to <a href="#get"><code>Get</code></a>
 or <a href="#query"><code>Query</code></a> or <a href="#subscribe"><code>Subscribe</code></a>.</p>
@@ -2688,38 +2718,36 @@ but remains open to serve matching records that subsequently arrive.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x81|     LENGTH      |  QUERY_ID |    0x0    |
+    | 0x81|  0  |  QUERY_ID |        LENGTH         |
  8  +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x81</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code> indicates the client query that is now locally complete.</li>
-<li><code>[6:8]</code> - zeroed</li>
+<li><code>[1:2]</code> - Zeroed</li>
+<li><code>[2:4]</code> - <code>QUERY_ID</code> indicates the client query that is now locally complete.</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 </ul>
-<p>This is a server response message in response to <a href="#subscribe"><code>Subscribe</code></a>.</p>
 <h3 id="query-closed">Query Closed</h3>
 <p>This is a message indicating that a query has been closed.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x82|     LENGTH      |  QUERY_ID |RESULT| 0x0|
+    | 0x82| RSLT|  QUERY_ID |        LENGTH         |
  8  +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x82</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:6]</code> - <code>QUERY_ID</code> indicates the client query that is now closed.</li>
-<li><code>[6:7]</code> - <code>RESULT</code> indicates the reason for closure.
+<li><code>[1:2]</code> - <code>RESULT</code> indicates the reason for closure.</li>
+<li><code>[2:4]</code> - <code>QUERY_ID</code> indicates the client query that is now closed.
   See <a href="#result-codes">Result Codes</a>.</li>
-<li><code>[7:8]</code> - zero</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 </ul>
 <h3 id="submission-result">Submission Result</h3>
 <p>This is a message returning the result of a <a href="#submission">Submission</a>.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x83|     LENGTH      |RESULT|     0x0        |
+    | 0x83| RSLT|     0     |        LENGTH         |
  8  +-----------------------------------------------+
     | ID PREFIX bytes 0..8                          |
 16  +-----------------------------------------------+
@@ -2732,10 +2760,10 @@ but remains open to serve matching records that subsequently arrive.</p>
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0x83</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:5]</code> - <code>RESULT</code> which indicates the result of the submission.
+<li><code>[1:2]</code> - <code>RESULT</code> which indicates the result of the submission.
   See <a href="#result-codes">Result Codes</a>.</li>
-<li><code>[5:8]</code> - Zeroed</li>
+<li><code>[2:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 <li><code>[8:40]</code> - A 32-byte prefix of the 48-byte Id.</li>
 </ul>
 <h3 id="blob-result">BLOB Result</h3>
@@ -2743,7 +2771,7 @@ but remains open to serve matching records that subsequently arrive.</p>
 or an error condition.</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x86|RESULT|            LENGTH                |
+    | 0x86| RSLT|     0     |        LENGTH         |
  8  +-----------------------------------------------+
     | HASH   ...                                    |
     | ...                                           |
@@ -2752,11 +2780,11 @@ or an error condition.</p>
     |                                          ...  |
 </code></pre>
 <ul>
-<li><code>[0:1]</code> - The type 0x86\</li>
+<li><code>[0:1]</code> - The type 0x86</li>
 <li><code>[1:2]</code> - The result of the blob get request.
   See <a href="#result-codes">Result Codes</a>.</li>
-<li><code>[2:8]</code> - The length of the binary data in little-endian format.
-        If the result was not a success, this should be 0.</li>
+<li><code>[2:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 <li><code>[8:40]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
 <li><code>[40:]</code> - The binary data if the request was successful.</li>
 </ul>
@@ -2764,7 +2792,7 @@ or an error condition.</p>
 <p>This is a server response to a <a href="#blob-submission"><code>BLOB Submission</code></a> request.</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0x85|RESULT|           ZEROED                 |
+    | 0x85| RSLT|     0     |        LENGTH         |
  8  +-----------------------------------------------+
     | HASH   ...                                    |
     | ...                                           |
@@ -2773,12 +2801,27 @@ or an error condition.</p>
 <ul>
 <li><code>[0:1]</code> - The type 0x85</li>
 <li><code>[1:2]</code> - The result. See <a href="#result-codes">Result Codes</a>.</li>
-<li><code>[2:8]</code> - Zeroed</li>
+<li><code>[2:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 <li><code>[8:40]</code> - the 256-bit BLAKE3 hash of the binary data.</li>
 </ul>
 <h3 id="dht-response">DHT Response</h3>
 <p>This is a server response to a <a href="#dht-lookup"><code>DHT Lookup</code></a> request.</p>
-<p>TBD</p>
+<pre><code class="language-text">    0     1     2     3     4     5     6     7     8
+ 0  +-----------------------------------------------+
+    | 0x84| RSLT|     0     |        LENGTH         |
+ 8  +-----------------------------------------------+
+    | DHT DATA ...                                  |
+    |                                           ... |
+    +-----------------------------------------------+
+</code></pre>
+<ul>
+<li><code>[0:1]</code> - The type 0x84</li>
+<li><code>[1:2]</code> - The result. See <a href="#result-codes">Result Codes</a>.</li>
+<li><code>[2:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
+<li><code>[8:]</code> - The DHT data (unparsed) on success.</li>
+</ul>
 <h3 id="unrecognized">Unrecognized</h3>
 <p>This is a message indicating that the last message from the peer was not recognized.</p>
 <p>When this is received over QUIC transport, the stream SHOULD be closed and further messaging
@@ -2786,13 +2829,13 @@ can occur on other streams.</p>
 <p>It has the following format:</p>
 <pre><code class="language-text">    0     1     2     3     4     5     6     7     8
  0  +-----------------------------------------------+
-    | 0xF0|     LENGTH      |         0x0           |
+    | 0xF0|        0        |        LENGTH         |
  8  +-----------------------------------------------+
 </code></pre>
 <ul>
 <li><code>[0:1]</code> - The type 0xF0</li>
-<li><code>[1:4]</code> - The byte length of this message, in little-endian format</li>
-<li><code>[4:8]</code> - Zeroed</li>
+<li><code>[1:4]</code> - Zeroed</li>
+<li><code>[4:8]</code> - The byte length of this message, in little-endian format</li>
 </ul>
 <h2 id="result-codes">Result Codes</h2>
 <p>Multiple protocol messages contain a 1-byte result code. The definition
@@ -2881,7 +2924,7 @@ For <a href="websockets.html">WebSockets</a> transport this is done with the
 </div>
       
       <div class="md-copyright">
-        <i>Mike Dilger edition, version 0.8.0</i>
+        <i>Mike Dilger edition, version 0.9.2</i>
       </div>
     </div>
   </div>
